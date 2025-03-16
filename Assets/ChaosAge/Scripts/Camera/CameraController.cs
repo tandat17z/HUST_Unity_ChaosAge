@@ -24,10 +24,10 @@ namespace ChaosAge.camera
 
         // bounds
         private Vector3 _center = Vector3.zero;
-        private float _right = 10;
-        private float _left = 10;
-        private float _up = 10;
-        private float _down = 10;
+        private float _right = 50;
+        private float _left = 50;
+        private float _up = 50;
+        private float _down = 50;
         private float _angle = 45;
 
         // state
@@ -56,7 +56,7 @@ namespace ChaosAge.camera
 
         private void Start()
         {
-            Initialize(Vector3.zero, 10, 10, 10, 10, 45, 5, 2, 10);
+            Initialize(Vector3.zero, 40, 40, 40, 40, 45, 10, 5, 20);
         }
 
         private void Initialize(Vector3 center, float right, float left, float up, float down, float angle, float zoom, float zoomMin, float zoomMax)
@@ -85,7 +85,7 @@ namespace ChaosAge.camera
             _pivot.localPosition = Vector3.zero;
             _pivot.localEulerAngles = new Vector3(_angle, 0, 0);
 
-            _target.localPosition = new Vector3(0, 0, -10);
+            _target.localPosition = new Vector3(0, 0, -100);
             _target.localEulerAngles = Vector3.zero;
         }
 
@@ -155,11 +155,11 @@ namespace ChaosAge.camera
                 float mouseScroll = _inputs.Main.MouseScroll.ReadValue<float>();
                 if (mouseScroll > 0)
                 {
-                    _zoom -= 3f * Time.deltaTime;
+                    _zoom -= 10f * Time.deltaTime;
                 }
                 else if (mouseScroll < 0)
                 {
-                    _zoom += 3f * Time.deltaTime;
+                    _zoom += 10f * Time.deltaTime;
                 }
             }
 
@@ -229,12 +229,14 @@ namespace ChaosAge.camera
 
             if (h > (_up + _down) / 2f)
             {
-                _zoom = (_up + _down) / 2f;
+                float n = (_up + _down) / 2f;
+                _zoom = n * Mathf.Sin(_angle * Mathf.Deg2Rad);
             }
 
             if (w > (_right + _left) / 2f)
             {
-                _zoom = (_right + _left) / 2f / _camera.aspect;
+                float n = (_right + _left) / 2f;
+                _zoom = n * Mathf.Sin(_angle * Mathf.Deg2Rad) / _camera.aspect;
             }
 
             Vector3 tr = _root.position + _root.right.normalized * w + _root.forward.normalized * h;
