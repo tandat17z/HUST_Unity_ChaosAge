@@ -46,6 +46,51 @@ namespace ChaosAge.input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseScroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""b6d139b7-a745-47f1-bed0-b589d3f7292e"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""1c14b796-e9ae-4076-8978-ba19b94242e6"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TouchZoom"",
+                    ""type"": ""Button"",
+                    ""id"": ""29586601-d409-4140-90a1-d0778dbe3c5b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TouchPosition0"",
+                    ""type"": ""Value"",
+                    ""id"": ""f8024b53-3360-4e16-97e1-80861b18a5df"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TouchPosition1"",
+                    ""type"": ""Value"",
+                    ""id"": ""49f58eb2-b752-4cee-98be-2c25250608a5"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -92,6 +137,83 @@ namespace ChaosAge.input
                     ""action"": ""MoveDelta"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8e7757ab-fed4-4a2a-80c2-2f2c6cd1e17c"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""807a737d-a16b-4da9-8dd4-7d74b667dc0a"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""38baa4b7-5b15-40db-9552-6b899a0be03c"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchZoom"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""a9d3642a-be11-4576-abb8-9857220c6890"",
+                    ""path"": ""<Touchscreen>/touch0/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchZoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""f4e9f64b-0b60-4d4e-b657-d627361d6b25"",
+                    ""path"": ""<Touchscreen>/touch1/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchZoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4f956051-572d-41f7-9740-56a3245e2a05"",
+                    ""path"": ""<Touchscreen>/touch0/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchPosition0"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c3fb323b-0f9c-45e1-a554-433f17f814a5"",
+                    ""path"": ""<Touchscreen>/touch1/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchPosition1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -102,6 +224,11 @@ namespace ChaosAge.input
             m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
             m_Main_Move = m_Main.FindAction("Move", throwIfNotFound: true);
             m_Main_MoveDelta = m_Main.FindAction("MoveDelta", throwIfNotFound: true);
+            m_Main_MouseScroll = m_Main.FindAction("MouseScroll", throwIfNotFound: true);
+            m_Main_MousePosition = m_Main.FindAction("MousePosition", throwIfNotFound: true);
+            m_Main_TouchZoom = m_Main.FindAction("TouchZoom", throwIfNotFound: true);
+            m_Main_TouchPosition0 = m_Main.FindAction("TouchPosition0", throwIfNotFound: true);
+            m_Main_TouchPosition1 = m_Main.FindAction("TouchPosition1", throwIfNotFound: true);
         }
 
         ~@Controls()
@@ -170,12 +297,22 @@ namespace ChaosAge.input
         private List<IMainActions> m_MainActionsCallbackInterfaces = new List<IMainActions>();
         private readonly InputAction m_Main_Move;
         private readonly InputAction m_Main_MoveDelta;
+        private readonly InputAction m_Main_MouseScroll;
+        private readonly InputAction m_Main_MousePosition;
+        private readonly InputAction m_Main_TouchZoom;
+        private readonly InputAction m_Main_TouchPosition0;
+        private readonly InputAction m_Main_TouchPosition1;
         public struct MainActions
         {
             private @Controls m_Wrapper;
             public MainActions(@Controls wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Main_Move;
             public InputAction @MoveDelta => m_Wrapper.m_Main_MoveDelta;
+            public InputAction @MouseScroll => m_Wrapper.m_Main_MouseScroll;
+            public InputAction @MousePosition => m_Wrapper.m_Main_MousePosition;
+            public InputAction @TouchZoom => m_Wrapper.m_Main_TouchZoom;
+            public InputAction @TouchPosition0 => m_Wrapper.m_Main_TouchPosition0;
+            public InputAction @TouchPosition1 => m_Wrapper.m_Main_TouchPosition1;
             public InputActionMap Get() { return m_Wrapper.m_Main; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -191,6 +328,21 @@ namespace ChaosAge.input
                 @MoveDelta.started += instance.OnMoveDelta;
                 @MoveDelta.performed += instance.OnMoveDelta;
                 @MoveDelta.canceled += instance.OnMoveDelta;
+                @MouseScroll.started += instance.OnMouseScroll;
+                @MouseScroll.performed += instance.OnMouseScroll;
+                @MouseScroll.canceled += instance.OnMouseScroll;
+                @MousePosition.started += instance.OnMousePosition;
+                @MousePosition.performed += instance.OnMousePosition;
+                @MousePosition.canceled += instance.OnMousePosition;
+                @TouchZoom.started += instance.OnTouchZoom;
+                @TouchZoom.performed += instance.OnTouchZoom;
+                @TouchZoom.canceled += instance.OnTouchZoom;
+                @TouchPosition0.started += instance.OnTouchPosition0;
+                @TouchPosition0.performed += instance.OnTouchPosition0;
+                @TouchPosition0.canceled += instance.OnTouchPosition0;
+                @TouchPosition1.started += instance.OnTouchPosition1;
+                @TouchPosition1.performed += instance.OnTouchPosition1;
+                @TouchPosition1.canceled += instance.OnTouchPosition1;
             }
 
             private void UnregisterCallbacks(IMainActions instance)
@@ -201,6 +353,21 @@ namespace ChaosAge.input
                 @MoveDelta.started -= instance.OnMoveDelta;
                 @MoveDelta.performed -= instance.OnMoveDelta;
                 @MoveDelta.canceled -= instance.OnMoveDelta;
+                @MouseScroll.started -= instance.OnMouseScroll;
+                @MouseScroll.performed -= instance.OnMouseScroll;
+                @MouseScroll.canceled -= instance.OnMouseScroll;
+                @MousePosition.started -= instance.OnMousePosition;
+                @MousePosition.performed -= instance.OnMousePosition;
+                @MousePosition.canceled -= instance.OnMousePosition;
+                @TouchZoom.started -= instance.OnTouchZoom;
+                @TouchZoom.performed -= instance.OnTouchZoom;
+                @TouchZoom.canceled -= instance.OnTouchZoom;
+                @TouchPosition0.started -= instance.OnTouchPosition0;
+                @TouchPosition0.performed -= instance.OnTouchPosition0;
+                @TouchPosition0.canceled -= instance.OnTouchPosition0;
+                @TouchPosition1.started -= instance.OnTouchPosition1;
+                @TouchPosition1.performed -= instance.OnTouchPosition1;
+                @TouchPosition1.canceled -= instance.OnTouchPosition1;
             }
 
             public void RemoveCallbacks(IMainActions instance)
@@ -222,6 +389,11 @@ namespace ChaosAge.input
         {
             void OnMove(InputAction.CallbackContext context);
             void OnMoveDelta(InputAction.CallbackContext context);
+            void OnMouseScroll(InputAction.CallbackContext context);
+            void OnMousePosition(InputAction.CallbackContext context);
+            void OnTouchZoom(InputAction.CallbackContext context);
+            void OnTouchPosition0(InputAction.CallbackContext context);
+            void OnTouchPosition1(InputAction.CallbackContext context);
         }
     }
 }
