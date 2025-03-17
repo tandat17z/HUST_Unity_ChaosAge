@@ -34,6 +34,8 @@ namespace ChaosAge.camera
         private float _angle = 45;
 
         // state
+        public bool CanMoveAndZoom { get => _canMoveAndZoom; set => _canMoveAndZoom = value; }
+        private bool _canMoveAndZoom = true;
         private bool _moving = false;
         private bool _zooming = false;
 
@@ -131,7 +133,7 @@ namespace ChaosAge.camera
 
         private void MoveStarted()
         {
-            if (PanelManager.Instance.GetPanel<PanelMainUI>())
+            if (_canMoveAndZoom)
             {
                 if (_building)
                 {
@@ -162,7 +164,7 @@ namespace ChaosAge.camera
 
         private void ZoomStarted()
         {
-            if (PanelManager.Instance.GetPanel<PanelMainUI>())
+            if (_canMoveAndZoom)
             {
                 Vector2 touch0 = _inputs.Main.TouchPosition0.ReadValue<Vector2>();
                 Vector2 touch1 = _inputs.Main.TouchPosition1.ReadValue<Vector2>();
@@ -331,7 +333,7 @@ namespace ChaosAge.camera
             return ancher + (_camera.transform.right.normalized * position.x / Screen.width * w) + (_camera.transform.up.normalized * position.y / Screen.height * h);
         }
 
-        private Vector3 CameraScreenPositionToPlanePosition(Vector2 position)
+        public Vector3 CameraScreenPositionToPlanePosition(Vector2 position)
         {
             Vector3 point = CameraScreenPositionToWorldPosition(position);
             float h = point.y - _root.position.y;

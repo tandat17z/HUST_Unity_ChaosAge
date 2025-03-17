@@ -29,11 +29,9 @@ namespace ChaosAge.UI.elements
             BuildingManager.Instance.SelectedBuilding = building;
             BuildingManager.Instance.IsPlacingBuilding = true;
 
-        }
+            PanelManager.Instance.OpenPanel<UIBuild>();
+            PanelManager.Instance.ClosePanel<PanelShop>();
 
-        public void ConfirmBuild()
-        {
-            // send to server
         }
     }
 

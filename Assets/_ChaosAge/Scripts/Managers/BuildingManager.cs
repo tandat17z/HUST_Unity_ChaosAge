@@ -32,9 +32,24 @@ namespace ChaosAge.manager
             }
         }
 
+        public bool CanMoveAndZoom
+        {
+            get
+            {
+                return cameraController.CanMoveAndZoom;
+            }
+            set
+            {
+                cameraController.CanMoveAndZoom = value;
+            }
+        }
+
+        public CameraController CameraController { get { return cameraController; } }
+
+
         protected override void OnAwake()
         {
-            
+
         }
     }
 

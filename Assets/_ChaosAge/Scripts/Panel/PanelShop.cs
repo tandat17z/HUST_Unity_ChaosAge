@@ -1,3 +1,5 @@
+using ChaosAge.manager;
+using ChaosAge.UI.elements;
 using DatSystem.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,11 +7,12 @@ using UnityEngine.UI;
 public class PanelShop : Panel
 {
     [SerializeField] Button btnClose;
+    [SerializeField] UIBuilding uiBuilding;
 
     public override void OnSetup()
     {
         base.OnSetup();
-        btnClose.onClick.AddListener(CloseShop);
+        btnClose.onClick.AddListener(Close);
     }
 
     public override void Open(UIData uiData)
@@ -17,10 +20,10 @@ public class PanelShop : Panel
         base.Open(uiData);
 
     }
-
-    private void CloseShop()
+    public override void Close()
     {
+        BuildingManager.Instance.CanMoveAndZoom = false;
+        base.Close();
 
     }
-
 }

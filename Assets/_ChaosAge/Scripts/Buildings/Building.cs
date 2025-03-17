@@ -45,6 +45,8 @@ namespace ChaosAge.building
 
             Vector3 position = BuildingManager.Instance.Grid.GetCenterPosition(x, y, rows, columns);
             transform.position = position;
+
+            SetBaseColor();
         }
 
         public void StartMovingOnGrid()
@@ -72,6 +74,20 @@ namespace ChaosAge.building
 
             Vector3 position = BuildingManager.Instance.Grid.GetCenterPosition(_currentX, _currentY, rows, columns);
             transform.position = position;
+
+            SetBaseColor();
+        }
+
+        public void SetBaseColor()
+        {
+            if (BuildingManager.Instance.Grid.CanPlaceBuilding(this, _currentX, _currentY))
+            {
+                baseArea.sharedMaterial.color = Color.green;
+            }
+            else
+            {
+                baseArea.sharedMaterial.color = Color.red;
+            }
         }
     }
 
