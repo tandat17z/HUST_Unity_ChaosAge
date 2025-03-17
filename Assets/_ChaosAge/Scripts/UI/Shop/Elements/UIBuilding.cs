@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using ChaosAge.building;
 using ChaosAge.manager;
+using DatSystem.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,8 +24,11 @@ namespace ChaosAge.UI.elements
             var prefab = BuildingManager.Instance.Prefabs[prefabIndex];
             Building building = Instantiate(prefab, position, Quaternion.identity);
 
+            building.PlacedOnGrid(20, 20);
+
             BuildingManager.Instance.SelectedBuilding = building;
             BuildingManager.Instance.IsPlacingBuilding = true;
+
         }
 
         public void ConfirmBuild()

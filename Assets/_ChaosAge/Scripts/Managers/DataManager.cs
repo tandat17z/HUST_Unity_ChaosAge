@@ -13,4 +13,13 @@ public class DataManager : Singleton<DataManager>
     {
         _playerData = new PlayerData();
     }
+
+    public void LoadGameConfig()
+    {
+
+    }
+
+    protected override void OnAwake()
+    {
+    }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerData
 {
-    public int gold;
-    public int elixir;
-    public int gem;
+    public int Gold;
+    public int Elixir;
+    public int Gem;
 
 }

@@ -1,30 +1,26 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using DatSystem.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ChaosAge.panel
+public class PanelShop : Panel
 {
-    public class PanelShop : MonoBehaviour
+    [SerializeField] Button btnClose;
+
+    public override void OnSetup()
     {
-        [SerializeField] Button btnClose;
+        base.OnSetup();
+        btnClose.onClick.AddListener(CloseShop);
+    }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-            Setup();
-        }
-
-        void Setup()
-        {
-            btnClose.onClick.AddListener(CloseShop);
-        }
-
-        private void CloseShop()
-        {
-
-        }
+    public override void Open(UIData uiData)
+    {
+        base.Open(uiData);
 
     }
+
+    private void CloseShop()
+    {
+
+    }
+
 }

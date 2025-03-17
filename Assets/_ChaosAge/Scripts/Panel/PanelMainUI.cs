@@ -1,41 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
+using DatSystem.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ChaosAge.panel
+public class PanelMainUI : Panel
 {
-    public class PanelMainUI : MonoBehaviour
+    [Header("Resources")]
+    [SerializeField] TMP_Text textGold;
+    [SerializeField] TMP_Text textElixir;
+    [SerializeField] TMP_Text textGem;
+
+    [Header("Buttons")]
+    [SerializeField] Button btnShop;
+    [SerializeField] Button btnBattle;
+
+    private PlayerData _playerData;
+
+    public override void OnSetup()
     {
-        public static bool IsActive;
+        base.OnSetup();
 
-        [Header("Resources")]
-        [SerializeField] TMP_Text textGold;
-        [SerializeField] TMP_Text textElixir;
-        [SerializeField] TMP_Text textGem;
-
-        [Header("Buttons")]
-        [SerializeField] Button btnShop;
-        [SerializeField] Button btnBattle;
-
-
-        // Start is called before the first frame update
-        void Start()
-        {
-            Setup();
-
-        }
-
-        private void Setup()
-        {
-            btnShop.onClick.AddListener(ShopButtonClicked);
-        }
-
-        private void ShopButtonClicked()
-        {
-
-        }
+        btnShop.onClick.AddListener(ShopButtonClicked);
+        btnBattle.onClick.AddListener(BattleButtonClicked);
     }
 
+    public override void Open(UIData uiData)
+    {
+        base.Open(uiData);
+        _playerData = DataManager.Instance.PlayerData;
+    }
+
+    private void ShopButtonClicked()
+    {
+
+    }
+
+    private void BattleButtonClicked()
+    {
+
+    }
+
+    private void Update()
+    {
+        if (_playerData != null)
+        {
+            textGold.text = _playerData.Gold.ToString();
+            textElixir.text = _playerData.Elixir.ToString();
+            textGem.text = _playerData.Gem.ToString();
+        }
+    }
 }

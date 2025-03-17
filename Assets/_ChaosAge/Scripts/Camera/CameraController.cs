@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ChaosAge.input;
 using ChaosAge.manager;
-using ChaosAge.panel;
+using DatSystem.UI;
 using UnityEngine;
 
 namespace ChaosAge.camera
@@ -131,7 +131,7 @@ namespace ChaosAge.camera
 
         private void MoveStarted()
         {
-            if (PanelMainUI.IsActive)
+            if (PanelManager.Instance.GetPanel<PanelMainUI>())
             {
                 if (_building)
                 {
@@ -162,7 +162,7 @@ namespace ChaosAge.camera
 
         private void ZoomStarted()
         {
-            if (PanelMainUI.IsActive)
+            if (PanelManager.Instance.GetPanel<PanelMainUI>())
             {
                 Vector2 touch0 = _inputs.Main.TouchPosition0.ReadValue<Vector2>();
                 Vector2 touch1 = _inputs.Main.TouchPosition1.ReadValue<Vector2>();

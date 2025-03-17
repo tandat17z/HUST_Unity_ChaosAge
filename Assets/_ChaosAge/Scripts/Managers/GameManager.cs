@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DatSystem.UI;
 using DatSystem.utils;
 using UnityEngine;
 
@@ -11,18 +12,27 @@ namespace ChaosAge.manager
 
         public GameState GameState { get { return _gameState; } }
 
-        void Start()
+
+        protected override void OnAwake()
         {
             Application.targetFrameRate = 60;
             QualitySettings.vSyncCount = 0;
 
-            Initialize();
+            StartCoroutine(Initialize());
         }
 
-        void Initialize()
+        private IEnumerator Initialize()
         {
+            yield return new WaitForFixedUpdate();
+
+            // load data
             DataManager.Instance.LoadPlayerData();
+            DataManager.Instance.LoadGameConfig();
+
+            // open UI
+            PanelManager.Instance.OpenPanel<PanelMainUI>();
         }
+
     }
 
     public enum GameState

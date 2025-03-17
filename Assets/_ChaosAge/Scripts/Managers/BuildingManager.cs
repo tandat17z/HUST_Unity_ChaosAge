@@ -31,6 +31,11 @@ namespace ChaosAge.manager
                 cameraController.IsPlacingBuilding = value;
             }
         }
+
+        protected override void OnAwake()
+        {
+            
+        }
     }
 
 }
