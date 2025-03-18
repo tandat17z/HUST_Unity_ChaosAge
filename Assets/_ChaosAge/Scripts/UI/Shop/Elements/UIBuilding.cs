@@ -23,11 +23,10 @@ namespace ChaosAge.UI.elements
 
             var prefab = BuildingManager.Instance.Prefabs[prefabIndex];
             Building building = Instantiate(prefab, position, Quaternion.identity);
-
+            BuildingManager.Instance.AddListBuilding(building);
             building.PlacedOnGrid(20, 20);
 
-            BuildingManager.Instance.SelectedBuilding = building;
-            BuildingManager.Instance.IsPlacingBuilding = true;
+            BuildingManager.Instance.SelectBuilding(building);
 
             PanelManager.Instance.OpenPanel<UIBuild>();
             PanelManager.Instance.ClosePanel<PanelShop>();

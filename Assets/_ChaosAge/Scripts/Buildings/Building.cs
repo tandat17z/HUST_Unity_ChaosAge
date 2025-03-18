@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using ChaosAge.editor;
 using ChaosAge.manager;
 using UnityEngine;
 
@@ -57,30 +54,27 @@ namespace ChaosAge.building
 
         public void RemovedFromGrid()
         {
-            BuildingManager.Instance.IsPlacingBuilding = false;
             Destroy(gameObject);
         }
 
         public void UpdateGridPosition(Vector3 basePosition, Vector3 currentPosition)
         {
             var grid = BuildingManager.Instance.Grid;
-            Vector3 dir = grid.transform.TransformPoint(currentPosition) - grid.transform.TransformPoint(basePosition);
-
-            int xDis = Mathf.RoundToInt(-dir.z / grid.CellSize);
-            int yDis = Mathf.RoundToInt(dir.x / grid.CellSize);
+            Vector3 dir = grid.transform.InverseTransformPoint(currentPosition) - grid.transform.InverseTransformPoint(basePosition);
+            int xDis = Mathf.RoundToInt(dir.x / grid.CellSize);
+            int yDis = Mathf.RoundToInt(dir.z / grid.CellSize);
 
             _currentX = _x + xDis;
             _currentY = _y + yDis;
 
             Vector3 position = BuildingManager.Instance.Grid.GetCenterPosition(_currentX, _currentY, rows, columns);
             transform.position = position;
-
             SetBaseColor();
         }
 
         public void SetBaseColor()
         {
-            if (BuildingManager.Instance.Grid.CanPlaceBuilding(this, _currentX, _currentY))
+            if (BuildingManager.Instance.CanPlaceBuilding(this))
             {
                 baseArea.sharedMaterial.color = Color.green;
             }
@@ -88,6 +82,11 @@ namespace ChaosAge.building
             {
                 baseArea.sharedMaterial.color = Color.red;
             }
+        }
+
+        public void SetSelected(bool v)
+        {
+            baseArea.sharedMaterial.color = v ? Color.green : Color.white;
         }
     }
 

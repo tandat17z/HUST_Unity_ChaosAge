@@ -33,7 +33,7 @@ public class UIBuild : Panel
         var building = BuildingManager.Instance.SelectedBuilding;
         if (building)
         {
-            BuildingManager.Instance.IsPlacingBuilding = false;
+            BuildingManager.Instance.SelectBuilding(null);
             building.RemovedFromGrid();
         }
     }
@@ -43,17 +43,17 @@ public class UIBuild : Panel
         var building = BuildingManager.Instance.SelectedBuilding;
         if (building)
         {
-            Vector3 end = BuildingManager.Instance.Grid.GetEndPosition(building);
+            Vector3 end = BuildingManager.Instance.Grid.GetStartPosition(building.CurrentX, building.CurrentY);
 
             var cameraController = BuildingManager.Instance.CameraController;
-            Vector3 planDownLeft = cameraController.CameraScreenPositionToPlanePosition(Vector2.zero);
-            Vector3 planTopRight = cameraController.CameraScreenPositionToPlanePosition(new Vector2(Screen.width, Screen.height));
+            Vector3 planeDownLeft = cameraController.CameraScreenPositionToPlanePosition(Vector2.zero);
+            Vector3 planeTopRight = cameraController.CameraScreenPositionToPlanePosition(new Vector2(Screen.width, Screen.height));
 
-            float w = planTopRight.x - planDownLeft.x;
-            float h = planTopRight.z - planDownLeft.z;
+            float w = planeTopRight.x - planeDownLeft.x;
+            float h = planeTopRight.z - planeDownLeft.z;
 
-            float endW = end.x - planDownLeft.x;
-            float endH = end.z - planDownLeft.z;
+            float endW = (end.x - planeDownLeft.x - w / 2);
+            float endH = (end.z - planeDownLeft.z - h / 2);
 
             Vector2 screenPoint = new Vector2(endW / w * Screen.width, endH / h * Screen.height);
 
@@ -63,7 +63,7 @@ public class UIBuild : Panel
             rectTransformInConfirm.anchoredPosition = confirmPoint;
 
             Vector2 cancelPoint = screenPoint;
-            var rectTransformInCancel = btnConfirm.GetComponent<RectTransform>();
+            var rectTransformInCancel = btnCancel.GetComponent<RectTransform>();
             cancelPoint.x -= (rectTransformInCancel.rect.width + 10f);
             rectTransformInCancel.anchoredPosition = cancelPoint;
         }

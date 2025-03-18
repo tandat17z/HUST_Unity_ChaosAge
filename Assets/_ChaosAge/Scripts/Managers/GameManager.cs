@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ChaosAge.camera;
 using DatSystem.UI;
 using DatSystem.utils;
 using UnityEngine;
@@ -8,11 +9,13 @@ namespace ChaosAge.manager
 {
     public class GameManager : Singleton<GameManager>
     {
+        [SerializeField] CameraController cameraController;
+
         private GameState _gameState;
 
         public GameState GameState { get { return _gameState; } }
 
-
+        #region Init
         protected override void OnAwake()
         {
             Application.targetFrameRate = 60;
@@ -31,6 +34,12 @@ namespace ChaosAge.manager
 
             // open UI
             PanelManager.Instance.OpenPanel<PanelMainUI>();
+        }
+        #endregion
+
+        public void SetInteractMap(bool value)
+        {
+            cameraController.CanInteract = value;
         }
 
     }

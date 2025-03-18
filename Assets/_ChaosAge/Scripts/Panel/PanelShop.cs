@@ -22,7 +22,7 @@ public class PanelShop : Panel
     }
     public override void Close()
     {
-        BuildingManager.Instance.CanMoveAndZoom = false;
+        GameManager.Instance.SetInteractMap(true);
         base.Close();
 
     }

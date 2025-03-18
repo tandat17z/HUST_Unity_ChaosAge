@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using ChaosAge.camera;
 using ChaosAge.manager;
 using DatSystem.UI;
 using TMPro;
@@ -33,14 +30,14 @@ public class PanelMainUI : Panel
         base.Open(uiData);
         _playerData = DataManager.Instance.PlayerData;
 
-        BuildingManager.Instance.CanMoveAndZoom = true;
+        GameManager.Instance.SetInteractMap(true);
     }
 
     private void ShopButtonClicked()
     {
         PanelManager.Instance.OpenPanel<PanelShop>();
 
-        BuildingManager.Instance.CanMoveAndZoom = false;
+        GameManager.Instance.SetInteractMap(false);
     }
 
     private void BattleButtonClicked()

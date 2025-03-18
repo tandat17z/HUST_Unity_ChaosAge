@@ -39,8 +39,8 @@ namespace ChaosAge.camera
         private Vector3 _center; // tâm của plane
 
         // state
-        public bool CanMoveAndZoom { get => _canMoveAndZoom; set => _canMoveAndZoom = value; }
-        private bool _canMoveAndZoom;
+        public bool CanInteract { get => _canInteract; set => _canInteract = value; }
+        private bool _canInteract;
         private bool _moving;
         private bool _zooming;
 
@@ -50,14 +50,6 @@ namespace ChaosAge.camera
         private float _zoomBaseValue = 0;
         private float _zoomBaseDistance = 0;
 
-        // 
-        public bool IsPlacingBuilding
-        {
-            get { return _building; }
-            set { _building = value; }
-        }
-
-        private bool _building;
         private bool _movingBuilding;
         private Vector3 _buildingBasePosition;
 
@@ -90,7 +82,7 @@ namespace ChaosAge.camera
         {
             _center = Vector3.zero;
 
-            _canMoveAndZoom = true;
+            _canInteract = true;
             _moving = false;
             _zooming = false;
 
@@ -110,7 +102,6 @@ namespace ChaosAge.camera
             camera.orthographicSize = this.zoom;
 
             //
-            _building = false;
             _movingBuilding = false;
         }
 
@@ -149,28 +140,36 @@ namespace ChaosAge.camera
             if (mapPlane.Raycast(ray, out distance))
             {
                 Vector3 worldPosition = ray.GetPoint(distance);
-                return new Vector2(worldPosition.x, worldPosition.y);
+                return new Vector3(worldPosition.x, 0, worldPosition.z);
             }
-            return Vector2.zero;
+            return Vector3.zero;
         }
         #endregion
 
         #region Start, end move/ zoom
         private void MoveStarted()
         {
-            if (_canMoveAndZoom)
+            if (_canInteract)
             {
-                if (_building)
-                {
-                    var pointerPos = _inputs.Main.PointerPosition.ReadValue<Vector2>();
-                    _buildingBasePosition = CameraScreenPositionToPlanePosition(pointerPos);
+                // Nếu đã chọn building thì tương tác với công trình
+                var pointerPos = _inputs.Main.PointerPosition.ReadValue<Vector2>();
+                var poinerPosInPlane = CameraScreenPositionToPlanePosition(pointerPos);
+                Debug.Log($"Pointer {poinerPosInPlane}");
 
-                    var selectedBuidling = BuildingManager.Instance.SelectedBuilding;
-                    if (BuildingManager.Instance.Grid.IsWorldPositionIsOnPlane(_buildingBasePosition, selectedBuidling.CurrentX, selectedBuidling.CurrentY, selectedBuidling.Columns, selectedBuidling.Rows))
+                var selectedBuidling = BuildingManager.Instance.SelectedBuilding;
+                if (selectedBuidling != null)
+                {
+                    _buildingBasePosition = poinerPosInPlane;
+
+                    if (BuildingManager.Instance.Grid.IsWorldPositionIsOnPlane(_buildingBasePosition, selectedBuidling))
                     {
-                        BuildingManager.Instance.SelectedBuilding.StartMovingOnGrid();
+                        selectedBuidling.StartMovingOnGrid();
                         _movingBuilding = true;
                     }
+                }
+                else
+                {
+                    BuildingManager.Instance.SelectBuilding(poinerPosInPlane);
                 }
 
                 if (_movingBuilding == false)
@@ -189,7 +188,7 @@ namespace ChaosAge.camera
 
         private void ZoomStarted()
         {
-            if (_canMoveAndZoom)
+            if (_canInteract)
             {
                 Vector2 touch0 = _inputs.Main.TouchPosition0.ReadValue<Vector2>();
                 Vector2 touch1 = _inputs.Main.TouchPosition1.ReadValue<Vector2>();
@@ -276,7 +275,7 @@ namespace ChaosAge.camera
             }
 
             // Di chuyển công trình
-            if (_building && _movingBuilding)
+            if (_movingBuilding)
             {
                 var pointerPos = _inputs.Main.PointerPosition.ReadValue<Vector2>();
                 var currentPosition = CameraScreenPositionToPlanePosition(pointerPos);
