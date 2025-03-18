@@ -1117,9 +1117,9 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_Bias: 1
+    m_NormalBias: 1
+    m_NearPlane: 1
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -1166,7 +1166,7 @@ Transform:
   m_GameObject: {fileID: 705507993}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 40.8, y: 3.2, z: 18.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1544,10 +1544,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 200
   field of view: 60
   orthographic: 1
-  orthographic size: 17.5
+  orthographic size: 1
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1572,7 +1572,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 23.27, z: -25.1}
+  m_LocalPosition: {x: 0, y: 23.27, z: -22.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1590,11 +1590,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8266ae4131cbff468c1b7ad4846d99a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 963194227}
-  _moveSpeed: 50
-  _moveSmooth: 5
-  _zoomSpeed: 5
-  _zoomSmooth: 5
+  camera: {fileID: 963194227}
+  moveSpeed: 50
+  moveSmooth: 5
+  zoomSpeed: 5
+  zoomSmooth: 5
+  right: 50
+  left: 50
+  up: 40
+  down: 40
+  angle: 45
+  zoom: 10
+  zoomMax: 20
+  zoomMin: 3
 --- !u!1001 &1006677815
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +11,22 @@ namespace ChaosAge.camera
 {
     public class CameraController : MonoBehaviour
     {
-        [SerializeField] private Camera _camera;
-        [SerializeField] private float _moveSpeed = 50;
-        [SerializeField] private float _moveSmooth = 5;
+        [SerializeField] private Camera camera;
+        [SerializeField] private float moveSpeed = 50;
+        [SerializeField] private float moveSmooth = 5;
 
-        [SerializeField] private float _zoomSpeed = 5f;
-        [SerializeField] private float _zoomSmooth = 5f;
+        [SerializeField] private float zoomSpeed = 5f;
+        [SerializeField] private float zoomSmooth = 5f;
+
+        [Header("")]
+        [SerializeField] private float right = 50;
+        [SerializeField] private float left = 50;
+        [SerializeField] private float up = 50;
+        [SerializeField] private float down = 50;
+        [SerializeField] private float angle = 45;
+        [SerializeField] private float zoom = 5;
+        [SerializeField] private float zoomMax = 10;
+        [SerializeField] private float zoomMin = 1;
 
         private Controls _inputs = null;
 
@@ -26,23 +36,15 @@ namespace ChaosAge.camera
 
 
         // bounds
-        private Vector3 _center = Vector3.zero;
-        private float _right = 50;
-        private float _left = 50;
-        private float _up = 50;
-        private float _down = 50;
-        private float _angle = 45;
+        private Vector3 _center; // tâm của plane
 
         // state
         public bool CanMoveAndZoom { get => _canMoveAndZoom; set => _canMoveAndZoom = value; }
-        private bool _canMoveAndZoom = true;
-        private bool _moving = false;
-        private bool _zooming = false;
+        private bool _canMoveAndZoom;
+        private bool _moving;
+        private bool _zooming;
 
         // 
-        private float _zoom = 5;
-        private float _zoomMax = 10;
-        private float _zoomMin = 1;
         private Vector2 _zoomPositionOnScreen = Vector2.zero;
         private Vector3 _zoomPositionOnWorld = Vector3.zero;
         private float _zoomBaseValue = 0;
@@ -55,9 +57,9 @@ namespace ChaosAge.camera
             set { _building = value; }
         }
 
-        private bool _building = false;
-        private bool _movingBuilding = false;
-        private Vector3 _buildingBasePosition = Vector3.zero;
+        private bool _building;
+        private bool _movingBuilding;
+        private Vector3 _buildingBasePosition;
 
 
 
@@ -66,34 +68,31 @@ namespace ChaosAge.camera
         private void Awake()
         {
             _inputs = new Controls();
-            _root = new GameObject("CameraHelper").transform;
-            _pivot = new GameObject("CameraPivot").transform;
-            _target = new GameObject("CameraTarget").transform;
-            _camera.orthographic = true;
-            _camera.nearClipPlane = 0;
+            _root = new GameObject("CameraHelper").transform; // vị trị cam chiếu tới plane
+            _pivot = new GameObject("CameraPivot").transform; // để quay cam
+            _target = new GameObject("CameraTarget").transform; // vị trí của cam
+
+            _pivot.SetParent(_root);
+            _target.SetParent(_pivot);
+
+            camera.orthographic = true;
+            camera.nearClipPlane = 0;
         }
 
         private void Start()
         {
-            Initialize(Vector3.zero, 40, 40, 40, 40, 45, 10, 5, 20);
+            //Initialize(Vector3 center, float right, float left, float up, float down, float angle, float zoom, float zoomMin, float zoomMax)
+            //Initialize(Vector3.zero, 40, 40, 40, 40, 45, 10, 5, 20);
+            Initialize(Vector3.zero);
         }
 
-        private void Initialize(Vector3 center, float right, float left, float up, float down, float angle, float zoom, float zoomMin, float zoomMax)
+        private void Initialize(Vector3 center)
         {
+            _center = Vector3.zero;
+
+            _canMoveAndZoom = true;
             _moving = false;
             _zooming = false;
-
-            _right = right;
-            _left = left;
-            _up = up;
-            _down = down;
-            _angle = angle;
-
-            _zoom = zoom;
-            _zoomMax = zoomMax;
-            _zoomMin = zoomMin;
-
-            _camera.orthographicSize = _zoom;
 
             _pivot.SetParent(_root);
             _target.SetParent(_pivot);
@@ -102,15 +101,23 @@ namespace ChaosAge.camera
             _root.localEulerAngles = Vector3.zero;
 
             _pivot.localPosition = Vector3.zero;
-            _pivot.localEulerAngles = new Vector3(_angle, 0, 0);
+            _pivot.localEulerAngles = new Vector3(this.angle, 0, 0);
 
             _target.localPosition = new Vector3(0, 0, -100);
             _target.localEulerAngles = Vector3.zero;
+
+            camera.transform.rotation = _target.rotation;
+            camera.orthographicSize = this.zoom;
+
+            //
+            _building = false;
+            _movingBuilding = false;
         }
 
         private void OnEnable()
         {
             _inputs.Enable();
+
             _inputs.Main.Move.started += _ => MoveStarted();
             _inputs.Main.Move.canceled += _ => MoveCanceled();
 
@@ -130,7 +137,25 @@ namespace ChaosAge.camera
             _inputs.Main.TouchZoom.started -= _ => ZoomStarted();
             _inputs.Main.TouchZoom.canceled -= _ => ZoomCanceled();
         }
+        #endregion
 
+        #region Convert
+        public Vector3 CameraScreenPositionToPlanePosition(Vector2 screenPosition)
+        {
+            Ray ray = camera.ScreenPointToRay(screenPosition);
+            Plane mapPlane = new Plane(Vector3.up, Vector3.zero); // Mặt phẳng y = 0, pháp vector là (0, 1, 0)
+
+            float distance;
+            if (mapPlane.Raycast(ray, out distance))
+            {
+                Vector3 worldPosition = ray.GetPoint(distance);
+                return new Vector2(worldPosition.x, worldPosition.y);
+            }
+            return Vector2.zero;
+        }
+        #endregion
+
+        #region Start, end move/ zoom
         private void MoveStarted()
         {
             if (_canMoveAndZoom)
@@ -170,7 +195,7 @@ namespace ChaosAge.camera
                 Vector2 touch1 = _inputs.Main.TouchPosition1.ReadValue<Vector2>();
                 _zoomPositionOnScreen = Vector2.Lerp(touch0, touch1, 0.5f);
                 _zoomPositionOnWorld = CameraScreenPositionToPlanePosition(_zoomPositionOnScreen);
-                _zoomBaseValue = _zoom;
+                _zoomBaseValue = zoom;
 
                 touch0.x /= Screen.width;
                 touch1.x /= Screen.width;
@@ -181,7 +206,6 @@ namespace ChaosAge.camera
                 _zoomBaseDistance = Vector2.Distance(touch0, touch1);
 
                 _zooming = true;
-
             }
         }
 
@@ -194,22 +218,33 @@ namespace ChaosAge.camera
         // Update is called once per frame
         void Update()
         {
+#if UNITY_EDITOR
             if (Input.touchSupported == false)
             {
                 float mouseScroll = _inputs.Main.MouseScroll.ReadValue<float>();
                 if (mouseScroll > 0)
                 {
-                    _zoom -= 10f * Time.deltaTime;
+                    zoom -= 10f * Time.deltaTime;
                 }
                 else if (mouseScroll < 0)
                 {
-                    _zoom += 10f * Time.deltaTime;
+                    zoom += 10f * Time.deltaTime;
                 }
             }
+#endif
+            if (_moving)
+            {
+                Vector2 move = _inputs.Main.MoveDelta.ReadValue<Vector2>();
+                if (move != Vector2.zero)
+                {
+                    move.x /= Screen.width;
+                    move.y /= Screen.height;
 
-            _camera.orthographicSize = _zoom;
-
-            if (_zooming)
+                    _root.position -= _root.right.normalized * move.x * moveSpeed;
+                    _root.position -= _root.forward.normalized * move.y * moveSpeed;
+                }
+            }
+            else if (_zooming)
             {
                 Vector2 touch0 = _inputs.Main.TouchPosition0.ReadValue<Vector2>();
                 Vector2 touch1 = _inputs.Main.TouchPosition1.ReadValue<Vector2>();
@@ -222,40 +257,25 @@ namespace ChaosAge.camera
 
                 float currentDistance = Vector2.Distance(touch0, touch1);
                 float deltaDistance = currentDistance - _zoomBaseDistance;
-                _zoom = _zoomBaseValue - (deltaDistance * _zoomSpeed);
+                zoom = _zoomBaseValue - (deltaDistance * zoomSpeed);
 
                 Vector3 zoomCenter = CameraScreenPositionToPlanePosition(_zoomPositionOnScreen);
                 _root.position += (_zoomPositionOnWorld - zoomCenter);
             }
-            else if (_moving)
-            {
-                Vector2 move = _inputs.Main.MoveDelta.ReadValue<Vector2>();
-                if (move != Vector2.zero)
-                {
-                    move.x /= Screen.width;
-                    move.y /= Screen.height;
-
-                    _root.position -= _root.right.normalized * move.x * _moveSpeed;
-                    _root.position -= _root.forward.normalized * move.y * _moveSpeed;
-                }
-            }
 
             AdjustBounds();
-            if (_camera.orthographicSize != _zoom)
+
+            if (camera.orthographicSize != zoom)
             {
-                _camera.orthographicSize = Mathf.Lerp(_camera.orthographicSize, _zoom, _zoomSmooth * Time.deltaTime);
+                camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, zoom, zoomSmooth * Time.deltaTime);
 
             }
-            if (_camera.transform.position != _target.position)
+            if (camera.transform.position != _target.position)
             {
-                _camera.transform.position = Vector3.Lerp(_camera.transform.position, _target.position, _moveSmooth * Time.deltaTime);
+                camera.transform.position = Vector3.Lerp(camera.transform.position, _target.position, moveSmooth * Time.deltaTime);
             }
 
-            if (_camera.transform.rotation != _target.rotation)
-            {
-                _camera.transform.rotation = _target.rotation;
-            }
-
+            // Di chuyển công trình
             if (_building && _movingBuilding)
             {
                 var pointerPos = _inputs.Main.PointerPosition.ReadValue<Vector2>();
@@ -265,30 +285,31 @@ namespace ChaosAge.camera
             }
         }
 
+        #region Bounds
         private void AdjustBounds()
         {
-            if (_zoom < _zoomMin)
+            if (zoom < zoomMin)
             {
-                _zoom = _zoomMin;
+                zoom = zoomMin;
             }
-            if (_zoom > _zoomMax)
+            if (zoom > zoomMax)
             {
-                _zoom = _zoomMax;
+                zoom = zoomMax;
             }
 
             float h = PlaneOrthographicSize();
-            float w = _camera.aspect * h;
+            float w = camera.aspect * h;
 
-            if (h > (_up + _down) / 2f)
+            if (h > (up + down) / 2f)
             {
-                float n = (_up + _down) / 2f;
-                _zoom = n * Mathf.Sin(_angle * Mathf.Deg2Rad);
+                float n = (up + down) / 2f;
+                zoom = n * Mathf.Sin(angle * Mathf.Deg2Rad);
             }
 
-            if (w > (_right + _left) / 2f)
+            if (w > (right + left) / 2f)
             {
-                float n = (_right + _left) / 2f;
-                _zoom = n * Mathf.Sin(_angle * Mathf.Deg2Rad) / _camera.aspect;
+                float n = (right + left) / 2f;
+                zoom = n * Mathf.Sin(angle * Mathf.Deg2Rad) / camera.aspect;
             }
 
             Vector3 tr = _root.position + _root.right.normalized * w + _root.forward.normalized * h;
@@ -296,51 +317,33 @@ namespace ChaosAge.camera
             Vector3 dr = _root.position + _root.right.normalized * w - _root.forward.normalized * h;
             Vector3 dl = _root.position - _root.right.normalized * w - _root.forward.normalized * h;
 
-            if (tr.x > _center.x + _right)
+            if (tr.x > _center.x + right)
             {
-                _root.position += Vector3.left * Mathf.Abs(tr.x - (_center.x + _right));
+                _root.position += Vector3.left * Mathf.Abs(tr.x - (_center.x + right));
             }
-            if (tl.x < _center.x - _left)
+            if (tl.x < _center.x - left)
             {
-                _root.position += Vector3.right * Mathf.Abs(-tl.x + (_center.x - _left));
-            }
-
-            if (tr.z > _center.z + _up)
-            {
-                _root.position += Vector3.back * Mathf.Abs(tr.z - (_center.z + _up));
+                _root.position += Vector3.right * Mathf.Abs(-tl.x + (_center.x - left));
             }
 
-            if (dl.z < _center.z - _down)
+            if (tr.z > _center.z + up)
             {
-                _root.position += Vector3.forward * Mathf.Abs(-dl.z - (_center.z - _down));
+                _root.position += Vector3.back * Mathf.Abs(tr.z - (_center.z + up));
+            }
+
+            if (dl.z < _center.z - down)
+            {
+                _root.position += Vector3.forward * Mathf.Abs(-dl.z + (_center.z - down));
             }
 
         }
 
         private float PlaneOrthographicSize()
         {
-            float h = _zoom * 2f;
-            return h / Mathf.Sin(_angle * Mathf.Deg2Rad) / 2f;
+            float h = zoom * 2f;
+            return h / Mathf.Sin(angle * Mathf.Deg2Rad) / 2;
         }
-
-        private Vector3 CameraScreenPositionToWorldPosition(Vector2 position)
-        {
-            float h = _camera.orthographicSize * 2f;
-            float w = _camera.aspect * h;
-
-            Vector3 ancher = _camera.transform.position - (_camera.transform.right.normalized * w / 2f) - (_camera.transform.up.normalized * h / 2f);
-
-            return ancher + (_camera.transform.right.normalized * position.x / Screen.width * w) + (_camera.transform.up.normalized * position.y / Screen.height * h);
-        }
-
-        public Vector3 CameraScreenPositionToPlanePosition(Vector2 position)
-        {
-            Vector3 point = CameraScreenPositionToWorldPosition(position);
-            float h = point.y - _root.position.y;
-            float x = h / Mathf.Sin(_angle * Mathf.Deg2Rad);
-
-            return point + _camera.transform.forward.normalized * x;
-        }
+        #endregion
     }
 
 }
