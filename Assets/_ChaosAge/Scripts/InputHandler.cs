@@ -3,6 +3,7 @@
     using System;
     using ChaosAge.building;
     using ChaosAge.manager;
+    using DatSystem.UI;
     using DatSystem.utils;
     using UnityEngine;
 
@@ -25,7 +26,7 @@
         private bool _moveBuilding;
 
         private Building buildingWhenStartTouch;
-
+        private float _startTouchTime;
 
 
         private void Awake()
@@ -77,23 +78,22 @@
 
         private void TouchStarted()
         {
-            Debug.Log("Touch start");
+            _startTouchTime = Time.time;
             if (_canInteract)
             {
-                //var pointerPos = _inputs.Main.PointerPosition.ReadValue<Vector2>();
-                //var posInPlane = ConvertScreenPositionToPlanePosition(pointerPos);
+                var posInPlane = GetPointerPositionInMap();
 
-                //buildingWhenStartTouch = BuildingManager.Instance.HasBuildingAtPosition(posInPlane);
-                //if (buildingWhenStartTouch != null)
-                //{
-                //    if (buildingWhenStartTouch == BuildingManager.Instance.SelectedBuilding)
-                //    {
-                //        BuildingManager.Instance.StartMove(posInPlane);
-                //        _moveBuilding = true;
-                //        return;
-                //    }
-                //}
-                Debug.Log("Touch start");
+                buildingWhenStartTouch = BuildingManager.Instance.HasBuildingAtPosition(posInPlane);
+                if (buildingWhenStartTouch != null)
+                {
+                    if (buildingWhenStartTouch == BuildingManager.Instance.SelectedBuilding)
+                    {
+                        BuildingManager.Instance.StartMove(posInPlane);
+                        _moveBuilding = true;
+                        return;
+                    }
+                }
+
                 _moveMap = true;
 
             }
@@ -101,9 +101,14 @@
 
         private void TouchCanceled()
         {
-            Debug.Log("Touch cancel");
             _moveMap = false;
             _moveBuilding = false;
+
+            // Nếu đang build từ shop
+            if (PanelManager.Instance.GetPanel<UIBuild>() != null)
+            {
+                return;
+            }
 
             if (buildingWhenStartTouch != null)
             {
@@ -116,7 +121,15 @@
                     BuildingManager.Instance.Select(building);
                 }
             }
-
+            else
+            {
+                if (Time.time - _startTouchTime < 0.2f)
+                {
+                    // đã TAP
+                    BuildingManager.Instance.Unselect();
+                }
+            }
+            buildingWhenStartTouch = null;
         }
 
         public Vector3 ConvertScreenPositionToPlanePosition(Vector2 screenPosition)

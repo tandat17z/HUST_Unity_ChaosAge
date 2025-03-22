@@ -25,6 +25,7 @@ namespace ChaosAge.UI.elements
             Building building = Instantiate(prefab, position, Quaternion.identity);
             building.PlacedOnGrid(20, 20);
 
+
             BuildingManager.Instance.Select(building);
 
             PanelManager.Instance.OpenPanel<UIBuild>();

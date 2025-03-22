@@ -43,7 +43,7 @@ public class UIBuild : Panel
                 var buildingData = new BuildingData(type);
 
                 BuildingManager.Instance.AddListBuilding(building);
-                BuildingManager.Instance.UnselectBuilding();
+                BuildingManager.Instance.Unselect();
                 Debug.Log("Build successful");
                 Close();
 
@@ -56,7 +56,7 @@ public class UIBuild : Panel
         var building = BuildingManager.Instance.SelectedBuilding;
         if (building)
         {
-            BuildingManager.Instance.UnselectBuilding();
+            BuildingManager.Instance.Unselect();
             building.RemovedFromGrid();
             Close();
         }

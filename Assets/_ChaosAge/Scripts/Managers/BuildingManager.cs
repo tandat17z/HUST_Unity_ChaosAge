@@ -84,13 +84,13 @@ namespace ChaosAge.manager
 
         public void Select(Building building)
         {
-            UnselectBuilding();
+            Unselect();
 
             _selectedBuilding = building;
             if (building) building.SetSelected(true);
         }
 
-        public void UnselectBuilding()
+        public void Unselect()
         {
             if (_selectedBuilding) _selectedBuilding.SetSelected(false);
             _selectedBuilding = null;
@@ -105,6 +105,11 @@ namespace ChaosAge.manager
 
         public Building HasBuildingAtPosition(Vector3 posInPlane)
         {
+            if (_selectedBuilding != null && grid.IsWorldPositionIsOnPlane(posInPlane, _selectedBuilding))
+            {
+                return _selectedBuilding;
+            }
+
             foreach (Building building in _buildings)
             {
                 if (grid.IsWorldPositionIsOnPlane(posInPlane, building))
@@ -117,6 +122,7 @@ namespace ChaosAge.manager
 
         public void StartMove(Vector3 poinerPosInPlane)
         {
+            _selectedBuilding.StartMovingOnGrid();
             _buildingBasePosition = poinerPosInPlane;
         }
 
@@ -126,6 +132,7 @@ namespace ChaosAge.manager
             {
                 var currentPosition = InputHandler.Instance.GetPointerPositionInMap();
 
+                Debug.Log($"{_buildingBasePosition} {currentPosition}");
                 _selectedBuilding.UpdateGridPosition(_buildingBasePosition, currentPosition);
             }
         }
