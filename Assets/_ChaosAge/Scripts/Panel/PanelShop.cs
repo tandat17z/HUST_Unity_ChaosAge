@@ -1,3 +1,4 @@
+using ChaosAge.input;
 using ChaosAge.manager;
 using ChaosAge.UI.elements;
 using DatSystem.UI;
@@ -22,7 +23,7 @@ public class PanelShop : Panel
     }
     public override void Close()
     {
-        GameManager.Instance.SetInteractMap(true);
+        InputHandler.Instance.ActiveInteract(true);
         base.Close();
 
     }

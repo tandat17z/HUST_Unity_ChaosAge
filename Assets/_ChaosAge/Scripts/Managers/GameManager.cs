@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using ChaosAge.camera;
+using ChaosAge.input;
 using DatSystem;
 using DatSystem.UI;
 using DatSystem.utils;
@@ -37,11 +38,6 @@ namespace ChaosAge.manager
             PanelManager.Instance.OpenPanel<PanelMainUI>();
         }
         #endregion
-
-        public void SetInteractMap(bool value)
-        {
-            cameraController.CanInteract = value;
-        }
 
     }
 

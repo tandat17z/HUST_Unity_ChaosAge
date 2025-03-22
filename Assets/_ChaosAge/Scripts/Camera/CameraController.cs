@@ -23,8 +23,6 @@ namespace ChaosAge.camera
         [SerializeField] private float zoomMax = 10;
         [SerializeField] private float zoomMin = 1;
 
-        private Controls _inputs = null;
-
         private Transform _root;
         private Transform _pivot;
         private Transform _target;
@@ -33,28 +31,11 @@ namespace ChaosAge.camera
         // bounds
         private Vector3 _center; // tâm của plane
 
-        // state
-        public bool CanInteract { get => _canInteract; set => _canInteract = value; }
-        private bool _canInteract;
-        private bool _moving;
-        private bool _zooming;
-
-        // 
-        private Vector2 _zoomPositionOnScreen = Vector2.zero;
-        private Vector3 _zoomPositionOnWorld = Vector3.zero;
-        private float _zoomBaseValue = 0;
-        private float _zoomBaseDistance = 0;
-
-        private bool _movingBuilding;
-        private Vector3 _buildingBasePosition;
 
 
 
-
-        #region Init
         private void Awake()
         {
-            _inputs = new Controls();
             _root = new GameObject("CameraHelper").transform; // vị trị cam chiếu tới plane
             _pivot = new GameObject("CameraPivot").transform; // để quay cam
             _target = new GameObject("CameraTarget").transform; // vị trí của cam
@@ -77,10 +58,6 @@ namespace ChaosAge.camera
         {
             _center = Vector3.zero;
 
-            _canInteract = true;
-            _moving = false;
-            _zooming = false;
-
             _pivot.SetParent(_root);
             _target.SetParent(_pivot);
 
@@ -96,34 +73,8 @@ namespace ChaosAge.camera
             camera.transform.rotation = _target.rotation;
             camera.orthographicSize = this.zoom;
 
-            //
-            _movingBuilding = false;
         }
 
-        private void OnEnable()
-        {
-            _inputs.Enable();
-
-            _inputs.Main.Move.started += _ => MoveStarted();
-            _inputs.Main.Move.canceled += _ => MoveCanceled();
-
-
-            _inputs.Main.TouchZoom.started += _ => ZoomStarted();
-            _inputs.Main.TouchZoom.canceled += _ => ZoomCanceled();
-        }
-
-        private void OnDisable()
-        {
-            _inputs.Disable();
-
-            _inputs.Main.Move.started -= _ => MoveStarted();
-            _inputs.Main.Move.canceled -= _ => MoveCanceled();
-
-
-            _inputs.Main.TouchZoom.started -= _ => ZoomStarted();
-            _inputs.Main.TouchZoom.canceled -= _ => ZoomCanceled();
-        }
-        #endregion
 
         #region Convert
         public Vector3 CameraScreenPositionToPlanePosition(Vector2 screenPosition)
@@ -141,73 +92,6 @@ namespace ChaosAge.camera
         }
         #endregion
 
-        #region Start, end move/ zoom
-        private void MoveStarted()
-        {
-            if (_canInteract)
-            {
-                // Nếu đã chọn building thì tương tác với công trình
-                var pointerPos = _inputs.Main.PointerPosition.ReadValue<Vector2>();
-                var poinerPosInPlane = CameraScreenPositionToPlanePosition(pointerPos);
-                Debug.Log($"Pointer {poinerPosInPlane}");
-
-                var selectedBuidling = BuildingManager.Instance.SelectedBuilding;
-                if (selectedBuidling != null)
-                {
-                    _buildingBasePosition = poinerPosInPlane;
-
-                    if (BuildingManager.Instance.Grid.IsWorldPositionIsOnPlane(_buildingBasePosition, selectedBuidling))
-                    {
-                        selectedBuidling.StartMovingOnGrid();
-                        _movingBuilding = true;
-                    }
-                }
-                else
-                {
-                    BuildingManager.Instance.SelectBuilding(poinerPosInPlane);
-                }
-
-                if (_movingBuilding == false)
-                {
-                    _moving = true;
-
-                }
-            }
-        }
-
-        private void MoveCanceled()
-        {
-            _moving = false;
-            _movingBuilding = false;
-        }
-
-        private void ZoomStarted()
-        {
-            if (_canInteract)
-            {
-                Vector2 touch0 = _inputs.Main.TouchPosition0.ReadValue<Vector2>();
-                Vector2 touch1 = _inputs.Main.TouchPosition1.ReadValue<Vector2>();
-                _zoomPositionOnScreen = Vector2.Lerp(touch0, touch1, 0.5f);
-                _zoomPositionOnWorld = CameraScreenPositionToPlanePosition(_zoomPositionOnScreen);
-                _zoomBaseValue = zoom;
-
-                touch0.x /= Screen.width;
-                touch1.x /= Screen.width;
-
-                touch0.y /= Screen.height;
-                touch1.y /= Screen.height;
-
-                _zoomBaseDistance = Vector2.Distance(touch0, touch1);
-
-                _zooming = true;
-            }
-        }
-
-        private void ZoomCanceled()
-        {
-            _zooming = false;
-        }
-        #endregion
 
         // Update is called once per frame
         void Update()
@@ -215,7 +99,7 @@ namespace ChaosAge.camera
 #if UNITY_EDITOR
             if (Input.touchSupported == false)
             {
-                float mouseScroll = _inputs.Main.MouseScroll.ReadValue<float>();
+                float mouseScroll = InputHandler.Instance.GetMouseScroll();
                 if (mouseScroll > 0)
                 {
                     zoom -= 10f * Time.deltaTime;
@@ -226,9 +110,9 @@ namespace ChaosAge.camera
                 }
             }
 #endif
-            if (_moving)
+            if (InputHandler.Instance.MoveMap)
             {
-                Vector2 move = _inputs.Main.MoveDelta.ReadValue<Vector2>();
+                Vector2 move = InputHandler.Instance.GetMoveDelta();
                 if (move != Vector2.zero)
                 {
                     move.x /= Screen.width;
@@ -237,24 +121,6 @@ namespace ChaosAge.camera
                     _root.position -= _root.right.normalized * move.x * moveSpeed;
                     _root.position -= _root.forward.normalized * move.y * moveSpeed;
                 }
-            }
-            else if (_zooming)
-            {
-                Vector2 touch0 = _inputs.Main.TouchPosition0.ReadValue<Vector2>();
-                Vector2 touch1 = _inputs.Main.TouchPosition1.ReadValue<Vector2>();
-
-                touch0.x /= Screen.width;
-                touch1.x /= Screen.width;
-
-                touch0.y /= Screen.height;
-                touch1.y /= Screen.height;
-
-                float currentDistance = Vector2.Distance(touch0, touch1);
-                float deltaDistance = currentDistance - _zoomBaseDistance;
-                zoom = _zoomBaseValue - (deltaDistance * zoomSpeed);
-
-                Vector3 zoomCenter = CameraScreenPositionToPlanePosition(_zoomPositionOnScreen);
-                _root.position += (_zoomPositionOnWorld - zoomCenter);
             }
 
             AdjustBounds();
@@ -267,15 +133,6 @@ namespace ChaosAge.camera
             if (camera.transform.position != _target.position)
             {
                 camera.transform.position = Vector3.Lerp(camera.transform.position, _target.position, moveSmooth * Time.deltaTime);
-            }
-
-            // Di chuyển công trình
-            if (_movingBuilding)
-            {
-                var pointerPos = _inputs.Main.PointerPosition.ReadValue<Vector2>();
-                var currentPosition = CameraScreenPositionToPlanePosition(pointerPos);
-
-                BuildingManager.Instance.SelectedBuilding.UpdateGridPosition(_buildingBasePosition, currentPosition);
             }
         }
 

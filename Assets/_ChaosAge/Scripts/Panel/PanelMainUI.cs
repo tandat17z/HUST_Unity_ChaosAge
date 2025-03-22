@@ -1,4 +1,5 @@
 using ChaosAge.Data;
+using ChaosAge.input;
 using ChaosAge.manager;
 using DatSystem;
 using DatSystem.UI;
@@ -32,14 +33,14 @@ public class PanelMainUI : Panel
         base.Open(uiData);
         _playerData = DataManager.Instance.PlayerData;
 
-        GameManager.Instance.SetInteractMap(true);
+        InputHandler.Instance.ActiveInteract(true);
     }
 
     private void ShopButtonClicked()
     {
         PanelManager.Instance.OpenPanel<PanelShop>();
 
-        GameManager.Instance.SetInteractMap(false);
+        InputHandler.Instance.ActiveInteract(false);
     }
 
     private void BattleButtonClicked()

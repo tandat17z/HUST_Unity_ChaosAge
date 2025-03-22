@@ -1,17 +1,25 @@
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using ChaosAge.building;
 using ChaosAge.camera;
 using ChaosAge.editor;
+using ChaosAge.input;
 using DatSystem;
 using DatSystem.utils;
 using UnityEngine;
+using UnityEngine.Windows;
 
 namespace ChaosAge.manager
 {
     public class BuildingManager : Singleton<BuildingManager>
     {
+        protected override void OnAwake()
+        {
+
+        }
+
+
+
         [SerializeField] Building[] prefabs;
 
         [Header("")]
@@ -22,13 +30,20 @@ namespace ChaosAge.manager
         public BuildGrid Grid { get { return grid; } }
 
         public Building[] Prefabs { get => prefabs; }
+
         public Building SelectedBuilding => _selectedBuilding;
 
         private List<Building> _buildings = new();
         private Building _selectedBuilding;
 
+        private Vector3 _buildingBasePosition;
 
 
+        /// <summary>
+        /// Kiểm tra có thể đặt building trên map không
+        /// </summary>
+        /// <param name="building"></param>
+        /// <returns></returns>
         public bool CanPlaceBuilding(Building building)
         {
             if (building.CurrentX < 0 || building.CurrentY < 0
@@ -39,11 +54,11 @@ namespace ChaosAge.manager
             }
 
             Rect rectBuilding = new Rect(building.CurrentX, building.CurrentY, building.Columns, building.Rows);
-            for (int i = 0; i < _buildings.Count; i++)
+            foreach (var b in _buildings)
             {
-                if (_buildings[i] != building)
+                if (b != building)
                 {
-                    Rect rect = new Rect(_buildings[i].CurrentX, _buildings[i].CurrentY, _buildings[i].Columns, _buildings[i].Rows);
+                    Rect rect = new Rect(b.CurrentX, b.CurrentY, b.Columns, b.Rows);
 
                     if (rectBuilding.Overlaps(rect))
                     {
@@ -54,38 +69,65 @@ namespace ChaosAge.manager
             return true;
         }
 
-        protected override void OnAwake()
-        {
-
-        }
-
-        public void SelectBuilding(Vector3 poinerPosInPlane)
+        public Building SelectAtPosition(Vector3 poinerPosInPlane)
         {
             foreach (Building building in _buildings)
             {
                 if (grid.IsWorldPositionIsOnPlane(poinerPosInPlane, building))
                 {
-                    Debug.Log("SelectBuilding");
-                    SelectBuilding(building);
-                    return;
+                    Select(building);
+                    return building;
                 }
             }
+            return null;
         }
 
-        public void SelectBuilding(Building building)
+        public void Select(Building building)
         {
-            if (_selectedBuilding) _selectedBuilding.SetSelected(false);
+            UnselectBuilding();
 
             _selectedBuilding = building;
             if (building) building.SetSelected(true);
         }
 
+        public void UnselectBuilding()
+        {
+            if (_selectedBuilding) _selectedBuilding.SetSelected(false);
+            _selectedBuilding = null;
+
+        }
         public void AddListBuilding(Building building)
         {
-            // l?u v�o data
+            // lưu vào data
             DataManager.Instance.PlayerData.AddBuiling(building.GetData());
             _buildings.Add(building);
+        }
 
+        public Building HasBuildingAtPosition(Vector3 posInPlane)
+        {
+            foreach (Building building in _buildings)
+            {
+                if (grid.IsWorldPositionIsOnPlane(posInPlane, building))
+                {
+                    return building;
+                }
+            }
+            return null;
+        }
+
+        public void StartMove(Vector3 poinerPosInPlane)
+        {
+            _buildingBasePosition = poinerPosInPlane;
+        }
+
+        private void Update()
+        {
+            if (InputHandler.Instance.MoveBuilding)
+            {
+                var currentPosition = InputHandler.Instance.GetPointerPositionInMap();
+
+                _selectedBuilding.UpdateGridPosition(_buildingBasePosition, currentPosition);
+            }
         }
     }
 

@@ -34,18 +34,16 @@ public class UIBuild : Panel
     private void OnConfirm()
     {
         var building = BuildingManager.Instance.SelectedBuilding;
-        var buildingConfig = _gameConfig.GetBuildingConfig(building.GetData().type);
+        //var buildingConfig = _gameConfig.GetBuildingConfig(building.GetData().type);
         if (building)
         {
-            if (_playerData.Gold >= buildingConfig.requireGold && _playerData.Elixir >= buildingConfig.requireElixir && _playerData.Gem >= buildingConfig.requireGem)
+            //if (_playerData.Gold >= buildingConfig.requireGold && _playerData.Elixir >= buildingConfig.requireElixir && _playerData.Gem >= buildingConfig.requireGem)
             {
                 var type = building.GetData().type;
                 var buildingData = new BuildingData(type);
 
-
-
                 BuildingManager.Instance.AddListBuilding(building);
-                BuildingManager.Instance.SelectBuilding(null);
+                BuildingManager.Instance.UnselectBuilding();
                 Debug.Log("Build successful");
                 Close();
 
@@ -58,7 +56,7 @@ public class UIBuild : Panel
         var building = BuildingManager.Instance.SelectedBuilding;
         if (building)
         {
-            BuildingManager.Instance.SelectBuilding(null);
+            BuildingManager.Instance.UnselectBuilding();
             building.RemovedFromGrid();
             Close();
         }
@@ -69,8 +67,7 @@ public class UIBuild : Panel
         var building = BuildingManager.Instance.SelectedBuilding;
         if (building)
         {
-            Vector3 end = BuildingManager.Instance.Grid.GetStartPosition(building.CurrentX, building.CurrentY);
-
+            Vector3 end = building.transform.position;
             var cameraController = BuildingManager.Instance.CameraController;
             Vector3 planeDownLeft = cameraController.CameraScreenPositionToPlanePosition(Vector2.zero);
             Vector3 planeTopRight = cameraController.CameraScreenPositionToPlanePosition(new Vector2(Screen.width, Screen.height));

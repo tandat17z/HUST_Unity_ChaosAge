@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using ChaosAge.Config;
 using ChaosAge.Data;
 using ChaosAge.manager;
@@ -38,6 +38,7 @@ namespace ChaosAge.building
         private EBuildingType _type;
         private int _level;
 
+        // Đặt trên g
         public void PlacedOnGrid(int x, int y)
         {
             _currentX = x;
@@ -82,17 +83,17 @@ namespace ChaosAge.building
         {
             if (BuildingManager.Instance.CanPlaceBuilding(this))
             {
-                baseArea.sharedMaterial.color = Color.green;
+                baseArea.material.color = Color.green;
             }
             else
             {
-                baseArea.sharedMaterial.color = Color.red;
+                baseArea.material.color = Color.red;
             }
         }
 
         public void SetSelected(bool v)
         {
-            baseArea.sharedMaterial.color = v ? Color.green : Color.white;
+            baseArea.material.color = v ? Color.green : Color.white;
         }
 
         public BuildingData GetData()
