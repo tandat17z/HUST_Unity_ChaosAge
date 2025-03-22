@@ -1,4 +1,6 @@
+using ChaosAge.Data;
 using ChaosAge.manager;
+using DatSystem;
 using DatSystem.UI;
 using TMPro;
 using UnityEngine;

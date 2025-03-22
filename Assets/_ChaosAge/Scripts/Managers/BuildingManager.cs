@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ChaosAge.building;
 using ChaosAge.camera;
 using ChaosAge.editor;
+using DatSystem;
 using DatSystem.utils;
 using UnityEngine;
 
@@ -81,7 +82,10 @@ namespace ChaosAge.manager
 
         public void AddListBuilding(Building building)
         {
+            // l?u vào data
+            DataManager.Instance.PlayerData.AddBuiling(building.GetData());
             _buildings.Add(building);
+
         }
     }
 

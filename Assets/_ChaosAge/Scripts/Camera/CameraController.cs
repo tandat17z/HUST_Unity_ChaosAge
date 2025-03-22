@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using ChaosAge.input;
+﻿using ChaosAge.input;
 using ChaosAge.manager;
-using DatSystem.UI;
 using UnityEngine;
 
 namespace ChaosAge.camera

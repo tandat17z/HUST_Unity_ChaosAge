@@ -1,4 +1,6 @@
 using System;
+using ChaosAge.Config;
+using ChaosAge.Data;
 using ChaosAge.manager;
 using UnityEngine;
 
@@ -31,6 +33,10 @@ namespace ChaosAge.building
         private int _currentY = 0;
         private int _x = 0;
         private int _y = 0;
+
+        private string _id;
+        private EBuildingType _type;
+        private int _level;
 
         public void PlacedOnGrid(int x, int y)
         {
@@ -87,6 +93,16 @@ namespace ChaosAge.building
         public void SetSelected(bool v)
         {
             baseArea.sharedMaterial.color = v ? Color.green : Color.white;
+        }
+
+        public BuildingData GetData()
+        {
+            return new BuildingData()
+            {
+                id = _id,
+                type = _type,
+                level = _level
+            };
         }
     }
 

@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using ChaosAge.Config;
+using ChaosAge.Data;
 using ChaosAge.manager;
+using DatSystem;
 using DatSystem.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +12,9 @@ public class UIBuild : Panel
 {
     [SerializeField] Button btnConfirm;
     [SerializeField] Button btnCancel;
+
+    private PlayerData _playerData;
+    private GameConfig _gameConfig;
 
     public override void OnSetup()
     {
@@ -21,11 +27,30 @@ public class UIBuild : Panel
     {
         base.Open(uiData);
 
+        _playerData = DataManager.Instance.PlayerData;
+        _gameConfig = DataManager.Instance.GameConfig;
     }
 
     private void OnConfirm()
     {
+        var building = BuildingManager.Instance.SelectedBuilding;
+        var buildingConfig = _gameConfig.GetBuildingConfig(building.GetData().type);
+        if (building)
+        {
+            if (_playerData.Gold >= buildingConfig.requireGold && _playerData.Elixir >= buildingConfig.requireElixir && _playerData.Gem >= buildingConfig.requireGem)
+            {
+                var type = building.GetData().type;
+                var buildingData = new BuildingData(type);
 
+
+
+                BuildingManager.Instance.AddListBuilding(building);
+                BuildingManager.Instance.SelectBuilding(null);
+                Debug.Log("Build successful");
+                Close();
+
+            }
+        }
     }
 
     private void OnCancel()

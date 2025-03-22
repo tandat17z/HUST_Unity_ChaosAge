@@ -1,25 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
+using ChaosAge.Config;
+using ChaosAge.Data;
 using DatSystem.utils;
-using UnityEngine;
 
-public class DataManager : Singleton<DataManager>
+namespace DatSystem
 {
-    private PlayerData _playerData;
-
-    public PlayerData PlayerData { get { return _playerData; } }
-
-    public void LoadPlayerData()
+    public class DataManager : Singleton<DataManager>
     {
-        _playerData = new PlayerData();
+        private PlayerData _playerData;
+        private GameConfig _gameConfig;
+        public PlayerData PlayerData { get { return _playerData; } }
+        public GameConfig GameConfig { get { return _gameConfig; } }
+
+        public void LoadPlayerData()
+        {
+            _playerData = new PlayerData();
+        }
+
+        public void LoadGameConfig()
+        {
+            _gameConfig = new GameConfig();
+        }
+
+        protected override void OnAwake()
+        {
+        }
     }
 
-    public void LoadGameConfig()
-    {
-
-    }
-
-    protected override void OnAwake()
-    {
-    }
 }
