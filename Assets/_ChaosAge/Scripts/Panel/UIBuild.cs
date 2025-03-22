@@ -35,6 +35,7 @@ public class UIBuild : Panel
         {
             BuildingManager.Instance.SelectBuilding(null);
             building.RemovedFromGrid();
+            Close();
         }
     }
 
@@ -59,12 +60,12 @@ public class UIBuild : Panel
 
             Vector2 confirmPoint = screenPoint;
             var rectTransformInConfirm = btnConfirm.GetComponent<RectTransform>();
-            confirmPoint.x += (rectTransformInConfirm.rect.width + 10f);
+            confirmPoint.x -= (rectTransformInConfirm.rect.width + 10f);
             rectTransformInConfirm.anchoredPosition = confirmPoint;
 
             Vector2 cancelPoint = screenPoint;
             var rectTransformInCancel = btnCancel.GetComponent<RectTransform>();
-            cancelPoint.x -= (rectTransformInCancel.rect.width + 10f);
+            cancelPoint.x += (rectTransformInCancel.rect.width + 10f);
             rectTransformInCancel.anchoredPosition = cancelPoint;
         }
     }
