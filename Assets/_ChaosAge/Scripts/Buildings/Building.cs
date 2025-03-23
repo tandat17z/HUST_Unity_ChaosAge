@@ -1,12 +1,12 @@
-﻿using System;
-using ChaosAge.Config;
-using ChaosAge.Data;
-using ChaosAge.manager;
-using Sirenix.OdinInspector;
-using UnityEngine;
-
-namespace ChaosAge.building
+﻿namespace ChaosAge.building
 {
+    using System;
+    using ChaosAge.Config;
+    using ChaosAge.Data;
+    using ChaosAge.manager;
+    using Sirenix.OdinInspector;
+    using UnityEngine;
+
     public class Building : MonoBehaviour
     {
         [SerializeField] EBuildingType type;
@@ -14,8 +14,14 @@ namespace ChaosAge.building
         [SerializeField] int columns = 1;
         [SerializeField] MeshRenderer baseArea;
 
-        [SerializeField, ReadOnly] private int _currentX;
+
+        [SerializeField, ReadOnly] private string _id;
+        [SerializeField, ReadOnly] private int _level;
+        [SerializeField, ReadOnly] private int _x = 0; // tọa độ cũ trước khi move
+        [SerializeField, ReadOnly] private int _y = 0;
+        [SerializeField, ReadOnly] private int _currentX; // tọa độ hiện tại
         [SerializeField, ReadOnly] private int _currentY;
+
         public EBuildingType Type { get => type; }
         public int Level { get => _level; }
         public int CurrentX { get => _currentX; }
@@ -26,20 +32,31 @@ namespace ChaosAge.building
 
 
 
-        private string _id;
-        private int _level;
-        private int _x = 0;
-        private int _y = 0;
-
-
-
-
-
         public void SetInfo(string id, int level)
         {
             _id = id;
             _level = level;
         }
+
+        public BuildingData GetData()
+        {
+            return new BuildingData()
+            {
+                id = _id,
+                type = type,
+                level = _level,
+
+                x = _x,
+                y = _y
+            };
+        }
+        public void SetSelected(bool v)
+        {
+            baseArea.material.color = v ? Color.green : Color.white;
+        }
+
+
+
 
         public void PlacedOnGrid(int x, int y)
         {
@@ -51,8 +68,6 @@ namespace ChaosAge.building
 
             Vector3 position = BuildingManager.Instance.Grid.GetCenterPosition(x, y, rows, columns);
             transform.position = position;
-
-            SetBaseColor();
         }
 
         public void StartMovingOnGrid()
@@ -93,21 +108,22 @@ namespace ChaosAge.building
             }
         }
 
-        public void SetSelected(bool v)
+        public void ConfirmMove()
         {
-            baseArea.material.color = v ? Color.green : Color.white;
-        }
-
-        public BuildingData GetData()
-        {
-            return new BuildingData()
+            if (BuildingManager.Instance.CanPlaceBuilding(this))
             {
-                id = _id,
-                type = type,
-                level = _level
-            };
-        }
+                _x = _currentX;
+                _y = _currentY;
+            }
+            else
+            {
+                _currentX = _x;
+                _currentY = _y;
 
+                Vector3 position = BuildingManager.Instance.Grid.GetCenterPosition(_currentX, _currentY, rows, columns);
+                transform.position = position;
+            }
+        }
     }
 
 }

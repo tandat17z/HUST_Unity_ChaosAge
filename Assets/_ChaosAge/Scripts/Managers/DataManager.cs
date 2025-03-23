@@ -13,7 +13,7 @@ namespace DatSystem
 
         public void LoadPlayerData()
         {
-            _playerData = new PlayerData();
+            _playerData = PlayerData.Load();
         }
 
         public void LoadGameConfig()

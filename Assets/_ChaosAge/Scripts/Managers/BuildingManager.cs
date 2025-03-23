@@ -101,18 +101,28 @@ namespace ChaosAge.manager
 
         public void Select(Building building)
         {
-            Unselect();
+            if (_selectedBuilding != building)
+            {
+                Unselect();
 
-            _selectedBuilding = building;
-            building.SetSelected(true);
-            PanelManager.Instance.OpenPanel<UIBuildingInfo>();
+                _selectedBuilding = building;
+                building.SetSelected(true);
+                PanelManager.Instance.OpenPanel<UIBuildingInfo>();
+            }
         }
 
         public void Unselect()
         {
             if (_selectedBuilding)
             {
+                // bỏ chọn
+                // cập nhật vị trí mới
+                //
                 _selectedBuilding.SetSelected(false);
+                _selectedBuilding.ConfirmMove();
+
+                var _playerData = DataManager.Instance.PlayerData;
+                _playerData.UpdateBuildingData(_selectedBuilding.GetData());
 
                 PanelManager.Instance.ClosePanel<UIBuildingInfo>();
             }

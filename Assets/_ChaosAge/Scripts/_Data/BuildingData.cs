@@ -1,7 +1,9 @@
+using System;
 using ChaosAge.Config;
 
 namespace ChaosAge.Data
 {
+    [Serializable]
     public class BuildingData
     {
         private static int COUNT_BUILDING_ID = 0;
