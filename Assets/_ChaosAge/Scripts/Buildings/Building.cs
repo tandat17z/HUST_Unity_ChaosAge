@@ -1,6 +1,8 @@
-﻿using ChaosAge.Config;
+﻿using System;
+using ChaosAge.Config;
 using ChaosAge.Data;
 using ChaosAge.manager;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace ChaosAge.building
@@ -12,22 +14,33 @@ namespace ChaosAge.building
         [SerializeField] int columns = 1;
         [SerializeField] MeshRenderer baseArea;
 
+        [SerializeField, ReadOnly] private int _currentX;
+        [SerializeField, ReadOnly] private int _currentY;
         public EBuildingType Type { get => type; }
+        public int Level { get => _level; }
         public int CurrentX { get => _currentX; }
         public int CurrentY { get => _currentY; }
         public int Rows { get => rows; }
         public int Columns { get => columns; }
 
 
+
+
         private string _id;
         private int _level;
-        private int _currentX = 0;
-        private int _currentY = 0;
         private int _x = 0;
         private int _y = 0;
 
 
-        // Đặt trên g
+
+
+
+        public void SetInfo(string id, int level)
+        {
+            _id = id;
+            _level = level;
+        }
+
         public void PlacedOnGrid(int x, int y)
         {
             _currentX = x;
@@ -94,6 +107,7 @@ namespace ChaosAge.building
                 level = _level
             };
         }
+
     }
 
 }

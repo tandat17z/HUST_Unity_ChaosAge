@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using ChaosAge.camera;
+using ChaosAge.Data;
 using ChaosAge.input;
 using DatSystem;
 using DatSystem.UI;
@@ -17,22 +18,31 @@ namespace ChaosAge.manager
 
         public GameState GameState { get { return _gameState; } }
 
+        private PlayerData _playerData;
+
         #region Init
         protected override void OnAwake()
         {
             Application.targetFrameRate = 60;
             QualitySettings.vSyncCount = 0;
 
-            StartCoroutine(Initialize());
         }
 
-        private IEnumerator Initialize()
+        private void Start()
         {
-            yield return new WaitForFixedUpdate();
+            Initialize();
+        }
 
+        private void Initialize()
+        {
             // load data
             DataManager.Instance.LoadPlayerData();
             DataManager.Instance.LoadGameConfig();
+
+            // load
+            _playerData = DataManager.Instance.PlayerData;
+            BuildingManager.Instance.LoadMap(_playerData.buildings);
+
 
             // open UI
             PanelManager.Instance.OpenPanel<PanelMainUI>();

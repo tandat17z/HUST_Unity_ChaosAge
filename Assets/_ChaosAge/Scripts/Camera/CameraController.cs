@@ -76,23 +76,6 @@ namespace ChaosAge.camera
         }
 
 
-        #region Convert
-        public Vector3 CameraScreenPositionToPlanePosition(Vector2 screenPosition)
-        {
-            Ray ray = camera.ScreenPointToRay(screenPosition);
-            Plane mapPlane = new Plane(Vector3.up, Vector3.zero); // Mặt phẳng y = 0, pháp vector là (0, 1, 0)
-
-            float distance;
-            if (mapPlane.Raycast(ray, out distance))
-            {
-                Vector3 worldPosition = ray.GetPoint(distance);
-                return new Vector3(worldPosition.x, 0, worldPosition.z);
-            }
-            return Vector3.zero;
-        }
-        #endregion
-
-
         // Update is called once per frame
         void Update()
         {

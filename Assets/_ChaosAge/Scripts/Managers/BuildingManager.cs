@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ChaosAge.building;
 using ChaosAge.camera;
+using ChaosAge.Data;
 using ChaosAge.editor;
 using ChaosAge.input;
 using DatSystem;
@@ -36,6 +37,23 @@ namespace ChaosAge.manager
         private Building _selectedBuilding;
 
         private Vector3 _buildingBasePosition;
+
+
+        public void LoadMap(List<BuildingData> listBuildingData)
+        {
+            _buildings.Clear();
+
+            foreach (var data in listBuildingData)
+            {
+                var spawned = FactoryManager.Instance.SpawnBuilding(data.type);
+                spawned.SetInfo(data.id, data.level);
+                spawned.PlacedOnGrid(data.x, data.y);
+                spawned.SetSelected(false);
+
+                _buildings.Add(spawned);
+            }
+
+        }
 
 
         /// <summary>
