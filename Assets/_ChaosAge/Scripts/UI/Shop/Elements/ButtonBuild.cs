@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace ChaosAge.UI.elements
 {
-    public class UIBuilding : MonoBehaviour
+    public class ButtonBuild : MonoBehaviour
     {
         [SerializeField] private EBuildingType buildingType;
         [SerializeField] private Button button;

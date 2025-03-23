@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class PanelShop : Panel
 {
     [SerializeField] Button btnClose;
-    [SerializeField] UIBuilding uiBuilding;
+    [SerializeField] ButtonBuild uiBuilding;
 
     public override void OnSetup()
     {

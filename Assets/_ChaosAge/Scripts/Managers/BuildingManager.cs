@@ -5,6 +5,7 @@ using ChaosAge.camera;
 using ChaosAge.editor;
 using ChaosAge.input;
 using DatSystem;
+using DatSystem.UI;
 using DatSystem.utils;
 using UnityEngine;
 using UnityEngine.Windows;
@@ -85,12 +86,18 @@ namespace ChaosAge.manager
             Unselect();
 
             _selectedBuilding = building;
-            if (building) building.SetSelected(true);
+            building.SetSelected(true);
+            PanelManager.Instance.OpenPanel<UIBuildingInfo>();
         }
 
         public void Unselect()
         {
-            if (_selectedBuilding) _selectedBuilding.SetSelected(false);
+            if (_selectedBuilding)
+            {
+                _selectedBuilding.SetSelected(false);
+
+                PanelManager.Instance.ClosePanel<UIBuildingInfo>();
+            }
             _selectedBuilding = null;
 
         }
