@@ -38,16 +38,8 @@ public class UIBuild : Panel
         if (building)
         {
             //if (_playerData.Gold >= buildingConfig.requireGold && _playerData.Elixir >= buildingConfig.requireElixir && _playerData.Gem >= buildingConfig.requireGem)
-            {
-                var type = building.GetData().type;
-                var buildingData = new BuildingData(type);
-
-                BuildingManager.Instance.AddListBuilding(building);
-                BuildingManager.Instance.Unselect();
-                Debug.Log("Build successful");
-                Close();
-
-            }
+            BuildingManager.Instance.Create(building);
+            Close();
         }
     }
 

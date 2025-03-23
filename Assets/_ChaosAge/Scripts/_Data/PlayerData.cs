@@ -20,6 +20,7 @@ namespace ChaosAge.Data
             buildings.Add(new BuildingData(EBuildingType.GoldMine, 28, 20));
             buildings.Add(new BuildingData(EBuildingType.ArmyCamp, 32, 20));
         }
+
         public void Save()
         {
             string json = JsonUtility.ToJson(this);
@@ -34,6 +35,7 @@ namespace ChaosAge.Data
             {
                 Debug.Log("Load player from PlayerPref");
                 string json = PlayerPrefs.GetString("PLAYER_DATA");
+
                 return JsonUtility.FromJson<PlayerData>(json);
             }
             Debug.Log("Load new player");
@@ -43,6 +45,7 @@ namespace ChaosAge.Data
         public void AddBuiling(BuildingData buildingData)
         {
             buildings.Add(buildingData);
+            Save();
         }
 
         public void UpdateBuildingData(BuildingData buildingData)

@@ -129,11 +129,17 @@ namespace ChaosAge.manager
             _selectedBuilding = null;
 
         }
-        public void AddListBuilding(Building building)
+        public void Create(Building building)
         {
             // lưu vào data
-            DataManager.Instance.PlayerData.AddBuiling(building.GetData());
+            var data = new BuildingData(building.Type, building.CurrentX, building.CurrentY);
+            DataManager.Instance.PlayerData.AddBuiling(data);
+
+            building.SetInfo(data.id, data.level);
             _buildings.Add(building);
+
+
+            Unselect();
         }
 
         public Building HasBuildingAtPosition(Vector3 posInPlane)

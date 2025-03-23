@@ -26,6 +26,7 @@ namespace ChaosAge.UI.elements
             Vector3 position = Vector3.zero;
 
             Building building = FactoryManager.Instance.SpawnBuilding(buildingType);
+            building.SetInfo(-1, 0);
             building.PlacedOnGrid(20, 20);
 
 

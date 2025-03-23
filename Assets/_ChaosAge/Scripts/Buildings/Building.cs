@@ -15,7 +15,7 @@
         [SerializeField] MeshRenderer baseArea;
 
 
-        [SerializeField, ReadOnly] private string _id;
+        [SerializeField, ReadOnly] private int _id;
         [SerializeField, ReadOnly] private int _level;
         [SerializeField, ReadOnly] private int _x = 0; // tọa độ cũ trước khi move
         [SerializeField, ReadOnly] private int _y = 0;
@@ -32,7 +32,7 @@
 
 
 
-        public void SetInfo(string id, int level)
+        public void SetInfo(int id, int level)
         {
             _id = id;
             _level = level;
