@@ -1,5 +1,4 @@
-﻿using System;
-using ChaosAge.Config;
+﻿using ChaosAge.Config;
 using ChaosAge.Data;
 using ChaosAge.manager;
 using UnityEngine;
@@ -8,35 +7,25 @@ namespace ChaosAge.building
 {
     public class Building : MonoBehaviour
     {
-        [Serializable]
-        public class Level
-        {
-            public int level = 1;
-            public Sprite icon = null;
-            public GameObject mesh = null;
-        }
+        [SerializeField] EBuildingType type;
+        [SerializeField] int rows = 1;
+        [SerializeField] int columns = 1;
+        [SerializeField] MeshRenderer baseArea;
 
-        [SerializeField] private int rows = 1;
-        [SerializeField] private int columns = 1;
-
-        [SerializeField] private MeshRenderer baseArea = null;
-        [SerializeField] private Level[] levels;
-
+        public EBuildingType Type { get => type; }
         public int CurrentX { get => _currentX; }
         public int CurrentY { get => _currentY; }
         public int Rows { get => rows; }
         public int Columns { get => columns; }
 
 
-
+        private string _id;
+        private int _level;
         private int _currentX = 0;
         private int _currentY = 0;
         private int _x = 0;
         private int _y = 0;
 
-        private string _id;
-        private EBuildingType _type;
-        private int _level;
 
         // Đặt trên g
         public void PlacedOnGrid(int x, int y)
@@ -101,7 +90,7 @@ namespace ChaosAge.building
             return new BuildingData()
             {
                 id = _id,
-                type = _type,
+                type = type,
                 level = _level
             };
         }

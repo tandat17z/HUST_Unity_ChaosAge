@@ -1,3 +1,5 @@
+using System;
+
 namespace ChaosAge.Config
 {
     public class BuildingConfig
@@ -9,9 +11,13 @@ namespace ChaosAge.Config
 
     }
 
+    [Serializable]
     public enum EBuildingType
     {
-
+        TownHall,
+        GoldMine,
+        ArmyCamp,
+        BuilderHut
     }
 }
 

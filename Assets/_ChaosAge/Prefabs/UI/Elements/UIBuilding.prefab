@@ -172,7 +172,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -530, y: 28}
-  m_SizeDelta: {x: 400, y: 550}
+  m_SizeDelta: {x: 300, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5586856061215314197
 CanvasRenderer:
@@ -268,5 +268,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda3f63b173bd7d4d9e94aef04768b9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabIndex: 0
+  buildingType: 0
   button: {fileID: 7910164612029303514}
+  textName: {fileID: 4073192292842942379}

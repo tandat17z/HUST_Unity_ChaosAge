@@ -1,6 +1,8 @@
 using ChaosAge.building;
+using ChaosAge.Config;
 using ChaosAge.manager;
 using DatSystem.UI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,21 +10,22 @@ namespace ChaosAge.UI.elements
 {
     public class UIBuilding : MonoBehaviour
     {
-        [SerializeField] private int prefabIndex = 0;
+        [SerializeField] private EBuildingType buildingType;
         [SerializeField] private Button button;
+        [SerializeField] private TMP_Text textName;
 
         // Start is called before the first frame update
         void Start()
         {
             button.onClick.AddListener(Clicked);
+            textName.text = buildingType.ToString();
         }
 
         private void Clicked()
         {
             Vector3 position = Vector3.zero;
 
-            var prefab = BuildingManager.Instance.Prefabs[prefabIndex];
-            Building building = Instantiate(prefab, position, Quaternion.identity);
+            Building building = FactoryManager.Instance.SpawnBuilding(buildingType);
             building.PlacedOnGrid(20, 20);
 
 

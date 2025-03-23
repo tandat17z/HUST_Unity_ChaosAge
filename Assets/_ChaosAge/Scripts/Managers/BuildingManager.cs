@@ -29,8 +29,6 @@ namespace ChaosAge.manager
         public CameraController CameraController { get { return cameraController; } }
         public BuildGrid Grid { get { return grid; } }
 
-        public Building[] Prefabs { get => prefabs; }
-
         public Building SelectedBuilding => _selectedBuilding;
 
         private List<Building> _buildings = new();
@@ -132,7 +130,6 @@ namespace ChaosAge.manager
             {
                 var currentPosition = InputHandler.Instance.GetPointerPositionInMap();
 
-                Debug.Log($"{_buildingBasePosition} {currentPosition}");
                 _selectedBuilding.UpdateGridPosition(_buildingBasePosition, currentPosition);
             }
         }
