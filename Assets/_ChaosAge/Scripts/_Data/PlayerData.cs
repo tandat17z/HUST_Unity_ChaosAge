@@ -11,6 +11,7 @@ namespace ChaosAge.Data
         public int Gem;
 
         public List<BuildingData> buildings;
+        public List<UnitData> units;
 
         public PlayerData()
         {

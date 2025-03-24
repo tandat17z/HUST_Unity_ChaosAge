@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ChaosAge.building;
-using ChaosAge.camera;
 using ChaosAge.Data;
 using ChaosAge.editor;
 using ChaosAge.input;
@@ -9,7 +7,6 @@ using DatSystem;
 using DatSystem.UI;
 using DatSystem.utils;
 using UnityEngine;
-using UnityEngine.Windows;
 
 namespace ChaosAge.manager
 {
@@ -20,15 +17,9 @@ namespace ChaosAge.manager
 
         }
 
-
-
-        [SerializeField] Building[] prefabs;
-
         [Header("")]
-        [SerializeField] CameraController cameraController;
         [SerializeField] BuildGrid grid;
 
-        public CameraController CameraController { get { return cameraController; } }
         public BuildGrid Grid { get { return grid; } }
 
         public Building SelectedBuilding => _selectedBuilding;

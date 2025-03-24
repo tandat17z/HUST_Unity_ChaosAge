@@ -124,6 +124,11 @@
                 transform.position = position;
             }
         }
+
+        public void Upgrade()
+        {
+            _level += 1;
+        }
     }
 
 }
