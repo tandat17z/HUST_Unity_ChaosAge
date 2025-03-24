@@ -16,10 +16,10 @@ namespace ChaosAge.Data
         public PlayerData()
         {
             buildings = new List<BuildingData>();
-            buildings.Add(new BuildingData(EBuildingType.TownHall, 20, 20));
-            buildings.Add(new BuildingData(EBuildingType.BuilderHut, 25, 20));
-            buildings.Add(new BuildingData(EBuildingType.GoldMine, 28, 20));
-            buildings.Add(new BuildingData(EBuildingType.ArmyCamp, 32, 20));
+            buildings.Add(new BuildingData(EBuildingType.townhall, 20, 20));
+            buildings.Add(new BuildingData(EBuildingType.buildershut, 25, 20));
+            buildings.Add(new BuildingData(EBuildingType.goldmine, 28, 20));
+            buildings.Add(new BuildingData(EBuildingType.armycamp, 32, 20));
         }
 
         public void Save()

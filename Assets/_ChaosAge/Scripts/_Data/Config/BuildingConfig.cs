@@ -14,10 +14,7 @@ namespace ChaosAge.Config
     [Serializable]
     public enum EBuildingType
     {
-        TownHall,
-        GoldMine,
-        ArmyCamp,
-        BuilderHut
+        townhall, goldmine, goldstorage, elixirmine, elixirstorage, darkelixirmine, darkelixirstorage, buildershut, armycamp, barracks, wall, cannon, archertower, mortor, airdefense, wizardtower, hiddentesla, bombtower, xbow, infernotower, decoration, obstacle, boomb, springtrap, airbomb, giantbomb, seekingairmine, skeletontrap
     }
 }
 

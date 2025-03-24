@@ -13,14 +13,31 @@ namespace ChaosAge.Data
         public int health = 0;
         public int trainTime = 0;
         public int trainedTime = 0;
-
+        public float moveSpeed = 1;
+        public float attackSpeed = 1;
+        public float attackRange = 1;
+        public float damage = 1;
+        public float splashRange = 0;
+        public float rangedSpeed = 5;
+        public TargetPriority priority = TargetPriority.none;
+        public UnitMoveType movement = UnitMoveType.ground;
+        public float priorityMultiplier = 1;
     }
 
     [Serializable]
     public enum EUnitType
     {
-        Barbarian,
-        Archer
+        barbarian, archer, goblin, healer, wallbreaker, giant, miner, balloon, wizard, dragon, pekka
+    }
+
+    public enum TargetPriority
+    {
+        none = 0, all = 1, defenses = 2, resources = 3, walls = 4
+    }
+
+    public enum UnitMoveType
+    {
+        ground = 0, jump = 1, fly = 2, underground = 3
     }
 }
 

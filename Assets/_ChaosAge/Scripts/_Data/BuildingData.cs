@@ -14,6 +14,23 @@ namespace ChaosAge.Data
 
         public int x = 0;
         public int y = 0;
+        public int columns = 0;
+        public int rows = 0;
+        public int storage = 0;
+        public DateTime boost;
+        public int health = 100;
+        public float damage = 0;
+        public int capacity = 0;
+        public float speed = 0;
+        public float radius = 0;
+        public DateTime constructionTime;
+        public bool isConstructing = false;
+        public int buildTime = 0;
+        public BuildingTargetType targetType = BuildingTargetType.none;
+        public float blindRange = 0;
+        public float splashRange = 0;
+        public float rangedSpeed = 5;
+        public float percentage = 0;
 
         public BuildingData()
         {
@@ -32,4 +49,8 @@ namespace ChaosAge.Data
 
     }
 
+    public enum BuildingTargetType
+    {
+        none = 0, ground = 1, air = 2, all = 3
+    }
 }
