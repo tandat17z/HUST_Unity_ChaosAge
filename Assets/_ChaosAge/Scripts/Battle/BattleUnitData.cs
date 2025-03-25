@@ -1,4 +1,4 @@
-using ChaosAge.Data;
+﻿using ChaosAge.Data;
 using System.Collections.Generic;
 using System.Linq;
 using static ChaosAge.Battle.Battle;
@@ -74,6 +74,8 @@ public class BattleUnitData
             }
         }
     }
+
+    // hồi máu
     public void Heal(float amount)
     {
         if (amount <= 0 || health <= 0) { return; }

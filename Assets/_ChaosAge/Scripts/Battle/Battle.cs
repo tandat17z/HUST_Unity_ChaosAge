@@ -112,6 +112,32 @@ namespace ChaosAge.Battle
             }
         }
 
+
+        public void AddUnit(UnitData unit, int x, int y, UnitSpawned callback = null, AttackCallback attackCallback = null, IndexCallback dieCallback = null, FloatCallback damageCallback = null, FloatCallback healCallback = null) // ok
+        {
+            UnitToAdd unitToAdd = new UnitToAdd();
+            unitToAdd.callback = callback;
+            var battleUnit = new BattleUnitData();
+            battleUnit.attackCallback = attackCallback;
+            battleUnit.dieCallback = dieCallback;
+            battleUnit.damageCallback = damageCallback;
+            battleUnit.healCallback = healCallback;
+            battleUnit.unit = unit;
+            battleUnit.Initialize(x, y);
+            battleUnit.health = unit.health;
+            unitToAdd.unit = battleUnit;
+            unitToAdd.x = x;
+            unitToAdd.y = y;
+            _unitsToAdd.Add(unitToAdd);
+            /*
+            if(time > updateTime)
+            {
+                updateTime = time;
+            }
+            */
+        }
+
+
         public void ExecuteFrame()
         {
             int addIndex = _units.Count;
@@ -151,24 +177,30 @@ namespace ChaosAge.Battle
                     projectiles[i].timer -= ConfigData.battleFrameRate;
                     if (projectiles[i].timer <= 0)
                     {
+                        // hồi máu of gây damage
                         if (projectiles[i].type == TargetType.unit)
                         {
+                            // hồi máu
                             if (projectiles[i].heal)
                             {
                                 _units[projectiles[i].target].Heal(projectiles[i].damage);
+
+                                // hồi máu trong phạm vi nổ (splash)
+                                // Không hồi màu cho đối tượng bay
                                 for (int j = 0; j < _units.Count; j++)
                                 {
-                                    if (_units[j].health <= 0 || j == projectiles[i].target || _units[j].unit.movement == Data.UnitMoveType.fly)
+                                    if (_units[j].health <= 0 || j == projectiles[i].target || _units[j].unit.movement == UnitMoveType.fly)
                                     {
                                         continue;
                                     }
                                     float distance = BattleVector2.Distance(_units[j].position, _units[projectiles[i].target].position);
-                                    if (distance < projectiles[i].splash * ConfigData.gridSize)
+                                    if (distance < projectiles[i].splash * ConfigData.gridCellSize)
                                     {
-                                        _units[j].Heal(projectiles[i].damage * (1f - (distance / projectiles[i].splash * ConfigData.gridSize)));
+                                        _units[j].Heal(projectiles[i].damage * (1f - (distance / projectiles[i].splash * ConfigData.gridCellSize)));
                                     }
                                 }
                             }
+                            // GÂy damage, tương tự
                             else
                             {
                                 _units[projectiles[i].target].TakeDamage(projectiles[i].damage);
@@ -181,7 +213,7 @@ namespace ChaosAge.Battle
                                             float distance = BattleVector2.Distance(_units[j].position, _units[projectiles[i].target].position);
                                             if (distance < projectiles[i].splash * ConfigData.gridSize)
                                             {
-                                                _units[j].TakeDamage(projectiles[i].damage * (1f - (distance / projectiles[i].splash * ConfigData.gridSize)));
+                                                _units[j].TakeDamage(projectiles[i].damage * (1f - (distance / projectiles[i].splash * ConfigData.gridCellSize)));
                                             }
                                         }
                                     }
@@ -230,36 +262,12 @@ namespace ChaosAge.Battle
             return true;
         }
 
-        public void AddUnit(UnitData unit, int x, int y, UnitSpawned callback = null, AttackCallback attackCallback = null, IndexCallback dieCallback = null, FloatCallback damageCallback = null, FloatCallback healCallback = null) // ok
-        {
-            UnitToAdd unitToAdd = new UnitToAdd();
-            unitToAdd.callback = callback;
-            var battleUnit = new BattleUnitData();
-            battleUnit.attackCallback = attackCallback;
-            battleUnit.dieCallback = dieCallback;
-            battleUnit.damageCallback = damageCallback;
-            battleUnit.healCallback = healCallback;
-            battleUnit.unit = unit;
-            battleUnit.Initialize(x, y);
-            battleUnit.health = unit.health;
-            unitToAdd.unit = battleUnit;
-            unitToAdd.x = x;
-            unitToAdd.y = y;
-            _unitsToAdd.Add(unitToAdd);
-            /*
-            if(time > updateTime)
-            {
-                updateTime = time;
-            }
-            */
-        }
-
-
         private void HandleBuilding(int index, double deltaTime)
         {
             if (_buildings[index].target >= 0)
             {
-                if (_units[_buildings[index].target].health <= 0 || !IsUnitInRange(_buildings[index].target, index) || (_units[_buildings[index].target].unit.movement == Data.UnitMoveType.underground && _units[_buildings[index].target].path != null))
+                // Nếu the building's target is dead  or Không nằm trong phạm vi bắn
+                if (_units[_buildings[index].target].health <= 0 || !IsUnitInRange(_buildings[index].target, index) || (_units[_buildings[index].target].unit.movement == UnitMoveType.underground && _units[_buildings[index].target].path != null))
                 {
                     // If the building's target is dead or not in range then remove it as target
                     _buildings[index].target = -1;
@@ -295,9 +303,9 @@ namespace ChaosAge.Battle
                                         if (j != _buildings[index].target)
                                         {
                                             float distance = BattleVector2.Distance(_units[j].position, _units[_buildings[index].target].position);
-                                            if (distance < _buildings[index].building.splashRange * ConfigData.gridSize)
+                                            if (distance < _buildings[index].building.splashRange * ConfigData.gridCellSize)
                                             {
-                                                _units[j].TakeDamage(_buildings[index].building.damage * (1f - (distance / _buildings[index].building.splashRange * ConfigData.gridSize)));
+                                                _units[j].TakeDamage(_buildings[index].building.damage * (1f - (distance / _buildings[index].building.splashRange * ConfigData.gridCellSize)));
                                             }
                                         }
                                     }
@@ -321,48 +329,6 @@ namespace ChaosAge.Battle
             }
         }
 
-        private bool FindTargetForBuilding(int index) // ok
-        {
-            for (int i = 0; i < _units.Count; i++)
-            {
-                if (_units[i].health <= 0 || _units[i].unit.movement == Data.UnitMoveType.underground && _units[i].path != null)
-                {
-                    continue;
-                }
-
-                if (_buildings[index].building.targetType == Data.BuildingTargetType.ground && _units[i].unit.movement == Data.UnitMoveType.fly)
-                {
-                    continue;
-                }
-
-                if (_buildings[index].building.targetType == Data.BuildingTargetType.air && _units[i].unit.movement != Data.UnitMoveType.fly)
-                {
-                    continue;
-                }
-
-                if (IsUnitInRange(i, index))
-                {
-                    _buildings[index].attackTimer = 0;
-                    _buildings[index].target = i;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private bool IsUnitInRange(int unitIndex, int buildingIndex) // ok
-        {
-            float distance = BattleVector2.Distance(_buildings[buildingIndex].worldCenterPosition, _units[unitIndex].position);
-            if (distance <= _buildings[buildingIndex].building.radius)
-            {
-                if (_buildings[buildingIndex].building.blindRange > 0 && distance <= _buildings[buildingIndex].building.blindRange)
-                {
-                    return false;
-                }
-                return true;
-            }
-            return false;
-        }
 
         private void HandleUnit(int index, double deltaTime) // ok
         {
@@ -563,6 +529,49 @@ namespace ChaosAge.Battle
                 }
             }
         }
+        private bool FindTargetForBuilding(int index) // ok
+        {
+            for (int i = 0; i < _units.Count; i++)
+            {
+                if (_units[i].health <= 0 || _units[i].unit.movement == Data.UnitMoveType.underground && _units[i].path != null)
+                {
+                    continue;
+                }
+
+                if (_buildings[index].building.targetType == Data.BuildingTargetType.ground && _units[i].unit.movement == Data.UnitMoveType.fly)
+                {
+                    continue;
+                }
+
+                if (_buildings[index].building.targetType == Data.BuildingTargetType.air && _units[i].unit.movement != Data.UnitMoveType.fly)
+                {
+                    continue;
+                }
+
+                if (IsUnitInRange(i, index))
+                {
+                    _buildings[index].attackTimer = 0;
+                    _buildings[index].target = i;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsUnitInRange(int unitIndex, int buildingIndex) // ok
+        {
+            float distance = BattleVector2.Distance(_buildings[buildingIndex].worldCenterPosition, _units[unitIndex].position);
+            if (distance <= _buildings[buildingIndex].building.radius)
+            {
+                if (_buildings[buildingIndex].building.blindRange > 0 && distance <= _buildings[buildingIndex].building.blindRange)
+                {
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        }
+
 
         public static BattleVector2 GridToWorldPosition(BattleVector2Int position) // ok
         {

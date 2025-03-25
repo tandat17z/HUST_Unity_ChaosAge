@@ -29,6 +29,9 @@ public class BattleBuildingData
         {
             damageCallback.Invoke((long)building.type, damage);
         }
+
+
+        // die
         if (health < 0) { health = 0; }
         if (health <= 0)
         {
