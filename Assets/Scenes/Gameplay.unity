@@ -282,9 +282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08657cee14ab29041ab1ae0ae9ffe98c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 6655862420951677313, guid: c15eff67cde427747b7e2b31f0b1d430, type: 3}
-  cameraController: {fileID: 963194229}
   grid: {fileID: 608283925}
 --- !u!4 &128549764 stripped
 Transform:
@@ -3556,59 +3553,39 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 707045679323395255, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 707045679323395255, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 707045679323395255, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 960
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 707045679323395255, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 961613023639014587, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 961613023639014587, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 961613023639014587, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 785
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 961613023639014587, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4762289264215566988, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
       propertyPath: m_Name
       value: UIBuildingInfo
-      objectReference: {fileID: 0}
-    - target: {fileID: 4762289264215566988, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709315495049875419, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709315495049875419, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709315495049875419, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 1135
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709315495049875419, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 6197989131800662392, guid: 16b62a7074ad40b4e8480713942ebd06, type: 3}
       propertyPath: m_Pivot.x
