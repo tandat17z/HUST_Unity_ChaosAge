@@ -1,8 +1,8 @@
 using ChaosAge.Data;
 using System.Collections.Generic;
-using static ChaosAge.Battle.Battle;
+using UnityEngine;
 
-public class BattleBuildingData
+public class BattleBuilding : MonoBehaviour
 {
     public BuildingData building = null;
     public float health = 0;
@@ -10,9 +10,6 @@ public class BattleBuildingData
     public double attackTimer = 0;
     public float percentage = 0;
     public BattleVector2 worldCenterPosition;
-    public AttackCallback attackCallback = null;
-    public FloatCallback destroyCallback = null;
-    public FloatCallback damageCallback = null;
 
 
     public void Initialize()
@@ -25,10 +22,6 @@ public class BattleBuildingData
     {
         if (health <= 0) { return; }
         health -= damage;
-        if (damageCallback != null)
-        {
-            damageCallback.Invoke((long)building.type, damage);
-        }
 
 
         // die
@@ -53,10 +46,6 @@ public class BattleBuildingData
             if (this.percentage > 0)
             {
                 percentage += this.percentage;
-            }
-            if (destroyCallback != null)
-            {
-                destroyCallback.Invoke((long)building.type, this.percentage);
             }
         }
     }

@@ -1,5 +1,4 @@
 using AStarPathfinding;
-using static ChaosAge.Battle.Battle;
 using System.Collections.Generic;
 using System.Linq;
 

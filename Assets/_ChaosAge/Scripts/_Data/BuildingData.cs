@@ -27,7 +27,7 @@ namespace ChaosAge.Data
         public bool isConstructing = false;
         public int buildTime = 0;
         public BuildingTargetType targetType = BuildingTargetType.none;
-        public float blindRange = 0;
+        public float blindRange = 0; // Vùng mù
         public float splashRange = 0;
         public float rangedSpeed = 5;
         public float percentage = 0;

@@ -30,11 +30,13 @@ namespace ChaosAge.Data
         barbarian, archer, goblin, healer, wallbreaker, giant, miner, balloon, wizard, dragon, pekka
     }
 
+    [Serializable]
     public enum TargetPriority
     {
         none = 0, all = 1, defenses = 2, resources = 3, walls = 4
     }
 
+    [Serializable]
     public enum UnitMoveType
     {
         ground = 0, jump = 1, fly = 2, underground = 3

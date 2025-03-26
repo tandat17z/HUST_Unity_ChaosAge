@@ -46,6 +46,7 @@ namespace ChaosAge.manager
 
             // open UI
             PanelManager.Instance.OpenPanel<PanelMainUI>();
+            PanelManager.Instance.OpenPanel<UIBattle>();
         }
         #endregion
 
