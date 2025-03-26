@@ -129,23 +129,22 @@ namespace ChaosAge.Battle
 
                     // Update unit's position based on path
                     position = BattleManager.GetPathPosition(path.points, (float)(pathTraveledTime / pathTime));
-                    Debug.Log($"position {position.x} {position.y}");
                     //// Check if target is in range
-                    //if (unit.attackRange > 0 && BattleManager.Instance.IsBuildingInRange(index, target))
-                    //{
-                    //    path = null;
-                    //}
-                    //else
-                    //{
-                    //    // check if unit reached the end of the path
-                    //    BattleVector2 targetPosition = BattleManager.GridToWorldPosition(new BattleVector2Int(path.points.Last().Location.X, path.points.Last().Location.Y));
-                    //    float distance = BattleVector2.Distance(position, targetPosition);
-                    //    if (distance <= ConfigData.gridSize * 0.05f)
-                    //    {
-                    //        position = targetPosition;
-                    //        path = null;
-                    //    }
-                    //}
+                    if (unit.attackRange > 0 && BattleManager.Instance.IsBuildingInRange(index, target))
+                    {
+                        path = null;
+                    }
+                    else
+                    {
+                        // check if unit reached the end of the path
+                        BattleVector2 targetPosition = BattleManager.GridToWorldPosition(new BattleVector2Int(path.points.Last().Location.X, path.points.Last().Location.Y));
+                        float distance = BattleVector2.Distance(position, targetPosition);
+                        if (distance <= ConfigData.gridCellSize * 0.05f)
+                        {
+                            position = targetPosition;
+                            path = null;
+                        }
+                    }
                 }
             }
 
@@ -207,12 +206,16 @@ namespace ChaosAge.Battle
                                 float distance = BattleVector2.Distance(position, _buildings[target].worldCenterPosition);
                                 if (unit.attackRange > 0 && unit.rangedSpeed > 0)
                                 {
-                                    Projectile projectile = new Projectile();
-                                    projectile.type = TargetType.building;
+                                    var projectile = FactoryManager.Instance.SpawnProjectile(TargetType.building);
                                     projectile.target = target;
                                     projectile.timer = distance / unit.rangedSpeed;
                                     projectile.damage = unit.damage * multiplier;
                                     BattleManager.Instance.Projectiles.Add(projectile);
+
+                                    //move
+                                    int columns = _buildings[target].building.columns;
+                                    int rows = _buildings[target].building.rows;
+                                    projectile.Move(position, new BattleVector2(_buildings[target].building.x + columns / 2f, _buildings[target].building.y + rows / 2f));
                                 }
                                 else
                                 {

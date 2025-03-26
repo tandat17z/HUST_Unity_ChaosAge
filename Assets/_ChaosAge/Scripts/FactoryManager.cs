@@ -16,6 +16,7 @@ namespace ChaosAge.manager
         [SerializeField] Transform container;
         [SerializeField] BuildingSO buildingSO;
         [SerializeField] UnitSO unitSO;
+        [SerializeField] ProjectileSO projecctileSO;
 
         public Building SpawnBuilding(EBuildingType buildingType)
         {
@@ -32,6 +33,15 @@ namespace ChaosAge.manager
 
             var spawned = Instantiate(prefab, container);
             var unit = spawned.GetComponent<BattleUnit>();
+            return unit;
+        }
+
+        public BattleProjectile SpawnProjectile(TargetType targetType)
+        {
+            var prefab = projecctileSO.GetProjectilePrefab(targetType);
+
+            var spawned = Instantiate(prefab, container);
+            var unit = spawned.GetComponent<BattleProjectile>();
             return unit;
         }
     }

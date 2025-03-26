@@ -33,7 +33,7 @@ namespace ChaosAge.manager
         private AStarSearch search = null;
         private AStarSearch unlimitedSearch = null;
         public List<Tile> blockedTiles = new List<Tile>();
-        private List<Projectile> projectiles = new List<Projectile>();
+        private List<BattleProjectile> projectiles = new List<BattleProjectile>();
         public float percentage = 0;
 
         private bool _isBattling = false;
@@ -46,7 +46,7 @@ namespace ChaosAge.manager
 
 
         public List<BattleBuilding> Buildings => _buildings;
-        public List<Projectile> Projectiles => projectiles;
+        public List<BattleProjectile> Projectiles => projectiles;
 
 
         [Button("Init")]
