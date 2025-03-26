@@ -22,6 +22,7 @@ namespace ChaosAge.manager
 
         public BuildGrid Grid { get { return grid; } }
 
+        public List<Building> Buildings { get => _buildings; }
         public Building SelectedBuilding => _selectedBuilding;
 
         private List<Building> _buildings = new();

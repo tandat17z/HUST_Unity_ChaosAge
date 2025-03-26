@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ChaosAge.building;
@@ -69,6 +70,12 @@ namespace ChaosAge.editor
                 Vector3 point = transform.position + transform.right.normalized * _cellSize * (float)i;
                 Gizmos.DrawLine(point, point + transform.forward.normalized * _cellSize * (float)_rows);
             }
+        }
+
+        public Vector2 ConvertGridPos(Vector3 pos)
+        {
+            var local = transform.InverseTransformPoint(pos);
+            return Vector2.right * Mathf.FloorToInt(local.x / _cellSize) + Vector2.up * Mathf.FloorToInt(local.z / _cellSize);
         }
 #endif
     }

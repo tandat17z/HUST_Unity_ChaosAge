@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using AStarPathfinding;
 using ChaosAge.Battle;
 using ChaosAge.Config;
@@ -26,11 +28,11 @@ namespace ChaosAge.manager
         public List<BattleBuilding> _buildings = new List<BattleBuilding>();
         public List<BattleUnit> _units = new List<BattleUnit>();
         public List<UnitToAdd> _unitsToAdd = new List<UnitToAdd>();
-        private Grid grid = null;
+        public Grid grid = null;
         private Grid unlimitedGrid = null;
         private AStarSearch search = null;
         private AStarSearch unlimitedSearch = null;
-        private List<Tile> blockedTiles = new List<Tile>();
+        public List<Tile> blockedTiles = new List<Tile>();
         private List<Projectile> projectiles = new List<Projectile>();
         public float percentage = 0;
 
@@ -41,6 +43,11 @@ namespace ChaosAge.manager
         //public delegate void AttackCallback(long index, BattleVector2 target);
         //public delegate void IndexCallback(long index);
         //public delegate void FloatCallback(long index, float value);
+
+
+        public List<BattleBuilding> Buildings => _buildings;
+        public List<Projectile> Projectiles => projectiles;
+
 
         [Button("Init")]
         public void Initialize(List<BattleBuilding> buildings) // ok
@@ -153,7 +160,7 @@ namespace ChaosAge.manager
             {
                 if (_units[i].health > 0)
                 {
-                    HandleUnit(i, ConfigData.battleFrameRate);
+                    _units[i].HandleUnit(i, ConfigData.battleFrameRate);
                 }
             }
 
@@ -224,9 +231,56 @@ namespace ChaosAge.manager
             Debug.Log("HandleUnit");
         }
 
-        private void HandleBuilding(int i, float battleFrameRate)
+        private void HandleBuilding(int index, float deltaTime)
         {
-            Debug.Log("HandleBuilding");
+
+        }
+
+
+        public static BattleVector2 GridToWorldPosition(BattleVector2Int position) // ok
+        {
+            return new BattleVector2(position.x * ConfigData.gridSize + ConfigData.gridSize / 2f, position.y * ConfigData.gridSize + ConfigData.gridSize / 2f);
+        }
+
+        public bool IsBuildingInRange(int unitIndex, int buildingIndex)
+        {
+            for (int x = _buildings[buildingIndex].building.x; x < _buildings[buildingIndex].building.x + _buildings[buildingIndex].building.columns; x++)
+            {
+                for (int y = _buildings[buildingIndex].building.y; y < _buildings[buildingIndex].building.y + _buildings[buildingIndex].building.columns; y++)
+                {
+                    float distance = BattleVector2.Distance(GridToWorldPosition(new BattleVector2Int(x, y)), _units[unitIndex].position);
+                    if (distance <= _units[unitIndex].unit.attackRange)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public static BattleVector2 GetPathPosition(IList<Cell> path, float t) // ok
+        {
+            if (t < 0) { t = 0; }
+            if (t > 1) { t = 1; }
+            float totalLength = GetPathLength(path);
+            float length = 0;
+            if (path != null && path.Count > 1)
+            {
+                for (int i = 1; i < path.Count; i++)
+                {
+                    BattleVector2Int a = new BattleVector2Int(path[i - 1].Location.X, path[i - 1].Location.Y);
+                    BattleVector2Int b = new BattleVector2Int(path[i].Location.X, path[i].Location.Y);
+                    float l = BattleVector2.Distance(a, b) * ConfigData.gridSize;
+                    float p = (length + l) / totalLength;
+                    if (p >= t)
+                    {
+                        t = (t - (length / totalLength)) / (p - (length / totalLength));
+                        return BattleVector2.LerpUnclamped(GridToWorldPosition(a), GridToWorldPosition(b), t);
+                    }
+                    length += l;
+                }
+            }
+            return GridToWorldPosition(new BattleVector2Int(path[0].Location.X, path[0].Location.Y));
         }
 
         public bool CanAddUnit(int x, int y) // ok
@@ -258,6 +312,437 @@ namespace ChaosAge.manager
             return true;
         }
 
+        private bool FindTargetForBuilding(int index) // ok
+        {
+            for (int i = 0; i < _units.Count; i++)
+            {
+                if (_units[i].health <= 0 || _units[i].unit.movement == Data.UnitMoveType.underground && _units[i].path != null)
+                {
+                    continue;
+                }
+
+                if (_buildings[index].building.targetType == Data.BuildingTargetType.ground && _units[i].unit.movement == Data.UnitMoveType.fly)
+                {
+                    continue;
+                }
+
+                if (_buildings[index].building.targetType == Data.BuildingTargetType.air && _units[i].unit.movement != Data.UnitMoveType.fly)
+                {
+                    continue;
+                }
+
+                if (IsUnitInRange(i, index))
+                {
+                    _buildings[index].attackTimer = 0;
+                    _buildings[index].target = i;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsUnitInRange(int unitIndex, int buildingIndex) // ok
+        {
+            float distance = BattleVector2.Distance(_buildings[buildingIndex].worldCenterPosition, _units[unitIndex].position);
+            if (distance <= _buildings[buildingIndex].building.radius)
+            {
+                if (_buildings[buildingIndex].building.blindRange > 0 && distance <= _buildings[buildingIndex].building.blindRange)
+                {
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        private static float GetPathLength(IList<Cell> path, bool includeCellSize = true) // ok
+        {
+            float length = 0;
+            if (path != null && path.Count > 1)
+            {
+                for (int i = 1; i < path.Count; i++)
+                {
+                    length += BattleVector2.Distance(new BattleVector2(path[i - 1].Location.X, path[i - 1].Location.Y), new BattleVector2(path[i].Location.X, path[i].Location.Y));
+                }
+            }
+            if (includeCellSize)
+            {
+                length *= ConfigData.gridCellSize;
+            }
+            return length;
+        }
+
+        public void FindTargets(int index, Data.TargetPriority priority) // ok
+        {
+            ListUnitTargets(index, priority);
+            if (priority == TargetPriority.defenses)
+            {
+                if (_units[index].defenceTargets.Count > 0)
+                {
+                    AssignTarget(index, ref _units[index].defenceTargets);
+                }
+                else
+                {
+                    FindTargets(index, Data.TargetPriority.all);
+                    return;
+                }
+            }
+            else if (priority == Data.TargetPriority.resources)
+            {
+                if (_units[index].resourceTargets.Count > 0)
+                {
+                    AssignTarget(index, ref _units[index].resourceTargets);
+                }
+                else
+                {
+                    FindTargets(index, Data.TargetPriority.all);
+                    return;
+                }
+            }
+            else if (priority == Data.TargetPriority.all || priority == Data.TargetPriority.walls)
+            {
+                Dictionary<int, float> temp = _units[index].GetAllTargets();
+                if (temp.Count > 0)
+                {
+                    AssignTarget(index, ref temp, priority == Data.TargetPriority.walls);
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
+        private void ListUnitTargets(int index, Data.TargetPriority priority) // ok
+        {
+            _units[index].resourceTargets.Clear();
+            _units[index].defenceTargets.Clear();
+            _units[index].otherTargets.Clear();
+            if (priority == Data.TargetPriority.walls)
+            {
+                priority = Data.TargetPriority.all;
+            }
+            for (int i = 0; i < _buildings.Count; i++)
+            {
+                if (_buildings[i].health <= 0 || priority != _units[index].unit.priority || !IsBuildingCanBeAttacked(_buildings[i].building.type))
+                {
+                    continue;
+                }
+                float distance = BattleVector2.Distance(_buildings[i].worldCenterPosition, _units[index].position);
+                switch (_buildings[i].building.type)
+                {
+                    case EBuildingType.townhall:
+                    case EBuildingType.elixirmine:
+                    case EBuildingType.elixirstorage:
+                    case EBuildingType.darkelixirmine:
+                    case EBuildingType.darkelixirstorage:
+                    case EBuildingType.goldmine:
+                    case EBuildingType.goldstorage:
+                        _units[index].resourceTargets.Add(i, distance);
+                        break;
+                    case EBuildingType.cannon:
+                    case EBuildingType.archertower:
+                    case EBuildingType.mortor:
+                    case EBuildingType.airdefense:
+                    case EBuildingType.wizardtower:
+                    case EBuildingType.hiddentesla:
+                    case EBuildingType.bombtower:
+                    case EBuildingType.xbow:
+                    case EBuildingType.infernotower:
+                        _units[index].defenceTargets.Add(i, distance);
+                        break;
+                    case EBuildingType.wall:
+                        // Don't include
+                        break;
+                    default:
+                        _units[index].otherTargets.Add(i, distance);
+                        break;
+                }
+            }
+        }
+
+        public static bool IsBuildingCanBeAttacked(EBuildingType id)
+        {
+            switch (id)
+            {
+                case EBuildingType.obstacle:
+                case EBuildingType.decoration:
+                case EBuildingType.boomb:
+                case EBuildingType.springtrap:
+                case EBuildingType.airbomb:
+                case EBuildingType.giantbomb:
+                case EBuildingType.seekingairmine:
+                case EBuildingType.skeletontrap:
+                    return false;
+            }
+            return true;
+        }
+
+        private void AssignTarget(int index, ref Dictionary<int, float> targets, bool wallsPriority = false) // ok
+        {
+            if (wallsPriority)
+            {
+                var wallPath = GetPathToWall(index, ref targets);
+                if (wallPath.Item1 >= 0)
+                {
+                    _units[index].AssignTarget(wallPath.Item1, wallPath.Item2);
+                    return;
+                }
+            }
+
+            int min = targets.Aggregate((a, b) => a.Value < b.Value ? a : b).Key;
+            var path = GetPathToBuilding(min, index);
+            if (path.Item1 >= 0)
+            {
+                _units[index].AssignTarget(path.Item1, path.Item2);
+            }
+        }
+
+        private (int, Path) GetPathToWall(int unitIndex, ref Dictionary<int, float> targets) // ok
+        {
+            BattleVector2Int unitGridPosition = WorldToGridPosition(_units[unitIndex].position);
+            List<Path> tiles = new List<Path>();
+            foreach (var target in (targets.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value)))
+            {
+                List<Cell> points = search.Find(new AStarPathfinding.Vector2Int(_buildings[target.Key].building.x, _buildings[target.Key].building.y), new AStarPathfinding.Vector2Int(unitGridPosition.x, unitGridPosition.y)).ToList();
+                if (Path.IsValid(ref points, new AStarPathfinding.Vector2Int(_buildings[target.Key].building.x, _buildings[target.Key].building.y), new AStarPathfinding.Vector2Int(unitGridPosition.x, unitGridPosition.y)))
+                {
+                    continue;
+                }
+                else
+                {
+                    for (int i = 0; i < _units.Count; i++)
+                    {
+                        if (_units[i].health <= 0 || _units[i].unit.movement != Data.UnitMoveType.ground || i != unitIndex || _units[i].target < 0 || _units[i].mainTarget != target.Key || _units[i].mainTarget < 0 || _buildings[_units[i].mainTarget].building.type != EBuildingType.wall || _buildings[_units[i].mainTarget].health <= 0)
+                        {
+                            continue;
+                        }
+                        BattleVector2Int pos = WorldToGridPosition(_units[i].position);
+                        List<Cell> pts = search.Find(new AStarPathfinding.Vector2Int(pos.x, pos.y), new AStarPathfinding.Vector2Int(unitGridPosition.x, unitGridPosition.y)).ToList();
+                        if (Path.IsValid(ref pts, new AStarPathfinding.Vector2Int(pos.x, pos.y), new AStarPathfinding.Vector2Int(unitGridPosition.x, unitGridPosition.y)))
+                        {
+                            float dis = GetPathLength(pts, false);
+                            if (id <= ConfigData.battleGroupWallAttackRadius)
+                            {
+                                AStarPathfinding.Vector2Int end = _units[i].path.points.Last().Location;
+                                Path p = new Path();
+                                if (p.Create(ref search, pos, new BattleVector2Int(end.X, end.Y)))
+                                {
+                                    _units[unitIndex].mainTarget = target.Key;
+                                    p.blocks = _units[i].path.blocks;
+                                    p.length = GetPathLength(p.points);
+                                    return (_units[i].target, p);
+                                }
+                            }
+                        }
+                    }
+                    Path path = new Path();
+                    if (path.Create(ref unlimitedSearch, unitGridPosition, new BattleVector2Int(_buildings[target.Key].building.x, _buildings[target.Key].building.y)))
+                    {
+                        path.length = GetPathLength(path.points);
+                        for (int i = 0; i < path.points.Count; i++)
+                        {
+                            for (int j = 0; j < blockedTiles.Count; j++)
+                            {
+                                if (blockedTiles[j].position.x == path.points[i].Location.X && blockedTiles[j].position.y == path.points[i].Location.Y)
+                                {
+                                    if (blockedTiles[j].id == EBuildingType.wall && _buildings[blockedTiles[j].index].health > 0)
+                                    {
+                                        int t = blockedTiles[j].index;
+                                        for (int k = path.points.Count - 1; k >= j; k--)
+                                        {
+                                            path.points.RemoveAt(k);
+                                        }
+                                        path.length = GetPathLength(path.points);
+                                        return (t, path);
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            return (-1, null);
+        }
+
+        private (int, Path) GetPathToBuilding(int buildingIndex, int unitIndex) // ok
+        {
+            if (_buildings[buildingIndex].building.type == EBuildingType.wall || _buildings[buildingIndex].building.type == EBuildingType.decoration || _buildings[buildingIndex].building.type == EBuildingType.obstacle)
+            {
+                return (-1, null);
+            }
+
+            BattleVector2Int unitGridPosition = WorldToGridPosition(_units[unitIndex].position);
+
+            // Get the x and y list of the building's surrounding tiles
+            List<int> columns = new List<int>();
+            List<int> rows = new List<int>();
+            int startX = _buildings[buildingIndex].building.x;
+            int endX = _buildings[buildingIndex].building.x + _buildings[buildingIndex].building.columns - 1;
+            int startY = _buildings[buildingIndex].building.y;
+            int endY = _buildings[buildingIndex].building.y + _buildings[buildingIndex].building.rows - 1;
+            if (_units[unitIndex].unit.movement == Data.UnitMoveType.ground && _buildings[buildingIndex].building.type == EBuildingType.wall)
+            {
+                startX--;
+                startY--;
+                endX++;
+                endY++;
+            }
+            columns.Add(startX);
+            columns.Add(endX);
+            rows.Add(startY);
+            rows.Add(endY);
+
+            // Get the list of building's available surrounding tiles
+            List<Path> tiles = new List<Path>();
+            if (_units[unitIndex].unit.movement == Data.UnitMoveType.ground)
+            {
+                #region With Walls Effect
+                int closest = -1;
+                float distance = 99999;
+                int blocks = 999;
+                for (int x = 0; x < columns.Count; x++)
+                {
+                    for (int y = 0; y < rows.Count; y++)
+                    {
+                        if (x >= 0 && y >= 0 && x < ConfigData.gridSize && y < ConfigData.gridSize)
+                        {
+                            Path path1 = new Path();
+                            Path path2 = new Path();
+                            path1.Create(ref search, new BattleVector2Int(columns[x], rows[y]), unitGridPosition);
+                            path2.Create(ref unlimitedSearch, new BattleVector2Int(columns[x], rows[y]), unitGridPosition);
+                            if (path1.points != null && path1.points.Count > 0)
+                            {
+                                path1.length = GetPathLength(path1.points);
+                                int lengthToBlocks = (int)Math.Floor(path1.length / (ConfigData.battleTilesWorthOfOneWall * ConfigData.gridSize));
+                                if (path1.length < distance && lengthToBlocks <= blocks)
+                                {
+                                    closest = tiles.Count;
+                                    distance = path1.length;
+                                    blocks = lengthToBlocks;
+                                }
+                                tiles.Add(path1);
+                            }
+                            if (path2.points != null && path2.points.Count > 0)
+                            {
+                                path2.length = GetPathLength(path2.points);
+                                for (int i = 0; i < path2.points.Count; i++)
+                                {
+                                    for (int j = 0; j < blockedTiles.Count; j++)
+                                    {
+                                        if (blockedTiles[j].position.x == path2.points[i].Location.X && blockedTiles[j].position.y == path2.points[i].Location.Y)
+                                        {
+                                            if (blockedTiles[j].id == EBuildingType.wall && _buildings[blockedTiles[j].index].health > 0)
+                                            {
+                                                path2.blocks.Add(blockedTiles[j]);
+                                                // path2.blocksHealth += _buildings[blockedTiles[j].index].health;
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (path2.length < distance && path2.blocks.Count <= blocks)
+                                {
+                                    closest = tiles.Count;
+                                    distance = path1.length;
+                                    blocks = path2.blocks.Count;
+                                }
+                                tiles.Add(path2);
+                            }
+                        }
+                    }
+                }
+                tiles[closest].points.Reverse();
+                if (tiles[closest].blocks.Count > 0)
+                {
+                    for (int i = 0; i < _units.Count; i++)
+                    {
+                        if (_units[i].health <= 0 || _units[i].unit.movement != Data.UnitMoveType.ground || i != unitIndex || _units[i].target < 0 || _units[i].mainTarget != buildingIndex || _units[i].mainTarget < 0 || _buildings[_units[i].mainTarget].building.type != EBuildingType.wall || _buildings[_units[i].mainTarget].health <= 0)
+                        {
+                            continue;
+                        }
+                        BattleVector2Int pos = WorldToGridPosition(_units[i].position);
+                        List<Cell> points = search.Find(new AStarPathfinding.Vector2Int(pos.x, pos.y), new AStarPathfinding.Vector2Int(unitGridPosition.x, unitGridPosition.y)).ToList();
+                        if (!Path.IsValid(ref points, new AStarPathfinding.Vector2Int(pos.x, pos.y), new AStarPathfinding.Vector2Int(unitGridPosition.x, unitGridPosition.y)))
+                        {
+                            continue;
+                        }
+                        // float dis = GetPathLength(points, false);
+                        if (id <= ConfigData.battleGroupWallAttackRadius)
+                        {
+                            AStarPathfinding.Vector2Int end = _units[i].path.points.Last().Location;
+                            Path path = new Path();
+                            if (path.Create(ref search, pos, new BattleVector2Int(end.X, end.Y)))
+                            {
+                                _units[unitIndex].mainTarget = buildingIndex;
+                                path.blocks = _units[i].path.blocks;
+                                path.length = GetPathLength(path.points);
+                                return (_units[i].target, path);
+                            }
+                        }
+                    }
+
+                    Tile last = tiles[closest].blocks.Last();
+                    for (int i = tiles[closest].points.Count - 1; i >= 0; i--)
+                    {
+                        int x = tiles[closest].points[i].Location.X;
+                        int y = tiles[closest].points[i].Location.Y;
+                        tiles[closest].points.RemoveAt(i);
+                        if (x == last.position.x && y == last.position.y)
+                        {
+                            break;
+                        }
+                    }
+                    _units[unitIndex].mainTarget = buildingIndex;
+                    return (last.index, tiles[closest]);
+                }
+                else
+                {
+                    return (buildingIndex, tiles[closest]);
+                }
+                #endregion
+            }
+            else
+            {
+                #region Without Walls Effect
+                int closest = -1;
+                float distance = 99999;
+                for (int x = 0; x < columns.Count; x++)
+                {
+                    for (int y = 0; y < rows.Count; y++)
+                    {
+                        if (columns[x] >= 0 && rows[y] >= 0 && columns[x] < ConfigData.gridSize && rows[y] < ConfigData.gridSize)
+                        {
+                            Path path = new Path();
+                            if (path.Create(ref unlimitedSearch, new BattleVector2Int(columns[x], rows[y]), unitGridPosition))
+                            {
+                                path.length = GetPathLength(path.points);
+                                if (path.length < distance)
+                                {
+                                    closest = tiles.Count;
+                                    distance = path.length;
+                                }
+                                tiles.Add(path);
+                            }
+                        }
+                    }
+                }
+                if (closest >= 0)
+                {
+                    tiles[closest].points.Reverse();
+                    return (buildingIndex, tiles[closest]);
+                }
+                #endregion
+            }
+            return (-1, null);
+        }
+
+        private static BattleVector2Int WorldToGridPosition(BattleVector2 position) // ok
+        {
+            return new BattleVector2Int((int)Math.Floor(position.x / ConfigData.gridSize), (int)Math.Floor(position.y / ConfigData.gridSize));
+        }
 
 
         public class UnitToAdd

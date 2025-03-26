@@ -45,7 +45,9 @@ public class PanelMainUI : Panel
 
     private void BattleButtonClicked()
     {
-        Debug.Log("Open PanelBattle");
+        PanelManager.Instance.OpenPanel<PanelBattle>();
+
+        InputHandler.Instance.ActiveInteract(false);
     }
 
     private void Update()

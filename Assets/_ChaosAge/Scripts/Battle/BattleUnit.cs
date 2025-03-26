@@ -1,8 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AStarPathfinding;
+using ChaosAge.Config;
+using System.Reflection;
 using ChaosAge.Data;
+using ChaosAge.manager;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 namespace ChaosAge.Battle
 {
@@ -16,9 +22,9 @@ namespace ChaosAge.Battle
         public int mainTarget = -1;
         public BattleVector2 position;
         public Path path = null;
-        public double pathTime = 0;
-        public double pathTraveledTime = 0;
-        public double attackTimer = 0;
+        public float pathTime = 0;
+        public float pathTraveledTime = 0;
+        public float attackTimer = 0;
         public Dictionary<int, float> resourceTargets = new Dictionary<int, float>();
         public Dictionary<int, float> defenceTargets = new Dictionary<int, float>();
         public Dictionary<int, float> otherTargets = new Dictionary<int, float>();
@@ -89,6 +95,158 @@ namespace ChaosAge.Battle
             }
         }
 
+        private void Update()
+        {
+            var pos = BuildingManager.Instance.Grid.transform.TransformPoint(new Vector3(position.x, 0, position.y));
+            transform.position = pos;
+        }
+
+        public void HandleUnit(int index, float deltaTime)
+        {
+            var _buildings = BattleManager.Instance.Buildings;
+            if (path != null)
+            {
+
+                if (target < 0 || (target >= 0 && _buildings[target].health <= 0))
+                {
+                    path = null;
+                    target = -1;
+                }
+                else
+                {
+                    float remainedTime = pathTime - pathTraveledTime;
+
+                    if (remainedTime >= deltaTime)
+                    {
+                        pathTraveledTime += deltaTime;
+                        deltaTime = 0;
+                    }
+                    else
+                    {
+                        pathTraveledTime = pathTime;
+                        deltaTime -= remainedTime;
+                    }
+
+                    // Update unit's position based on path
+                    position = BattleManager.GetPathPosition(path.points, (float)(pathTraveledTime / pathTime));
+
+                    // Check if target is in range
+                    if (unit.attackRange > 0 && BattleManager.Instance.IsBuildingInRange(index, target))
+                    {
+                        path = null;
+                    }
+                    else
+                    {
+                        // check if unit reached the end of the path
+                        BattleVector2 targetPosition = BattleManager.GridToWorldPosition(new BattleVector2Int(path.points.Last().Location.X, path.points.Last().Location.Y));
+                        float distance = BattleVector2.Distance(position, targetPosition);
+                        if (distance <= ConfigData.gridSize * 0.05f)
+                        {
+                            position = targetPosition;
+                            path = null;
+                        }
+                    }
+                }
+            }
+
+            if (target >= 0)
+            {
+                if (_buildings[target].health > 0)
+                {
+                    if (_buildings[target].building.type == EBuildingType.wall && mainTarget >= 0 && _buildings[mainTarget].health <= 0)
+                    {
+                        target = -1;
+                    }
+                    else
+                    {
+                        if (path == null)
+                        {
+                            // Attack the target
+                            float multiplier = 1;
+                            if (unit.priority != TargetPriority.all || unit.priority != TargetPriority.none)
+                            {
+                                switch (_buildings[target].building.type)
+                                {
+                                    case EBuildingType.townhall:
+                                    case EBuildingType.goldmine:
+                                    case EBuildingType.goldstorage:
+                                    case EBuildingType.elixirmine:
+                                    case EBuildingType.elixirstorage:
+                                    case EBuildingType.darkelixirmine:
+                                    case EBuildingType.darkelixirstorage:
+                                        if (unit.priority != Data.TargetPriority.resources)
+                                        {
+                                            multiplier = unit.priorityMultiplier;
+                                        }
+                                        break;
+                                    case EBuildingType.wall:
+                                        if (unit.priority != Data.TargetPriority.walls)
+                                        {
+                                            multiplier = unit.priorityMultiplier;
+                                        }
+                                        break;
+                                    case EBuildingType.cannon:
+                                    case EBuildingType.archertower:
+                                    case EBuildingType.mortor:
+                                    case EBuildingType.airdefense:
+                                    case EBuildingType.wizardtower:
+                                    case EBuildingType.hiddentesla:
+                                    case EBuildingType.bombtower:
+                                    case EBuildingType.xbow:
+                                    case EBuildingType.infernotower:
+                                        if (unit.priority != TargetPriority.defenses)
+                                        {
+                                            multiplier = unit.priorityMultiplier;
+                                        }
+                                        break;
+                                }
+                            }
+                            attackTimer += deltaTime;
+                            if (attackTimer >= unit.attackSpeed)
+                            {
+                                float distance = BattleVector2.Distance(position, _buildings[target].worldCenterPosition);
+                                if (unit.attackRange > 0 && unit.rangedSpeed > 0)
+                                {
+                                    Projectile projectile = new Projectile();
+                                    projectile.type = TargetType.building;
+                                    projectile.target = target;
+                                    projectile.timer = distance / unit.rangedSpeed;
+                                    projectile.damage = unit.damage * multiplier;
+                                    BattleManager.Instance.Projectiles.Add(projectile);
+                                }
+                                else
+                                {
+                                    var grid = BattleManager.Instance.grid;
+                                    var blockedTiles = BattleManager.Instance.blockedTiles;
+                                    var percentage = BattleManager.Instance.percentage;
+                                    _buildings[target].TakeDamage(unit.damage * multiplier, ref grid, ref blockedTiles, ref percentage);
+                                }
+                                attackTimer -= unit.attackSpeed;
+
+                                if (unit.type == EUnitType.wallbreaker)
+                                {
+                                    TakeDamage(health);
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    target = -1;
+                }
+            }
+
+            if (target < 0)
+            {
+                // Find a target and path
+                BattleManager.Instance.FindTargets(index, unit.priority);
+                if (deltaTime > 0 && target >= 0)
+                {
+                    HandleUnit(index, deltaTime);
+                }
+            }
+        }
         //// hồi máu
         //public void Heal(float amount)
         //{

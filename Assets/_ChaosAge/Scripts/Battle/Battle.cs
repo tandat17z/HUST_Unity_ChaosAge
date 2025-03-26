@@ -560,7 +560,7 @@
 //                    }
 //                    else
 //                    {
-//                        _units[index].target = -1;
+//                        _units[index].tarGEt = -1;
 //                    }
 //                }
 

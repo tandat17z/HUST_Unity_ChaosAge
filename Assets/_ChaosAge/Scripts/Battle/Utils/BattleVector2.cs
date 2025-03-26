@@ -41,6 +41,6 @@ public struct BattleVector2
 
     public static BattleVector2 GridToWorldPosition(BattleVector2Int position) // ok
     {
-        return new BattleVector2(position.x * ConfigData.gridSize + ConfigData.gridSize / 2f, position.y * ConfigData.gridSize + ConfigData.gridSize / 2f);
+        return new BattleVector2(position.x * ConfigData.gridCellSize + ConfigData.gridCellSize / 2f, position.y * ConfigData.gridCellSize + ConfigData.gridCellSize / 2f);
     }
 }
