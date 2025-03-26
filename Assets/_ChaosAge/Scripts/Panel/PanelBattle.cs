@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ChaosAge.Data;
 using ChaosAge.input;
 using ChaosAge.manager;
+using DatSystem;
 using DatSystem.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +31,11 @@ public class PanelBattle : Panel
         var listBattleBuilding = new List<BattleBuilding>();
         foreach (var item in listBuilding)
         {
-            listBattleBuilding.Add(item.GetComponent<BattleBuilding>());
+            var battleBuilding = item.GetComponent<BattleBuilding>();
+            battleBuilding.building.id = item.GetData().id;
+            battleBuilding.building.x = item.GetData().x;
+            battleBuilding.building.y = item.GetData().y;
+            listBattleBuilding.Add(battleBuilding);
         }
         BattleManager.Instance.Initialize(listBattleBuilding);
     }

@@ -205,7 +205,7 @@ namespace ChaosAge.manager
                                         if (j != projectiles[i].target)
                                         {
                                             float distance = BattleVector2.Distance(_units[j].position, _units[projectiles[i].target].position);
-                                            if (distance < projectiles[i].splash * ConfigData.gridSize)
+                                            if (distance < projectiles[i].splash * ConfigData.gridCellSize)
                                             {
                                                 _units[j].TakeDamage(projectiles[i].damage * (1f - (distance / projectiles[i].splash * ConfigData.gridCellSize)));
                                             }
@@ -239,7 +239,7 @@ namespace ChaosAge.manager
 
         public static BattleVector2 GridToWorldPosition(BattleVector2Int position) // ok
         {
-            return new BattleVector2(position.x * ConfigData.gridSize + ConfigData.gridSize / 2f, position.y * ConfigData.gridSize + ConfigData.gridSize / 2f);
+            return new BattleVector2(position.x * ConfigData.gridCellSize + ConfigData.gridCellSize / 2f, position.y * ConfigData.gridCellSize + ConfigData.gridCellSize / 2f);
         }
 
         public bool IsBuildingInRange(int unitIndex, int buildingIndex)
@@ -270,7 +270,7 @@ namespace ChaosAge.manager
                 {
                     BattleVector2Int a = new BattleVector2Int(path[i - 1].Location.X, path[i - 1].Location.Y);
                     BattleVector2Int b = new BattleVector2Int(path[i].Location.X, path[i].Location.Y);
-                    float l = BattleVector2.Distance(a, b) * ConfigData.gridSize;
+                    float l = BattleVector2.Distance(a, b) * ConfigData.gridCellSize;
                     float p = (length + l) / totalLength;
                     if (p >= t)
                     {
@@ -372,7 +372,7 @@ namespace ChaosAge.manager
             return length;
         }
 
-        public void FindTargets(int index, Data.TargetPriority priority) // ok
+        public void FindTargets(int index, TargetPriority priority) // ok
         {
             ListUnitTargets(index, priority);
             if (priority == TargetPriority.defenses)
@@ -387,7 +387,7 @@ namespace ChaosAge.manager
                     return;
                 }
             }
-            else if (priority == Data.TargetPriority.resources)
+            else if (priority == TargetPriority.resources)
             {
                 if (_units[index].resourceTargets.Count > 0)
                 {
@@ -399,12 +399,12 @@ namespace ChaosAge.manager
                     return;
                 }
             }
-            else if (priority == Data.TargetPriority.all || priority == Data.TargetPriority.walls)
+            else if (priority == TargetPriority.all || priority == TargetPriority.walls)
             {
                 Dictionary<int, float> temp = _units[index].GetAllTargets();
                 if (temp.Count > 0)
                 {
-                    AssignTarget(index, ref temp, priority == Data.TargetPriority.walls);
+                    AssignTarget(index, ref temp, priority == TargetPriority.walls);
                 }
                 else
                 {
@@ -413,14 +413,14 @@ namespace ChaosAge.manager
             }
         }
 
-        private void ListUnitTargets(int index, Data.TargetPriority priority) // ok
+        private void ListUnitTargets(int index, TargetPriority priority) // ok
         {
             _units[index].resourceTargets.Clear();
             _units[index].defenceTargets.Clear();
             _units[index].otherTargets.Clear();
-            if (priority == Data.TargetPriority.walls)
+            if (priority == TargetPriority.walls)
             {
-                priority = Data.TargetPriority.all;
+                priority = TargetPriority.all;
             }
             for (int i = 0; i < _buildings.Count; i++)
             {
@@ -480,15 +480,15 @@ namespace ChaosAge.manager
 
         private void AssignTarget(int index, ref Dictionary<int, float> targets, bool wallsPriority = false) // ok
         {
-            if (wallsPriority)
-            {
-                var wallPath = GetPathToWall(index, ref targets);
-                if (wallPath.Item1 >= 0)
-                {
-                    _units[index].AssignTarget(wallPath.Item1, wallPath.Item2);
-                    return;
-                }
-            }
+            //if (wallsPriority)
+            //{
+            //    var wallPath = GetPathToWall(index, ref targets);
+            //    if (wallPath.Item1 >= 0)
+            //    {
+            //        _units[index].AssignTarget(wallPath.Item1, wallPath.Item2);
+            //        return;
+            //    }
+            //}
 
             int min = targets.Aggregate((a, b) => a.Value < b.Value ? a : b).Key;
             var path = GetPathToBuilding(min, index);
@@ -597,7 +597,7 @@ namespace ChaosAge.manager
 
             // Get the list of building's available surrounding tiles
             List<Path> tiles = new List<Path>();
-            if (_units[unitIndex].unit.movement == Data.UnitMoveType.ground)
+            if (_units[unitIndex].unit.movement == UnitMoveType.ground)
             {
                 #region With Walls Effect
                 int closest = -1;
@@ -616,7 +616,7 @@ namespace ChaosAge.manager
                             if (path1.points != null && path1.points.Count > 0)
                             {
                                 path1.length = GetPathLength(path1.points);
-                                int lengthToBlocks = (int)Math.Floor(path1.length / (ConfigData.battleTilesWorthOfOneWall * ConfigData.gridSize));
+                                int lengthToBlocks = (int)Math.Floor(path1.length / (ConfigData.battleTilesWorthOfOneWall * ConfigData.gridCellSize));
                                 if (path1.length < distance && lengthToBlocks <= blocks)
                                 {
                                     closest = tiles.Count;
@@ -741,7 +741,7 @@ namespace ChaosAge.manager
 
         private static BattleVector2Int WorldToGridPosition(BattleVector2 position) // ok
         {
-            return new BattleVector2Int((int)Math.Floor(position.x / ConfigData.gridSize), (int)Math.Floor(position.y / ConfigData.gridSize));
+            return new BattleVector2Int((int)Math.Floor(position.x / ConfigData.gridCellSize), (int)Math.Floor(position.y / ConfigData.gridCellSize));
         }
 
 

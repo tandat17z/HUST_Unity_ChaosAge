@@ -19,7 +19,7 @@ namespace ChaosAge.Data
         public float damage = 1;
         public float splashRange = 0;
         public float rangedSpeed = 5;
-        public TargetPriority priority = TargetPriority.none;
+        public TargetPriority priority = TargetPriority.all;
         public UnitMoveType movement = UnitMoveType.ground;
         public float priorityMultiplier = 1;
     }

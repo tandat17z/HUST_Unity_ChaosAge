@@ -12,7 +12,7 @@ public class Path
     }
     public bool Create(ref AStarSearch search, BattleVector2Int start, BattleVector2Int end)
     {
-        points = search.Find(new AStarPathfinding.Vector2Int(start.x, start.y), new AStarPathfinding.Vector2Int(end.x, end.y)).ToList();
+        points = search.Find(new Vector2Int(start.x, start.y), new Vector2Int(end.x, end.y)).ToList();
         if (!IsValid(ref points, new AStarPathfinding.Vector2Int(start.x, start.y), new AStarPathfinding.Vector2Int(end.x, end.y)))
         {
             points = null;

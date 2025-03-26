@@ -1,22 +1,23 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace AStarPathfinding 
+namespace AStarPathfinding
 {
 
-    public class AStarSearch 
+    public class AStarSearch
     {
 
         private readonly IGridProvider _grid;
         private readonly FastPriorityQueue _open;
 
-        public AStarSearch(IGridProvider grid) 
+        public AStarSearch(IGridProvider grid)
         {
             _grid = grid;
             _open = new FastPriorityQueue(_grid.Size.X * _grid.Size.Y);
         }
 
-        private double Heuristic(Cell cell, Cell goal) 
+        private double Heuristic(Cell cell, Cell goal)
         {
             var dX = Math.Abs(cell.Location.X - goal.Location.X);
             var dY = Math.Abs(cell.Location.Y - goal.Location.Y);
@@ -25,13 +26,13 @@ namespace AStarPathfinding
             return 1 * (dX + dY) + (Math.Sqrt(2) - 2 * 1) * Math.Min(dX, dY);
         }
 
-        public void Reset() 
+        public void Reset()
         {
             _grid.Reset();
             _open.Clear();
         }
 
-        public Cell[] Find(Vector2Int start, Vector2Int goal) 
+        public Cell[] Find(Vector2Int start, Vector2Int goal)
         {
             Reset();
             Cell startCell = _grid[start];
@@ -39,7 +40,7 @@ namespace AStarPathfinding
             _open.Enqueue(startCell, 0);
             var bounds = _grid.Size;
             Cell node = null;
-            while (_open.Count > 0) 
+            while (_open.Count > 0)
             {
                 node = _open.Dequeue();
                 node.Closed = true;
@@ -47,7 +48,7 @@ namespace AStarPathfinding
                 var g = node.G + 1;
                 if (goalCell.Location == node.Location) break;
                 Vector2Int proposed = new Vector2Int(0, 0);
-                for (var i = 0; i < PathingConstants.Directions.Length; i++) 
+                for (var i = 0; i < PathingConstants.Directions.Length; i++)
                 {
                     var direction = PathingConstants.Directions[i];
                     proposed.X = node.Location.X + direction.X;
@@ -61,7 +62,7 @@ namespace AStarPathfinding
 
                     Cell neighbour = _grid[proposed];
 
-                    if (neighbour.Blocked) 
+                    if (neighbour.Blocked)
                     {
                         if (i < 4) cBlock = true;
                         continue;
@@ -72,7 +73,7 @@ namespace AStarPathfinding
 
                     if (_grid[neighbour.Location].Closed) continue;
 
-                    if (!_open.Contains(neighbour)) 
+                    if (!_open.Contains(neighbour))
                     {
                         neighbour.G = g;
                         neighbour.H = Heuristic(neighbour, node);
@@ -81,7 +82,7 @@ namespace AStarPathfinding
                         // F will be set by the queue
                         _open.Enqueue(neighbour, neighbour.G + neighbour.H);
                     }
-                    else if (g + neighbour.H < neighbour.F) 
+                    else if (g + neighbour.H < neighbour.F)
                     {
                         neighbour.G = g;
                         neighbour.F = neighbour.G + neighbour.H;
@@ -92,7 +93,7 @@ namespace AStarPathfinding
 
             var path = new Stack<Cell>();
 
-            while (node != null) 
+            while (node != null)
             {
                 path.Push(node);
                 node = node.Parent;

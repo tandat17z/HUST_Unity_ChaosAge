@@ -65,7 +65,7 @@ namespace ChaosAge.Battle
             if (path != null)
             {
                 pathTraveledTime = 0;
-                pathTime = path.length / (unit.moveSpeed * ConfigData.gridSize);
+                pathTime = path.length / (unit.moveSpeed * ConfigData.gridCellSize);
             }
         }
 
@@ -74,7 +74,7 @@ namespace ChaosAge.Battle
             attackTimer = 0;
             this.target = target;
             pathTraveledTime = 0;
-            pathTime = distance / (unit.moveSpeed * ConfigData.gridSize);
+            pathTime = distance / (unit.moveSpeed * ConfigData.gridCellSize);
         }
 
         public void TakeDamage(float damage)
@@ -129,23 +129,23 @@ namespace ChaosAge.Battle
 
                     // Update unit's position based on path
                     position = BattleManager.GetPathPosition(path.points, (float)(pathTraveledTime / pathTime));
-
-                    // Check if target is in range
-                    if (unit.attackRange > 0 && BattleManager.Instance.IsBuildingInRange(index, target))
-                    {
-                        path = null;
-                    }
-                    else
-                    {
-                        // check if unit reached the end of the path
-                        BattleVector2 targetPosition = BattleManager.GridToWorldPosition(new BattleVector2Int(path.points.Last().Location.X, path.points.Last().Location.Y));
-                        float distance = BattleVector2.Distance(position, targetPosition);
-                        if (distance <= ConfigData.gridSize * 0.05f)
-                        {
-                            position = targetPosition;
-                            path = null;
-                        }
-                    }
+                    Debug.Log($"position {position.x} {position.y}");
+                    //// Check if target is in range
+                    //if (unit.attackRange > 0 && BattleManager.Instance.IsBuildingInRange(index, target))
+                    //{
+                    //    path = null;
+                    //}
+                    //else
+                    //{
+                    //    // check if unit reached the end of the path
+                    //    BattleVector2 targetPosition = BattleManager.GridToWorldPosition(new BattleVector2Int(path.points.Last().Location.X, path.points.Last().Location.Y));
+                    //    float distance = BattleVector2.Distance(position, targetPosition);
+                    //    if (distance <= ConfigData.gridSize * 0.05f)
+                    //    {
+                    //        position = targetPosition;
+                    //        path = null;
+                    //    }
+                    //}
                 }
             }
 

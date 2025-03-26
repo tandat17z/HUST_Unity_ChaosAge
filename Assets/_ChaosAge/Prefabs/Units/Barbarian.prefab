@@ -60,7 +60,7 @@ MonoBehaviour:
     damage: 1
     splashRange: 0
     rangedSpeed: 5
-    priority: 0
+    priority: 1
     movement: 0
     priorityMultiplier: 1
   health: 0
