@@ -3465,6 +3465,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 637302520554397099, guid: 58323380b6c8b1c4d93d6606967764bb, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.748
+      objectReference: {fileID: 0}
+    - target: {fileID: 637302520554397099, guid: 58323380b6c8b1c4d93d6606967764bb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 637302520554397099, guid: 58323380b6c8b1c4d93d6606967764bb, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.748
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045938294378126123, guid: 58323380b6c8b1c4d93d6606967764bb, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 963194227}
+    - target: {fileID: 5597329104748401042, guid: 58323380b6c8b1c4d93d6606967764bb, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.748
+      objectReference: {fileID: 0}
+    - target: {fileID: 5597329104748401042, guid: 58323380b6c8b1c4d93d6606967764bb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6949424055892338630, guid: 58323380b6c8b1c4d93d6606967764bb, type: 3}
       propertyPath: m_Name
       value: ArmyCamp
@@ -3711,6 +3735,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 415690250616837524, guid: 3abcfc976d97c9e40828c9a18386588f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.748
+      objectReference: {fileID: 0}
+    - target: {fileID: 415690250616837524, guid: 3abcfc976d97c9e40828c9a18386588f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 415690250616837524, guid: 3abcfc976d97c9e40828c9a18386588f, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.748
+      objectReference: {fileID: 0}
+    - target: {fileID: 3945559868674285253, guid: 3abcfc976d97c9e40828c9a18386588f, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 963194227}
+    - target: {fileID: 5997682263441801697, guid: 3abcfc976d97c9e40828c9a18386588f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.748
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997682263441801697, guid: 3abcfc976d97c9e40828c9a18386588f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6949424055892338630, guid: 3abcfc976d97c9e40828c9a18386588f, type: 3}
       propertyPath: m_Name
       value: BuilderHut
@@ -3780,9 +3828,29 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6218406904235042006, guid: f88566328fb34e74da49b0573f23bab5, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.748
+      objectReference: {fileID: 0}
+    - target: {fileID: 6218406904235042006, guid: f88566328fb34e74da49b0573f23bab5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6588438099351687032, guid: f88566328fb34e74da49b0573f23bab5, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.748
+      objectReference: {fileID: 0}
+    - target: {fileID: 6588438099351687032, guid: f88566328fb34e74da49b0573f23bab5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6588438099351687032, guid: f88566328fb34e74da49b0573f23bab5, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.748
+      objectReference: {fileID: 0}
     - target: {fileID: 7375931668188252939, guid: f88566328fb34e74da49b0573f23bab5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.01
+      value: -1.69
       objectReference: {fileID: 0}
     - target: {fileID: 7375931668188252939, guid: f88566328fb34e74da49b0573f23bab5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3820,6 +3888,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7860340041166635613, guid: f88566328fb34e74da49b0573f23bab5, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 963194227}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3966,6 +4038,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4289934838405992825, guid: c15eff67cde427747b7e2b31f0b1d430, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.748
+      objectReference: {fileID: 0}
+    - target: {fileID: 4289934838405992825, guid: c15eff67cde427747b7e2b31f0b1d430, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6949424055892338630, guid: c15eff67cde427747b7e2b31f0b1d430, type: 3}
       propertyPath: m_Name
       value: GoldMine
@@ -3974,6 +4054,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7417704243096076230, guid: c15eff67cde427747b7e2b31f0b1d430, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.748
+      objectReference: {fileID: 0}
+    - target: {fileID: 7417704243096076230, guid: c15eff67cde427747b7e2b31f0b1d430, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7417704243096076230, guid: c15eff67cde427747b7e2b31f0b1d430, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.748
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618797542631382733, guid: c15eff67cde427747b7e2b31f0b1d430, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 963194227}
     - target: {fileID: 8680643771773694592, guid: c15eff67cde427747b7e2b31f0b1d430, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.49

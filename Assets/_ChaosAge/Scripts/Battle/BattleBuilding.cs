@@ -1,9 +1,15 @@
 using ChaosAge.Data;
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleBuilding : MonoBehaviour
 {
+    [SerializeField] Slider hpSlider;
+    [SerializeField] TMP_Text text;
+
     public BuildingData building = null;
     public float health = 0;
     public int target = -1;
@@ -11,11 +17,21 @@ public class BattleBuilding : MonoBehaviour
     public float percentage = 0;
     public BattleVector2 worldCenterPosition;
 
+    private void Start()
+    {
+        text.gameObject.SetActive(false);
+        hpSlider.gameObject.SetActive(false);
+    }
 
     public void Initialize()
     {
         health = building.health;
         percentage = building.percentage;
+
+        text.gameObject.SetActive(true);
+        hpSlider.gameObject.SetActive(true);
+        text.text = building.type.ToString();
+        hpSlider.value = 1;
     }
 
     public void TakeDamage(float damage, ref AStarPathfinding.Grid grid, ref List<Tile> blockedTiles, ref float percentage)
@@ -23,7 +39,7 @@ public class BattleBuilding : MonoBehaviour
         if (health <= 0) { return; }
         health -= damage;
 
-
+        hpSlider.value = health / building.health;
         // die
         if (health < 0) { health = 0; }
         if (health <= 0)
@@ -47,6 +63,13 @@ public class BattleBuilding : MonoBehaviour
             {
                 percentage += this.percentage;
             }
+
+            Destroy(gameObject);
         }
+    }
+
+    public void HandleBuilding(int index, float battleFrameRate)
+    {
+
     }
 }

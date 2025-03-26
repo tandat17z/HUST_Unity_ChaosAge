@@ -88,8 +88,8 @@ MonoBehaviour:
     trainedTime: 0
     moveSpeed: 1
     attackSpeed: 1
-    attackRange: 5
-    damage: 1
+    attackRange: 10
+    damage: 5
     splashRange: 0
     rangedSpeed: 5
     priority: 1

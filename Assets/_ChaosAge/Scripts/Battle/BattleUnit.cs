@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using AStarPathfinding;
 using ChaosAge.Config;
-using System.Reflection;
 using ChaosAge.Data;
 using ChaosAge.manager;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 namespace ChaosAge.Battle
 {

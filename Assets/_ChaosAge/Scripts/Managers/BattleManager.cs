@@ -46,6 +46,7 @@ namespace ChaosAge.manager
 
 
         public List<BattleBuilding> Buildings => _buildings;
+        public List<BattleUnit> Units => _units;
         public List<BattleProjectile> Projectiles => projectiles;
 
 
@@ -152,7 +153,7 @@ namespace ChaosAge.manager
             {
                 if (_buildings[i].building.targetType != Data.BuildingTargetType.none && _buildings[i].health > 0)
                 {
-                    HandleBuilding(i, ConfigData.battleFrameRate);
+                    _buildings[i].HandleBuilding(i, ConfigData.battleFrameRate);
                 }
             }
 
@@ -168,74 +169,12 @@ namespace ChaosAge.manager
             {
                 for (int i = projectiles.Count - 1; i >= 0; i--)
                 {
-                    projectiles[i].timer -= ConfigData.battleFrameRate;
-                    if (projectiles[i].timer <= 0)
-                    {
-                        // hồi máu or gây damage
-                        if (projectiles[i].type == TargetType.unit)
-                        {
-                            // hồi máu
-                            if (projectiles[i].heal)
-                            {
-                                //_units[projectiles[i].target].Heal(projectiles[i].damage);
-
-                                //// hồi máu trong phạm vi nổ (splash)
-                                //// Không hồi màu cho đối tượng bay
-                                //for (int j = 0; j < _units.Count; j++)
-                                //{
-                                //    if (_units[j].health <= 0 || j == projectiles[i].target || _units[j].unit.movement == UnitMoveType.fly)
-                                //    {
-                                //        continue;
-                                //    }
-                                //    float distance = BattleVector2.Distance(_units[j].position, _units[projectiles[i].target].position);
-                                //    if (distance < projectiles[i].splash * ConfigData.gridCellSize)
-                                //    {
-                                //        _units[j].Heal(projectiles[i].damage * (1f - (distance / projectiles[i].splash * ConfigData.gridCellSize)));
-                                //    }
-                                //}
-                            }
-                            // GÂy damage, tương tự
-                            else
-                            {
-                                _units[projectiles[i].target].TakeDamage(projectiles[i].damage);
-                                if (projectiles[i].splash > 0)
-                                {
-                                    for (int j = 0; j < _units.Count; j++)
-                                    {
-                                        if (j != projectiles[i].target)
-                                        {
-                                            float distance = BattleVector2.Distance(_units[j].position, _units[projectiles[i].target].position);
-                                            if (distance < projectiles[i].splash * ConfigData.gridCellSize)
-                                            {
-                                                _units[j].TakeDamage(projectiles[i].damage * (1f - (distance / projectiles[i].splash * ConfigData.gridCellSize)));
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            _buildings[projectiles[i].target].TakeDamage(projectiles[i].damage, ref grid, ref blockedTiles, ref percentage);
-                        }
-                        projectiles.RemoveAt(i);
-                    }
+                    projectiles[i].HandleProjectile(ConfigData.battleFrameRate);
                 }
             }
 
             frameCount++;
         }
-
-        private void HandleUnit(int i, float battleFrameRate)
-        {
-            Debug.Log("HandleUnit");
-        }
-
-        private void HandleBuilding(int index, float deltaTime)
-        {
-
-        }
-
 
         public static BattleVector2 GridToWorldPosition(BattleVector2Int position) // ok
         {
