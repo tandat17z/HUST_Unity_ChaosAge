@@ -1,4 +1,5 @@
-using ChaosAge.Data;
+﻿using ChaosAge.Data;
+using ChaosAge.manager;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -68,8 +69,70 @@ public class BattleBuilding : MonoBehaviour
         }
     }
 
-    public void HandleBuilding(int index, float battleFrameRate)
+    public void HandleBuilding(int index, float deltaTime)
     {
+        var _units = BattleManager.Instance.Units;
+        var idxUnit = target;
+        if (idxUnit >= 0)
+        {
+            // Nếu the building's target is dead  or Không nằm trong phạm vi bắn
+            if (_units[idxUnit].health <= 0 || !BattleManager.Instance.IsUnitInRange(idxUnit, index) || (_units[idxUnit].unit.movement == UnitMoveType.underground && _units[idxUnit].path != null))
+            {
+                // If the building's target is dead or not in range then remove it as target
+                idxUnit = -1;
+            }
+            else
+            {
+                // Building has a target
+                attackTimer += deltaTime;
+                int attacksCount = (int)Math.Floor(attackTimer / building.speed);
+                if (attacksCount > 0)
+                {
+                    attackTimer -= (attacksCount * building.speed);
+                    for (int i = 1; i <= attacksCount; i++)
+                    {
+                        if (building.radius > 0 && building.rangedSpeed > 0)
+                        {
+                            float distance = BattleVector2.Distance(_units[idxUnit].position, worldCenterPosition);
 
+                            var projectile = FactoryManager.Instance.SpawnProjectile(TargetType.unit);
+                            projectile.target = idxUnit;
+                            projectile.timer = distance / building.rangedSpeed;
+                            projectile.damage = building.damage;
+                            projectile.splash = building.splashRange;
+                            BattleManager.Instance.Projectiles.Add(projectile);
+
+                            projectile.Move(worldCenterPosition, _units[idxUnit].position);
+                        }
+                        else
+                        {
+                            _units[idxUnit].TakeDamage(building.damage);
+                            if (building.splashRange > 0)
+                            {
+                                for (int j = 0; j < _units.Count; j++)
+                                {
+                                    if (j != idxUnit)
+                                    {
+                                        float distance = BattleVector2.Distance(_units[j].position, _units[idxUnit].position);
+                                        if (distance < building.splashRange * ConfigData.gridCellSize)
+                                        {
+                                            _units[j].TakeDamage(building.damage * (1f - (distance / building.splashRange * ConfigData.gridCellSize)));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (idxUnit < 0)
+        {
+            // Find a new target for this building
+            if (BattleManager.Instance.FindTargetForBuilding(index))
+            {
+                HandleBuilding(index, deltaTime);
+            }
+        }
     }
 }

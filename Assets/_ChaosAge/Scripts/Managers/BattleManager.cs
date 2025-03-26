@@ -251,7 +251,7 @@ namespace ChaosAge.manager
             return true;
         }
 
-        private bool FindTargetForBuilding(int index) // ok
+        public bool FindTargetForBuilding(int index) // ok
         {
             for (int i = 0; i < _units.Count; i++)
             {
@@ -280,7 +280,7 @@ namespace ChaosAge.manager
             return false;
         }
 
-        private bool IsUnitInRange(int unitIndex, int buildingIndex) // ok
+        public bool IsUnitInRange(int unitIndex, int buildingIndex) // ok
         {
             float distance = BattleVector2.Distance(_buildings[buildingIndex].worldCenterPosition, _units[unitIndex].position);
             if (distance <= _buildings[buildingIndex].building.radius)

@@ -3,12 +3,17 @@ using System.Linq;
 using ChaosAge.Config;
 using ChaosAge.Data;
 using ChaosAge.manager;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ChaosAge.Battle
 {
     public class BattleUnit : MonoBehaviour
     {
+        [SerializeField] Slider hpSlider;
+        [SerializeField] TMP_Text text;
+
         public EUnitType Type { get => unit.type; }
 
         public UnitData unit = null;
@@ -33,6 +38,9 @@ namespace ChaosAge.Battle
             if (unit == null) { return; }
             position = BattleVector2.GridToWorldPosition(new BattleVector2Int(x, y));
             health = unit.health;
+
+            hpSlider.value = 1;
+            text.text = unit.type.ToString();
         }
 
         public Dictionary<int, float> GetAllTargets()
@@ -76,6 +84,7 @@ namespace ChaosAge.Battle
         {
             if (health <= 0) { return; }
             health -= damage;
+            hpSlider.value = health / unit.health;
             //if (damageCallback != null)
             //{
             //    damageCallback.Invoke((long)unit.type, damage);
@@ -87,6 +96,7 @@ namespace ChaosAge.Battle
                 //{
                 //    dieCallback.Invoke((long)unit.type);
                 //}
+                Destroy(gameObject);
             }
         }
 
@@ -210,7 +220,7 @@ namespace ChaosAge.Battle
                                     //move
                                     int columns = _buildings[target].building.columns;
                                     int rows = _buildings[target].building.rows;
-                                    projectile.Move(position, new BattleVector2(_buildings[target].building.x + columns / 2f, _buildings[target].building.y + rows / 2f));
+                                    projectile.Move(position, _buildings[target].worldCenterPosition);
                                 }
                                 else
                                 {
