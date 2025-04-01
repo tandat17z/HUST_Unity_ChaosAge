@@ -163,7 +163,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 3.31}
+  m_AnchoredPosition: {x: 0, y: 1.5}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8618797542631382733
@@ -481,8 +481,8 @@ Transform:
   m_GameObject: {fileID: 4777132533993826315}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
-  m_LocalScale: {x: 1.5, y: 3, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 2, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8680643771773694592}
@@ -801,7 +801,7 @@ GameObject:
   - component: {fileID: 8680643771773694592}
   - component: {fileID: 6655862420951677313}
   m_Layer: 0
-  m_Name: ArcherTower
+  m_Name: GoldStorage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -837,7 +837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a336fcd68cca0e4d9182912af933c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 12
+  type: 2
   baseArea: {fileID: 940234634715403717}
   layoutLevel: {fileID: 5999527273194705743}
   _id: 0

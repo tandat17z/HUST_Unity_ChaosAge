@@ -381,13 +381,13 @@ namespace ChaosAge.manager
                         break;
                     case EBuildingType.cannon:
                     case EBuildingType.archertower:
-                    case EBuildingType.mortor:
-                    case EBuildingType.airdefense:
-                    case EBuildingType.wizardtower:
-                    case EBuildingType.hiddentesla:
-                    case EBuildingType.bombtower:
-                    case EBuildingType.xbow:
-                    case EBuildingType.infernotower:
+                        //case EBuildingType.mortor:
+                        //case EBuildingType.airdefense:
+                        //case EBuildingType.wizardtower:
+                        //case EBuildingType.hiddentesla:
+                        //case EBuildingType.bombtower:
+                        //case EBuildingType.xbow:
+                        //case EBuildingType.infernotower:
                         _units[index].defenceTargets.Add(i, distance);
                         break;
                     case EBuildingType.wall:
@@ -402,18 +402,18 @@ namespace ChaosAge.manager
 
         public static bool IsBuildingCanBeAttacked(EBuildingType id)
         {
-            switch (id)
-            {
-                case EBuildingType.obstacle:
-                case EBuildingType.decoration:
-                case EBuildingType.boomb:
-                case EBuildingType.springtrap:
-                case EBuildingType.airbomb:
-                case EBuildingType.giantbomb:
-                case EBuildingType.seekingairmine:
-                case EBuildingType.skeletontrap:
-                    return false;
-            }
+            //    switch (id)
+            //    {
+            //        //case EBuildingType.obstacle:
+            //        //case EBuildingType.decoration:
+            //        //case EBuildingType.boomb:
+            //        //case EBuildingType.springtrap:
+            //        //case EBuildingType.airbomb:
+            //        //case EBuildingType.giantbomb:
+            //        //case EBuildingType.seekingairmine:
+            //        //case EBuildingType.skeletontrap:
+            //            return false;
+            //}
             return true;
         }
 
@@ -508,7 +508,7 @@ namespace ChaosAge.manager
 
         private (int, Path) GetPathToBuilding(int buildingIndex, int unitIndex) // ok
         {
-            if (_buildings[buildingIndex].building.type == EBuildingType.wall || _buildings[buildingIndex].building.type == EBuildingType.decoration || _buildings[buildingIndex].building.type == EBuildingType.obstacle)
+            if (_buildings[buildingIndex].building.type == EBuildingType.wall)// || _buildings[buildingIndex].building.type == EBuildingType.decoration || _buildings[buildingIndex].building.type == EBuildingType.obstacle)
             {
                 return (-1, null);
             }

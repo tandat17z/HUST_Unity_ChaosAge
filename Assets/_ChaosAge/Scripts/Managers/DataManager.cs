@@ -21,7 +21,7 @@ namespace DatSystem
 
         public void LoadGameConfig()
         {
-            _gameConfig = new GameConfig();
+            _gameConfig = GameConfig.LoadFromFile("Assets/_ChaosAge/Config.json");
         }
 
         protected override void OnAwake()

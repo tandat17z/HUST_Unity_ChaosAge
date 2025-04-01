@@ -191,13 +191,13 @@ namespace ChaosAge.Battle
                                         break;
                                     case EBuildingType.cannon:
                                     case EBuildingType.archertower:
-                                    case EBuildingType.mortor:
-                                    case EBuildingType.airdefense:
-                                    case EBuildingType.wizardtower:
-                                    case EBuildingType.hiddentesla:
-                                    case EBuildingType.bombtower:
-                                    case EBuildingType.xbow:
-                                    case EBuildingType.infernotower:
+                                        //case EBuildingType.mortor:
+                                        //case EBuildingType.airdefense:
+                                        //case EBuildingType.wizardtower:
+                                        //case EBuildingType.hiddentesla:
+                                        //case EBuildingType.bombtower:
+                                        //case EBuildingType.xbow:
+                                        //case EBuildingType.infernotower:
                                         if (unit.priority != TargetPriority.defenses)
                                         {
                                             multiplier = unit.priorityMultiplier;

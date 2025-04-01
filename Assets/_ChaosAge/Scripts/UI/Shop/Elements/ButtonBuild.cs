@@ -1,3 +1,4 @@
+using System;
 using ChaosAge.building;
 using ChaosAge.Config;
 using ChaosAge.manager;
@@ -10,7 +11,7 @@ namespace ChaosAge.UI.elements
 {
     public class ButtonBuild : MonoBehaviour
     {
-        [SerializeField] private EBuildingType buildingType;
+        public EBuildingType buildingType;
         [SerializeField] private Button button;
         [SerializeField] private TMP_Text textName;
 
@@ -18,6 +19,12 @@ namespace ChaosAge.UI.elements
         void Start()
         {
             button.onClick.AddListener(Clicked);
+
+        }
+
+        public void SetInfo(EBuildingType type)
+        {
+            buildingType = type;
             textName.text = buildingType.ToString();
         }
 
@@ -34,7 +41,11 @@ namespace ChaosAge.UI.elements
 
             PanelManager.Instance.OpenPanel<UIBuild>();
             PanelManager.Instance.ClosePanel<PanelShop>();
+        }
 
+        public void SetInteractable(bool value)
+        {
+            button.interactable = value;
         }
     }
 

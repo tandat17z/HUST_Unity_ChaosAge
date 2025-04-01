@@ -16,8 +16,8 @@ namespace ChaosAge.Data
         public int x;
         public int y;
 
-        public DateTime buildTime;
         public bool complete;
+        public float buildTime;
 
         public BuildingData(EBuildingType type, int v1, int v2)
         {

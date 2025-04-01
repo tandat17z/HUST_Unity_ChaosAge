@@ -1,5 +1,6 @@
 namespace ChaosAge.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using ChaosAge.Config;
@@ -75,6 +76,18 @@ namespace ChaosAge.Data
             }
         }
 
+        public int GetBuildingNumber(EBuildingType type)
+        {
+            int num = 0;
+            foreach (var building in buildings)
+            {
+                if (building.type == type)
+                {
+                    num += 1;
+                }
+            }
+            return num;
+        }
     }
 
 }

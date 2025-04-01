@@ -1,22 +1,24 @@
 ﻿namespace ChaosAge.building
 {
-    using System;
     using ChaosAge.Config;
     using ChaosAge.Data;
     using ChaosAge.manager;
+    using DatSystem;
     using Sirenix.OdinInspector;
     using UnityEngine;
 
     public class Building : MonoBehaviour
     {
         [SerializeField] EBuildingType type;
-        [SerializeField] int rows = 1;
-        [SerializeField] int columns = 1;
         [SerializeField] MeshRenderer baseArea;
         [SerializeField] MeshRenderer layoutLevel;
 
         [SerializeField, ReadOnly] private int _id;
         [SerializeField, ReadOnly] private int _level;
+
+        [SerializeField, ReadOnly] int _rows;
+        [SerializeField, ReadOnly] int _columns;
+
         [SerializeField, ReadOnly] private int _x = 0; // tọa độ cũ trước khi move
         [SerializeField, ReadOnly] private int _y = 0;
         [SerializeField, ReadOnly] private int _currentX; // tọa độ hiện tại
@@ -26,11 +28,17 @@
         public int Level { get => _level; }
         public int CurrentX { get => _currentX; }
         public int CurrentY { get => _currentY; }
-        public int Rows { get => rows; }
-        public int Columns { get => columns; }
+        public int Rows { get => _rows; }
+        public int Columns { get => _rows; }
 
 
-
+#if UNITY_EDITOR
+        public void OnValidate()
+        {
+            (_rows, _columns) = GameConfig.LoadFromFile("Assets/_ChaosAge/Config.json").GetBuildingSize(type);
+            baseArea.transform.localScale = new Vector3(_rows, _columns, 1);
+        }
+#endif
 
         public void SetInfo(int id, int level)
         {
@@ -52,13 +60,11 @@
                 y = _y
             };
         }
+
         public void SetSelected(bool v)
         {
             baseArea.material.color = v ? Color.green : Color.white;
         }
-
-
-
 
         public void PlacedOnGrid(int x, int y)
         {
@@ -68,7 +74,7 @@
             _x = x;
             _y = y;
 
-            Vector3 position = BuildingManager.Instance.Grid.GetCenterPosition(x, y, rows, columns);
+            Vector3 position = BuildingManager.Instance.Grid.GetCenterPosition(x, y, _rows, _columns);
             transform.position = position;
         }
 
@@ -93,7 +99,7 @@
             _currentX = _x + xDis;
             _currentY = _y + yDis;
 
-            Vector3 position = BuildingManager.Instance.Grid.GetCenterPosition(_currentX, _currentY, rows, columns);
+            Vector3 position = BuildingManager.Instance.Grid.GetCenterPosition(_currentX, _currentY, _rows, _columns);
             transform.position = position;
             SetBaseColor();
         }
@@ -122,7 +128,7 @@
                 _currentX = _x;
                 _currentY = _y;
 
-                Vector3 position = BuildingManager.Instance.Grid.GetCenterPosition(_currentX, _currentY, rows, columns);
+                Vector3 position = BuildingManager.Instance.Grid.GetCenterPosition(_currentX, _currentY, _rows, _columns);
                 transform.position = position;
             }
         }

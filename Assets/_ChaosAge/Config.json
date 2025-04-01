@@ -1,0 +1,348 @@
+{
+    "buildingConfigs": [
+        {
+            "type": "townhall",
+            "maxNumber": 1,
+            "columns": 4,
+            "rows": 4,
+            "levelBuildingConfig": [
+                {
+                    "level": 1,
+                    "requireGold": 10,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 30.0
+                },
+                {
+                    "level": 2,
+                    "requireGold": 20,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 60.0
+                },
+                {
+                    "level": 3,
+                    "requireGold": 30,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 90.0
+                },
+                {
+                    "level": 4,
+                    "requireGold": 40,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 120.0
+                },
+                {
+                    "level": 5,
+                    "requireGold": 50,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 150.0
+                }
+            ]
+        },
+        {
+            "type": "buildershut",
+            "maxNumber": 1,
+            "columns": 2,
+            "rows": 2,
+            "levelBuildingConfig": [
+                {
+                    "level": 1,
+                    "requireGold": 10,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 30.0
+                },
+                {
+                    "level": 2,
+                    "requireGold": 20,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 60.0
+                },
+                {
+                    "level": 3,
+                    "requireGold": 30,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 90.0
+                },
+                {
+                    "level": 4,
+                    "requireGold": 40,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 120.0
+                },
+                {
+                    "level": 5,
+                    "requireGold": 50,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 150.0
+                }
+            ]
+        },
+        {
+            "type": "goldmine",
+            "maxNumber": 1,
+            "columns": 3,
+            "rows": 3,
+            "levelBuildingConfig": [
+                {
+                    "level": 1,
+                    "requireGold": 10,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 30.0
+                },
+                {
+                    "level": 2,
+                    "requireGold": 20,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 60.0
+                },
+                {
+                    "level": 3,
+                    "requireGold": 30,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 90.0
+                },
+                {
+                    "level": 4,
+                    "requireGold": 40,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 120.0
+                },
+                {
+                    "level": 5,
+                    "requireGold": 50,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 150.0
+                }
+            ]
+        },
+        {
+            "type": "goldstorage",
+            "maxNumber": 1,
+            "columns": 3,
+            "rows": 3,
+            "levelBuildingConfig": [
+                {
+                    "level": 1,
+                    "requireGold": 10,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 30.0
+                },
+                {
+                    "level": 2,
+                    "requireGold": 20,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 60.0
+                },
+                {
+                    "level": 3,
+                    "requireGold": 30,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 90.0
+                },
+                {
+                    "level": 4,
+                    "requireGold": 40,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 120.0
+                },
+                {
+                    "level": 5,
+                    "requireGold": 50,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 150.0
+                }
+            ]
+        },
+        {
+            "type": "armycamp",
+            "maxNumber": 1,
+            "columns": 5,
+            "rows": 5,
+            "levelBuildingConfig": [
+                {
+                    "level": 1,
+                    "requireGold": 10,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 30.0
+                },
+                {
+                    "level": 2,
+                    "requireGold": 20,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 60.0
+                },
+                {
+                    "level": 3,
+                    "requireGold": 30,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 90.0
+                },
+                {
+                    "level": 4,
+                    "requireGold": 40,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 120.0
+                },
+                {
+                    "level": 5,
+                    "requireGold": 50,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 150.0
+                }
+            ]
+        },
+        {
+            "type": "cannon",
+            "maxNumber": 1,
+            "columns": 3,
+            "rows": 3,
+            "levelBuildingConfig": [
+                {
+                    "level": 1,
+                    "requireGold": 10,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 30.0
+                },
+                {
+                    "level": 2,
+                    "requireGold": 20,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 60.0
+                },
+                {
+                    "level": 3,
+                    "requireGold": 30,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 90.0
+                },
+                {
+                    "level": 4,
+                    "requireGold": 40,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 120.0
+                },
+                {
+                    "level": 5,
+                    "requireGold": 50,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 150.0
+                }
+            ]
+        },
+        {
+            "type": "archertower",
+            "maxNumber": 1,
+            "columns": 3,
+            "rows": 3,
+            "levelBuildingConfig": [
+                {
+                    "level": 1,
+                    "requireGold": 10,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 30.0
+                },
+                {
+                    "level": 2,
+                    "requireGold": 20,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 60.0
+                },
+                {
+                    "level": 3,
+                    "requireGold": 30,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 90.0
+                },
+                {
+                    "level": 4,
+                    "requireGold": 40,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 120.0
+                },
+                {
+                    "level": 5,
+                    "requireGold": 50,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 150.0
+                }
+            ]
+        },
+        {
+            "type": "wall",
+            "maxNumber": 1,
+            "columns": 1,
+            "rows": 1,
+            "levelBuildingConfig": [
+                {
+                    "level": 1,
+                    "requireGold": 10,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 30.0
+                },
+                {
+                    "level": 2,
+                    "requireGold": 20,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 60.0
+                },
+                {
+                    "level": 3,
+                    "requireGold": 30,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 90.0
+                },
+                {
+                    "level": 4,
+                    "requireGold": 40,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 120.0
+                },
+                {
+                    "level": 5,
+                    "requireGold": 50,
+                    "requireElixir": 0,
+                    "requireGem": 0,
+                    "timeBuild": 150.0
+                }
+            ]
+        }
+    ]
+}
