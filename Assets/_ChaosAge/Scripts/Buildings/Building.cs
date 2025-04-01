@@ -13,7 +13,7 @@
         [SerializeField] int rows = 1;
         [SerializeField] int columns = 1;
         [SerializeField] MeshRenderer baseArea;
-
+        [SerializeField] MeshRenderer layoutLevel;
 
         [SerializeField, ReadOnly] private int _id;
         [SerializeField, ReadOnly] private int _level;
@@ -36,6 +36,8 @@
         {
             _id = id;
             _level = level;
+
+            Visual();
         }
 
         public BuildingData GetData()
@@ -128,6 +130,14 @@
         public void Upgrade()
         {
             _level += 1;
+
+            Visual();
+        }
+
+        public void Visual()
+        {
+            Color[] colors = { Color.white, Color.gray, Color.blue, Color.green, Color.cyan };
+            layoutLevel.material.color = colors[_level];
         }
     }
 

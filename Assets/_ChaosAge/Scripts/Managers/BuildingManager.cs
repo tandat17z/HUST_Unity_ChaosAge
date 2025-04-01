@@ -33,8 +33,7 @@ namespace ChaosAge.manager
 
         public void LoadMap(List<BuildingData> listBuildingData)
         {
-            _buildings.Clear();
-
+            Clear();
             foreach (var data in listBuildingData)
             {
                 var spawned = FactoryManager.Instance.SpawnBuilding(data.type);
@@ -44,7 +43,15 @@ namespace ChaosAge.manager
 
                 _buildings.Add(spawned);
             }
+        }
 
+        public void Clear()
+        {
+            foreach (var building in _buildings)
+            {
+                Destroy(building.gameObject);
+            }
+            _buildings.Clear();
         }
 
 

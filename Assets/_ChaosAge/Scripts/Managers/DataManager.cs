@@ -16,7 +16,7 @@ namespace DatSystem
             _playerData = PlayerData.Load();
 
             var lastBuildingData = _playerData.buildings[_playerData.buildings.Count - 1];
-            BuildingData.COUNT_BUILDING_ID = lastBuildingData.id + 1;
+            BattleBuildingData.COUNT_BUILDING_ID = lastBuildingData.id + 1;
         }
 
         public void LoadGameConfig()

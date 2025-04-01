@@ -11,7 +11,7 @@ public class BattleBuilding : MonoBehaviour
     [SerializeField] Slider hpSlider;
     [SerializeField] TMP_Text text;
 
-    public BuildingData building = null;
+    public BattleBuildingData building = null;
     public float health = 0;
     public int target = -1;
     public double attackTimer = 0;

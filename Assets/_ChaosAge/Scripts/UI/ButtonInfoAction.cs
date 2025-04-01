@@ -1,7 +1,7 @@
 namespace ChaosAge.UI.elements
 {
     using UnityEngine;
-    public class InfoButton : BaseActionButton
+    public class ButtonInfoAction : BaseActionButton
     {
         public override void Active()
         {

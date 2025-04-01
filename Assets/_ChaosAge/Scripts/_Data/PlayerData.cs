@@ -1,6 +1,7 @@
 namespace ChaosAge.Data
 {
     using System.Collections.Generic;
+    using System.IO;
     using ChaosAge.Config;
     using UnityEngine;
 
@@ -22,12 +23,20 @@ namespace ChaosAge.Data
             buildings.Add(new BuildingData(EBuildingType.armycamp, 32, 20));
         }
 
+        #region File
         public void Save()
         {
             string json = JsonUtility.ToJson(this);
             Debug.Log(json);
             PlayerPrefs.SetString("PLAYER_DATA", json);
             PlayerPrefs.Save();
+        }
+
+        public void SaveToFile(string filePath)
+        {
+            string json = JsonUtility.ToJson(this, true);
+            File.WriteAllText(filePath, json);
+            Debug.Log("Saved to: " + filePath);
         }
 
         public static PlayerData Load()
@@ -42,6 +51,13 @@ namespace ChaosAge.Data
             Debug.Log("Load new player");
             return new PlayerData();
         }
+
+        public static PlayerData LoadFromFile(string filePath)
+        {
+            string json = File.ReadAllText(filePath);
+            return JsonUtility.FromJson<PlayerData>(json);
+        }
+        #endregion
 
         public void AddBuiling(BuildingData buildingData)
         {

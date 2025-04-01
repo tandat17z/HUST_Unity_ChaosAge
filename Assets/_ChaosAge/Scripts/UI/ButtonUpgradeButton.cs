@@ -4,7 +4,7 @@ namespace ChaosAge.UI.elements
     using ChaosAge.manager;
     using DatSystem.UI;
 
-    public class UpgradeButton : BaseActionButton
+    public class ButtonUpgradeButton : BaseActionButton
     {
         public override void Active()
         {

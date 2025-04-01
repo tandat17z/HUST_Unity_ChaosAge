@@ -2,12 +2,13 @@ using System;
 
 namespace ChaosAge.Config
 {
+    [Serializable]
     public class BuildingConfig
     {
-        internal int requireGold;
-        internal int requireElixir;
-        internal int requireGem;
-        EBuildingType buildingType;
+        EBuildingType type;
+        public int requireGold;
+        public int requireElixir;
+        public int requireGem;
 
     }
 
