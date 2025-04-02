@@ -32,9 +32,9 @@ public class PanelBattle : Panel
         foreach (var item in listBuilding)
         {
             var battleBuilding = item.GetComponent<BattleBuilding>();
-            battleBuilding.building.id = item.GetData().id;
-            battleBuilding.building.x = item.GetData().x;
-            battleBuilding.building.y = item.GetData().y;
+            battleBuilding.battleBuidlingConfig.id = item.GetData().id;
+            battleBuilding.battleBuidlingConfig.x = item.GetData().x;
+            battleBuilding.battleBuidlingConfig.y = item.GetData().y;
             listBattleBuilding.Add(battleBuilding);
         }
         BattleManager.Instance.Initialize(listBattleBuilding);

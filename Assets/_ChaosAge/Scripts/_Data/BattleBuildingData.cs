@@ -47,6 +47,27 @@ namespace ChaosAge.Data
             COUNT_BUILDING_ID += 1;
         }
 
+        public void SetInfo(BuildingConfig buildingConfig)
+        {
+            columns = buildingConfig.columns;
+            rows = buildingConfig.rows;
+
+            var battleData = buildingConfig.levelBattleBuildingConfig[this.level - 1];
+            storage = battleData.storage;
+            boost = battleData.boost;
+            health = battleData.health;
+            damage = battleData.damage;
+            capacity = battleData.capacity;
+            speed = battleData.speed;
+            radius = battleData.radius;
+            constructionTime = battleData.constructionTime;
+            isConstructing = battleData.isConstructing;
+            targetType = battleData.targetType;
+            blindRange = battleData.blindRange; // Vùng mù
+            splashRange = battleData.splashRange;
+            rangedSpeed = battleData.rangedSpeed;
+            percentage = battleData.percentage;
+        }
     }
 
     public enum BuildingTargetType

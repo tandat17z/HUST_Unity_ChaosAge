@@ -1,5 +1,8 @@
-﻿using ChaosAge.Data;
+﻿using ChaosAge.building;
+using ChaosAge.Config;
+using ChaosAge.Data;
 using ChaosAge.manager;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -11,7 +14,11 @@ public class BattleBuilding : MonoBehaviour
     [SerializeField] Slider hpSlider;
     [SerializeField] TMP_Text text;
 
-    public BattleBuildingData building = null;
+    [Header("")]
+    [SerializeField] EBuildingType type;
+    [SerializeField] int level;
+
+    [SerializeField, ReadOnly] public BattleBuildingData battleBuidlingConfig = null;
     public float health = 0;
     public int target = -1;
     public double attackTimer = 0;
@@ -24,14 +31,25 @@ public class BattleBuilding : MonoBehaviour
         hpSlider.gameObject.SetActive(false);
     }
 
+
+#if UNITY_EDITOR
+    public void OnValidate()
+    {
+        battleBuidlingConfig.type = type;
+        battleBuidlingConfig.level = level;
+        battleBuidlingConfig = GameConfig.LoadFromFile("Assets/_ChaosAge/Config.json").GetBattleBuildingData(type, level);
+        //baseArea.transform.localScale = new Vector3(battleBuidlingConfig.rows, battleBuidlingConfig.columns, 1);
+    }
+#endif
+
     public void Initialize()
     {
-        health = building.health;
-        percentage = building.percentage;
+        health = battleBuidlingConfig.health;
+        percentage = battleBuidlingConfig.percentage;
 
         text.gameObject.SetActive(true);
         hpSlider.gameObject.SetActive(true);
-        text.text = building.type.ToString();
+        text.text = battleBuidlingConfig.type.ToString();
         hpSlider.value = 1;
     }
 
@@ -40,14 +58,14 @@ public class BattleBuilding : MonoBehaviour
         if (health <= 0) { return; }
         health -= damage;
 
-        hpSlider.value = health / building.health;
+        hpSlider.value = health / battleBuidlingConfig.health;
         // die
         if (health < 0) { health = 0; }
         if (health <= 0)
         {
-            for (int x = building.x; x < building.x + building.columns; x++)
+            for (int x = battleBuidlingConfig.x; x < battleBuidlingConfig.x + battleBuidlingConfig.columns; x++)
             {
-                for (int y = building.y; y < building.y + building.rows; y++)
+                for (int y = battleBuidlingConfig.y; y < battleBuidlingConfig.y + battleBuidlingConfig.rows; y++)
                 {
                     grid[x, y].Blocked = false;
                     for (int i = 0; i < blockedTiles.Count; i++)
@@ -85,38 +103,38 @@ public class BattleBuilding : MonoBehaviour
             {
                 // Building has a target
                 attackTimer += deltaTime;
-                int attacksCount = (int)Math.Floor(attackTimer / building.speed);
+                int attacksCount = (int)Math.Floor(attackTimer / battleBuidlingConfig.speed);
                 if (attacksCount > 0)
                 {
-                    attackTimer -= (attacksCount * building.speed);
+                    attackTimer -= (attacksCount * battleBuidlingConfig.speed);
                     for (int i = 1; i <= attacksCount; i++)
                     {
-                        if (building.radius > 0 && building.rangedSpeed > 0)
+                        if (battleBuidlingConfig.radius > 0 && battleBuidlingConfig.rangedSpeed > 0)
                         {
                             float distance = BattleVector2.Distance(_units[idxUnit].position, worldCenterPosition);
 
                             var projectile = FactoryManager.Instance.SpawnProjectile(TargetType.unit);
                             projectile.target = idxUnit;
-                            projectile.timer = distance / building.rangedSpeed;
-                            projectile.damage = building.damage;
-                            projectile.splash = building.splashRange;
+                            projectile.timer = distance / battleBuidlingConfig.rangedSpeed;
+                            projectile.damage = battleBuidlingConfig.damage;
+                            projectile.splash = battleBuidlingConfig.splashRange;
                             BattleManager.Instance.Projectiles.Add(projectile);
 
                             projectile.Move(worldCenterPosition, _units[idxUnit].position);
                         }
                         else
                         {
-                            _units[idxUnit].TakeDamage(building.damage);
-                            if (building.splashRange > 0)
+                            _units[idxUnit].TakeDamage(battleBuidlingConfig.damage);
+                            if (battleBuidlingConfig.splashRange > 0)
                             {
                                 for (int j = 0; j < _units.Count; j++)
                                 {
                                     if (j != idxUnit)
                                     {
                                         float distance = BattleVector2.Distance(_units[j].position, _units[idxUnit].position);
-                                        if (distance < building.splashRange * ConfigData.gridCellSize)
+                                        if (distance < battleBuidlingConfig.splashRange * ConfigData.gridCellSize)
                                         {
-                                            _units[j].TakeDamage(building.damage * (1f - (distance / building.splashRange * ConfigData.gridCellSize)));
+                                            _units[j].TakeDamage(battleBuidlingConfig.damage * (1f - (distance / battleBuidlingConfig.splashRange * ConfigData.gridCellSize)));
                                         }
                                     }
                                 }

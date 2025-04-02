@@ -157,7 +157,7 @@ namespace ChaosAge.Battle
             {
                 if (_buildings[target].health > 0)
                 {
-                    if (_buildings[target].building.type == EBuildingType.wall && mainTarget >= 0 && _buildings[mainTarget].health <= 0)
+                    if (_buildings[target].battleBuidlingConfig.type == EBuildingType.wall && mainTarget >= 0 && _buildings[mainTarget].health <= 0)
                     {
                         target = -1;
                     }
@@ -169,7 +169,7 @@ namespace ChaosAge.Battle
                             float multiplier = 1;
                             if (unit.priority != TargetPriority.all || unit.priority != TargetPriority.none)
                             {
-                                switch (_buildings[target].building.type)
+                                switch (_buildings[target].battleBuidlingConfig.type)
                                 {
                                     case EBuildingType.townhall:
                                     case EBuildingType.goldmine:
@@ -218,8 +218,8 @@ namespace ChaosAge.Battle
                                     BattleManager.Instance.Projectiles.Add(projectile);
 
                                     //move
-                                    int columns = _buildings[target].building.columns;
-                                    int rows = _buildings[target].building.rows;
+                                    int columns = _buildings[target].battleBuidlingConfig.columns;
+                                    int rows = _buildings[target].battleBuidlingConfig.rows;
                                     projectile.Move(position, _buildings[target].worldCenterPosition);
                                 }
                                 else

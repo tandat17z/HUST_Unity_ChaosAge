@@ -1,5 +1,6 @@
 namespace ChaosAge.manager
 {
+    using System;
     using ChaosAge.Battle;
     using ChaosAge.building;
     using ChaosAge.Config;
@@ -44,6 +45,15 @@ namespace ChaosAge.manager
             var unit = spawned.GetComponent<BattleProjectile>();
             return unit;
         }
+
+        //public BattleBuilding SpawnBattleBuilding(int id, EBuildingType type, int level)
+        //{
+        //    var prefab = buildingSO.GetBattleBuilingPrefab(type);
+
+        //    var spawned = Instantiate(prefab, container);
+        //    var building = spawned.GetComponent<BattleBuilding>();
+        //    return building;
+        //}
     }
 }
 

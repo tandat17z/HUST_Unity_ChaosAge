@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using AStarPathfinding;
 using ChaosAge.Battle;
 using ChaosAge.Config;
@@ -49,6 +48,28 @@ namespace ChaosAge.manager
         public List<BattleUnit> Units => _units;
         public List<BattleProjectile> Projectiles => projectiles;
 
+        public void LoadLevel(int level)
+        {
+            BuildingManager.Instance.Clear();
+
+            var opponentData = PlayerData.LoadFromFile($"Assets/Levels/{level}.json");
+            Initialize(opponentData.buildings);
+
+        }
+
+        public void Initialize(List<BuildingData> buildings)
+        {
+            var battleBuildings = new List<BattleBuilding>();
+            foreach (var data in buildings)
+            {
+                var b = FactoryManager.Instance.SpawnBuilding(data.type);
+                b.SetInfo(data.id, data.level);
+
+                battleBuildings.Add(b.GetComponent<BattleBuilding>());
+            }
+
+            Initialize(battleBuildings);
+        }
 
         [Button("Init")]
         public void Initialize(List<BattleBuilding> buildings) // ok
@@ -71,17 +92,17 @@ namespace ChaosAge.manager
             for (int i = 0; i < _buildings.Count; i++)
             {
                 _buildings[i].Initialize();
-                _buildings[i].worldCenterPosition = new BattleVector2((_buildings[i].building.x + (_buildings[i].building.columns / 2f)) * ConfigData.gridCellSize, (_buildings[i].building.y + (_buildings[i].building.rows / 2f)) * ConfigData.gridCellSize);
+                _buildings[i].worldCenterPosition = new BattleVector2((_buildings[i].battleBuidlingConfig.x + (_buildings[i].battleBuidlingConfig.columns / 2f)) * ConfigData.gridCellSize, (_buildings[i].battleBuidlingConfig.y + (_buildings[i].battleBuidlingConfig.rows / 2f)) * ConfigData.gridCellSize);
 
 
                 // blockTiles: Vẫn đi được ở rìa công trình
-                int startX = _buildings[i].building.x;
-                int endX = _buildings[i].building.x + _buildings[i].building.columns;
+                int startX = _buildings[i].battleBuidlingConfig.x;
+                int endX = _buildings[i].battleBuidlingConfig.x + _buildings[i].battleBuidlingConfig.columns;
 
-                int startY = _buildings[i].building.y;
-                int endY = _buildings[i].building.y + _buildings[i].building.rows;
+                int startY = _buildings[i].battleBuidlingConfig.y;
+                int endY = _buildings[i].battleBuidlingConfig.y + _buildings[i].battleBuidlingConfig.rows;
 
-                if (_buildings[i].building.type != EBuildingType.wall && _buildings[i].building.columns > 1 && _buildings[i].building.rows > 1)
+                if (_buildings[i].battleBuidlingConfig.type != EBuildingType.wall && _buildings[i].battleBuidlingConfig.columns > 1 && _buildings[i].battleBuidlingConfig.rows > 1)
                 {
                     startX++;
                     startY++;
@@ -98,7 +119,7 @@ namespace ChaosAge.manager
                     for (int y = startY; y < endY; y++)
                     {
                         grid[x, y].Blocked = true;
-                        blockedTiles.Add(new Tile(_buildings[i].building.type, new BattleVector2Int(x, y), i));
+                        blockedTiles.Add(new Tile(_buildings[i].battleBuidlingConfig.type, new BattleVector2Int(x, y), i));
                     }
                 }
             }
@@ -151,7 +172,7 @@ namespace ChaosAge.manager
 
             for (int i = 0; i < _buildings.Count; i++)
             {
-                if (_buildings[i].building.targetType != Data.BuildingTargetType.none && _buildings[i].health > 0)
+                if (_buildings[i].battleBuidlingConfig.targetType != Data.BuildingTargetType.none && _buildings[i].health > 0)
                 {
                     _buildings[i].HandleBuilding(i, ConfigData.battleFrameRate);
                 }
@@ -183,9 +204,9 @@ namespace ChaosAge.manager
 
         public bool IsBuildingInRange(int unitIndex, int buildingIndex)
         {
-            for (int x = _buildings[buildingIndex].building.x; x < _buildings[buildingIndex].building.x + _buildings[buildingIndex].building.columns; x++)
+            for (int x = _buildings[buildingIndex].battleBuidlingConfig.x; x < _buildings[buildingIndex].battleBuidlingConfig.x + _buildings[buildingIndex].battleBuidlingConfig.columns; x++)
             {
-                for (int y = _buildings[buildingIndex].building.y; y < _buildings[buildingIndex].building.y + _buildings[buildingIndex].building.columns; y++)
+                for (int y = _buildings[buildingIndex].battleBuidlingConfig.y; y < _buildings[buildingIndex].battleBuidlingConfig.y + _buildings[buildingIndex].battleBuidlingConfig.columns; y++)
                 {
                     float distance = BattleVector2.Distance(GridToWorldPosition(new BattleVector2Int(x, y)), _units[unitIndex].position);
                     if (distance <= _units[unitIndex].unit.attackRange)
@@ -231,11 +252,11 @@ namespace ChaosAge.manager
                     continue;
                 }
 
-                int startX = _buildings[i].building.x;
-                int endX = _buildings[i].building.x + _buildings[i].building.columns;
+                int startX = _buildings[i].battleBuidlingConfig.x;
+                int endX = _buildings[i].battleBuidlingConfig.x + _buildings[i].battleBuidlingConfig.columns;
 
-                int startY = _buildings[i].building.y;
-                int endY = _buildings[i].building.y + _buildings[i].building.rows;
+                int startY = _buildings[i].battleBuidlingConfig.y;
+                int endY = _buildings[i].battleBuidlingConfig.y + _buildings[i].battleBuidlingConfig.rows;
 
                 for (int x2 = startX; x2 < endX; x2++)
                 {
@@ -260,12 +281,12 @@ namespace ChaosAge.manager
                     continue;
                 }
 
-                if (_buildings[index].building.targetType == Data.BuildingTargetType.ground && _units[i].unit.movement == Data.UnitMoveType.fly)
+                if (_buildings[index].battleBuidlingConfig.targetType == Data.BuildingTargetType.ground && _units[i].unit.movement == Data.UnitMoveType.fly)
                 {
                     continue;
                 }
 
-                if (_buildings[index].building.targetType == Data.BuildingTargetType.air && _units[i].unit.movement != Data.UnitMoveType.fly)
+                if (_buildings[index].battleBuidlingConfig.targetType == Data.BuildingTargetType.air && _units[i].unit.movement != Data.UnitMoveType.fly)
                 {
                     continue;
                 }
@@ -283,9 +304,9 @@ namespace ChaosAge.manager
         public bool IsUnitInRange(int unitIndex, int buildingIndex) // ok
         {
             float distance = BattleVector2.Distance(_buildings[buildingIndex].worldCenterPosition, _units[unitIndex].position);
-            if (distance <= _buildings[buildingIndex].building.radius)
+            if (distance <= _buildings[buildingIndex].battleBuidlingConfig.radius)
             {
-                if (_buildings[buildingIndex].building.blindRange > 0 && distance <= _buildings[buildingIndex].building.blindRange)
+                if (_buildings[buildingIndex].battleBuidlingConfig.blindRange > 0 && distance <= _buildings[buildingIndex].battleBuidlingConfig.blindRange)
                 {
                     return false;
                 }
@@ -363,12 +384,12 @@ namespace ChaosAge.manager
             }
             for (int i = 0; i < _buildings.Count; i++)
             {
-                if (_buildings[i].health <= 0 || priority != _units[index].unit.priority || !IsBuildingCanBeAttacked(_buildings[i].building.type))
+                if (_buildings[i].health <= 0 || priority != _units[index].unit.priority || !IsBuildingCanBeAttacked(_buildings[i].battleBuidlingConfig.type))
                 {
                     continue;
                 }
                 float distance = BattleVector2.Distance(_buildings[i].worldCenterPosition, _units[index].position);
-                switch (_buildings[i].building.type)
+                switch (_buildings[i].battleBuidlingConfig.type)
                 {
                     case EBuildingType.townhall:
                     case EBuildingType.elixirmine:
@@ -443,8 +464,8 @@ namespace ChaosAge.manager
             List<Path> tiles = new List<Path>();
             foreach (var target in (targets.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value)))
             {
-                List<Cell> points = search.Find(new AStarPathfinding.Vector2Int(_buildings[target.Key].building.x, _buildings[target.Key].building.y), new AStarPathfinding.Vector2Int(unitGridPosition.x, unitGridPosition.y)).ToList();
-                if (Path.IsValid(ref points, new AStarPathfinding.Vector2Int(_buildings[target.Key].building.x, _buildings[target.Key].building.y), new AStarPathfinding.Vector2Int(unitGridPosition.x, unitGridPosition.y)))
+                List<Cell> points = search.Find(new AStarPathfinding.Vector2Int(_buildings[target.Key].battleBuidlingConfig.x, _buildings[target.Key].battleBuidlingConfig.y), new AStarPathfinding.Vector2Int(unitGridPosition.x, unitGridPosition.y)).ToList();
+                if (Path.IsValid(ref points, new AStarPathfinding.Vector2Int(_buildings[target.Key].battleBuidlingConfig.x, _buildings[target.Key].battleBuidlingConfig.y), new AStarPathfinding.Vector2Int(unitGridPosition.x, unitGridPosition.y)))
                 {
                     continue;
                 }
@@ -452,7 +473,7 @@ namespace ChaosAge.manager
                 {
                     for (int i = 0; i < _units.Count; i++)
                     {
-                        if (_units[i].health <= 0 || _units[i].unit.movement != Data.UnitMoveType.ground || i != unitIndex || _units[i].target < 0 || _units[i].mainTarget != target.Key || _units[i].mainTarget < 0 || _buildings[_units[i].mainTarget].building.type != EBuildingType.wall || _buildings[_units[i].mainTarget].health <= 0)
+                        if (_units[i].health <= 0 || _units[i].unit.movement != Data.UnitMoveType.ground || i != unitIndex || _units[i].target < 0 || _units[i].mainTarget != target.Key || _units[i].mainTarget < 0 || _buildings[_units[i].mainTarget].battleBuidlingConfig.type != EBuildingType.wall || _buildings[_units[i].mainTarget].health <= 0)
                         {
                             continue;
                         }
@@ -476,7 +497,7 @@ namespace ChaosAge.manager
                         }
                     }
                     Path path = new Path();
-                    if (path.Create(ref unlimitedSearch, unitGridPosition, new BattleVector2Int(_buildings[target.Key].building.x, _buildings[target.Key].building.y)))
+                    if (path.Create(ref unlimitedSearch, unitGridPosition, new BattleVector2Int(_buildings[target.Key].battleBuidlingConfig.x, _buildings[target.Key].battleBuidlingConfig.y)))
                     {
                         path.length = GetPathLength(path.points);
                         for (int i = 0; i < path.points.Count; i++)
@@ -508,7 +529,7 @@ namespace ChaosAge.manager
 
         private (int, Path) GetPathToBuilding(int buildingIndex, int unitIndex) // ok
         {
-            if (_buildings[buildingIndex].building.type == EBuildingType.wall)// || _buildings[buildingIndex].building.type == EBuildingType.decoration || _buildings[buildingIndex].building.type == EBuildingType.obstacle)
+            if (_buildings[buildingIndex].battleBuidlingConfig.type == EBuildingType.wall)// || _buildings[buildingIndex].building.type == EBuildingType.decoration || _buildings[buildingIndex].building.type == EBuildingType.obstacle)
             {
                 return (-1, null);
             }
@@ -518,11 +539,11 @@ namespace ChaosAge.manager
             // Get the x and y list of the building's surrounding tiles
             List<int> columns = new List<int>();
             List<int> rows = new List<int>();
-            int startX = _buildings[buildingIndex].building.x;
-            int endX = _buildings[buildingIndex].building.x + _buildings[buildingIndex].building.columns - 1;
-            int startY = _buildings[buildingIndex].building.y;
-            int endY = _buildings[buildingIndex].building.y + _buildings[buildingIndex].building.rows - 1;
-            if (_units[unitIndex].unit.movement == Data.UnitMoveType.ground && _buildings[buildingIndex].building.type == EBuildingType.wall)
+            int startX = _buildings[buildingIndex].battleBuidlingConfig.x;
+            int endX = _buildings[buildingIndex].battleBuidlingConfig.x + _buildings[buildingIndex].battleBuidlingConfig.columns - 1;
+            int startY = _buildings[buildingIndex].battleBuidlingConfig.y;
+            int endY = _buildings[buildingIndex].battleBuidlingConfig.y + _buildings[buildingIndex].battleBuidlingConfig.rows - 1;
+            if (_units[unitIndex].unit.movement == Data.UnitMoveType.ground && _buildings[buildingIndex].battleBuidlingConfig.type == EBuildingType.wall)
             {
                 startX--;
                 startY--;
@@ -598,7 +619,7 @@ namespace ChaosAge.manager
                 {
                     for (int i = 0; i < _units.Count; i++)
                     {
-                        if (_units[i].health <= 0 || _units[i].unit.movement != Data.UnitMoveType.ground || i != unitIndex || _units[i].target < 0 || _units[i].mainTarget != buildingIndex || _units[i].mainTarget < 0 || _buildings[_units[i].mainTarget].building.type != EBuildingType.wall || _buildings[_units[i].mainTarget].health <= 0)
+                        if (_units[i].health <= 0 || _units[i].unit.movement != Data.UnitMoveType.ground || i != unitIndex || _units[i].target < 0 || _units[i].mainTarget != buildingIndex || _units[i].mainTarget < 0 || _buildings[_units[i].mainTarget].battleBuidlingConfig.type != EBuildingType.wall || _buildings[_units[i].mainTarget].health <= 0)
                         {
                             continue;
                         }

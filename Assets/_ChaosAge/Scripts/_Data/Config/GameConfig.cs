@@ -11,26 +11,28 @@ namespace ChaosAge.Config
     {
         public List<BuildingConfig> buildingConfigs;
 
-        //public GameConfig()
-        //{
-        //    buildingConfigs = new();
+        public GameConfig()
+        {
+            buildingConfigs = new();
 
-        //    buildingConfigs.Add(new BuildingConfig(EBuildingType.townhall));
-        //    buildingConfigs.Add(new BuildingConfig(EBuildingType.buildershut));
-        //    buildingConfigs.Add(new BuildingConfig(EBuildingType.goldmine));
-        //    buildingConfigs.Add(new BuildingConfig(EBuildingType.goldstorage));
-        //    buildingConfigs.Add(new BuildingConfig(EBuildingType.armycamp));
-        //    buildingConfigs.Add(new BuildingConfig(EBuildingType.cannon));
-        //    buildingConfigs.Add(new BuildingConfig(EBuildingType.archertower));
-        //    buildingConfigs.Add(new BuildingConfig(EBuildingType.wall));
-        //}
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.townhall));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.buildershut));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.goldmine));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.goldstorage));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.armycamp));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.cannon));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.archertower));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.wall));
 
-        //public void SaveToFile(string filePath)
-        //{
-        //    string json = JsonUtility.ToJson(this, true);
-        //    File.WriteAllText(filePath, json);
-        //    Debug.Log("Saved to: " + filePath);
-        //}
+            SaveToFile("config.json");
+        }
+
+        public void SaveToFile(string filePath)
+        {
+            string json = JsonUtility.ToJson(this, true);
+            File.WriteAllText(filePath, json);
+            Debug.Log("Saved to: " + filePath);
+        }
 
         public static GameConfig LoadFromFile(string filePath)
         {
@@ -52,7 +54,7 @@ namespace ChaosAge.Config
             return (0, 0);
         }
 
-        internal int GetBuildingMaxNumber(EBuildingType type)
+        public int GetBuildingMaxNumber(EBuildingType type)
         {
             foreach (var buildingConfig in buildingConfigs)
             {
@@ -62,6 +64,22 @@ namespace ChaosAge.Config
                 }
             }
             return 0;
+        }
+
+        public BattleBuildingData GetBattleBuildingData(EBuildingType type, int level)
+        {
+            var data = new BattleBuildingData();
+            data.type = type;
+            data.level = level;
+            foreach (var buildingConfig in buildingConfigs)
+            {
+                if (buildingConfig.type == type.ToString())
+                {
+                    data.SetInfo(buildingConfig);
+                    break;
+                }
+            }
+            return data;
         }
     }
 
