@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using ChaosAge.building;
+using ChaosAge.input;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace ChaosAge.editor
 {
@@ -81,7 +83,23 @@ namespace ChaosAge.editor
 
         private void OnMouseDown()
         {
-            Debug.Log("OnMouseDown buildinggrid");
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                // Nếu đang click vào UI, thì không làm gì cả
+                return;
+            }
+            Debug.Log("BuildingGrid onmousedown");
+            InputHandler.Instance.TouchStarted();
+        }
+
+        private void OnMouseUp()
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                // Nếu đang click vào UI, thì không làm gì cả
+                return;
+            }
+            InputHandler.Instance.TouchCanceled();
         }
     }
 

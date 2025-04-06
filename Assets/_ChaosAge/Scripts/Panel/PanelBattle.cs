@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ChaosAge.Config;
 using ChaosAge.Data;
 using ChaosAge.input;
 using ChaosAge.manager;
@@ -26,8 +27,6 @@ public class PanelBattle : Panel
     {
         base.Open(uiData);
         _isActive = true;
-
-        BattleManager.Instance.LoadLevel(0);
     }
 
     public override void Close()
@@ -39,18 +38,23 @@ public class PanelBattle : Panel
         base.Close();
     }
 
-    private void Update()
-    {
-        if (_isActive)
-        {
+    //private void Update()
+    //{
+    //    if (_isActive)
+    //    {
 
-            if (Input.GetMouseButtonDown(0) && SelectedButtonUnit != null)
-            {
-                var pos = InputHandler.Instance.GetPointerPositionInMap();
-                var posCell = BuildingManager.Instance.Grid.ConvertGridPos(pos);
-                Debug.Log(posCell);
-                BattleManager.Instance.AddUnit(SelectedButtonUnit.Type, (int)posCell.x, (int)posCell.y);
-            }
-        }
+    //        if (Input.GetMouseButtonDown(0) && SelectedButtonUnit != null)
+    //        {
+    //            var pos = InputHandler.Instance.GetPointerPositionInMap();
+    //            var posCell = BuildingManager.Instance.Grid.ConvertGridPos(pos);
+    //            BattleManager.Instance.AddUnit(SelectedButtonUnit.Type, (int)posCell.x, (int)posCell.y);
+    //        }
+    //    }
+    //}
+
+    public EUnitType GetCurrentBuildingType()
+    {
+        if (SelectedButtonUnit == null) return EUnitType.barbarian;
+        return SelectedButtonUnit.Type;
     }
 }

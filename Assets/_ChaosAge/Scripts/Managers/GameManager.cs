@@ -15,7 +15,7 @@ namespace ChaosAge.manager
     {
         [SerializeField] CameraController cameraController;
 
-        private GameState _gameState;
+        private GameState _gameState = GameState.City;
 
         public GameState GameState { get { return _gameState; } }
 
@@ -55,12 +55,22 @@ namespace ChaosAge.manager
 
         public void SwitchToCity()
         {
+            _gameState = GameState.City;
             BattleManager.Instance.Reset();
             BuildingManager.Instance.LoadMap(_playerData.buildings);
 
             InputHandler.Instance.ActiveInteract(true);
         }
 
+        public void SwitchToBattle()
+        {
+            _gameState = GameState.Battle;
+            PanelManager.Instance.ClosePanel<UIBuildingInfo>();
+
+            PanelManager.Instance.OpenPanel<PanelBattle>();
+
+            BattleManager.Instance.LoadLevel(0);
+        }
     }
 
     public enum GameState

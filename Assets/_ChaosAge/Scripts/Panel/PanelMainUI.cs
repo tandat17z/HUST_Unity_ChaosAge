@@ -13,7 +13,7 @@ public class PanelMainUI : Panel
     [SerializeField] TMP_Text textGold;
     [SerializeField] TMP_Text textElixir;
     [SerializeField] TMP_Text textGem;
-
+    
     [Header("Buttons")]
     [SerializeField] Button btnShop;
     [SerializeField] Button btnBattle;
@@ -45,7 +45,7 @@ public class PanelMainUI : Panel
 
     private void BattleButtonClicked()
     {
-        PanelManager.Instance.OpenPanel<PanelBattle>();
+        GameManager.Instance.SwitchToBattle();
 
         InputHandler.Instance.ActiveInteract(false);
     }

@@ -5,6 +5,7 @@ using AStarPathfinding;
 using ChaosAge.Battle;
 using ChaosAge.Config;
 using ChaosAge.Data;
+using ChaosAge.input;
 using DatSystem.UI;
 using DatSystem.utils;
 using Sirenix.OdinInspector;
@@ -742,6 +743,16 @@ namespace ChaosAge.manager
         private static BattleVector2Int WorldToGridPosition(BattleVector2 position) // ok
         {
             return new BattleVector2Int((int)Math.Floor(position.x / ConfigData.gridCellSize), (int)Math.Floor(position.y / ConfigData.gridCellSize));
+        }
+
+        public void DropUnit()
+        {
+
+            var type = PanelManager.Instance.GetPanel<PanelBattle>().GetCurrentBuildingType();
+            var pos = InputHandler.Instance.GetPointerPositionInMap();
+            var posCell = BuildingManager.Instance.Grid.ConvertGridPos(pos);
+            BattleManager.Instance.AddUnit(type, (int)posCell.x, (int)posCell.y);
+
         }
 
         public void Reset()

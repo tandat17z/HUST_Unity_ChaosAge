@@ -47,16 +47,16 @@
             // - Công trình này đã được chọn --> di chuyển 
             // - Chưa thì sẽ chọn nếu là touch
             // không thì sẽ move map
-            _inputs.Main.Touch.started += _ => TouchStarted();
-            _inputs.Main.Touch.canceled += _ => TouchCanceled();
+            //_inputs.Main.Touch.started += _ => TouchStarted();
+            //_inputs.Main.Touch.canceled += _ => TouchCanceled();
         }
 
         private void OnDisable()
         {
             _inputs.Disable();
 
-            _inputs.Main.Touch.started -= _ => TouchStarted();
-            _inputs.Main.Touch.canceled -= _ => TouchCanceled();
+            //_inputs.Main.Touch.started -= _ => TouchStarted();
+            //_inputs.Main.Touch.canceled -= _ => TouchCanceled();
         }
 
         public Vector2 GetMoveDelta()
@@ -75,30 +75,33 @@
             return _inputs.Main.MouseScroll.ReadValue<float>();
         }
 
-        private void TouchStarted()
+        public void TouchStarted()
         {
             _startTouchTime = Time.time;
             if (_canInteract)
             {
-                var posInPlane = GetPointerPositionInMap();
-
-                buildingWhenStartTouch = BuildingManager.Instance.HasBuildingAtPosition(posInPlane);
-                if (buildingWhenStartTouch != null)
+                if (GameManager.Instance.GameState == GameState.City)
                 {
-                    if (buildingWhenStartTouch == BuildingManager.Instance.SelectedBuilding)
+                    var posInPlane = GetPointerPositionInMap();
+
+                    buildingWhenStartTouch = BuildingManager.Instance.HasBuildingAtPosition(posInPlane);
+                    if (buildingWhenStartTouch != null)
                     {
-                        BuildingManager.Instance.StartMove(posInPlane);
-                        _moveBuilding = true;
-                        return;
+                        if (buildingWhenStartTouch == BuildingManager.Instance.SelectedBuilding)
+                        {
+                            BuildingManager.Instance.StartMove(posInPlane);
+                            _moveBuilding = true;
+                            return;
+                        }
                     }
                 }
 
-                _moveMap = true;
 
+                _moveMap = true;
             }
         }
 
-        private void TouchCanceled()
+        public void TouchCanceled()
         {
             _moveMap = false;
             _moveBuilding = false;
@@ -129,6 +132,15 @@
                 }
             }
             buildingWhenStartTouch = null;
+
+            // TAP
+            if (Time.time - _startTouchTime < 0.2f)
+            {
+                if (GameManager.Instance.GameState == GameState.Battle)
+                {
+                    BattleManager.Instance.DropUnit();
+                }
+            }
         }
 
         public Vector3 ConvertScreenPositionToPlanePosition(Vector2 screenPosition)
@@ -147,7 +159,7 @@
 
         public void ActiveInteract(bool value)
         {
-            _canInteract = value;
+            //_canInteract = value;
         }
     }
 }
