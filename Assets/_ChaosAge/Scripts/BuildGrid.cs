@@ -78,6 +78,11 @@ namespace ChaosAge.editor
             return Vector2.right * Mathf.FloorToInt(local.x / _cellSize) + Vector2.up * Mathf.FloorToInt(local.z / _cellSize);
         }
 #endif
+
+        private void OnMouseDown()
+        {
+            Debug.Log("OnMouseDown buildinggrid");
+        }
     }
 
 }

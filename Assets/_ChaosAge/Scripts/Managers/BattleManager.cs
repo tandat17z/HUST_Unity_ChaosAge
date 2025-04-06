@@ -5,6 +5,7 @@ using AStarPathfinding;
 using ChaosAge.Battle;
 using ChaosAge.Config;
 using ChaosAge.Data;
+using DatSystem.UI;
 using DatSystem.utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -64,8 +65,11 @@ namespace ChaosAge.manager
             {
                 var b = FactoryManager.Instance.SpawnBuilding(data.type);
                 b.SetInfo(data.id, data.level);
+                b.PlacedOnGrid(data.x, data.y);
 
-                battleBuildings.Add(b.GetComponent<BattleBuilding>());
+                var battleBuilding = b.GetComponent<BattleBuilding>();
+                battleBuilding.SetInfo(data);
+                battleBuildings.Add(battleBuilding);
             }
 
             Initialize(battleBuildings);
@@ -74,7 +78,6 @@ namespace ChaosAge.manager
         [Button("Init")]
         public void Initialize(List<BattleBuilding> buildings) // ok
         {
-            _isBattling = true;
             _preTimer = 0;
             _currentTimer = 0;
 
@@ -123,6 +126,9 @@ namespace ChaosAge.manager
                     }
                 }
             }
+
+
+            _isBattling = true;
         }
 
         private void FixedUpdate()
@@ -160,6 +166,7 @@ namespace ChaosAge.manager
 
         public void ExecuteFrame()
         {
+            CheckEnd();
             int addIndex = _units.Count;
             for (int i = _unitsToAdd.Count - 1; i >= 0; i--)
             {
@@ -197,6 +204,30 @@ namespace ChaosAge.manager
             frameCount++;
         }
 
+        private void CheckEnd()
+        {
+
+            if (CheckEndBuilding())
+            {
+                _isBattling = false;
+                PanelManager.Instance.OpenPanel<PopupWin>();
+            }
+
+            //if (_units.Count == 0)
+            //{
+            //    _isBattling = false;
+            //    PanelManager.Instance.OpenPanel<PopupLoss>();
+            //}
+        }
+
+        private bool CheckEndBuilding()
+        {
+            foreach (var b in _buildings)
+            {
+                if (b.health > 0) return false;
+            }
+            return true;
+        }
         public static BattleVector2 GridToWorldPosition(BattleVector2Int position) // ok
         {
             return new BattleVector2(position.x * ConfigData.gridCellSize + ConfigData.gridCellSize / 2f, position.y * ConfigData.gridCellSize + ConfigData.gridCellSize / 2f);
@@ -373,32 +404,37 @@ namespace ChaosAge.manager
             }
         }
 
-        private void ListUnitTargets(int index, TargetPriority priority) // ok
+        /// <summary>
+        /// Gán các building hiện tại vào listTarget
+        /// </summary>
+        /// <param name="unitIdx"></param>
+        /// <param name="priority"></param>
+        private void ListUnitTargets(int unitIdx, TargetPriority priority) // ok
         {
-            _units[index].resourceTargets.Clear();
-            _units[index].defenceTargets.Clear();
-            _units[index].otherTargets.Clear();
+            _units[unitIdx].resourceTargets.Clear();
+            _units[unitIdx].defenceTargets.Clear();
+            _units[unitIdx].otherTargets.Clear();
             if (priority == TargetPriority.walls)
             {
                 priority = TargetPriority.all;
             }
             for (int i = 0; i < _buildings.Count; i++)
             {
-                if (_buildings[i].health <= 0 || priority != _units[index].unit.priority || !IsBuildingCanBeAttacked(_buildings[i].battleBuidlingConfig.type))
+                if (_buildings[i].health <= 0 || priority != _units[unitIdx].unit.priority || !IsBuildingCanBeAttacked(_buildings[i].battleBuidlingConfig.type))
                 {
                     continue;
                 }
-                float distance = BattleVector2.Distance(_buildings[i].worldCenterPosition, _units[index].position);
+                float distance = BattleVector2.Distance(_buildings[i].worldCenterPosition, _units[unitIdx].position);
                 switch (_buildings[i].battleBuidlingConfig.type)
                 {
                     case EBuildingType.townhall:
                     case EBuildingType.elixirmine:
                     case EBuildingType.elixirstorage:
-                    case EBuildingType.darkelixirmine:
-                    case EBuildingType.darkelixirstorage:
+                    //case EBuildingType.darkelixirmine:
+                    //case EBuildingType.darkelixirstorage:
                     case EBuildingType.goldmine:
                     case EBuildingType.goldstorage:
-                        _units[index].resourceTargets.Add(i, distance);
+                        _units[unitIdx].resourceTargets.Add(i, distance);
                         break;
                     case EBuildingType.cannon:
                     case EBuildingType.archertower:
@@ -409,13 +445,13 @@ namespace ChaosAge.manager
                         //case EBuildingType.bombtower:
                         //case EBuildingType.xbow:
                         //case EBuildingType.infernotower:
-                        _units[index].defenceTargets.Add(i, distance);
+                        _units[unitIdx].defenceTargets.Add(i, distance);
                         break;
                     case EBuildingType.wall:
                         // Don't include
                         break;
                     default:
-                        _units[index].otherTargets.Add(i, distance);
+                        _units[unitIdx].otherTargets.Add(i, distance);
                         break;
                 }
             }
@@ -450,6 +486,7 @@ namespace ChaosAge.manager
             //    }
             //}
 
+            // lấy building id có distance nhỏ nhất
             int min = targets.Aggregate((a, b) => a.Value < b.Value ? a : b).Key;
             var path = GetPathToBuilding(min, index);
             if (path.Item1 >= 0)
@@ -529,6 +566,7 @@ namespace ChaosAge.manager
 
         private (int, Path) GetPathToBuilding(int buildingIndex, int unitIndex) // ok
         {
+            // Nếu là tường, decor, obstacle thì return null
             if (_buildings[buildingIndex].battleBuidlingConfig.type == EBuildingType.wall)// || _buildings[buildingIndex].building.type == EBuildingType.decoration || _buildings[buildingIndex].building.type == EBuildingType.obstacle)
             {
                 return (-1, null);
@@ -543,6 +581,8 @@ namespace ChaosAge.manager
             int endX = _buildings[buildingIndex].battleBuidlingConfig.x + _buildings[buildingIndex].battleBuidlingConfig.columns - 1;
             int startY = _buildings[buildingIndex].battleBuidlingConfig.y;
             int endY = _buildings[buildingIndex].battleBuidlingConfig.y + _buildings[buildingIndex].battleBuidlingConfig.rows - 1;
+
+
             if (_units[unitIndex].unit.movement == Data.UnitMoveType.ground && _buildings[buildingIndex].battleBuidlingConfig.type == EBuildingType.wall)
             {
                 startX--;
@@ -704,6 +744,30 @@ namespace ChaosAge.manager
             return new BattleVector2Int((int)Math.Floor(position.x / ConfigData.gridCellSize), (int)Math.Floor(position.y / ConfigData.gridCellSize));
         }
 
+        public void Reset()
+        {
+            _isBattling = false;
+            foreach (var b in _buildings)
+            {
+                if (b != null)
+                {
+                    Destroy(b.gameObject);
+                }
+            }
+            _buildings.Clear();
+
+            foreach (var u in _units)
+            {
+                Destroy(u.gameObject);
+            }
+            _units.Clear();
+
+            foreach (var p in projectiles)
+            {
+                Destroy(p.gameObject);
+            }
+            projectiles.Clear();
+        }
 
         public class UnitToAdd
         {

@@ -18,10 +18,19 @@ public class BuildingSO : ScriptableObject
     {
         if (_dictBuilding.ContainsKey(buildingType) == false)
         {
+            Debug.Log($"Khong chua key {buildingType}");
+            _dictBuilding.Clear();
             foreach (Transform t in buildingPrefabs)
             {
                 var building = t.GetComponent<Building>();
-                _dictBuilding.Add(building.Type, building);
+                if (_dictBuilding.ContainsKey(building.Type) == false)
+                {
+                    _dictBuilding.Add(building.Type, building);
+                }
+                else
+                {
+                    Debug.Log($"Có key {building.Type}");
+                }
             }
         }
         return _dictBuilding[buildingType];

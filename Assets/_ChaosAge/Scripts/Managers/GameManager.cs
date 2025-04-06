@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ChaosAge.camera;
@@ -47,8 +48,18 @@ namespace ChaosAge.manager
             // open UI
             PanelManager.Instance.OpenPanel<PanelMainUI>();
             PanelManager.Instance.OpenPanel<PanelCheat>();
+
+            InputHandler.Instance.ActiveInteract(false);
         }
         #endregion
+
+        public void SwitchToCity()
+        {
+            BattleManager.Instance.Reset();
+            BuildingManager.Instance.LoadMap(_playerData.buildings);
+
+            InputHandler.Instance.ActiveInteract(true);
+        }
 
     }
 

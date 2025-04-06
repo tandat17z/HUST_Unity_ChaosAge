@@ -27,22 +27,15 @@ public class PanelBattle : Panel
         base.Open(uiData);
         _isActive = true;
 
-        var listBuilding = BuildingManager.Instance.Buildings;
-        var listBattleBuilding = new List<BattleBuilding>();
-        foreach (var item in listBuilding)
-        {
-            var battleBuilding = item.GetComponent<BattleBuilding>();
-            battleBuilding.battleBuidlingConfig.id = item.GetData().id;
-            battleBuilding.battleBuidlingConfig.x = item.GetData().x;
-            battleBuilding.battleBuidlingConfig.y = item.GetData().y;
-            listBattleBuilding.Add(battleBuilding);
-        }
-        BattleManager.Instance.Initialize(listBattleBuilding);
+        BattleManager.Instance.LoadLevel(0);
     }
 
     public override void Close()
     {
         _isActive = false;
+
+
+        GameManager.Instance.SwitchToCity();
         base.Close();
     }
 

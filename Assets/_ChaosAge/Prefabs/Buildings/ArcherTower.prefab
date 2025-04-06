@@ -838,7 +838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a336fcd68cca0e4d9182912af933c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 12
+  type: 10
   baseArea: {fileID: 940234634715403717}
   layoutLevel: {fileID: 5999527273194705743}
   _id: 0
@@ -861,13 +861,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ccb3c16f3f8eb4799876a7e33a9063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpSlider: {fileID: 0}
-  text: {fileID: 0}
-  type: 12
+  hpSlider: {fileID: 3784874692568237884}
+  text: {fileID: 924707932057025384}
+  type: 10
   level: 1
   battleBuidlingConfig:
     id: 0
-    type: 12
+    type: 10
     level: 1
     x: 0
     y: 0

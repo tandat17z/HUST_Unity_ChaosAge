@@ -666,6 +666,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8680643771773694592}
   - component: {fileID: 6655862420951677313}
+  - component: {fileID: 169394141302860626}
   m_Layer: 0
   m_Name: BuilderHut
   m_TagString: Untagged
@@ -703,7 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a336fcd68cca0e4d9182912af933c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 7
+  type: 5
   baseArea: {fileID: 940234634715403717}
   layoutLevel: {fileID: 5999527273194705743}
   _id: 0
@@ -714,6 +715,47 @@ MonoBehaviour:
   _y: 0
   _currentX: 0
   _currentY: 0
+--- !u!114 &169394141302860626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949424055892338630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8ccb3c16f3f8eb4799876a7e33a9063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpSlider: {fileID: 4971030053798157966}
+  text: {fileID: 5969576136862580472}
+  type: 5
+  level: 1
+  battleBuidlingConfig:
+    id: 0
+    type: 5
+    level: 1
+    x: 0
+    y: 0
+    columns: 4
+    rows: 4
+    storage: 0
+    health: 100
+    damage: 0
+    capacity: 0
+    speed: 0
+    radius: 0
+    isConstructing: 0
+    buildTime: 0
+    targetType: 0
+    blindRange: 0
+    splashRange: 0
+    rangedSpeed: 5
+    percentage: 0
+  health: 0
+  target: -1
+  attackTimer: 0
+  percentage: 0
 --- !u!1 &7174779617198954378
 GameObject:
   m_ObjectHideFlags: 0

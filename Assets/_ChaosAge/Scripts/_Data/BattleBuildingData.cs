@@ -52,6 +52,7 @@ namespace ChaosAge.Data
             columns = buildingConfig.columns;
             rows = buildingConfig.rows;
 
+            if (this.level == 0) this.level = 1;
             var battleData = buildingConfig.levelBattleBuildingConfig[this.level - 1];
             storage = battleData.storage;
             boost = battleData.boost;

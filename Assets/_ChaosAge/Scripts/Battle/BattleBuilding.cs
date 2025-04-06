@@ -25,7 +25,7 @@ public class BattleBuilding : MonoBehaviour
     public float percentage = 0;
     public BattleVector2 worldCenterPosition;
 
-    private void Start()
+    private void Awake()
     {
         text.gameObject.SetActive(false);
         hpSlider.gameObject.SetActive(false);
@@ -42,11 +42,21 @@ public class BattleBuilding : MonoBehaviour
     }
 #endif
 
+    public void SetInfo(BuildingData data)
+    {
+        type = data.type;
+        level = data.level;
+        battleBuidlingConfig = GameConfig.LoadFromFile("Assets/_ChaosAge/Config.json").GetBattleBuildingData(type, level);
+
+        battleBuidlingConfig.x = data.x;
+        battleBuidlingConfig.y = data.y;
+    }
+
     public void Initialize()
     {
         health = battleBuidlingConfig.health;
         percentage = battleBuidlingConfig.percentage;
-
+        Debug.LogWarning($"show ui {type}");
         text.gameObject.SetActive(true);
         hpSlider.gameObject.SetActive(true);
         text.text = battleBuidlingConfig.type.ToString();

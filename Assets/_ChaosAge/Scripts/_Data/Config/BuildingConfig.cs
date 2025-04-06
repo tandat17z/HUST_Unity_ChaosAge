@@ -91,8 +91,6 @@ namespace ChaosAge.Config
         goldstorage,
         elixirmine,
         elixirstorage,
-        darkelixirmine,
-        darkelixirstorage,
         buildershut,
         armycamp,
         barracks,
