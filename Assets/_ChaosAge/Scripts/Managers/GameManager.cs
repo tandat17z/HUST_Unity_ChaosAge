@@ -42,14 +42,12 @@ namespace ChaosAge.manager
 
             // load
             _playerData = DataManager.Instance.PlayerData;
-            BuildingManager.Instance.LoadMap(_playerData.buildings);
+
+            SwitchToCity();
 
 
             // open UI
-            PanelManager.Instance.OpenPanel<PanelMainUI>();
             PanelManager.Instance.OpenPanel<PanelCheat>();
-
-            InputHandler.Instance.ActiveInteract(false);
         }
         #endregion
 
@@ -59,13 +57,14 @@ namespace ChaosAge.manager
             BattleManager.Instance.Reset();
             BuildingManager.Instance.LoadMap(_playerData.buildings);
 
-            InputHandler.Instance.ActiveInteract(true);
+            PanelManager.Instance.OpenPanel<PanelMainUI>();
         }
 
         public void SwitchToBattle()
         {
             _gameState = GameState.Battle;
             PanelManager.Instance.ClosePanel<UIBuildingInfo>();
+            PanelManager.Instance.ClosePanel<PanelMainUI>();
 
             PanelManager.Instance.OpenPanel<PanelBattle>();
 

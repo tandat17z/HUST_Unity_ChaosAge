@@ -17,8 +17,8 @@ public class BattleProjectile : MonoBehaviour
 
     public void Move(BattleVector2 start, BattleVector2 end)
     {
-        var startPos = BuildingManager.Instance.Grid.transform.TransformPoint(new Vector3(start.x, 0, start.y));
-        var endPos = BuildingManager.Instance.Grid.transform.TransformPoint(new Vector3(end.x, 0, end.y));
+        var startPos = BuildingManager.Instance.Grid.transform.TransformPoint(new Vector3(start.x, 1, start.y));
+        var endPos = BuildingManager.Instance.Grid.transform.TransformPoint(new Vector3(end.x, 1, end.y));
         transform.DOKill();
         transform.position = startPos;
         transform.DOMove(endPos, timer);

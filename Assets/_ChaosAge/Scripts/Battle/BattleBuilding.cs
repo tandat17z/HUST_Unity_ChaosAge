@@ -121,6 +121,7 @@ public class BattleBuilding : MonoBehaviour
                     {
                         if (battleBuidlingConfig.radius > 0 && battleBuidlingConfig.rangedSpeed > 0)
                         {
+                            Debug.Log("spawn projectile");
                             float distance = BattleVector2.Distance(_units[idxUnit].position, worldCenterPosition);
 
                             var projectile = FactoryManager.Instance.SpawnProjectile(TargetType.unit);
@@ -131,6 +132,8 @@ public class BattleBuilding : MonoBehaviour
                             BattleManager.Instance.Projectiles.Add(projectile);
 
                             projectile.Move(worldCenterPosition, _units[idxUnit].position);
+
+                            Debug.LogWarning("spawn projectile");
                         }
                         else
                         {

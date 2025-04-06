@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using ChaosAge.Config;
 
 namespace ChaosAge.Data
@@ -21,15 +21,15 @@ namespace ChaosAge.Data
         public int health = 100;
         public float damage = 0;
         public int capacity = 0;
-        public float speed = 0;
-        public float radius = 0;
+        public float speed = 0; // tốc độ bắn
+        public float radius = 0; // bán kính
         public DateTime constructionTime;
         public bool isConstructing = false;
         public int buildTime = 0;
-        public BuildingTargetType targetType = BuildingTargetType.none;
-        public float blindRange = 0; // V�ng m�
+        public BuildingTargetType targetType = BuildingTargetType.none; // loại type
+        public float blindRange = 0; // Vùng mù
         public float splashRange = 0;
-        public float rangedSpeed = 5;
+        public float rangedSpeed = 5; // tốc độ bay của projectile
         public float percentage = 0;
 
         public BattleBuildingData()
@@ -64,7 +64,7 @@ namespace ChaosAge.Data
             constructionTime = battleData.constructionTime;
             isConstructing = battleData.isConstructing;
             targetType = battleData.targetType;
-            blindRange = battleData.blindRange; // V�ng m�
+            blindRange = battleData.blindRange; // Vùng mù
             splashRange = battleData.splashRange;
             rangedSpeed = battleData.rangedSpeed;
             percentage = battleData.percentage;

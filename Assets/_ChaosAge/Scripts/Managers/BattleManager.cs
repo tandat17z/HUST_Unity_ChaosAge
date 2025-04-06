@@ -306,6 +306,7 @@ namespace ChaosAge.manager
 
         public bool FindTargetForBuilding(int index) // ok
         {
+            Debug.Log("FindTargetForBuilding");
             for (int i = 0; i < _units.Count; i++)
             {
                 if (_units[i].health <= 0 || _units[i].unit.movement == Data.UnitMoveType.underground && _units[i].path != null)

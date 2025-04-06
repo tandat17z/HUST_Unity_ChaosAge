@@ -1,8 +1,4 @@
-using System.Collections.Generic;
-using ChaosAge.Data;
-using ChaosAge.input;
 using ChaosAge.manager;
-using DatSystem;
 using DatSystem.UI;
 using UnityEngine;
 using UnityEngine.UI;
