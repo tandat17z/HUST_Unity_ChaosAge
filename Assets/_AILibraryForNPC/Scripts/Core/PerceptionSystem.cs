@@ -5,13 +5,14 @@ namespace AILibraryForNPC.core
 
     public class PerceptionSystem : MonoBehaviour
     {
-        [SerializeField] private List<BaseSensorSO> sensors;
+        [SerializeField]
+        private List<BaseSensorSO> sensors;
 
         private WorldState _worldState;
 
         public void Initialize()
         {
-
+            _worldState = new MoveWorldState();
         }
 
         public WorldState GetWorldState()
@@ -22,49 +23,5 @@ namespace AILibraryForNPC.core
             }
             return _worldState;
         }
-    }
-
-
-    public interface ISensor
-    {
-        void UpdateSensor(WorldState state);
-    }
-
-    public class EnemySensor : ISensor
-    {
-        private MonoBehaviour context;
-
-        public EnemySensor(MonoBehaviour context)
-        {
-            this.context = context;
-        }
-
-        public void UpdateSensor(WorldState state)
-        {
-            state.EnemyInSight = UnityEngine.Random.value > 0.5f;
-        }
-    }
-
-    public class HealthSensor : ISensor
-    {
-        private MonoBehaviour context;
-
-        public HealthSensor(MonoBehaviour context)
-        {
-            this.context = context;
-        }
-
-        public void UpdateSensor(WorldState state)
-        {
-            //var healthComp = context.GetComponent<Health>();
-            //state.Health = healthComp != null ? healthComp.CurrentHealth : 100;
-        }
-    }
-
-    public class WorldState
-    {
-        public bool EnemyInSight;
-        public float Health;
-        // Add more environmental factors as needed
     }
 }

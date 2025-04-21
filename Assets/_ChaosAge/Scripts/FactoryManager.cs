@@ -1,6 +1,7 @@
 namespace ChaosAge.manager
 {
     using System;
+    using ChaosAge.AI.battle;
     using ChaosAge.Battle;
     using ChaosAge.building;
     using ChaosAge.Config;
@@ -10,14 +11,22 @@ namespace ChaosAge.manager
 
     public class FactoryManager : Singleton<FactoryManager>
     {
-        protected override void OnAwake()
-        {
-        }
+        protected override void OnAwake() { }
 
-        [SerializeField] Transform container;
-        [SerializeField] BuildingSO buildingSO;
-        [SerializeField] UnitSO unitSO;
-        [SerializeField] ProjectileSO projecctileSO;
+        [SerializeField]
+        Transform container;
+
+        [SerializeField]
+        BuildingSO buildingSO;
+
+        [SerializeField]
+        UnitSO unitSO;
+
+        [SerializeField]
+        ProjectileSO projecctileSO;
+
+        [SerializeField]
+        AIBuildingSO aiBbuildingSO;
 
         public Building SpawnBuilding(EBuildingType buildingType)
         {
@@ -45,15 +54,5 @@ namespace ChaosAge.manager
             var unit = spawned.GetComponent<BattleProjectile>();
             return unit;
         }
-
-        //public BattleBuilding SpawnBattleBuilding(int id, EBuildingType type, int level)
-        //{
-        //    var prefab = buildingSO.GetBattleBuilingPrefab(type);
-
-        //    var spawned = Instantiate(prefab, container);
-        //    var building = spawned.GetComponent<BattleBuilding>();
-        //    return building;
-        //}
     }
 }
-

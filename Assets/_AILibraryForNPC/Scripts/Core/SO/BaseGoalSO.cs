@@ -5,9 +5,10 @@ namespace AILibraryForNPC.core
 
     public abstract class BaseGoalSO : ScriptableObject
     {
-        List<BaseActionSO> actions;
+        [SerializeField]
+        protected List<BaseActionSO> availableActions = new List<BaseActionSO>();
 
+        // Tạo kế hoạch thực hiện mục tiêu
         public abstract List<BaseActionSO> CreatePlan(WorldState state);
     }
 }
-

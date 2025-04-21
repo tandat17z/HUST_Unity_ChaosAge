@@ -12,10 +12,16 @@ namespace ChaosAge.Battle
 {
     public class BattleUnit : MonoBehaviour
     {
-        [SerializeField] Slider hpSlider;
-        [SerializeField] TMP_Text text;
+        [SerializeField]
+        Slider hpSlider;
 
-        public EUnitType Type { get => unit.type; }
+        [SerializeField]
+        TMP_Text text;
+
+        public EUnitType Type
+        {
+            get => unit.type;
+        }
 
         public UnitData unit = null;
         public float health = 0;
@@ -31,6 +37,7 @@ namespace ChaosAge.Battle
         public Dictionary<int, float> resourceTargets = new Dictionary<int, float>();
         public Dictionary<int, float> defenceTargets = new Dictionary<int, float>();
         public Dictionary<int, float> otherTargets = new Dictionary<int, float>();
+
         //public AttackCallback attackCallback = null;
         //public IndexCallback dieCallback = null;
         //public FloatCallback damageCallback = null;
@@ -38,7 +45,10 @@ namespace ChaosAge.Battle
 
         public void Initialize(int x, int y) // todo
         {
-            if (unit == null) { return; }
+            if (unit == null)
+            {
+                return;
+            }
             position = BattleVector2.GridToWorldPosition(new BattleVector2Int(x, y));
             health = unit.health;
 
@@ -63,6 +73,7 @@ namespace ChaosAge.Battle
             }
             return temp;
         }
+
         public void AssignTarget(int target, Path path)
         {
             attackTimer = 0;
@@ -85,14 +96,20 @@ namespace ChaosAge.Battle
 
         public void TakeDamage(float damage)
         {
-            if (health <= 0) { return; }
+            if (health <= 0)
+            {
+                return;
+            }
             health -= damage;
             hpSlider.value = health / unit.health;
             //if (damageCallback != null)
             //{
             //    damageCallback.Invoke((long)unit.type, damage);
             //}
-            if (health < 0) { health = 0; }
+            if (health < 0)
+            {
+                health = 0;
+            }
             if (health <= 0)
             {
                 //if (dieCallback != null)
@@ -103,11 +120,13 @@ namespace ChaosAge.Battle
             }
         }
 
-        private void Update()
-        {
-            var pos = BuildingManager.Instance.Grid.transform.TransformPoint(new Vector3(position.x, 0, position.y));
-            transform.position = pos;
-        }
+        // private void Update()
+        // {
+        //     var pos = BuildingManager.Instance.Grid.transform.TransformPoint(
+        //         new Vector3(position.x, 0, position.y)
+        //     );
+        //     transform.position = pos;
+        // }
 
         public void HandleUnit(int index, float deltaTime)
         {
@@ -125,16 +144,23 @@ namespace ChaosAge.Battle
                     // Update unit's position based on path
                     position = MoveComponent(path, deltaTime);
 
-
                     //// Check if target is in range -> đến tầm bắn của army
-                    if (unit.attackRange > 0 && BattleManager.Instance.IsBuildingInRange(index, target))
+                    if (
+                        unit.attackRange > 0
+                        && BattleManager.Instance.IsBuildingInRange(index, target)
+                    )
                     {
                         path = null;
                     }
                     else
                     {
                         // check if unit reached the end of the path == army đã đi tới cuối đường
-                        BattleVector2 targetPosition = BattleManager.GridToWorldPosition(new BattleVector2Int(path.points.Last().Location.X, path.points.Last().Location.Y));
+                        BattleVector2 targetPosition = BattleManager.GridToWorldPosition(
+                            new BattleVector2Int(
+                                path.points.Last().Location.X,
+                                path.points.Last().Location.Y
+                            )
+                        );
                         float distance = BattleVector2.Distance(position, targetPosition);
                         if (distance <= ConfigData.gridCellSize * 0.05f)
                         {
@@ -149,7 +175,11 @@ namespace ChaosAge.Battle
             {
                 if (_buildings[target].health > 0)
                 {
-                    if (_buildings[target].battleBuidlingConfig.type == EBuildingType.wall && mainTarget >= 0 && _buildings[mainTarget].health <= 0)
+                    if (
+                        _buildings[target].battleBuidlingConfig.type == EBuildingType.wall
+                        && mainTarget >= 0
+                        && _buildings[mainTarget].health <= 0
+                    )
                     {
                         target = -1;
                     }
@@ -176,6 +206,7 @@ namespace ChaosAge.Battle
                 }
             }
         }
+
         //// hồi máu
         //public void Heal(float amount)
         //{
@@ -190,7 +221,6 @@ namespace ChaosAge.Battle
 
         private BattleVector2 MoveComponent(Path path, float deltaTime)
         {
-
             float remainedTime = pathTime - pathTraveledTime;
 
             if (remainedTime >= deltaTime)
@@ -250,11 +280,12 @@ namespace ChaosAge.Battle
             }
             attackTimer += deltaTime;
 
-
-
             if (attackTimer >= unit.attackSpeed)
             {
-                float distance = BattleVector2.Distance(position, buildingTarget.worldCenterPosition);
+                float distance = BattleVector2.Distance(
+                    position,
+                    buildingTarget.worldCenterPosition
+                );
                 // đánh xa
                 if (unit.attackRange > 0 && unit.rangedSpeed > 0)
                 {
@@ -269,14 +300,18 @@ namespace ChaosAge.Battle
                     //int rows = _buildings[target].battleBuidlingConfig.rows;
                     projectile.Move(position, buildingTarget.worldCenterPosition);
                 }
-
                 // cận chiến
                 else
                 {
                     var grid = BattleManager.Instance.grid;
                     var blockedTiles = BattleManager.Instance.blockedTiles;
                     var percentage = BattleManager.Instance.percentage;
-                    buildingTarget.TakeDamage(unit.damage * multiplier, ref grid, ref blockedTiles, ref percentage);
+                    buildingTarget.TakeDamage(
+                        unit.damage * multiplier,
+                        ref grid,
+                        ref blockedTiles,
+                        ref percentage
+                    );
                 }
                 attackTimer -= unit.attackSpeed;
 
@@ -293,7 +328,4 @@ namespace ChaosAge.Battle
             BattleManager.Instance.FindTargets(index, unit.priority);
         }
     }
-
-
 }
-

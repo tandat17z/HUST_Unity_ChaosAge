@@ -10,7 +10,8 @@ using UnityEngine.UI;
 
 public class PanelBattle : Panel
 {
-    [SerializeField] Button btnClose;
+    [SerializeField]
+    Button btnClose;
 
     public static ButtonUnit SelectedButtonUnit;
 
@@ -33,7 +34,6 @@ public class PanelBattle : Panel
     {
         _isActive = false;
 
-
         GameManager.Instance.SwitchToCity();
         base.Close();
     }
@@ -54,7 +54,8 @@ public class PanelBattle : Panel
 
     public EUnitType GetCurrentBuildingType()
     {
-        if (SelectedButtonUnit == null) return EUnitType.barbarian;
+        if (SelectedButtonUnit == null)
+            return EUnitType.barbarian;
         return SelectedButtonUnit.Type;
     }
 }

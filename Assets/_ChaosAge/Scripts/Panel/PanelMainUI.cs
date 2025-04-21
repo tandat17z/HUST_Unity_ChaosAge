@@ -1,3 +1,4 @@
+using System;
 using ChaosAge.Data;
 using ChaosAge.input;
 using ChaosAge.manager;
@@ -10,13 +11,24 @@ using UnityEngine.UI;
 public class PanelMainUI : Panel
 {
     [Header("Resources")]
-    [SerializeField] TMP_Text textGold;
-    [SerializeField] TMP_Text textElixir;
-    [SerializeField] TMP_Text textGem;
-    
+    [SerializeField]
+    TMP_Text textGold;
+
+    [SerializeField]
+    TMP_Text textElixir;
+
+    [SerializeField]
+    TMP_Text textGem;
+
     [Header("Buttons")]
-    [SerializeField] Button btnShop;
-    [SerializeField] Button btnBattle;
+    [SerializeField]
+    Button btnShop;
+
+    [SerializeField]
+    Button btnBattle;
+
+    [SerializeField]
+    Button btnBattleAI;
 
     private PlayerData _playerData;
 
@@ -26,6 +38,14 @@ public class PanelMainUI : Panel
 
         btnShop.onClick.AddListener(ShopButtonClicked);
         btnBattle.onClick.AddListener(BattleButtonClicked);
+        btnBattleAI.onClick.AddListener(BattleAIButtonClicked);
+    }
+
+    private void BattleAIButtonClicked()
+    {
+        GameManager.Instance.SwitchToBattleAI();
+
+        InputHandler.Instance.ActiveInteract(false);
     }
 
     public override void Open(UIData uiData)

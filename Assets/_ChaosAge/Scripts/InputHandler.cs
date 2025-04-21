@@ -1,5 +1,6 @@
 ﻿namespace ChaosAge.input
 {
+    using ChaosAge.AI.battle;
     using ChaosAge.building;
     using ChaosAge.manager;
     using DatSystem.UI;
@@ -8,16 +9,16 @@
 
     public class InputHandler : Singleton<InputHandler>
     {
-        protected override void OnAwake()
+        protected override void OnAwake() { }
+
+        public bool MoveMap
         {
-
+            get => _moveMap;
         }
-
-
-
-
-        public bool MoveMap { get => _moveMap; }
-        public bool MoveBuilding { get => _moveBuilding; }
+        public bool MoveBuilding
+        {
+            get => _moveBuilding;
+        }
 
         private Controls _inputs;
         private bool _canInteract;
@@ -26,7 +27,6 @@
 
         private Building buildingWhenStartTouch;
         private float _startTouchTime;
-
 
         private void Awake()
         {
@@ -42,9 +42,8 @@
         {
             _inputs.Enable();
 
-
             // Nếu chạm vào công trình:
-            // - Công trình này đã được chọn --> di chuyển 
+            // - Công trình này đã được chọn --> di chuyển
             // - Chưa thì sẽ chọn nếu là touch
             // không thì sẽ move map
             //_inputs.Main.Touch.started += _ => TouchStarted();
@@ -84,7 +83,9 @@
                 {
                     var posInPlane = GetPointerPositionInMap();
 
-                    buildingWhenStartTouch = BuildingManager.Instance.HasBuildingAtPosition(posInPlane);
+                    buildingWhenStartTouch = BuildingManager.Instance.HasBuildingAtPosition(
+                        posInPlane
+                    );
                     if (buildingWhenStartTouch != null)
                     {
                         if (buildingWhenStartTouch == BuildingManager.Instance.SelectedBuilding)
@@ -96,13 +97,13 @@
                     }
                 }
 
-
                 _moveMap = true;
             }
         }
 
         public void TouchCanceled()
         {
+            Debug.Log("TouchCanceled");
             _moveMap = false;
             _moveBuilding = false;
 
@@ -112,6 +113,7 @@
                 return;
             }
 
+            Debug.Log("TouchCanceled 2");
             if (buildingWhenStartTouch != null)
             {
                 var pointerPos = _inputs.Main.PointerPosition.ReadValue<Vector2>();
@@ -125,7 +127,7 @@
             }
             else
             {
-                if (Time.time - _startTouchTime < 0.2f)
+                if (Time.time - _startTouchTime < 0.5f)
                 {
                     // đã TAP
                     BuildingManager.Instance.Unselect();
@@ -133,12 +135,17 @@
             }
             buildingWhenStartTouch = null;
 
+            Debug.Log("TouchCanceled 3 " + (Time.time - _startTouchTime));
             // TAP
-            if (Time.time - _startTouchTime < 0.2f)
+            if (Time.time - _startTouchTime < 0.5f)
             {
                 if (GameManager.Instance.GameState == GameState.Battle)
                 {
                     BattleManager.Instance.DropUnit();
+                }
+                else if (GameManager.Instance.GameState == GameState.BattleAI)
+                {
+                    AIBattleManager.Instance.DropUnit();
                 }
             }
         }

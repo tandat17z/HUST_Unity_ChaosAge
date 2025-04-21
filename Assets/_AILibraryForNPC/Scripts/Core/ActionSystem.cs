@@ -6,9 +6,10 @@ namespace AILibraryForNPC.core
 
     public class ActionSystem : MonoBehaviour
     {
-        [SerializeField, ReadOnly] BaseGoalSO goal;
+        [SerializeField, ReadOnly]
+        private BaseGoalSO goal;
 
-        private Queue<BaseActionSO> queueActions;
+        private Queue<BaseActionSO> queueActions = new Queue<BaseActionSO>();
 
         public BaseActionSO GetAction(BaseGoalSO goal, WorldState state)
         {
@@ -21,8 +22,11 @@ namespace AILibraryForNPC.core
                     queueActions.Enqueue(act);
                 }
             }
-            return queueActions.Dequeue();
+            if (queueActions.Count > 0)
+            {
+                return queueActions.Dequeue();
+            }
+            return null;
         }
     }
 }
-

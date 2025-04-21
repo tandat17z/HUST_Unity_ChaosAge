@@ -5,7 +5,11 @@ public struct BattleVector2
     public float x;
     public float y;
 
-    public BattleVector2(float x, float y) { this.x = x; this.y = y; }
+    public BattleVector2(float x, float y)
+    {
+        this.x = x;
+        this.y = y;
+    }
 
     public static BattleVector2 LerpUnclamped(BattleVector2 a, BattleVector2 b, float t)
     {
@@ -30,17 +34,31 @@ public struct BattleVector2
     /// <param name="source">Position which you want to move from.</param>
     /// <param name="target">Position which you want to reach.</param>
     /// <param name="speed">Move distance per second. Note: Do not multiply delta time to speed.</param>
-    public static BattleVector2 LerpStatic(BattleVector2 source, BattleVector2 target, float deltaTime, float speed)
+    public static BattleVector2 LerpStatic(
+        BattleVector2 source,
+        BattleVector2 target,
+        float deltaTime,
+        float speed
+    )
     {
-        if ((source.x == target.x && source.y == target.y) || speed <= 0) { return source; }
+        if ((source.x == target.x && source.y == target.y) || speed <= 0)
+        {
+            return source;
+        }
         float distance = Distance(source, target);
         float t = speed * deltaTime;
-        if (t > distance) { t = distance; }
+        if (t > distance)
+        {
+            t = distance;
+        }
         return LerpUnclamped(source, target, distance == 0 ? 1 : t / distance);
     }
 
     public static BattleVector2 GridToWorldPosition(BattleVector2Int position) // ok
     {
-        return new BattleVector2(position.x * ConfigData.gridCellSize + ConfigData.gridCellSize / 2f, position.y * ConfigData.gridCellSize + ConfigData.gridCellSize / 2f);
+        return new BattleVector2(
+            position.x * ConfigData.gridCellSize + ConfigData.gridCellSize / 2f,
+            position.y * ConfigData.gridCellSize + ConfigData.gridCellSize / 2f
+        );
     }
 }

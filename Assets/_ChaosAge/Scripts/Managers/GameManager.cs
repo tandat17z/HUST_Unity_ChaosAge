@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ChaosAge.AI.battle;
 using ChaosAge.camera;
 using ChaosAge.Data;
 using ChaosAge.input;
@@ -13,11 +14,15 @@ namespace ChaosAge.manager
 {
     public class GameManager : Singleton<GameManager>
     {
-        [SerializeField] CameraController cameraController;
+        [SerializeField]
+        CameraController cameraController;
 
         private GameState _gameState = GameState.City;
 
-        public GameState GameState { get { return _gameState; } }
+        public GameState GameState
+        {
+            get { return _gameState; }
+        }
 
         private PlayerData _playerData;
 
@@ -26,7 +31,6 @@ namespace ChaosAge.manager
         {
             Application.targetFrameRate = 60;
             QualitySettings.vSyncCount = 0;
-
         }
 
         private void Start()
@@ -44,7 +48,6 @@ namespace ChaosAge.manager
             _playerData = DataManager.Instance.PlayerData;
 
             SwitchToCity();
-
 
             // open UI
             PanelManager.Instance.OpenPanel<PanelCheat>();
@@ -70,13 +73,23 @@ namespace ChaosAge.manager
 
             BattleManager.Instance.LoadLevel(0);
         }
+
+        public void SwitchToBattleAI()
+        {
+            _gameState = GameState.BattleAI;
+            PanelManager.Instance.ClosePanel<UIBuildingInfo>();
+            PanelManager.Instance.ClosePanel<PanelMainUI>();
+
+            PanelManager.Instance.OpenPanel<PanelBattle>();
+
+            AIBattleManager.Instance.LoadLevel(0);
+        }
     }
 
     public enum GameState
     {
         City,
-        Battle
+        Battle,
+        BattleAI,
     }
-
 }
-

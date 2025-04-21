@@ -1,9 +1,25 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace AILibraryForNPC.core
 {
-    using UnityEngine;
-
     public abstract class BaseActionSO : ScriptableObject
     {
-        public abstract void Execute(Agent agent);
+        protected bool isExecuting = false;
+
+        public bool IsExecuting => isExecuting;
+
+        public virtual void StartExecute(Agent agent, WorldState worldState)
+        {
+            isExecuting = true;
+        }
+
+        public abstract void ExecutePerFrame(Agent agent);
+
+        public virtual void StopExecute(Agent agent)
+        {
+            isExecuting = false;
+        }
     }
 }

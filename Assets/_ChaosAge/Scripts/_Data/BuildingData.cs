@@ -8,7 +8,11 @@ namespace ChaosAge.Data
     public class BuildingData
     {
         public static string BuildingIdKey = "BUILDING_ID";
-        public static int CountBuildingId { get => PlayerPrefs.GetInt(BuildingIdKey, 0); set => PlayerPrefs.SetInt(BuildingIdKey, value); }
+        public static int CountBuildingId
+        {
+            get => PlayerPrefs.GetInt(BuildingIdKey, 0);
+            set => PlayerPrefs.SetInt(BuildingIdKey, value);
+        }
 
         public int id;
         public EBuildingType type;
@@ -31,10 +35,6 @@ namespace ChaosAge.Data
             CountBuildingId = CountBuildingId + 1;
         }
 
-        public BuildingData()
-        {
-
-        }
+        public BuildingData() { }
     }
 }
-
