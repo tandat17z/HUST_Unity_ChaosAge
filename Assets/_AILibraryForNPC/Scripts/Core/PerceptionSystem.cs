@@ -12,7 +12,7 @@ namespace AILibraryForNPC.core
 
         public void Initialize()
         {
-            _worldState = new MoveWorldState();
+            // _worldState = new MoveWorldState();
         }
 
         public WorldState GetWorldState()

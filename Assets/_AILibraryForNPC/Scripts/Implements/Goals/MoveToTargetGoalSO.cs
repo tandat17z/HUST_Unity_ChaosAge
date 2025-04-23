@@ -15,14 +15,13 @@ public class MoveToTargetGoalSO : BaseGoalSO
         pathfinder = new AStarPathfinder<GridNode>();
     }
 
-    public override List<BaseActionSO> CreatePlan(WorldState state)
+    public override List<BaseActionSO> CreatePlan(AILibraryForNPC.core.WorldState state)
     {
         var gridGraph = state.GetState("gridGraph") as GridGraph;
         List<BaseActionSO> plan = new List<BaseActionSO>();
 
         if (!state.ContainsKey("targetPosition") || !state.ContainsKey("currentPosition"))
             return plan;
-
 
         if (startNode == null || targetNode == null)
             return plan;
@@ -48,17 +47,17 @@ public class MoveToTargetGoalSO : BaseGoalSO
 
     private BaseActionSO GetActionForDirection(Vector2Int direction)
     {
-        foreach (var action in availableActions)
-        {
-            if (action is MoveActionSO && direction == Vector2Int.left)
-                return action;
-            // if (action is MoveRightActionSO && direction == Vector2Int.right)
-            //     return action;
-            // if (action is MoveUpActionSO && direction == Vector2Int.up)
-            //     return action;
-            // if (action is MoveDownActionSO && direction == Vector2Int.down)
-            //     return action;
-        }
+        // foreach (var action in availableActions)
+        // {
+        //     if (action is MoveActionSO && direction == Vector2Int.left)
+        //         return action;
+        //     // if (action is MoveRightActionSO && direction == Vector2Int.right)
+        //     //     return action;
+        //     // if (action is MoveUpActionSO && direction == Vector2Int.up)
+        //     //     return action;
+        //     // if (action is MoveDownActionSO && direction == Vector2Int.down)
+        //     //     return action;
+        // }
         return null;
     }
 }

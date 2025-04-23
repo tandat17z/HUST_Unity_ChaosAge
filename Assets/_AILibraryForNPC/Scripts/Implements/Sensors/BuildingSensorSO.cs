@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BuildingSensor", menuName = "AI/NPC/Sensors/BuildingSensor")]
 public class BuildingSensorSO : BaseSensorSO
 {
-    public override void UpdateSensor(Agent agent, WorldState state)
+    public override void UpdateSensor(Agent agent, AILibraryForNPC.core.WorldState state)
     {
         var buildings = AIBattleManager.Instance.buildings;
 

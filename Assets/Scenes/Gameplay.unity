@@ -1298,7 +1298,7 @@ Transform:
   m_GameObject: {fileID: 653864968}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3024,6 +3024,7 @@ MonoBehaviour:
   buildingSO: {fileID: 11400000, guid: 0be40ebfceb8b9b4292ecac7ab43e997, type: 2}
   unitSO: {fileID: 11400000, guid: 90947743ee216a64f8b0244a2b4512f1, type: 2}
   projecctileSO: {fileID: 11400000, guid: 9b2e1b35276ee3a4e91eed129e2c98f9, type: 2}
+  aiBbuildingSO: {fileID: 0}
 --- !u!4 &1749009383
 Transform:
   m_ObjectHideFlags: 0

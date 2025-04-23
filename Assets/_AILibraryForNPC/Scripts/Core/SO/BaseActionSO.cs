@@ -15,7 +15,7 @@ namespace AILibraryForNPC.core
             isExecuting = true;
         }
 
-        public abstract void ExecutePerFrame(Agent agent);
+        public abstract void ExecutePerFrame(Agent agent, WorldState worldState);
 
         public virtual void StopExecute(Agent agent)
         {

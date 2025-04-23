@@ -43,7 +43,7 @@ namespace AILibraryForNPC.core
             // Thực hiện action hiện tại
             if (currentAction != null && currentAction.IsExecuting)
             {
-                currentAction.ExecutePerFrame(this);
+                currentAction.ExecutePerFrame(this, worldState);
             }
         }
     }
