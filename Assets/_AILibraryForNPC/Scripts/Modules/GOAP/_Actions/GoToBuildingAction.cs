@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -5,8 +6,17 @@ namespace AILibraryForNPC.core.Modules.GOAP.Actions
 {
     public class GoToBuildingAction : GOAPAction
     {
-        public GameObject target;
-        public NavMeshAgent agent;
+        [SerializeField, ReadOnly]
+        private NavMeshAgent agent;
+
+        [SerializeField, ReadOnly]
+        private GameObject target;
+
+        protected override void OnAwake()
+        {
+            agent = GetComponent<NavMeshAgent>();
+            agent.updateRotation = false;
+        }
 
         public override bool IsActionComplete(WorldState worldState)
         {
@@ -37,6 +47,11 @@ namespace AILibraryForNPC.core.Modules.GOAP.Actions
 
         public override void PrePerform(WorldState worldState)
         {
+            var findBuildingSensor = worldState.GetSensor<FindBuildingSensor>();
+            if (findBuildingSensor != null)
+            {
+                target = findBuildingSensor.targetBuilding.gameObject;
+            }
             if (target != null)
             {
                 agent.SetDestination(target.transform.position);

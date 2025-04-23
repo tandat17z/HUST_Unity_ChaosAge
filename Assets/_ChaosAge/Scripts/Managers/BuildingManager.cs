@@ -189,7 +189,7 @@ namespace ChaosAge.manager
         }
 
         [Button("Test")]
-        void UpdateNavMesh()
+        public void UpdateNavMesh()
         {
             // Xóa NavMesh cũ và tạo NavMesh mới
             var navMeshSurface = grid.GetComponent<NavMeshSurface>();

@@ -37,6 +37,8 @@ namespace ChaosAge.AI.battle
                 battleBuilding.SetInfo(data);
                 this.buildings.Add(battleBuilding);
             }
+
+            BuildingManager.Instance.UpdateNavMesh();
         }
 
         public void DropUnit()

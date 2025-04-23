@@ -75,6 +75,16 @@ public class BattleBuilding : MonoBehaviour
         hpSlider.value = 1;
     }
 
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        hpSlider.value = health / battleBuidlingConfig.health;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void TakeDamage(
         float damage,
         ref AStarPathfinding.Grid grid,

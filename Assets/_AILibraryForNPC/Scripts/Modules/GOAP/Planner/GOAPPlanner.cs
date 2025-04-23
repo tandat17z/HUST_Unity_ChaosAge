@@ -48,9 +48,11 @@ namespace AILibraryForNPC.core.Modules.GOAP
 
             // Chuyển thành queue
             var queue = new Queue<GOAPAction>();
+            Debug.LogWarning("Plan:");
             foreach (var a in result)
             {
                 queue.Enqueue(a);
+                Debug.Log(a.name);
             }
 
             return queue;

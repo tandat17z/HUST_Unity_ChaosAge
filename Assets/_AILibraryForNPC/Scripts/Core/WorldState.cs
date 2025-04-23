@@ -1,22 +1,15 @@
 using System;
 using System.Collections.Generic;
+using AILibraryForNPC.core.Base;
 
 namespace AILibraryForNPC.core
 {
     public class WorldState
     {
+        public Dictionary<string, BaseSensor> dataSensors = new Dictionary<string, BaseSensor>();
         public Dictionary<string, int> states = new Dictionary<string, int>();
 
         public WorldState() { }
-
-        public WorldState(WorldState state)
-        {
-            states = new Dictionary<string, int>(state.states);
-            foreach (var st in state.states)
-            {
-                states.Add(st.Key, st.Value);
-            }
-        }
 
         public void SetState(string key, int value)
         {
@@ -48,6 +41,17 @@ namespace AILibraryForNPC.core
             {
                 states.Add(key, value);
             }
+        }
+
+        public T GetSensor<T>()
+            where T : BaseSensor
+        {
+            return dataSensors[typeof(T).Name] as T;
+        }
+
+        public void AddSensor(BaseSensor sensor)
+        {
+            dataSensors[sensor.GetType().Name] = sensor;
         }
     }
 }

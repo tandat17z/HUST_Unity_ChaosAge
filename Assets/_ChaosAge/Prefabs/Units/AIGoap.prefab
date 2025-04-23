@@ -247,6 +247,7 @@ GameObject:
   - component: {fileID: 1647430398520790479}
   - component: {fileID: 1869205412841574753}
   - component: {fileID: 8376835241740794270}
+  - component: {fileID: 3593603261517773478}
   m_Layer: 0
   m_Name: AIGoap
   m_TagString: Untagged
@@ -400,6 +401,7 @@ MonoBehaviour:
   listEffects:
   - key: toBuilding
     value: 1
+  agent: {fileID: 0}
   target: {fileID: 0}
 --- !u!114 &1869205412841574753
 MonoBehaviour:
@@ -422,6 +424,7 @@ MonoBehaviour:
   - key: attack
     value: 1
   isBuildingDied: 0
+  targetBuilding: {fileID: 0}
 --- !u!114 &8376835241740794270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,6 +442,19 @@ MonoBehaviour:
   listTargetStates:
   - key: attack
     value: 1
+--- !u!114 &3593603261517773478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082767486148323447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 165b9573c0bc9dc42aa03662a3636ccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetBuilding: {fileID: 0}
 --- !u!1 &2341945902855891894
 GameObject:
   m_ObjectHideFlags: 0

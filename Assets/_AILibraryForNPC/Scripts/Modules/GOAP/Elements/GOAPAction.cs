@@ -23,7 +23,10 @@ namespace AILibraryForNPC.core.Modules.GOAP
             {
                 effects.Add(effect.key, effect.value);
             }
+            OnAwake();
         }
+
+        protected abstract void OnAwake();
 
         public Dictionary<string, int> GetEffects()
         {
