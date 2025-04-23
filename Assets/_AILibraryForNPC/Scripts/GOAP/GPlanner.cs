@@ -76,9 +76,9 @@ namespace AILibraryForNPC.GOAP
             }
 
             Queue<GAction> queue = new Queue<GAction>();
-            foreach (GAction a in result)
+            for (int i = result.Count - 1; i >= 0; i--)
             {
-                queue.Enqueue(a);
+                queue.Enqueue(result[i]);
             }
 
             return queue;

@@ -9,8 +9,18 @@ namespace AILibraryForNPC.GOAP
     [Serializable]
     public class SubGoal
     {
-        public Dictionary<string, int> sgoals;
+        public WorldState[] beliefs;
         public bool remove;
+        private Dictionary<string, int> sgoals;
+
+        public void Initialize()
+        {
+            sgoals = new Dictionary<string, int>();
+            foreach (var belief in beliefs)
+            {
+                sgoals.Add(belief.key, belief.value);
+            }
+        }
 
         public SubGoal(string key, int value, bool remove)
         {
@@ -18,6 +28,18 @@ namespace AILibraryForNPC.GOAP
             sgoals.Add(key, value);
             this.remove = remove;
         }
+
+        public Dictionary<string, int> GetSGoals()
+        {
+            return sgoals;
+        }
+    }
+
+    [Serializable] // Bắt buộc để Unity serialize được
+    public class GoalEntry
+    {
+        public SubGoal key; // SubGoal là key
+        public int value; // int là value
     }
 
     public class GAgent : MonoBehaviour
@@ -26,6 +48,7 @@ namespace AILibraryForNPC.GOAP
         private List<GAction> actions = new List<GAction>();
 
         [SerializeField]
+        private List<GoalEntry> listGoalEntry = new List<GoalEntry>();
         protected Dictionary<SubGoal, int> goals = new Dictionary<SubGoal, int>();
 
         GPlanner planner;
@@ -44,35 +67,29 @@ namespace AILibraryForNPC.GOAP
             {
                 actions.Add(a);
             }
-        }
 
-        bool invoked = false;
-
-        void CompleteAction()
-        {
-            currentAction.running = false;
-            currentAction.PostPerform();
-            invoked = false;
+            foreach (var goal in listGoalEntry)
+            {
+                goals.Add(goal.key, goal.value);
+                goal.key.Initialize();
+            }
         }
 
         void LateUpdate()
         {
             // Check if the current action is running
-            if (currentAction != null && currentAction.running)
+            if (currentAction != null)
             {
-                float distanceToTarget = Vector3.Distance(
-                    currentAction.target.transform.position,
-                    transform.position
-                );
-                if (currentAction.agent.hasPath && distanceToTarget < 2f)
+                if (!currentAction.IsActionComplete())
                 {
-                    if (!invoked)
-                    {
-                        Invoke(nameof(CompleteAction), currentAction.duration);
-                        invoked = true;
-                    }
+                    currentAction.Perform();
+                    return;
                 }
-                return;
+                else
+                {
+                    currentAction.PostPerform();
+                    currentAction = null;
+                }
             }
 
             // Lên kế hoạch action mới
@@ -82,7 +99,7 @@ namespace AILibraryForNPC.GOAP
                 var sortedGoals = goals.OrderByDescending(x => x.Value);
                 foreach (KeyValuePair<SubGoal, int> sg in sortedGoals)
                 {
-                    actionQueue = planner.plan(actions, sg.Key.sgoals, null);
+                    actionQueue = planner.plan(actions, sg.Key.GetSGoals(), null);
                     if (actionQueue != null)
                     {
                         currentGoal = sg.Key;
@@ -105,25 +122,7 @@ namespace AILibraryForNPC.GOAP
             if (actionQueue != null && actionQueue.Count > 0)
             {
                 currentAction = actionQueue.Dequeue();
-                if (currentAction.PrePerform())
-                {
-                    // Tìm đích mới
-                    if (currentAction.target == null && currentAction.targetTag != "")
-                    {
-                        currentAction.target = GameObject.FindWithTag(currentAction.targetTag);
-                    }
-
-                    // Chạy đích mới
-                    if (currentAction.target != null)
-                    {
-                        currentAction.running = true;
-                        currentAction.agent.SetDestination(currentAction.target.transform.position);
-                    }
-                }
-                else
-                {
-                    actionQueue = null;
-                }
+                currentAction.PrePerform();
             }
         }
     }

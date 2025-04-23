@@ -6,30 +6,35 @@ using ChaosAge.input;
 using DatSystem;
 using DatSystem.UI;
 using DatSystem.utils;
+using Sirenix.OdinInspector;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 namespace ChaosAge.manager
 {
     public class BuildingManager : Singleton<BuildingManager>
     {
-        protected override void OnAwake()
-        {
-
-        }
+        protected override void OnAwake() { }
 
         [Header("")]
-        [SerializeField] BuildGrid grid;
+        [SerializeField]
+        BuildGrid grid;
 
-        public BuildGrid Grid { get { return grid; } }
+        public BuildGrid Grid
+        {
+            get { return grid; }
+        }
 
-        public List<Building> Buildings { get => _buildings; }
+        public List<Building> Buildings
+        {
+            get => _buildings;
+        }
         public Building SelectedBuilding => _selectedBuilding;
 
         private List<Building> _buildings = new();
         private Building _selectedBuilding;
 
         private Vector3 _buildingBasePosition;
-
 
         public void LoadMap(List<BuildingData> listBuildingData)
         {
@@ -54,7 +59,6 @@ namespace ChaosAge.manager
             _buildings.Clear();
         }
 
-
         /// <summary>
         /// Kiểm tra có thể đặt building trên map không
         /// </summary>
@@ -62,14 +66,22 @@ namespace ChaosAge.manager
         /// <returns></returns>
         public bool CanPlaceBuilding(Building building)
         {
-            if (building.CurrentX < 0 || building.CurrentY < 0
-              || building.CurrentX + building.Columns >= grid.Column
-              || building.CurrentY + building.Rows >= grid.Row)
+            if (
+                building.CurrentX < 0
+                || building.CurrentY < 0
+                || building.CurrentX + building.Columns >= grid.Column
+                || building.CurrentY + building.Rows >= grid.Row
+            )
             {
                 return false;
             }
 
-            Rect rectBuilding = new Rect(building.CurrentX, building.CurrentY, building.Columns, building.Rows);
+            Rect rectBuilding = new Rect(
+                building.CurrentX,
+                building.CurrentY,
+                building.Columns,
+                building.Rows
+            );
             foreach (var b in _buildings)
             {
                 if (b != building)
@@ -126,8 +138,8 @@ namespace ChaosAge.manager
                 PanelManager.Instance.ClosePanel<UIBuildingInfo>();
             }
             _selectedBuilding = null;
-
         }
+
         public void Create(Building building)
         {
             // lưu vào data
@@ -137,13 +149,15 @@ namespace ChaosAge.manager
             building.SetInfo(data.id, data.level);
             _buildings.Add(building);
 
-
             Unselect();
         }
 
         public Building HasBuildingAtPosition(Vector3 posInPlane)
         {
-            if (_selectedBuilding != null && grid.IsWorldPositionIsOnPlane(posInPlane, _selectedBuilding))
+            if (
+                _selectedBuilding != null
+                && grid.IsWorldPositionIsOnPlane(posInPlane, _selectedBuilding)
+            )
             {
                 return _selectedBuilding;
             }
@@ -173,6 +187,15 @@ namespace ChaosAge.manager
                 _selectedBuilding.UpdateGridPosition(_buildingBasePosition, currentPosition);
             }
         }
-    }
 
+        [Button("Test")]
+        void UpdateNavMesh()
+        {
+            // Xóa NavMesh cũ và tạo NavMesh mới
+            var navMeshSurface = grid.GetComponent<NavMeshSurface>();
+            navMeshSurface.RemoveData(); // Xóa NavMesh cũ
+            navMeshSurface.BuildNavMesh(); // Tạo NavMesh mới
+            Debug.Log("NavMesh đã được cập nhật!");
+        }
+    }
 }
