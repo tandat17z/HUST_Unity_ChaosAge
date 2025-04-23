@@ -1,24 +1,27 @@
 using System.Collections.Generic;
 
-public sealed class GWorld
+namespace GOAPSystem
 {
-    private static readonly GWorld instance = new GWorld();
-    private static WorldStates world;
-
-    static GWorld()
+    public sealed class GWorld
     {
-        world = new WorldStates();
-    }
+        private static readonly GWorld instance = new GWorld();
+        private static WorldStates world;
 
-    private GWorld() { }
+        static GWorld()
+        {
+            world = new WorldStates();
+        }
 
-    public static GWorld Instance
-    {
-        get { return instance; }
-    }
+        private GWorld() { }
 
-    public WorldStates GetWorld()
-    {
-        return world;
+        public static GWorld Instance
+        {
+            get { return instance; }
+        }
+
+        public WorldStates GetWorld()
+        {
+            return world;
+        }
     }
 }

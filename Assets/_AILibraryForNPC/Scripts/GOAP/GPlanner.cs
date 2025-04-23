@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AILibraryForNPC.GOAP
+namespace GOAPSystem
 {
     public class Node
     {

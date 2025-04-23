@@ -1,32 +1,31 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace AILibraryForNPC.core
 {
-    using System.Collections.Generic;
-    using Sirenix.OdinInspector;
-    using UnityEngine;
-
-    public class ActionSystem : MonoBehaviour
+    public abstract class ActionSystem : MonoBehaviour
     {
-        [SerializeField, ReadOnly]
-        private BaseGoalSO goal;
+        public Agent agent;
+        private List<BaseAction> availableActions = new List<BaseAction>();
 
-        private Queue<BaseActionSO> queueActions = new Queue<BaseActionSO>();
-
-        public BaseActionSO GetAction(BaseGoalSO goal, WorldState state)
+        void Start()
         {
-            if (this.goal != goal || queueActions.Count == 0)
-            {
-                this.goal = goal;
-                queueActions.Clear();
-                foreach (var act in goal.CreatePlan(state))
-                {
-                    queueActions.Enqueue(act);
-                }
-            }
-            if (queueActions.Count > 0)
-            {
-                return queueActions.Dequeue();
-            }
-            return null;
+            agent = GetComponent<Agent>();
+            availableActions.AddRange(GetComponents<BaseAction>());
+        }
+
+        public abstract void Initialize();
+
+        public abstract BaseAction GetAction(BaseGoal goal, WorldState worldState);
+
+        protected virtual bool CanAchieveGoal(
+            BaseAction action,
+            BaseGoal goal,
+            WorldState worldState
+        )
+        {
+            // Override this method in derived classes to implement different goal checking strategies
+            return true;
         }
     }
 }

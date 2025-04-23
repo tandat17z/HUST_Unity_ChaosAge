@@ -1,27 +1,36 @@
+using System.Collections.Generic;
+using AILibraryForNPC.core.Base;
+using UnityEngine;
+
 namespace AILibraryForNPC.core
 {
-    using System.Collections.Generic;
-    using UnityEngine;
-
     public class PerceptionSystem : MonoBehaviour
     {
-        [SerializeField]
-        private List<BaseSensorSO> sensors;
+        private List<BaseSensor> sensors = new List<BaseSensor>();
+        private WorldState worldState;
 
-        private WorldState _worldState;
+        protected virtual void Awake()
+        {
+            // Lấy tất cả các sensor được gắn vào GameObject
+            sensors.AddRange(GetComponents<BaseSensor>());
+        }
 
         public void Initialize()
         {
-            // _worldState = new MoveWorldState();
+            worldState = new WorldState();
+            foreach (var sensor in sensors)
+            {
+                sensor.Initialize(worldState);
+            }
         }
 
         public WorldState GetWorldState()
         {
             foreach (var sensor in sensors)
             {
-                sensor.UpdateSensor(GetComponent<Agent>(), _worldState);
+                sensor.UpdateSensor();
             }
-            return _worldState;
+            return worldState;
         }
     }
 }

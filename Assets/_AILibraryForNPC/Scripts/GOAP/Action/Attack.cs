@@ -1,3 +1,4 @@
+using GOAPSystem;
 using UnityEngine;
 
 public class Attack : GAction

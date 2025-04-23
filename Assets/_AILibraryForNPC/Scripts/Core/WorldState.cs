@@ -19,9 +19,19 @@ namespace AILibraryForNPC.core
             return states[key];
         }
 
+        public T GetState<T>(string key)
+        {
+            return (T)states[key];
+        }
+
         public bool ContainsKey(string key)
         {
             return states.ContainsKey(key);
+        }
+
+        internal Dictionary<string, int> GetStates()
+        {
+            throw new NotImplementedException();
         }
     }
 }

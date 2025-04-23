@@ -1,20 +1,35 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace AILibraryForNPC.core
 {
-    using System.Collections.Generic;
-    using UnityEngine;
-
     public class GoalSystem : MonoBehaviour
     {
-        [SerializeField]
-        private List<BaseGoalSO> goals = new List<BaseGoalSO>();
+        private List<BaseGoal> availableGoals = new List<BaseGoal>();
 
-        [SerializeField]
-        private IGoalSelector goalSelector;
-
-        public BaseGoalSO SelectBestGoal(WorldState worldState)
+        protected virtual void Start()
         {
-            // return goalSelector.SelectBestGoal(goals, worldState);
-            return goals[0];
+            availableGoals.AddRange(GetComponents<BaseGoal>());
+        }
+
+        public virtual BaseGoal SelectBestGoal(WorldState worldState)
+        {
+            BaseGoal bestGoal = null;
+            float highestPriority = float.MinValue;
+
+            foreach (var goal in availableGoals)
+            {
+                if (!goal.IsValid(worldState))
+                    continue;
+
+                if (goal.Priority > highestPriority)
+                {
+                    highestPriority = goal.Priority;
+                    bestGoal = goal;
+                }
+            }
+
+            return bestGoal;
         }
     }
 }

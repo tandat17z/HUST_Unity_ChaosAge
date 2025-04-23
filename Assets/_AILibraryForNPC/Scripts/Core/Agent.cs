@@ -1,50 +1,68 @@
+using Sirenix.OdinInspector;
+using UnityEngine;
+
 namespace AILibraryForNPC.core
 {
-    using Sirenix.OdinInspector;
-    using UnityEngine;
-
     [RequireComponent(typeof(PerceptionSystem))]
-    [RequireComponent(typeof(GoalSystem))]
-    [RequireComponent(typeof(ActionSystem))]
-    public class Agent : MonoBehaviour
+    public abstract class Agent : MonoBehaviour
     {
-        private PerceptionSystem perceptionSystem;
-        private GoalSystem goalSystem;
-        private ActionSystem actionSystem;
+        protected PerceptionSystem perceptionSystem;
+        protected GoalSystem goalSystem;
+        protected ActionSystem actionSystem;
 
         [SerializeField, ReadOnly]
-        private BaseActionSO currentAction;
+        protected BaseAction currentAction;
 
-        void Start()
+        protected void Start()
         {
             perceptionSystem = GetComponent<PerceptionSystem>();
             perceptionSystem.Initialize();
 
             goalSystem = GetComponent<GoalSystem>();
             actionSystem = GetComponent<ActionSystem>();
+            Initialize();
+        }
+
+        public abstract void Initialize();
+
+        public virtual void UpdateAgent()
+        {
+            var worldState = perceptionSystem.GetWorldState();
+            UpdateDecisionMaking(worldState);
+        }
+
+        protected virtual void UpdateDecisionMaking(WorldState worldState)
+        {
+            // Kiểm tra action hiện tại
+            if (currentAction != null)
+            {
+                if (currentAction.IsActionComplete(worldState))
+                {
+                    currentAction.Perform(worldState);
+                    return;
+                }
+                else
+                {
+                    currentAction.PostPerform(worldState);
+                    currentAction = null;
+                }
+            }
+
+            // chọn thực hiện action mới
+            if (currentAction == null)
+            {
+                var goal = goalSystem?.SelectBestGoal(worldState);
+                currentAction = actionSystem?.GetAction(goal, worldState);
+                if (currentAction != null)
+                {
+                    currentAction.PrePerform(worldState);
+                }
+            }
         }
 
         void Update()
         {
-            // Cập nhật trạng thái thế giới
-            var worldState = perceptionSystem.GetWorldState();
-
-            // Nếu không có action nào đang thực hiện, chọn goal và action mới
-            if (currentAction == null || !currentAction.IsExecuting)
-            {
-                var goal = goalSystem.SelectBestGoal(worldState);
-                currentAction = actionSystem.GetAction(goal, worldState);
-                if (currentAction != null)
-                {
-                    currentAction.StartExecute(this, worldState);
-                }
-            }
-
-            // Thực hiện action hiện tại
-            if (currentAction != null && currentAction.IsExecuting)
-            {
-                currentAction.ExecutePerFrame(this, worldState);
-            }
+            UpdateAgent();
         }
     }
 }

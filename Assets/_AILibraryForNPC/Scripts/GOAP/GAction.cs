@@ -2,64 +2,67 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class GAction : MonoBehaviour
+namespace GOAPSystem
 {
-    public string actionName = "Action";
-    public float cost = 1.0f;
-
-    public WorldState[] preConditions;
-    public WorldState[] afterEffects;
-
-    public Dictionary<string, int> preconditions;
-    public Dictionary<string, int> effects;
-
-    public WorldStates agentBeliefs;
-
-    public GAction()
+    public abstract class GAction : MonoBehaviour
     {
-        preconditions = new Dictionary<string, int>();
-        effects = new Dictionary<string, int>();
-    }
+        public string actionName = "Action";
+        public float cost = 1.0f;
 
-    public void Awake()
-    {
-        if (preConditions != null)
+        public WorldState[] preConditions;
+        public WorldState[] afterEffects;
+
+        public Dictionary<string, int> preconditions;
+        public Dictionary<string, int> effects;
+
+        public WorldStates agentBeliefs;
+
+        public GAction()
         {
-            foreach (WorldState state in preConditions)
+            preconditions = new Dictionary<string, int>();
+            effects = new Dictionary<string, int>();
+        }
+
+        public void Awake()
+        {
+            if (preConditions != null)
             {
-                preconditions.Add(state.key, state.value);
+                foreach (WorldState state in preConditions)
+                {
+                    preconditions.Add(state.key, state.value);
+                }
             }
-        }
-        if (afterEffects != null)
-        {
-            foreach (WorldState state in afterEffects)
+            if (afterEffects != null)
             {
-                effects.Add(state.key, state.value);
+                foreach (WorldState state in afterEffects)
+                {
+                    effects.Add(state.key, state.value);
+                }
             }
+
+            OnAwake();
         }
 
-        OnAwake();
-    }
+        protected abstract void OnAwake();
 
-    protected abstract void OnAwake();
-
-    public bool IsAchievable()
-    {
-        return true;
-    }
-
-    public bool IsAchievableGiven(Dictionary<string, int> conditions)
-    {
-        foreach (KeyValuePair<string, int> condition in preconditions)
+        public bool IsAchievable()
         {
-            if (!conditions.ContainsKey(condition.Key))
-                return false;
+            return true;
         }
-        return true;
-    }
 
-    public abstract bool PrePerform();
-    public abstract void PostPerform();
-    public abstract void Perform();
-    public abstract bool IsActionComplete();
+        public bool IsAchievableGiven(Dictionary<string, int> conditions)
+        {
+            foreach (KeyValuePair<string, int> condition in preconditions)
+            {
+                if (!conditions.ContainsKey(condition.Key))
+                    return false;
+            }
+            return true;
+        }
+
+        public abstract bool PrePerform();
+        public abstract void PostPerform();
+        public abstract void Perform();
+        public abstract bool IsActionComplete();
+    }
 }

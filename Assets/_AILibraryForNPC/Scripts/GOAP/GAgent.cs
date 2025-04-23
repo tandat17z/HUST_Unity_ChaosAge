@@ -4,7 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace AILibraryForNPC.GOAP
+namespace GOAPSystem
 {
     [Serializable]
     public class SubGoal
