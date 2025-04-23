@@ -10,19 +10,40 @@ public class BattleProjectile : MonoBehaviour
     public float damage = 0;
     public float splash = 0;
     public float timer = 0;
+    public float speed = 3;
     public TargetType type = TargetType.unit;
     public bool heal = false;
 
     public TargetType Type => type;
 
+    public void Move(Vector3 start, Vector3 end, Action onComplete = null)
+    {
+        transform.DOKill();
+
+        var startPos = start + Vector3.up * 2;
+        var endPos = end + Vector3.up * 0.5f;
+        transform.position = startPos;
+        timer = Vector3.Distance(startPos, endPos) / speed;
+        transform
+            .DOMove(endPos, timer)
+            .OnComplete(() =>
+            {
+                Destroy(gameObject);
+                onComplete?.Invoke();
+            });
+    }
+
     public void Move(BattleVector2 start, BattleVector2 end)
     {
-        var startPos = BuildingManager.Instance.Grid.transform.TransformPoint(new Vector3(start.x, 1, start.y));
-        var endPos = BuildingManager.Instance.Grid.transform.TransformPoint(new Vector3(end.x, 1, end.y));
+        var startPos = BuildingManager.Instance.Grid.transform.TransformPoint(
+            new Vector3(start.x, 1, start.y)
+        );
+        var endPos = BuildingManager.Instance.Grid.transform.TransformPoint(
+            new Vector3(end.x, 1, end.y)
+        );
         transform.DOKill();
         transform.position = startPos;
         transform.DOMove(endPos, timer);
-
     }
 
     public void HandleProjectile(float deltaTime)
@@ -65,10 +86,20 @@ public class BattleProjectile : MonoBehaviour
                         {
                             if (j != target)
                             {
-                                float distance = BattleVector2.Distance(_units[j].position, _units[target].position);
+                                float distance = BattleVector2.Distance(
+                                    _units[j].position,
+                                    _units[target].position
+                                );
                                 if (distance < splash * ConfigData.gridCellSize)
                                 {
-                                    _units[j].TakeDamage(damage * (1f - (distance / splash * ConfigData.gridCellSize)));
+                                    _units[j]
+                                        .TakeDamage(
+                                            damage
+                                                * (
+                                                    1f
+                                                    - (distance / splash * ConfigData.gridCellSize)
+                                                )
+                                        );
                                 }
                             }
                         }
@@ -88,8 +119,8 @@ public class BattleProjectile : MonoBehaviour
     }
 }
 
-
 public enum TargetType
 {
-    unit, building
+    unit,
+    building,
 }

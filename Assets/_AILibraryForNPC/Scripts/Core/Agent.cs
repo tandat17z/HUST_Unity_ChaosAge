@@ -26,11 +26,13 @@ namespace AILibraryForNPC.core
         public virtual void UpdateAgent()
         {
             var worldState = perceptionSystem.UpdateWorldState();
-            Debug.LogWarning("UpdateAgent");
+
+            string log = $"{name} - worldstate: ";
             foreach (var state in worldState.GetStates())
             {
-                Debug.LogWarning($"World State: {state.Key} {state.Value}");
+                log += $"{state.Key} {state.Value} - ";
             }
+            Debug.LogWarning(log);
             UpdateDecisionMaking(worldState);
         }
 

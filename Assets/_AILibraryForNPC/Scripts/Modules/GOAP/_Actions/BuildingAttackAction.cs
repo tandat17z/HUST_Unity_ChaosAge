@@ -1,33 +1,33 @@
 using System.Collections.Generic;
+using ChaosAge.Battle;
 using ChaosAge.manager;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace AILibraryForNPC.core.Modules.GOAP.Actions
 {
-    public class AttackAction : GOAPAction
+    public class BuildingAttackAction : GOAPAction
     {
         [SerializeField, ReadOnly]
-        private BattleBuilding targetBuilding;
-
+        private BattleUnit targetSoldier;
+        private float shootInterval = 1f;
         private float countTime = 0;
-        private float shootInterval = 2f;
 
         protected override void OnAwake() { }
 
         public override void PrePerform(WorldState worldState)
         {
-            var findBuildingSensor = worldState.GetSensor<FindBuildingSensor>();
-            if (findBuildingSensor != null)
+            var findSoldierSensor = worldState.GetSensor<FindSoldierSensor>();
+            if (findSoldierSensor != null)
             {
-                targetBuilding = findBuildingSensor.targetBuilding;
+                targetSoldier = findSoldierSensor.targetSoldier;
                 countTime = shootInterval;
             }
         }
 
         public override void Perform(WorldState worldState)
         {
-            if (targetBuilding != null)
+            if (targetSoldier != null)
             {
                 countTime -= Time.deltaTime;
                 if (countTime <= 0)
@@ -36,11 +36,11 @@ namespace AILibraryForNPC.core.Modules.GOAP.Actions
                     var projectile = FactoryManager.Instance.SpawnProjectile(TargetType.unit);
                     projectile.Move(
                         transform.position,
-                        targetBuilding.transform.position,
+                        targetSoldier.transform.position,
                         () =>
                         {
-                            Debug.Log("AttackAction" + targetBuilding.name);
-                            targetBuilding.TakeDamage(5);
+                            Debug.Log("AttackAction" + targetSoldier.name);
+                            targetSoldier.TakeDamage(10);
                         }
                     );
 
@@ -50,14 +50,11 @@ namespace AILibraryForNPC.core.Modules.GOAP.Actions
             }
         }
 
-        public override void PostPerform(WorldState worldState)
-        {
-            worldState.states = new Dictionary<string, int>();
-        }
+        public override void PostPerform(WorldState worldState) { }
 
         public override bool IsActionComplete(WorldState worldState)
         {
-            return targetBuilding == null;
+            return targetSoldier == null;
         }
     }
 }

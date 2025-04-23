@@ -1,4 +1,3 @@
-using AILibraryForNPC.core;
 using UnityEngine;
 
 namespace AILibraryForNPC.core.Base

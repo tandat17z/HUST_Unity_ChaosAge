@@ -43,6 +43,14 @@ namespace AILibraryForNPC.core
             }
         }
 
+        public void RemoveState(string key)
+        {
+            if (states.ContainsKey(key))
+            {
+                states.Remove(key);
+            }
+        }
+
         public T GetSensor<T>()
             where T : BaseSensor
         {

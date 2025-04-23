@@ -801,6 +801,13 @@ GameObject:
   - component: {fileID: 8680643771773694592}
   - component: {fileID: 6655862420951677313}
   - component: {fileID: 7412398160304781858}
+  - component: {fileID: 1836833722429485579}
+  - component: {fileID: 6594736813515241371}
+  - component: {fileID: 8122532735398326794}
+  - component: {fileID: 1378282601332044265}
+  - component: {fileID: 918001992802725901}
+  - component: {fileID: 5334516348573176522}
+  - component: {fileID: 7080421039202511414}
   m_Layer: 0
   m_Name: ArcherTower
   m_TagString: Untagged
@@ -877,16 +884,119 @@ MonoBehaviour:
     health: 100
     damage: 0
     capacity: 0
-    speed: 5
-    radius: 8
+    speed: 0.5
+    radius: 15
     isConstructing: 0
     buildTime: 0
-    targetType: 0
+    targetType: 3
     blindRange: 0
     splashRange: 0
-    rangedSpeed: 5
+    rangedSpeed: 8
     percentage: 0
   health: 0
   target: -1
   attackTimer: 0
   percentage: 0
+--- !u!114 &1836833722429485579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949424055892338630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72acc1abfeddd94388c16d94f9b8f0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6594736813515241371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949424055892338630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b103a18c9b4104e9c2b7a640a812ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 1378282601332044265}
+--- !u!114 &8122532735398326794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949424055892338630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b7dc3104dd372b459de9a390f05844c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensors: []
+--- !u!114 &1378282601332044265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949424055892338630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39be165e5685a5a4d9804a644029c0ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentAction: {fileID: 0}
+--- !u!114 &918001992802725901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949424055892338630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6574b2be283425e4c8f4e934890b57b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSoldier: {fileID: 0}
+  attackRange: 5
+--- !u!114 &5334516348573176522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949424055892338630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9869960568b5cb41af8ff354e6f629d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionName: 
+  cost: 1
+  listPreconditions:
+  - key: hasUnitInRange
+    value: 1
+  listEffects:
+  - key: attack
+    value: 1
+  targetSoldier: {fileID: 0}
+--- !u!114 &7080421039202511414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949424055892338630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70cb39eb82968ec4181ec7526cbe075b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goalName: attack
+  priority: 1
+  listTargetStates:
+  - key: attack
+    value: 1

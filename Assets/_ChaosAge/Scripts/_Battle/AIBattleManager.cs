@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ChaosAge.Battle;
 using ChaosAge.Data;
 using ChaosAge.input;
 using ChaosAge.manager;
@@ -13,6 +14,7 @@ namespace ChaosAge.AI.battle
     {
         [SerializeField]
         public List<BattleBuilding> buildings;
+        public List<BattleUnit> units;
 
         protected override void OnAwake() { }
 
@@ -26,6 +28,7 @@ namespace ChaosAge.AI.battle
 
         public void Initialize(List<BuildingData> buildings)
         {
+            this.units = new List<BattleUnit>();
             this.buildings = new List<BattleBuilding>();
             foreach (var data in buildings)
             {
@@ -43,7 +46,6 @@ namespace ChaosAge.AI.battle
 
         public void DropUnit()
         {
-            Debug.Log("DropUnit");
             var type = PanelManager.Instance.GetPanel<PanelBattle>().GetCurrentBuildingType();
             var pos = InputHandler.Instance.GetPointerPositionInMap();
             var posCell = BuildingManager.Instance.Grid.ConvertGridPos(pos);
@@ -52,14 +54,16 @@ namespace ChaosAge.AI.battle
 
         public void AddUnit(EUnitType unitType, int x, int y) // ok
         {
-            Debug.Log("AddUnit " + x + " " + y);
             var battleUnit = FactoryManager.Instance.SpawnUnit(EUnitType.AIAgent);
+            battleUnit.SetInfo();
             var position = BattleVector2.GridToWorldPosition(new BattleVector2Int(x, y));
             var pos = BuildingManager.Instance.Grid.transform.TransformPoint(
                 new Vector3(position.x, 0, position.y)
             );
-            Debug.Log("AddUnit " + pos);
+
             battleUnit.transform.position = pos;
+
+            units.Add(battleUnit);
         }
     }
 }

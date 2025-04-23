@@ -43,6 +43,15 @@ namespace ChaosAge.Battle
         //public FloatCallback damageCallback = null;
         //public FloatCallback healCallback = null;
 
+        public void SetInfo()
+        {
+            hpSlider.gameObject.SetActive(true);
+            text.gameObject.SetActive(true);
+            health = unit.health;
+            hpSlider.value = 1;
+            text.text = unit.type.ToString();
+        }
+
         public void Initialize(int x, int y) // todo
         {
             if (unit == null)
@@ -120,13 +129,15 @@ namespace ChaosAge.Battle
             }
         }
 
-        // private void Update()
-        // {
-        //     var pos = BuildingManager.Instance.Grid.transform.TransformPoint(
-        //         new Vector3(position.x, 0, position.y)
-        //     );
-        //     transform.position = pos;
-        // }
+        private void Update()
+        {
+            hpSlider.value = health / unit.health;
+            text.text = unit.type.ToString();
+            // var pos = BuildingManager.Instance.Grid.transform.TransformPoint(
+            //     new Vector3(position.x, 0, position.y)
+            // );
+            // transform.position = pos;
+        }
 
         public void HandleUnit(int index, float deltaTime)
         {

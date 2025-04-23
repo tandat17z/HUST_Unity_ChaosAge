@@ -28,7 +28,7 @@ namespace AILibraryForNPC.core.Modules.GOAP.Actions
                 transform.position
             );
 
-            return agent.hasPath && distanceToTarget < 5f;
+            return agent.hasPath && distanceToTarget < 6f;
         }
 
         public override void Perform(WorldState worldState) // update by frame
@@ -42,6 +42,7 @@ namespace AILibraryForNPC.core.Modules.GOAP.Actions
             {
                 worldState.ModifyState(effect.Key, effect.Value);
             }
+            agent.isStopped = true;
             target = null;
         }
 

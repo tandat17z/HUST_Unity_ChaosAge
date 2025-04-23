@@ -62,6 +62,19 @@ public class BattleBuilding : MonoBehaviour
 
         battleBuidlingConfig.x = data.x;
         battleBuidlingConfig.y = data.y;
+
+        hpSlider.gameObject.SetActive(true);
+        text.gameObject.SetActive(true);
+
+        health = battleBuidlingConfig.health;
+        hpSlider.value = 1;
+        text.text = battleBuidlingConfig.type.ToString();
+    }
+
+    void Update()
+    {
+        hpSlider.value = health / battleBuidlingConfig.health;
+        text.text = battleBuidlingConfig.type.ToString();
     }
 
     public void Initialize()
