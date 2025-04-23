@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using ChaosAge.Battle;
+using ChaosAge.Data;
 using ChaosAge.manager;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -33,18 +35,24 @@ namespace AILibraryForNPC.core.Modules.GOAP.Actions
                 if (countTime <= 0)
                 {
                     // TODO: Tấn công
-                    var projectile = FactoryManager.Instance.SpawnProjectile(TargetType.unit);
-                    projectile.Move(
-                        transform.position,
-                        targetBuilding.transform.position,
-                        () =>
-                        {
-                            Debug.Log("AttackAction" + targetBuilding.name);
-                            targetBuilding.TakeDamage(5);
-                        }
-                    );
-
-                    Debug.LogWarning("spawn projectile");
+                    if (GetComponent<BattleUnit>().Type == EUnitType.archer)
+                    {
+                        var projectile = FactoryManager.Instance.SpawnProjectile(
+                            TargetType.building
+                        );
+                        projectile.Move(
+                            transform.position,
+                            targetBuilding.transform.position,
+                            () =>
+                            {
+                                targetBuilding.TakeDamage(5);
+                            }
+                        );
+                    }
+                    else
+                    {
+                        targetBuilding.TakeDamage(5);
+                    }
                     countTime = shootInterval;
                 }
             }

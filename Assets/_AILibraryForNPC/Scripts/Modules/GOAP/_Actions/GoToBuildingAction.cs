@@ -12,6 +12,9 @@ namespace AILibraryForNPC.core.Modules.GOAP.Actions
         [SerializeField, ReadOnly]
         private GameObject target;
 
+        [SerializeField]
+        private float range = 5f;
+
         protected override void OnAwake()
         {
             agent = GetComponent<NavMeshAgent>();
@@ -28,7 +31,7 @@ namespace AILibraryForNPC.core.Modules.GOAP.Actions
                 transform.position
             );
 
-            return agent.hasPath && distanceToTarget < 6f;
+            return agent.hasPath && distanceToTarget < range;
         }
 
         public override void Perform(WorldState worldState) // update by frame

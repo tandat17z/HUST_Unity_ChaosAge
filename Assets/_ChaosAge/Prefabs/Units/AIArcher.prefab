@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 8376835241740794270}
   - component: {fileID: 3593603261517773478}
   m_Layer: 0
-  m_Name: AIGoap
+  m_Name: AIArcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -282,7 +282,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -309,7 +309,7 @@ MonoBehaviour:
   hpSlider: {fileID: 7672076060929433225}
   text: {fileID: 4822511957299864889}
   unit:
-    type: 11
+    type: 1
     level: 0
     hosing: 1
     trained: 0
@@ -403,6 +403,7 @@ MonoBehaviour:
     value: 1
   agent: {fileID: 0}
   target: {fileID: 0}
+  range: 8
 --- !u!114 &1869205412841574753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,7 +424,6 @@ MonoBehaviour:
   listEffects:
   - key: attack
     value: 1
-  isBuildingDied: 0
   targetBuilding: {fileID: 0}
 --- !u!114 &8376835241740794270
 MonoBehaviour:
@@ -628,7 +628,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 60dfb208e2b344543847139dfd172eb0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

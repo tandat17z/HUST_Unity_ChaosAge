@@ -54,7 +54,7 @@ namespace ChaosAge.AI.battle
 
         public void AddUnit(EUnitType unitType, int x, int y) // ok
         {
-            var battleUnit = FactoryManager.Instance.SpawnUnit(EUnitType.AIAgent);
+            var battleUnit = FactoryManager.Instance.SpawnUnit(unitType);
             battleUnit.SetInfo();
             var position = BattleVector2.GridToWorldPosition(new BattleVector2Int(x, y));
             var pos = BuildingManager.Instance.Grid.transform.TransformPoint(
