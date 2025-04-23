@@ -6,16 +6,11 @@ namespace AILibraryForNPC.core
 {
     public class PerceptionSystem : MonoBehaviour
     {
+        [SerializeField]
         private List<BaseSensor> sensors = new List<BaseSensor>();
         private WorldState worldState;
 
-        protected virtual void Awake()
-        {
-            // Lấy tất cả các sensor được gắn vào GameObject
-            sensors.AddRange(GetComponents<BaseSensor>());
-        }
-
-        public void Initialize()
+        protected virtual void Start()
         {
             worldState = new WorldState();
             foreach (var sensor in sensors)
@@ -24,7 +19,7 @@ namespace AILibraryForNPC.core
             }
         }
 
-        public WorldState GetWorldState()
+        public WorldState UpdateWorldState()
         {
             foreach (var sensor in sensors)
             {

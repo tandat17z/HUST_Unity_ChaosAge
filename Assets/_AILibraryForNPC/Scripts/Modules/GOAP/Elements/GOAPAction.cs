@@ -5,42 +5,24 @@ namespace AILibraryForNPC.core.Modules.GOAP
     public abstract class GOAPAction : BaseAction
     {
         public float cost = 1.0f;
-        public Dictionary<string, int> preconditions = new Dictionary<string, int>();
-        public Dictionary<string, int> effects = new Dictionary<string, int>();
+        public List<TargetState> listPreconditions;
+        public List<TargetState> listEffects;
 
-        public override string ActionName => GetType().Name;
-        protected bool isExecuting = false;
+        public Dictionary<string, int> preconditions;
+        public Dictionary<string, int> effects;
 
         protected virtual void Awake()
         {
-            InitializePreconditions();
-            InitializeEffects();
-        }
-
-        protected abstract void InitializePreconditions();
-        protected abstract void InitializeEffects();
-
-        public bool IsActionComplete()
-        {
-            return !isExecuting;
-        }
-
-        public virtual bool PrePerform()
-        {
-            isExecuting = true;
-            return true;
-        }
-
-        public virtual void PostPerform()
-        {
-            isExecuting = false;
-        }
-
-        public abstract void Perform();
-
-        public Dictionary<string, int> GetPreconditions()
-        {
-            return preconditions;
+            preconditions = new Dictionary<string, int>();
+            effects = new Dictionary<string, int>();
+            foreach (var precondition in listPreconditions)
+            {
+                preconditions.Add(precondition.key, precondition.value);
+            }
+            foreach (var effect in listEffects)
+            {
+                effects.Add(effect.key, effect.value);
+            }
         }
 
         public Dictionary<string, int> GetEffects()

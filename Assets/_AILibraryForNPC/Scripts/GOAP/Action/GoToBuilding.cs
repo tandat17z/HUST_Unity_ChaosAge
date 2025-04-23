@@ -19,7 +19,7 @@ public class GoToHospital : GAction
 
     public override void Perform()
     {
-        Debug.Log("Go to hospital");
+        // Debug.Log("Go to hospital");
     }
 
     public override void PostPerform()

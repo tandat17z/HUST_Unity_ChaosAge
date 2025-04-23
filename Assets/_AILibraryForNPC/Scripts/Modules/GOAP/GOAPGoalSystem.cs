@@ -14,11 +14,6 @@ namespace AILibraryForNPC.core.Modules.GOAP
             availableGoals.AddRange(GetComponents<GOAPGoal>());
         }
 
-        public List<GOAPGoal> GetGoals()
-        {
-            return availableGoals;
-        }
-
         public override BaseGoal SelectBestGoal(WorldState worldState)
         {
             BaseGoal bestGoal = null;
@@ -29,33 +24,14 @@ namespace AILibraryForNPC.core.Modules.GOAP
                 if (!goal.IsValid(worldState))
                     continue;
 
-                if (goal.Priority > highestPriority)
+                if (goal.priority > highestPriority)
                 {
-                    highestPriority = goal.Priority;
+                    highestPriority = goal.priority;
                     bestGoal = goal;
                 }
             }
 
             return bestGoal;
-        }
-    }
-
-    public class AttackBuildingGoal : GOAPGoal
-    {
-        protected override void Initialize()
-        {
-            targetStates.Add("hasTarget", 1);
-            targetStates.Add("isAtTarget", 1);
-        }
-
-        public override bool IsValid(WorldState worldState)
-        {
-            return worldState.GetState<int>("hasTarget") == 1;
-        }
-
-        public override bool IsAchieved(WorldState worldState)
-        {
-            return worldState.GetState<int>("targetDestroyed") == 1;
         }
     }
 }

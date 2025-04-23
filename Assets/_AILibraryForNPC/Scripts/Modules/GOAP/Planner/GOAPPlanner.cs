@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace AILibraryForNPC.core.Modules.GOAP
     public class GOAPPlanner
     {
         public Queue<GOAPAction> Plan(
-            List<GOAPAction> actions,
+            List<BaseAction> actions,
             Dictionary<string, int> goal,
             WorldState worldState
         )
@@ -14,10 +15,8 @@ namespace AILibraryForNPC.core.Modules.GOAP
             // Khởi tạo các node bắt đầu
             var start = new GOAPNode(null, 0, worldState.GetStates(), null);
             var leaves = new List<GOAPNode>();
-            var open = new List<GOAPNode>();
-            open.Add(start);
 
-            bool success = BuildGraph(start, leaves, open, actions, goal);
+            bool success = BuildGraph(start, leaves, actions, goal);
 
             if (!success)
             {
@@ -60,8 +59,7 @@ namespace AILibraryForNPC.core.Modules.GOAP
         private bool BuildGraph(
             GOAPNode parent,
             List<GOAPNode> leaves,
-            List<GOAPNode> open,
-            List<GOAPAction> actions,
+            List<BaseAction> actions,
             Dictionary<string, int> goal
         )
         {
@@ -70,15 +68,16 @@ namespace AILibraryForNPC.core.Modules.GOAP
             // Kiểm tra tất cả các action có thể thực hiện
             foreach (var action in actions)
             {
+                var goapAction = action as GOAPAction;
                 // Kiểm tra preconditions
-                if (!action.IsAchievableGiven(parent.state))
+                if (!goapAction.IsAchievableGiven(parent.state))
                 {
                     continue;
                 }
 
                 // Tạo trạng thái mới sau khi thực hiện action
                 var currentState = new Dictionary<string, int>(parent.state);
-                foreach (var effect in action.GetEffects())
+                foreach (var effect in goapAction.GetEffects())
                 {
                     currentState[effect.Key] = effect.Value;
                 }
@@ -86,9 +85,9 @@ namespace AILibraryForNPC.core.Modules.GOAP
                 // Tạo node mới
                 var node = new GOAPNode(
                     parent,
-                    parent.runningCost + action.cost,
+                    parent.runningCost + goapAction.cost,
                     currentState,
-                    action
+                    goapAction
                 );
 
                 // Kiểm tra xem đã đạt được goal chưa
@@ -100,12 +99,25 @@ namespace AILibraryForNPC.core.Modules.GOAP
                 else
                 {
                     // Nếu chưa đạt goal, thêm vào open list để tiếp tục tìm kiếm
-                    open.Add(node);
-                    foundOne = BuildGraph(node, leaves, open, actions, goal);
+                    List<BaseAction> subset = ActionSubset(actions, goapAction);
+                    foundOne = BuildGraph(node, leaves, subset, goal);
                 }
             }
 
             return foundOne;
+        }
+
+        private List<BaseAction> ActionSubset(List<BaseAction> actions, GOAPAction goapAction)
+        {
+            List<BaseAction> subset = new List<BaseAction>();
+            foreach (BaseAction a in actions)
+            {
+                if (!a.Equals(goapAction))
+                {
+                    subset.Add(a);
+                }
+            }
+            return subset;
         }
 
         private bool GoalAchieved(Dictionary<string, int> goal, Dictionary<string, int> state)

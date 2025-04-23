@@ -3827,6 +3827,22 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1647430398520790479, guid: 715118e342c23f4459224c7856f481b8, type: 3}
+      propertyPath: agent
+      value: 
+      objectReference: {fileID: 1432088283}
+    - target: {fileID: 1647430398520790479, guid: 715118e342c23f4459224c7856f481b8, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 97440116}
+    - target: {fileID: 1647430398520790479, guid: 715118e342c23f4459224c7856f481b8, type: 3}
+      propertyPath: listEffects.Array.data[0].key
+      value: isNearBuilding
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869205412841574753, guid: 715118e342c23f4459224c7856f481b8, type: 3}
+      propertyPath: listPreconditions.Array.data[0].key
+      value: isNearBuilding
+      objectReference: {fileID: 0}
     - target: {fileID: 2082767486148323447, guid: 715118e342c23f4459224c7856f481b8, type: 3}
       propertyPath: m_Name
       value: AIGoap
@@ -3896,6 +3912,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 715118e342c23f4459224c7856f481b8, type: 3}
+--- !u!195 &1432088283 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 7598639021349286907, guid: 715118e342c23f4459224c7856f481b8, type: 3}
+  m_PrefabInstance: {fileID: 1432088282}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1454714384 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9069115365609054727, guid: 60f79905accf3b24fa0114b941f1aac0, type: 3}

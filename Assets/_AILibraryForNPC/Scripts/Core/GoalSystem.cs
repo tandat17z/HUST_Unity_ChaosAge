@@ -22,9 +22,9 @@ namespace AILibraryForNPC.core
                 if (!goal.IsValid(worldState))
                     continue;
 
-                if (goal.Priority > highestPriority)
+                if (goal.priority > highestPriority)
                 {
-                    highestPriority = goal.Priority;
+                    highestPriority = goal.priority;
                     bestGoal = goal;
                 }
             }

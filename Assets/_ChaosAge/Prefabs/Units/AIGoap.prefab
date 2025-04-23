@@ -240,9 +240,13 @@ GameObject:
   - component: {fileID: 6215746415848282489}
   - component: {fileID: 7598639021349286907}
   - component: {fileID: 1399985123156183839}
-  - component: {fileID: -1543666283601974567}
-  - component: {fileID: 2606203836729959073}
-  - component: {fileID: 5179530625812613214}
+  - component: {fileID: 9103911250842124029}
+  - component: {fileID: 6916585752072836854}
+  - component: {fileID: 5258338867305518883}
+  - component: {fileID: 4329856524720353027}
+  - component: {fileID: 1647430398520790479}
+  - component: {fileID: 1869205412841574753}
+  - component: {fileID: 8376835241740794270}
   m_Layer: 0
   m_Name: AIGoap
   m_TagString: Untagged
@@ -327,7 +331,7 @@ MonoBehaviour:
   pathTime: 0
   pathTraveledTime: 0
   attackTimer: 0
---- !u!114 &-1543666283601974567
+--- !u!114 &9103911250842124029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -336,22 +340,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2082767486148323447}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf0a7db3a7fc8084a8c791e12b26ccaa, type: 3}
+  m_Script: {fileID: 11500000, guid: 39be165e5685a5a4d9804a644029c0ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: []
-  listGoalEntry:
-  - key:
-      beliefs:
-      - key: attackBuilding
-        value: 1
-      remove: 1
-    value: 2
   currentAction: {fileID: 0}
-  currentGoal:
-    beliefs: []
-    remove: 0
---- !u!114 &2606203836729959073
+--- !u!114 &6916585752072836854
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -360,22 +353,55 @@ MonoBehaviour:
   m_GameObject: {fileID: 2082767486148323447}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dff4f3f75807d042b68c2c2f3506fec, type: 3}
+  m_Script: {fileID: 11500000, guid: d72acc1abfeddd94388c16d94f9b8f0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5258338867305518883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082767486148323447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b7dc3104dd372b459de9a390f05844c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensors: []
+--- !u!114 &4329856524720353027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082767486148323447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b103a18c9b4104e9c2b7a640a812ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 9103911250842124029}
+--- !u!114 &1647430398520790479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082767486148323447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cce96c78d4c754e4dad54cc36b5dbb34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   actionName: GoToBuilding
   cost: 1
-  target: {fileID: 0}
-  targetTag: 
-  duration: 1
-  preConditions: []
-  afterEffects:
-  - key: isNearBuilding
+  listPreconditions: []
+  listEffects:
+  - key: toBuilding
     value: 1
-  agent: {fileID: 7598639021349286907}
-  running: 0
-  isPerforming: 0
---- !u!114 &5179530625812613214
+  target: {fileID: 0}
+--- !u!114 &1869205412841574753
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -384,24 +410,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 2082767486148323447}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a02f89a0f3cf03f4cb74aa388c510c25, type: 3}
+  m_Script: {fileID: 11500000, guid: f93ed37065eaf3841b43951fdfe03fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionName: Action
+  actionName: Attack
   cost: 1
-  target: {fileID: 0}
-  targetTag: 
-  duration: 0
-  preConditions:
-  - key: isNearBuilding
+  listPreconditions:
+  - key: toBuilding
     value: 1
-  afterEffects:
-  - key: attackBuilding
+  listEffects:
+  - key: attack
     value: 1
-  agent: {fileID: 7598639021349286907}
-  running: 0
-  isPerforming: 0
   isBuildingDied: 0
+--- !u!114 &8376835241740794270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082767486148323447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da867c4fa358e6248852812bb48812cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goalName: Attack
+  priority: 1
+  listTargetStates:
+  - key: attack
+    value: 1
 --- !u!1 &2341945902855891894
 GameObject:
   m_ObjectHideFlags: 0

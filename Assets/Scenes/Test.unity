@@ -356,13 +356,25 @@ PrefabInstance:
       addedObject: {fileID: 449363818}
     - targetCorrespondingSourceObject: {fileID: 7881807149238628900, guid: d36c43225f9391e4c8810c98eb7ef85e, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 449363825}
+    - targetCorrespondingSourceObject: {fileID: 7881807149238628900, guid: d36c43225f9391e4c8810c98eb7ef85e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 449363824}
+    - targetCorrespondingSourceObject: {fileID: 7881807149238628900, guid: d36c43225f9391e4c8810c98eb7ef85e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 449363823}
+    - targetCorrespondingSourceObject: {fileID: 7881807149238628900, guid: d36c43225f9391e4c8810c98eb7ef85e, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 449363822}
     - targetCorrespondingSourceObject: {fileID: 7881807149238628900, guid: d36c43225f9391e4c8810c98eb7ef85e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 449363821}
     - targetCorrespondingSourceObject: {fileID: 7881807149238628900, guid: d36c43225f9391e4c8810c98eb7ef85e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 449363823}
+      addedObject: {fileID: 449363820}
+    - targetCorrespondingSourceObject: {fileID: 7881807149238628900, guid: d36c43225f9391e4c8810c98eb7ef85e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 449363819}
   m_SourcePrefab: {fileID: 100100000, guid: d36c43225f9391e4c8810c98eb7ef85e, type: 3}
 --- !u!1 &449363817 stripped
 GameObject:
@@ -391,6 +403,44 @@ NavMeshAgent:
   m_BaseOffset: 1.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &449363819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449363817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da867c4fa358e6248852812bb48812cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goalName: Attack
+  priority: 10
+  listTargetStates:
+  - key: attack
+    value: 1
+--- !u!114 &449363820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449363817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f93ed37065eaf3841b43951fdfe03fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionName: attack
+  cost: 1
+  listPreconditions:
+  - key: isNearBuilding
+    value: 1
+  listEffects:
+  - key: attack
+    value: 1
+  isBuildingDied: 0
 --- !u!114 &449363821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,20 +450,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 449363817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dff4f3f75807d042b68c2c2f3506fec, type: 3}
+  m_Script: {fileID: 11500000, guid: cce96c78d4c754e4dad54cc36b5dbb34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionName: GoToHospital
+  actionName: gotobuilding
   cost: 1
-  target: {fileID: 378727756}
-  targetTag: 
-  duration: 2
-  preConditions: []
-  afterEffects:
-  - key: hasArrived
-    value: 3
+  listPreconditions: []
+  listEffects:
+  - key: isNearBuilding
+    value: 1
+  target: {fileID: 968306959}
   agent: {fileID: 449363818}
-  running: 0
 --- !u!114 &449363822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,13 +470,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 449363817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3ae40a3755e0fa4d999b9895415b13e, type: 3}
+  m_Script: {fileID: 11500000, guid: 39be165e5685a5a4d9804a644029c0ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: []
   currentAction: {fileID: 0}
-  currentGoal:
-    remove: 0
 --- !u!114 &449363823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,22 +483,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 449363817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a02f89a0f3cf03f4cb74aa388c510c25, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b7dc3104dd372b459de9a390f05844c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionName: Action
-  cost: 1
-  target: {fileID: 968306959}
-  targetTag: 
-  duration: 3
-  preConditions:
-  - key: hasArrived
-    value: 3
-  afterEffects:
-  - key: isWaiting
-    value: 1
-  agent: {fileID: 449363818}
-  running: 0
+  sensors: []
+--- !u!114 &449363824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449363817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b103a18c9b4104e9c2b7a640a812ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 449363822}
+--- !u!114 &449363825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449363817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72acc1abfeddd94388c16d94f9b8f0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &703144942
 GameObject:
   m_ObjectHideFlags: 0

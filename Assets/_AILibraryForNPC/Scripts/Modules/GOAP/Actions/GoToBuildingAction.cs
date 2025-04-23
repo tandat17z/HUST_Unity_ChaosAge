@@ -6,81 +6,41 @@ namespace AILibraryForNPC.core.Modules.GOAP.Actions
     public class GoToBuildingAction : GOAPAction
     {
         public GameObject target;
-        private NavMeshAgent agent;
-        private float stoppingDistance = 5f;
+        public NavMeshAgent agent;
 
-        protected override void InitializePreconditions()
-        {
-            preconditions.Add("hasTarget", 1);
-        }
-
-        protected override void InitializeEffects()
-        {
-            effects.Add("isAtTarget", 1);
-        }
-
-        protected override void Awake()
-        {
-            base.Awake();
-            agent = GetComponent<NavMeshAgent>();
-        }
-
-        public override void Perform()
+        public override bool IsActionComplete(WorldState worldState)
         {
             if (target == null)
-            {
-                isExecuting = false;
-                return;
-            }
+                return true;
 
             float distanceToTarget = Vector3.Distance(
                 target.transform.position,
                 transform.position
             );
-            if (agent.hasPath && distanceToTarget <= stoppingDistance)
-            {
-                isExecuting = false;
-            }
+
+            return agent.hasPath && distanceToTarget < 5f;
         }
 
-        public override bool PrePerform()
+        public override void Perform(WorldState worldState) // update by frame
         {
-            if (target != null)
-            {
-                agent.SetDestination(target.transform.position);
-                return true;
-            }
-            return false;
-        }
-
-        public override void PostPerform()
-        {
-            target = null;
-        }
-
-        public void SetTarget(GameObject newTarget)
-        {
-            target = newTarget;
-        }
-
-        public override void PrePerform(WorldState worldState)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Perform(WorldState worldState)
-        {
-            throw new System.NotImplementedException();
+            // Debug.Log("Go to hospital");
         }
 
         public override void PostPerform(WorldState worldState)
         {
-            throw new System.NotImplementedException();
+            foreach (var effect in effects)
+            {
+                worldState.ModifyState(effect.Key, effect.Value);
+            }
+            target = null;
         }
 
-        public override bool IsActionComplete(WorldState worldState)
+        public override void PrePerform(WorldState worldState)
         {
-            throw new System.NotImplementedException();
+            if (target != null)
+            {
+                agent.SetDestination(target.transform.position);
+            }
         }
     }
 }

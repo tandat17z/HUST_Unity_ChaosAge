@@ -16,8 +16,6 @@ namespace AILibraryForNPC.core
         protected void Start()
         {
             perceptionSystem = GetComponent<PerceptionSystem>();
-            perceptionSystem.Initialize();
-
             goalSystem = GetComponent<GoalSystem>();
             actionSystem = GetComponent<ActionSystem>();
             Initialize();
@@ -27,7 +25,12 @@ namespace AILibraryForNPC.core
 
         public virtual void UpdateAgent()
         {
-            var worldState = perceptionSystem.GetWorldState();
+            var worldState = perceptionSystem.UpdateWorldState();
+            Debug.LogWarning("UpdateAgent");
+            foreach (var state in worldState.GetStates())
+            {
+                Debug.LogWarning($"World State: {state.Key} {state.Value}");
+            }
             UpdateDecisionMaking(worldState);
         }
 
@@ -36,7 +39,7 @@ namespace AILibraryForNPC.core
             // Kiểm tra action hiện tại
             if (currentAction != null)
             {
-                if (currentAction.IsActionComplete(worldState))
+                if (!currentAction.IsActionComplete(worldState))
                 {
                     currentAction.Perform(worldState);
                     return;

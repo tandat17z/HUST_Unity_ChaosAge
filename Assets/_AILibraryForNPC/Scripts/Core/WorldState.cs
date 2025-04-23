@@ -1,15 +1,24 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace AILibraryForNPC.core
 {
     public class WorldState
     {
-        public Dictionary<string, object> states = new Dictionary<string, object>();
+        public Dictionary<string, int> states = new Dictionary<string, int>();
 
-        public void SetState(string key, object value)
+        public WorldState() { }
+
+        public WorldState(WorldState state)
+        {
+            states = new Dictionary<string, int>(state.states);
+            foreach (var st in state.states)
+            {
+                states.Add(st.Key, st.Value);
+            }
+        }
+
+        public void SetState(string key, int value)
         {
             states[key] = value;
         }
@@ -19,19 +28,26 @@ namespace AILibraryForNPC.core
             return states[key];
         }
 
-        public T GetState<T>(string key)
-        {
-            return (T)states[key];
-        }
-
         public bool ContainsKey(string key)
         {
             return states.ContainsKey(key);
         }
 
-        internal Dictionary<string, int> GetStates()
+        public Dictionary<string, int> GetStates()
         {
-            throw new NotImplementedException();
+            return states;
+        }
+
+        public void ModifyState(string key, int value)
+        {
+            if (states.ContainsKey(key))
+            {
+                states[key] += value;
+            }
+            else
+            {
+                states.Add(key, value);
+            }
         }
     }
 }

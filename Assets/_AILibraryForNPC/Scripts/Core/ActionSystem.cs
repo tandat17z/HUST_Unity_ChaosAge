@@ -6,12 +6,13 @@ namespace AILibraryForNPC.core
     public abstract class ActionSystem : MonoBehaviour
     {
         public Agent agent;
-        private List<BaseAction> availableActions = new List<BaseAction>();
+        protected List<BaseAction> availableActions = new List<BaseAction>();
 
         void Start()
         {
             agent = GetComponent<Agent>();
             availableActions.AddRange(GetComponents<BaseAction>());
+            Initialize();
         }
 
         public abstract void Initialize();
