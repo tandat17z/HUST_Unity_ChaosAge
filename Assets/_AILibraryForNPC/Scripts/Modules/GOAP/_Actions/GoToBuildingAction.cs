@@ -58,6 +58,7 @@ namespace AILibraryForNPC.core.Modules.GOAP.Actions
             }
             if (target != null)
             {
+                agent.isStopped = false;
                 agent.SetDestination(target.transform.position);
             }
         }
