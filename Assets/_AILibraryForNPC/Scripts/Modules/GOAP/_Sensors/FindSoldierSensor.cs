@@ -35,7 +35,7 @@ public class FindSoldierSensor : BaseSensor
 
             if (soldiers != null)
             {
-                Debug.LogWarning("FindSoldierSensor" + soldiers.Count);
+                // Debug.LogWarning("FindSoldierSensor" + soldiers.Count);
                 foreach (var soldier in soldiers)
                 {
                     if (soldier != null)

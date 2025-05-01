@@ -20,7 +20,7 @@ namespace AILibraryForNPC.core.Modules.GOAP
 
             if (!success)
             {
-                Debug.Log("No plan found");
+                // Debug.Log("No plan found");
                 return null;
             }
 
@@ -48,11 +48,11 @@ namespace AILibraryForNPC.core.Modules.GOAP
 
             // Chuyển thành queue
             var queue = new Queue<GOAPAction>();
-            Debug.LogWarning("Plan:");
+            // Debug.LogWarning("Plan:");
             foreach (var a in result)
             {
                 queue.Enqueue(a);
-                Debug.Log(a.name);
+                // Debug.Log(a.name);
             }
 
             return queue;

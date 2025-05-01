@@ -12,48 +12,13 @@
             "complete": false,
             "buildTime": 0.0
         },
+
         {
             "id": 1,
-            "type": 5,
-            "level": 1,
-            "x": 15,
-            "y": 23,
-            "complete": false,
-            "buildTime": 0.0
-        },
-        {
-            "id": 2,
-            "type": 1,
-            "level": 1,
-            "x": 19,
-            "y": 16,
-            "complete": false,
-            "buildTime": 0.0
-        },
-        {
-            "id": 3,
-            "type": 6,
-            "level": 1,
-            "x": 20,
-            "y": 29,
-            "complete": false,
-            "buildTime": 0.0
-        },
-        {
-            "id": 4,
-            "type": 9,
-            "level": 1,
-            "x": 25,
-            "y": 22,
-            "complete": false,
-            "buildTime": 0.0
-        },
-        {
-            "id": 5,
             "type": 10,
             "level": 1,
-            "x": 29,
-            "y": 18,
+            "x": 19,
+            "y": 17,
             "complete": false,
             "buildTime": 0.0
         }

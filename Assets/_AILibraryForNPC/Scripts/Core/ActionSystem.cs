@@ -8,7 +8,7 @@ namespace AILibraryForNPC.core
         public Agent agent;
         protected List<BaseAction> availableActions = new List<BaseAction>();
 
-        void Start()
+        void Awake()
         {
             agent = GetComponent<Agent>();
             availableActions.AddRange(GetComponents<BaseAction>());
@@ -19,14 +19,9 @@ namespace AILibraryForNPC.core
 
         public abstract BaseAction GetAction(BaseGoal goal, WorldState worldState);
 
-        protected virtual bool CanAchieveGoal(
-            BaseAction action,
-            BaseGoal goal,
-            WorldState worldState
-        )
+        public List<BaseAction> GetAvailableActions()
         {
-            // Override this method in derived classes to implement different goal checking strategies
-            return true;
+            return new List<BaseAction>(availableActions);
         }
     }
 }

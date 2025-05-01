@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ChaosAge.Battle;
+using ChaosAge.Config;
 using ChaosAge.Data;
 using ChaosAge.input;
 using ChaosAge.manager;
@@ -54,6 +55,7 @@ namespace ChaosAge.AI.battle
 
         public void AddUnit(EUnitType unitType, int x, int y) // ok
         {
+            unitType = EUnitType.RLAgent;
             var battleUnit = FactoryManager.Instance.SpawnUnit(unitType);
             battleUnit.SetInfo();
             var position = BattleVector2.GridToWorldPosition(new BattleVector2Int(x, y));
@@ -64,6 +66,102 @@ namespace ChaosAge.AI.battle
             battleUnit.transform.position = pos;
 
             units.Add(battleUnit);
+        }
+
+        public void CreateBattle()
+        {
+            foreach (var building in buildings)
+            {
+                Destroy(building.gameObject);
+            }
+            buildings.Clear();
+
+            var b = FactoryManager.Instance.SpawnBuilding(EBuildingType.townhall);
+            var x = UnityEngine.Random.Range(5, 35);
+            var y = UnityEngine.Random.Range(5, 35);
+            b.SetInfo(0, 1);
+            b.PlacedOnGrid(x, y);
+
+            // archertower0
+            var battleBuilding = b.GetComponent<BattleBuilding>();
+            battleBuilding.SetInfo(new BuildingData(EBuildingType.townhall, x, y));
+            buildings.Add(battleBuilding);
+
+            b = FactoryManager.Instance.SpawnBuilding(EBuildingType.archertower);
+            x = UnityEngine.Random.Range(5, 20);
+            y = UnityEngine.Random.Range(5, 20);
+            b.SetInfo(1, 1);
+            b.PlacedOnGrid(x, y);
+
+            battleBuilding = b.GetComponent<BattleBuilding>();
+            battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
+            buildings.Add(battleBuilding);
+
+            // archertower0
+            b = FactoryManager.Instance.SpawnBuilding(EBuildingType.archertower);
+            x = UnityEngine.Random.Range(20, 35);
+            y = UnityEngine.Random.Range(5, 20);
+            b.SetInfo(2, 1);
+            b.PlacedOnGrid(x, y);
+
+            battleBuilding = b.GetComponent<BattleBuilding>();
+            battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
+            buildings.Add(battleBuilding);
+
+            // archertower1
+            b = FactoryManager.Instance.SpawnBuilding(EBuildingType.archertower);
+            x = UnityEngine.Random.Range(20, 35);
+            y = UnityEngine.Random.Range(20, 35);
+            b.SetInfo(3, 1);
+            b.PlacedOnGrid(x, y);
+
+            battleBuilding = b.GetComponent<BattleBuilding>();
+            battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
+            buildings.Add(battleBuilding);
+
+            b = FactoryManager.Instance.SpawnBuilding(EBuildingType.archertower);
+            x = UnityEngine.Random.Range(5, 20);
+            y = UnityEngine.Random.Range(20, 35);
+            b.SetInfo(4, 1);
+            b.PlacedOnGrid(x, y);
+
+            battleBuilding = b.GetComponent<BattleBuilding>();
+            battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
+            buildings.Add(battleBuilding);
+
+            BuildingManager.Instance.UpdateNavMesh();
+        }
+
+        void Update()
+        {
+            if (buildings.Count == 0 || CheckTownHall() == false)
+            {
+                CreateBattle();
+                return;
+            }
+
+            if (units.Count == 0)
+            {
+                var rand = UnityEngine.Random.Range(1, 10);
+                for (int i = 0; i < rand; i++)
+                {
+                    var x = UnityEngine.Random.Range(1, 39);
+                    var y = UnityEngine.Random.Range(1, 39);
+                    AddUnit(EUnitType.RLAgent, x, y);
+                }
+            }
+        }
+
+        private bool CheckTownHall()
+        {
+            foreach (var building in buildings)
+            {
+                if (building.type == EBuildingType.townhall)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

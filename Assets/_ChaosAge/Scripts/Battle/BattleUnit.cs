@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ChaosAge.AI.battle;
 using ChaosAge.Config;
 using ChaosAge.Data;
 using ChaosAge.manager;
@@ -126,6 +127,7 @@ namespace ChaosAge.Battle
                 //    dieCallback.Invoke((long)unit.type);
                 //}
                 Destroy(gameObject);
+                AIBattleManager.Instance.units.Remove(this);
             }
         }
 

@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace AILibraryForNPC.core
 {
-    [RequireComponent(typeof(PerceptionSystem))]
     public abstract class Agent : MonoBehaviour
     {
         protected PerceptionSystem perceptionSystem;
@@ -27,12 +26,12 @@ namespace AILibraryForNPC.core
         {
             var worldState = perceptionSystem.UpdateWorldState();
 
-            string log = $"{name} - worldstate: ";
-            foreach (var state in worldState.GetStates())
-            {
-                log += $"{state.Key} {state.Value} - ";
-            }
-            Debug.LogWarning(log);
+            // string log = $"{name} - worldstate: ";
+            // foreach (var state in worldState.GetStates())
+            // {
+            //     log += $"{state.Key} {state.Value} - ";
+            // }
+            // Debug.LogWarning(log);
             UpdateDecisionMaking(worldState);
         }
 

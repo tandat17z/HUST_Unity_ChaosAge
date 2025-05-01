@@ -39,12 +39,12 @@ namespace AILibraryForNPC.core.Modules.GOAP.Actions
                         targetSoldier.transform.position,
                         () =>
                         {
-                            Debug.Log("AttackAction" + targetSoldier.name);
+                            // Debug.Log("AttackAction" + targetSoldier.name);
                             targetSoldier.TakeDamage(10);
                         }
                     );
 
-                    Debug.LogWarning("spawn projectile");
+                    // Debug.LogWarning("spawn projectile");
                     countTime = shootInterval;
                 }
             }

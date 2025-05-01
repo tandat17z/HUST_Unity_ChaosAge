@@ -39,6 +39,7 @@ namespace ChaosAge.Data
         dragon,
         pekka,
         AIAgent,
+        RLAgent,
     }
 
     [Serializable]

@@ -8,12 +8,21 @@ namespace AILibraryForNPC.core
     public class PerceptionSystem : MonoBehaviour
     {
         [SerializeField, ReadOnly]
-        private List<BaseSensor> sensors = new List<BaseSensor>();
-        private WorldState worldState;
+        protected List<BaseSensor> sensors = new List<BaseSensor>();
+        protected WorldState worldState;
 
-        protected virtual void Start()
+        void Awake()
+        {
+            OnAwake();
+        }
+
+        protected virtual void OnAwake()
         {
             worldState = new WorldState();
+        }
+
+        protected void Start()
+        {
             sensors.AddRange(GetComponents<BaseSensor>());
             foreach (var sensor in sensors)
             {

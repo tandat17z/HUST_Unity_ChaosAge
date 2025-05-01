@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ChaosAge.AI.battle;
 using ChaosAge.building;
 using ChaosAge.Config;
 using ChaosAge.Data;
@@ -19,7 +20,7 @@ public class BattleBuilding : MonoBehaviour
 
     [Header("")]
     [SerializeField]
-    EBuildingType type;
+    public EBuildingType type;
 
     [SerializeField]
     int level;
@@ -95,6 +96,7 @@ public class BattleBuilding : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
+            AIBattleManager.Instance.buildings.Remove(this);
         }
     }
 
