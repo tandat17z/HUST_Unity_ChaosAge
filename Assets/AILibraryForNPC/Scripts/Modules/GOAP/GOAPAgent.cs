@@ -2,7 +2,7 @@ using AILibraryForNPC.Core;
 
 namespace AILibraryForNPC.Modules.GOAP
 {
-    public class GOAPAgent : BaseAgent
+    public abstract class GOAPAgent : BaseAgent
     {
         public override void RegisterActions()
         {
@@ -15,4 +15,3 @@ namespace AILibraryForNPC.Modules.GOAP
         }
     }
 }
-

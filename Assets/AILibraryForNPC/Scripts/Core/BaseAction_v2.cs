@@ -4,11 +4,11 @@ namespace AILibraryForNPC.Core
 {
     public abstract class BaseAction_v2
     {
-        private BaseAgent _agent;
+        protected BaseAgent agent;
 
         public void Initialize(BaseAgent agent)
         {
-            _agent = agent;
+            this.agent = agent;
         }
 
         public abstract void PrePerform(WorldState_v2 worldState);

@@ -6,10 +6,12 @@ namespace AILibraryForNPC.Core
     public class WorldState_v2
     {
         private Dictionary<string, float> _state;
+        private Dictionary<string, Object> _buffer;
 
         public WorldState_v2()
         {
             _state = new Dictionary<string, float>();
+            _buffer = new Dictionary<string, Object>();
         }
 
         public void AddState(string key, float value)
@@ -22,6 +24,16 @@ namespace AILibraryForNPC.Core
             _state[key] = value;
         }
 
+        public void AddBuffer(string key, Object value)
+        {
+            if (_buffer.ContainsKey(key))
+            {
+                Debug.LogError($"WorldState_v2: {key} already exists");
+                return;
+            }
+            _buffer[key] = value;
+        }
+
         public float GetState(string key)
         {
             if (!_state.ContainsKey(key))
@@ -32,9 +44,19 @@ namespace AILibraryForNPC.Core
             return _state[key];
         }
 
+        public Object GetBuffer(string key)
+        {
+            if (!_buffer.ContainsKey(key))
+            {
+                Debug.LogError($"WorldState_v2: {key} does not exist");
+                return null;
+            }
+            return _buffer[key];
+        }
+
         public string GetStateKey()
         {
-            return string.Join("_", _state.Keys);
+            return string.Join("_", _state.Values);
         }
     }
 }

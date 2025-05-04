@@ -4,26 +4,30 @@ namespace AILibraryForNPC.Core
 {
     public abstract class BaseAgent : MonoBehaviour
     {
-        private PerceptionSystem_v2 _perceptionSystem;
-        protected ActionSystem_v2 _actionSystem;
-        private WorldState_v2 _worldState;
+        protected PerceptionSystem_v2 perceptionSystem;
+        protected ActionSystem_v2 actionSystem;
+        protected WorldState_v2 worldState;
 
         private BaseAction_v2 _currentAction;
 
         public bool IsStart { get; set; } = false;
 
-        public BaseAgent()
+        void Awake()
         {
             // Initialize perception system
-            _perceptionSystem = new PerceptionSystem_v2();
+            perceptionSystem = new PerceptionSystem_v2();
             RegisterSensors();
-            _perceptionSystem.InitializeSensors(this);
+            perceptionSystem.InitializeSensors(this);
 
             // Initialize action system
-            _actionSystem = GetComponent<ActionSystem_v2>();
+            actionSystem = GetComponent<ActionSystem_v2>();
             RegisterActions();
-            _actionSystem.InitializeActions(this);
+            actionSystem.InitializeActions(this);
+
+            OnAwake();
         }
+
+        public abstract void OnAwake();
 
         public abstract void RegisterSensors();
         public abstract void RegisterActions();
@@ -32,23 +36,23 @@ namespace AILibraryForNPC.Core
         {
             if (IsStart)
             {
-                _worldState = _perceptionSystem.Observe();
+                worldState = perceptionSystem.Observe();
                 if (_currentAction != null)
                 {
-                    if (_currentAction.IsComplete(_worldState) == true)
+                    if (_currentAction.IsComplete(worldState) == true)
                     {
-                        _currentAction.PostPerform(_worldState);
+                        _currentAction.PostPerform(worldState);
                         _currentAction = null;
                         return;
                     }
-                    _currentAction.Perform(_worldState);
+                    _currentAction.Perform(worldState);
                     return;
                 }
 
-                _currentAction = _actionSystem.SelectAction(_worldState);
+                _currentAction = actionSystem.SelectAction(worldState);
                 if (_currentAction != null)
                 {
-                    _currentAction.PrePerform(_worldState);
+                    _currentAction.PrePerform(worldState);
                 }
             }
         }

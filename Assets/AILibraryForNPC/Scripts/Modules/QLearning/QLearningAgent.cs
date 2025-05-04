@@ -8,7 +8,7 @@ namespace AILibraryForNPC.Modules.QLearning
     {
         public void AddReward(float reward)
         {
-            (_actionSystem as QLearningActionSystem).AddReward(reward);
+            (actionSystem as QLearningActionSystem).AddReward(reward);
         }
     }
 }

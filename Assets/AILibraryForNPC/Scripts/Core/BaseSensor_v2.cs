@@ -2,11 +2,11 @@ namespace AILibraryForNPC.Core
 {
     public abstract class BaseSensor_v2
     {
-        protected BaseAgent _agent;
+        protected BaseAgent agent;
 
         public void Initialize(BaseAgent agent)
         {
-            _agent = agent;
+            this.agent = agent;
         }
 
         public abstract void Observe(WorldState_v2 worldstate);
