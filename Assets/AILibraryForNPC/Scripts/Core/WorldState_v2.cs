@@ -18,7 +18,7 @@ namespace AILibraryForNPC.Core
         {
             if (_state.ContainsKey(key))
             {
-                Debug.LogError($"WorldState_v2: {key} already exists");
+                Debug.LogWarning($"WorldState_v2: {key} already exists");
                 return;
             }
             _state[key] = value;
@@ -28,7 +28,7 @@ namespace AILibraryForNPC.Core
         {
             if (_buffer.ContainsKey(key))
             {
-                Debug.LogError($"WorldState_v2: {key} already exists");
+                Debug.LogWarning($"WorldState_v2: {key} already exists");
                 return;
             }
             _buffer[key] = value;
@@ -38,7 +38,7 @@ namespace AILibraryForNPC.Core
         {
             if (!_state.ContainsKey(key))
             {
-                Debug.LogError($"WorldState_v2: {key} does not exist");
+                Debug.LogWarning($"WorldState_v2: {key} does not exist");
                 return 0;
             }
             return _state[key];
@@ -48,7 +48,7 @@ namespace AILibraryForNPC.Core
         {
             if (!_buffer.ContainsKey(key))
             {
-                Debug.LogError($"WorldState_v2: {key} does not exist");
+                Debug.LogWarning($"WorldState_v2: {key} does not exist");
                 return null;
             }
             return _buffer[key];
@@ -57,6 +57,16 @@ namespace AILibraryForNPC.Core
         public string GetStateKey()
         {
             return string.Join("_", _state.Values);
+        }
+
+        public string GetString()
+        {
+            string result = "";
+            foreach (var item in _state)
+            {
+                result += $"{item.Key}: {item.Value}   ";
+            }
+            return result;
         }
     }
 }

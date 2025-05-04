@@ -23,6 +23,8 @@ namespace AILibraryForNPC.Examples
             BattleBuilding townhall = null;
             float minDistanceArcherTower = float.MaxValue;
             float minDistanceTownhall = float.MaxValue;
+            _distanceToDefense = float.MaxValue;
+            _distanceToTownhall = float.MaxValue;
             foreach (var building in buildings)
             {
                 if (building.health > 0 && building.type == EBuildingType.archertower)
@@ -65,26 +67,45 @@ namespace AILibraryForNPC.Examples
                 _targetTownhall = townhall.gameObject;
                 SetTownhallInfo(worldstate);
             }
+
+            if (_distanceToDefense < _distanceToTownhall)
+            {
+                worldstate.AddBuffer("target", _targetDefense.GetComponent<BattleBuilding>());
+            }
+            else
+            {
+                worldstate.AddBuffer("target", _targetTownhall.GetComponent<BattleBuilding>());
+            }
         }
 
         private void SetDefenseInfo(WorldState_v2 worldstate)
         {
-            worldstate.AddState("hpDefense", _hpDefense);
-            worldstate.AddState("distanceToDefense", _distanceToDefense);
-            worldstate.AddState("targetDefenseX", _targetDefense.transform.position.x);
-            worldstate.AddState("targetDefenseY", _targetDefense.transform.position.y);
-
+            worldstate.AddState("hpDefense", GetHpLevel(_hpDefense));
+            worldstate.AddState("distanceToDefense", GetDistanceLevel(_distanceToDefense));
             worldstate.AddBuffer("targetDefense", _targetDefense);
         }
 
         private void SetTownhallInfo(WorldState_v2 worldstate)
         {
-            worldstate.AddState("hpTownhall", _hpTownhall);
-            worldstate.AddState("distanceToTownhall", _distanceToTownhall);
-            worldstate.AddState("targetTownhallX", _targetTownhall.transform.position.x);
-            worldstate.AddState("targetTownhallY", _targetTownhall.transform.position.y);
-
+            worldstate.AddState("hpTownhall", GetHpLevel(_hpTownhall));
+            worldstate.AddState("distanceToTownhall", GetDistanceLevel(_distanceToTownhall));
             worldstate.AddBuffer("targetTownhall", _targetTownhall);
+        }
+
+        private int GetHpLevel(float hp)
+        {
+            if (hp <= 30)
+                return 0;
+            return 1;
+        }
+
+        private int GetDistanceLevel(float distance)
+        {
+            if (distance <= 5)
+                return 0;
+            if (distance <= 10)
+                return 1;
+            return 2;
         }
     }
 }

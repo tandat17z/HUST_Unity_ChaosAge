@@ -33,7 +33,10 @@ namespace AILibraryForNPC.Examples
             _target = worldState.GetBuffer("targetTownhall") as GameObject;
             if (_target != null)
             {
+                _navMeshAgent.isStopped = false;
                 _navMeshAgent.SetDestination(_target.transform.position);
+
+                AddReward(-1);
             }
         }
     }

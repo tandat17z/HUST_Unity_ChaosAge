@@ -40,6 +40,7 @@ namespace ChaosAge.Data
         pekka,
         AIAgent,
         RLAgent,
+        QLearningBarbarian,
     }
 
     [Serializable]

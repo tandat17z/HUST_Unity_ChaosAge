@@ -28,6 +28,7 @@ namespace AILibraryForNPC.Examples
 
         public override void PrePerform(WorldState_v2 worldState)
         {
+            _target = worldState.GetBuffer("target") as BattleBuilding;
             if (_target != null)
             {
                 _target.TakeDamage(5);
@@ -41,6 +42,10 @@ namespace AILibraryForNPC.Examples
                 {
                     AddReward(50);
                 }
+            }
+            else
+            {
+                AddReward(-3);
             }
         }
     }

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using AILibraryForNPC.Core;
 using UnityEngine;
 
@@ -8,7 +7,9 @@ namespace AILibraryForNPC.Modules.QLearning
     {
         [SerializeField]
         public bool IsTraining = true;
-        public static Dictionary<string, float> qTable = new Dictionary<string, float>();
+
+        [SerializeField]
+        private QLearningTableSO qLearningTable;
 
         [SerializeField]
         private float learningRate = 0.1f;
@@ -28,10 +29,17 @@ namespace AILibraryForNPC.Modules.QLearning
             // Chọn action dựa trên Q-learning
             if (IsTraining && _lastStateKey != null && _lastAction != -1)
             {
+                Debug.LogWarning(
+                    "UpdateQValue: "
+                        + $"{_lastStateKey} {_lastAction} {_reward} {worldState.GetStateKey()}"
+                );
                 UpdateQValue(_lastStateKey, _lastAction, _reward, worldState.GetStateKey());
+                _reward = 0;
             }
 
             int index = ChooseAction(worldState);
+            _lastStateKey = worldState.GetStateKey();
+            _lastAction = index;
             return _actions[index];
         }
 
@@ -42,20 +50,19 @@ namespace AILibraryForNPC.Modules.QLearning
             string currentStateKey
         )
         {
-            string key = $"{lastStateKey}_{lastAction}";
-            float currentQ = GetQValue(lastStateKey, lastAction);
+            float currentQ = qLearningTable.GetQValue(lastStateKey, lastAction);
 
             // Tìm Q-value lớn nhất cho next state
             float maxNextQ = float.MinValue;
             for (int i = 0; i < _actions.Count; i++)
             {
-                float nextQ = GetQValue(currentStateKey, i);
+                float nextQ = qLearningTable.GetQValue(currentStateKey, i);
                 maxNextQ = Mathf.Max(maxNextQ, nextQ);
             }
 
             // Cập nhật Q-value theo công thức Q-learning
             float newQ = currentQ + learningRate * (reward + discountFactor * maxNextQ - currentQ);
-            qTable[key] = newQ;
+            qLearningTable.UpdateQValue(lastStateKey, lastAction, newQ);
         }
 
         public void AddReward(float reward)
@@ -77,7 +84,7 @@ namespace AILibraryForNPC.Modules.QLearning
 
             for (int i = 0; i < _actions.Count; i++)
             {
-                float qValue = GetQValue(worldState.GetStateKey(), i);
+                float qValue = qLearningTable.GetQValue(worldState.GetStateKey(), i);
                 if (qValue > maxQ)
                 {
                     maxQ = qValue;
@@ -86,16 +93,6 @@ namespace AILibraryForNPC.Modules.QLearning
             }
 
             return bestAction;
-        }
-
-        private float GetQValue(string state, int action)
-        {
-            string key = $"{state}_{action}";
-            if (!qTable.ContainsKey(key))
-            {
-                qTable[key] = 0f;
-            }
-            return qTable[key];
         }
     }
 }

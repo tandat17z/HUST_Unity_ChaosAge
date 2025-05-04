@@ -28,12 +28,16 @@ namespace AILibraryForNPC.Examples
 
         public override void PrePerform(WorldState_v2 worldState)
         {
+            _previousStateKey = worldState.GetStateKey();
             _navMeshAgent = agent.GetComponent<NavMeshAgent>();
 
             _target = worldState.GetBuffer("targetDefense") as GameObject;
             if (_target != null)
             {
+                _navMeshAgent.isStopped = false;
                 _navMeshAgent.SetDestination(_target.transform.position);
+
+                AddReward(-2);
             }
         }
     }

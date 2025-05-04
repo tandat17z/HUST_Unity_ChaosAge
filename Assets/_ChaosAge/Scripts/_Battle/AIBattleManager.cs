@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using AILibraryForNPC.Core;
 using ChaosAge.Battle;
 using ChaosAge.Config;
 using ChaosAge.Data;
@@ -13,6 +13,9 @@ namespace ChaosAge.AI.battle
 {
     public class AIBattleManager : Singleton<AIBattleManager>
     {
+        [SerializeField]
+        public bool StartBattle = false;
+
         [SerializeField]
         public List<BattleBuilding> buildings;
         public List<BattleUnit> units;
@@ -43,6 +46,8 @@ namespace ChaosAge.AI.battle
             }
 
             BuildingManager.Instance.UpdateNavMesh();
+
+            StartBattle = true;
         }
 
         public void DropUnit()
@@ -55,7 +60,7 @@ namespace ChaosAge.AI.battle
 
         public void AddUnit(EUnitType unitType, int x, int y) // ok
         {
-            unitType = EUnitType.RLAgent;
+            unitType = EUnitType.QLearningBarbarian;
             var battleUnit = FactoryManager.Instance.SpawnUnit(unitType);
             battleUnit.SetInfo();
             var position = BattleVector2.GridToWorldPosition(new BattleVector2Int(x, y));
@@ -65,6 +70,7 @@ namespace ChaosAge.AI.battle
 
             battleUnit.transform.position = pos;
 
+            battleUnit.GetComponent<BaseAgent>().IsStart = true;
             units.Add(battleUnit);
         }
 
@@ -77,8 +83,8 @@ namespace ChaosAge.AI.battle
             buildings.Clear();
 
             var b = FactoryManager.Instance.SpawnBuilding(EBuildingType.townhall);
-            var x = UnityEngine.Random.Range(5, 35);
-            var y = UnityEngine.Random.Range(5, 35);
+            var x = Random.Range(5, 35);
+            var y = Random.Range(5, 35);
             b.SetInfo(0, 1);
             b.PlacedOnGrid(x, y);
 
@@ -88,8 +94,8 @@ namespace ChaosAge.AI.battle
             buildings.Add(battleBuilding);
 
             b = FactoryManager.Instance.SpawnBuilding(EBuildingType.archertower);
-            x = UnityEngine.Random.Range(5, 20);
-            y = UnityEngine.Random.Range(5, 20);
+            x = Random.Range(5, 20);
+            y = Random.Range(5, 20);
             b.SetInfo(1, 1);
             b.PlacedOnGrid(x, y);
 
@@ -99,8 +105,8 @@ namespace ChaosAge.AI.battle
 
             // archertower0
             b = FactoryManager.Instance.SpawnBuilding(EBuildingType.archertower);
-            x = UnityEngine.Random.Range(20, 35);
-            y = UnityEngine.Random.Range(5, 20);
+            x = Random.Range(20, 35);
+            y = Random.Range(5, 20);
             b.SetInfo(2, 1);
             b.PlacedOnGrid(x, y);
 
@@ -110,8 +116,8 @@ namespace ChaosAge.AI.battle
 
             // archertower1
             b = FactoryManager.Instance.SpawnBuilding(EBuildingType.archertower);
-            x = UnityEngine.Random.Range(20, 35);
-            y = UnityEngine.Random.Range(20, 35);
+            x = Random.Range(20, 35);
+            y = Random.Range(20, 35);
             b.SetInfo(3, 1);
             b.PlacedOnGrid(x, y);
 
@@ -120,8 +126,8 @@ namespace ChaosAge.AI.battle
             buildings.Add(battleBuilding);
 
             b = FactoryManager.Instance.SpawnBuilding(EBuildingType.archertower);
-            x = UnityEngine.Random.Range(5, 20);
-            y = UnityEngine.Random.Range(20, 35);
+            x = Random.Range(5, 20);
+            y = Random.Range(20, 35);
             b.SetInfo(4, 1);
             b.PlacedOnGrid(x, y);
 
@@ -134,20 +140,23 @@ namespace ChaosAge.AI.battle
 
         void Update()
         {
-            if (buildings.Count == 0 || CheckTownHall() == false)
+            if (StartBattle)
             {
-                CreateBattle();
-                return;
-            }
-
-            if (units.Count == 0)
-            {
-                var rand = UnityEngine.Random.Range(1, 10);
-                for (int i = 0; i < rand; i++)
+                if (buildings.Count == 0 || CheckTownHall() == false)
                 {
-                    var x = UnityEngine.Random.Range(1, 39);
-                    var y = UnityEngine.Random.Range(1, 39);
-                    AddUnit(EUnitType.RLAgent, x, y);
+                    CreateBattle();
+                    return;
+                }
+
+                if (units.Count == 0)
+                {
+                    var rand = Random.Range(1, 10);
+                    for (int i = 0; i < rand; i++)
+                    {
+                        var x = Random.Range(1, 39);
+                        var y = Random.Range(1, 39);
+                        AddUnit(EUnitType.RLAgent, x, y);
+                    }
                 }
             }
         }

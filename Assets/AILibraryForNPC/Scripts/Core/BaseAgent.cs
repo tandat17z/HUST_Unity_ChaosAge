@@ -50,6 +50,7 @@ namespace AILibraryForNPC.Core
                 }
 
                 _currentAction = actionSystem.SelectAction(worldState);
+                Debug.LogWarning("currentAction: " + _currentAction.GetType().Name);
                 if (_currentAction != null)
                 {
                     _currentAction.PrePerform(worldState);

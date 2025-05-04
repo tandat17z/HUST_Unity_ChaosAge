@@ -10,7 +10,16 @@ namespace AILibraryForNPC.Examples
         public override void Observe(WorldState_v2 worldstate)
         {
             _countUnits = AIBattleManager.Instance.units.Count;
-            worldstate.AddState("countUnits", _countUnits);
+            worldstate.AddState("countUnits", GetCountUnitLevel(_countUnits));
+        }
+
+        private int GetCountUnitLevel(float countUnit)
+        {
+            if (countUnit <= 3)
+                return 0;
+            if (countUnit <= 6)
+                return 1;
+            return 2;
         }
     }
 }
