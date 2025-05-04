@@ -59,6 +59,11 @@ namespace AILibraryForNPC.Core
             return string.Join("_", _state.Values);
         }
 
+        public Dictionary<string, float> GetStates()
+        {
+            return _state;
+        }
+
         public string GetString()
         {
             string result = "";

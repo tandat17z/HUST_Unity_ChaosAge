@@ -1,17 +1,14 @@
 using AILibraryForNPC.Core;
+using UnityEngine;
 
 namespace AILibraryForNPC.Modules.GOAP
 {
+    [RequireComponent(typeof(GOAPActionSystem))]
     public abstract class GOAPAgent : BaseAgent
     {
-        public override void RegisterActions()
-        {
-            throw new System.NotImplementedException();
-        }
+        [SerializeField]
+        private GOAPGoalSystem _goalSystem;
 
-        public override void RegisterSensors()
-        {
-            throw new System.NotImplementedException();
-        }
+        public GOAPGoalSystem GoalSystem => _goalSystem;
     }
 }

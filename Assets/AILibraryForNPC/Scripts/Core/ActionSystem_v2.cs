@@ -11,7 +11,10 @@ namespace AILibraryForNPC.Core
         public ActionSystem_v2()
         {
             _actions = new List<BaseAction_v2>();
+            OnInitialize();
         }
+
+        protected virtual void OnInitialize() { }
 
         public void InitializeActions(BaseAgent agent)
         {
