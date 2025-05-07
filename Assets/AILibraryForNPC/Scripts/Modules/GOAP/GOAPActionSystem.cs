@@ -6,21 +6,14 @@ namespace AILibraryForNPC.Modules.GOAP
 {
     public class GOAPActionSystem : ActionSystem_v2
     {
-        [SerializeField]
-        private List<KeyValuePair<string, float>> listGoal;
-
+        private GOAPAgent _agent;
         private GOAPPlanner _planner;
-        private Queue<GOAPAction> _actionQueue;
-        private Dictionary<string, float> _goal;
+        private Queue<GOAPAction> _actionQueue = new();
 
         protected override void OnInitialize()
         {
             _planner = new GOAPPlanner();
-
-            foreach (var goal in listGoal)
-            {
-                _goal[goal.Key] = goal.Value;
-            }
+            _agent = GetComponent<GOAPAgent>();
         }
 
         public override BaseAction_v2 SelectAction(WorldState_v2 worldState)
@@ -28,8 +21,13 @@ namespace AILibraryForNPC.Modules.GOAP
             // Lên kế hoạch action mới nếu cần
             if (_actionQueue == null || _actionQueue.Count == 0)
             {
-                var goapActions = _actions.ConvertAll(action => action as GOAPAction);
-                _actionQueue = _planner.Plan(goapActions, _goal, worldState);
+                var goapActions = new List<GOAPAction>();
+                foreach (var action in _actions)
+                {
+                    goapActions.Add(action as GOAPAction);
+                }
+                Debug.Log("Count actions: " + goapActions.Count);
+                _actionQueue = _planner.Plan(goapActions, _agent.GoalSystem.GetGoal(), worldState);
             }
 
             // Lấy action tiếp theo từ plan

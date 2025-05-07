@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AILibraryForNPC.Core;
+using UnityEngine;
 
 namespace AILibraryForNPC.Modules.GOAP
 {
@@ -13,6 +14,10 @@ namespace AILibraryForNPC.Modules.GOAP
         {
             foreach (var precondition in GetPrecondition())
             {
+                if (!state.ContainsKey(precondition.Key))
+                {
+                    return false;
+                }
                 if (state[precondition.Key] < precondition.Value)
                 {
                     return false;

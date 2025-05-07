@@ -6,11 +6,10 @@ namespace AILibraryForNPC.Core
 {
     public abstract class ActionSystem_v2 : MonoBehaviour
     {
-        protected List<BaseAction_v2> _actions;
+        protected List<BaseAction_v2> _actions = new();
 
-        public ActionSystem_v2()
+        void Awake()
         {
-            _actions = new List<BaseAction_v2>();
             OnInitialize();
         }
 
@@ -22,6 +21,8 @@ namespace AILibraryForNPC.Core
             {
                 action.Initialize(agent);
             }
+
+            Debug.LogWarning("Complete Register: " + _actions.Count);
         }
 
         public void AddAction(BaseAction_v2 action)

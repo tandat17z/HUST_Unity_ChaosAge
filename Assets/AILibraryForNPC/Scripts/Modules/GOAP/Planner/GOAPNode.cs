@@ -27,5 +27,10 @@ namespace AILibraryForNPC.Modules.GOAP
         {
             return runningCost + heuristicCost;
         }
+
+        public override string ToString()
+        {
+            return $"State: {string.Join(", ", state)}";
+        }
     }
 }

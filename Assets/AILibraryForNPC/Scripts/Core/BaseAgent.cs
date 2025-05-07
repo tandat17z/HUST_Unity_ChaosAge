@@ -12,7 +12,9 @@ namespace AILibraryForNPC.Core
 
         public bool IsStart { get; set; } = false;
 
-        void Awake()
+        private bool _isCompleteInitialize = false;
+
+        public virtual void Start()
         {
             // Initialize perception system
             perceptionSystem = new PerceptionSystem_v2();
@@ -25,6 +27,7 @@ namespace AILibraryForNPC.Core
             actionSystem.InitializeActions(this);
 
             OnAwake();
+            _isCompleteInitialize = true;
         }
 
         public abstract void OnAwake();
@@ -34,7 +37,7 @@ namespace AILibraryForNPC.Core
 
         void Update()
         {
-            if (IsStart)
+            if (IsStart && _isCompleteInitialize)
             {
                 worldState = perceptionSystem.Observe();
                 if (_currentAction != null)
@@ -50,9 +53,9 @@ namespace AILibraryForNPC.Core
                 }
 
                 _currentAction = actionSystem.SelectAction(worldState);
-                Debug.LogWarning("currentAction: " + _currentAction.GetType().Name);
                 if (_currentAction != null)
                 {
+                    Debug.LogWarning("currentAction: " + _currentAction.GetType().Name);
                     _currentAction.PrePerform(worldState);
                 }
             }

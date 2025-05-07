@@ -60,7 +60,7 @@ namespace ChaosAge.AI.battle
 
         public void AddUnit(EUnitType unitType, int x, int y) // ok
         {
-            unitType = EUnitType.QLearningBarbarian;
+            unitType = EUnitType.GOAPBarbarian;
             var battleUnit = FactoryManager.Instance.SpawnUnit(unitType);
             battleUnit.SetInfo();
             var position = BattleVector2.GridToWorldPosition(new BattleVector2Int(x, y));
@@ -155,7 +155,7 @@ namespace ChaosAge.AI.battle
                     {
                         var x = Random.Range(1, 39);
                         var y = Random.Range(1, 39);
-                        AddUnit(EUnitType.RLAgent, x, y);
+                        AddUnit(EUnitType.GOAPBarbarian, x, y);
                     }
                 }
             }

@@ -240,10 +240,11 @@ GameObject:
   - component: {fileID: 6215746415848282489}
   - component: {fileID: 7598639021349286907}
   - component: {fileID: 1399985123156183839}
-  - component: {fileID: 771269967922869600}
-  - component: {fileID: 8482024318979419586}
+  - component: {fileID: 1668076756386921361}
+  - component: {fileID: 6177060893696569913}
+  - component: {fileID: 7109751854507101651}
   m_Layer: 0
-  m_Name: GOAPNPC
+  m_Name: GOAPBarbarian
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -303,7 +304,7 @@ MonoBehaviour:
   hpSlider: {fileID: 7672076060929433225}
   text: {fileID: 4822511957299864889}
   unit:
-    type: 13
+    type: 14
     level: 0
     hosing: 1
     trained: 0
@@ -326,7 +327,7 @@ MonoBehaviour:
   pathTime: 0
   pathTraveledTime: 0
   attackTimer: 0
---- !u!114 &771269967922869600
+--- !u!114 &1668076756386921361
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -335,10 +336,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2082767486148323447}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5108f32403a20954ea5df60c4274dbb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 49f00015a5d96d14194c9fa5d156af8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8482024318979419586
+--- !u!114 &6177060893696569913
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,14 +348,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 2082767486148323447}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c239cfa57224c54b9e06a434d93d815, type: 3}
+  m_Script: {fileID: 11500000, guid: 08388ba4ccdbd7e40bb24c9a2b0ca2ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsTraining: 1
-  qLearningTable: {fileID: 11400000, guid: 5352af53310fe0442a67612aacea9534, type: 2}
-  learningRate: 0.1
-  discountFactor: 0.9
-  explorationRate: 0.1
+--- !u!114 &7109751854507101651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082767486148323447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3b72b367b2a22b418395d552ec92d05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _goals:
+  - key: attack
+    value: 1
 --- !u!1 &2341945902855891894
 GameObject:
   m_ObjectHideFlags: 0

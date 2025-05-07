@@ -1,13 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using ChaosAge.Battle;
-using ChaosAge.building;
-using ChaosAge.Config;
 using ChaosAge.Data;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UnitSO", menuName = "ChaosAge/UnitSO")]
-
 public class UnitSO : ScriptableObject
 {
     public Transform[] buildingPrefabs;

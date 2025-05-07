@@ -68,14 +68,31 @@ namespace AILibraryForNPC.Examples
                 SetTownhallInfo(worldstate);
             }
 
-            if (_distanceToDefense < _distanceToTownhall)
+            if (_targetDefense != null)
             {
-                worldstate.AddBuffer("target", _targetDefense.GetComponent<BattleBuilding>());
+                worldstate.AddState("hasDefense", 1);
             }
             else
             {
-                worldstate.AddBuffer("target", _targetTownhall.GetComponent<BattleBuilding>());
+                worldstate.RemoveState("hasDefense");
             }
+            if (_targetTownhall != null)
+            {
+                worldstate.AddState("hasTownhall", 1);
+            }
+            else
+            {
+                worldstate.RemoveState("hasTownhall");
+            }
+
+            var newTarget =
+                _distanceToDefense < _distanceToTownhall ? _targetDefense : _targetTownhall;
+            if (worldstate.GetBuffer("target") != newTarget.GetComponent<BattleBuilding>())
+            {
+                worldstate.RemoveState("hasTarget");
+                worldstate.RemoveState("attack");
+            }
+            worldstate.AddBuffer("target", newTarget.GetComponent<BattleBuilding>());
         }
 
         private void SetDefenseInfo(WorldState_v2 worldstate)

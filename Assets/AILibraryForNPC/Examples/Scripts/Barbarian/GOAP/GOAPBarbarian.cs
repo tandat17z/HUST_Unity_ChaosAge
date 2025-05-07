@@ -1,4 +1,5 @@
 using AILibraryForNPC.Modules.GOAP;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace AILibraryForNPC.Examples
@@ -12,16 +13,16 @@ namespace AILibraryForNPC.Examples
 
         public override void RegisterActions()
         {
-            // actionSystem.AddAction(new MoveToDefense());
-            // actionSystem.AddAction(new MoveToTownhall());
-            // actionSystem.AddAction(new Attack());
+            actionSystem.AddAction(new GOAPMoveToDefense());
+            actionSystem.AddAction(new GOAPMoveToTownhall());
+            actionSystem.AddAction(new GOAPAttack());
         }
 
         public override void RegisterSensors()
         {
-            // perceptionSystem.AddSensor(new BarbarianSensor());
-            // perceptionSystem.AddSensor(new ArmySensor());
-            // perceptionSystem.AddSensor(new BuildingSensor());
+            perceptionSystem.AddSensor(new BarbarianSensor());
+            perceptionSystem.AddSensor(new ArmySensor());
+            perceptionSystem.AddSensor(new BuildingSensor());
         }
     }
 }

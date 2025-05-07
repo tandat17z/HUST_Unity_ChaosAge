@@ -24,6 +24,15 @@ namespace AILibraryForNPC.Core
             _state[key] = value;
         }
 
+        public void RemoveState(string key)
+        {
+            if (!_state.ContainsKey(key))
+            {
+                return;
+            }
+            _state.Remove(key);
+        }
+
         public void AddBuffer(string key, Object value)
         {
             if (_buffer.ContainsKey(key))
@@ -48,7 +57,6 @@ namespace AILibraryForNPC.Core
         {
             if (!_buffer.ContainsKey(key))
             {
-                Debug.LogWarning($"WorldState_v2: {key} does not exist");
                 return null;
             }
             return _buffer[key];

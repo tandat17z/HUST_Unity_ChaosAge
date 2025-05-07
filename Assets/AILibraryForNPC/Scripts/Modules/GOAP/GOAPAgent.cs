@@ -4,11 +4,9 @@ using UnityEngine;
 namespace AILibraryForNPC.Modules.GOAP
 {
     [RequireComponent(typeof(GOAPActionSystem))]
+    [RequireComponent(typeof(GOAPGoalSystem))]
     public abstract class GOAPAgent : BaseAgent
     {
-        [SerializeField]
-        private GOAPGoalSystem _goalSystem;
-
-        public GOAPGoalSystem GoalSystem => _goalSystem;
+        public GOAPGoalSystem GoalSystem => GetComponent<GOAPGoalSystem>();
     }
 }

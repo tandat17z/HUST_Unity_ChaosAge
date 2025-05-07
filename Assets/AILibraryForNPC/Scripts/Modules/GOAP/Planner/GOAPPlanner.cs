@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AILibraryForNPC.Core;
+using UnityEngine;
 
 namespace AILibraryForNPC.Modules.GOAP
 {
@@ -20,7 +21,7 @@ namespace AILibraryForNPC.Modules.GOAP
 
             if (!success)
             {
-                // Debug.Log("No plan found");
+                Debug.Log("No plan found");
                 return null;
             }
 
@@ -48,11 +49,9 @@ namespace AILibraryForNPC.Modules.GOAP
 
             // Chuyển thành queue
             var queue = new Queue<GOAPAction>();
-            // Debug.LogWarning("Plan:");
             foreach (var a in result)
             {
                 queue.Enqueue(a);
-                // Debug.Log(a.name);
             }
 
             return queue;
@@ -66,7 +65,6 @@ namespace AILibraryForNPC.Modules.GOAP
         )
         {
             bool foundOne = false;
-
             // Kiểm tra tất cả các action có thể thực hiện
             foreach (var action in actions)
             {
@@ -74,6 +72,7 @@ namespace AILibraryForNPC.Modules.GOAP
                 // Kiểm tra preconditions
                 if (!goapAction.IsAchievableGiven(parent.state))
                 {
+                    Debug.Log("Action not achievable: " + goapAction.GetType());
                     continue;
                 }
 
@@ -81,7 +80,14 @@ namespace AILibraryForNPC.Modules.GOAP
                 var currentState = new Dictionary<string, float>(parent.state);
                 foreach (var effect in goapAction.GetEffect())
                 {
-                    currentState[effect.Key] = effect.Value;
+                    if (currentState.ContainsKey(effect.Key))
+                    {
+                        currentState[effect.Key] += effect.Value;
+                    }
+                    else
+                    {
+                        currentState.Add(effect.Key, effect.Value);
+                    }
                 }
 
                 // Tạo node mới
@@ -129,6 +135,10 @@ namespace AILibraryForNPC.Modules.GOAP
         {
             foreach (var goalItem in goal)
             {
+                if (!currentState.ContainsKey(goalItem.Key))
+                {
+                    return false;
+                }
                 if (currentState[goalItem.Key] < goalItem.Value)
                 {
                     return false;

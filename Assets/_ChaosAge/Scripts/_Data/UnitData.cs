@@ -41,6 +41,7 @@ namespace ChaosAge.Data
         AIAgent,
         RLAgent,
         QLearningBarbarian,
+        GOAPBarbarian,
     }
 
     [Serializable]
