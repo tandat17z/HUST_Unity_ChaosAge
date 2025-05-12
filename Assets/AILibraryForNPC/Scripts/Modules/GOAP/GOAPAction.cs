@@ -27,5 +27,9 @@ namespace AILibraryForNPC.Modules.GOAP
         }
 
         public abstract float GetCost();
+
+        public abstract bool CheckPrecondition(Dictionary<string, float> state);
+
+        public abstract void ApplyEffect(Dictionary<string, float> state);
     }
 }

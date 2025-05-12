@@ -1,11 +1,33 @@
 using System.Collections.Generic;
 using AILibraryForNPC.Core;
 using AILibraryForNPC.Modules.GOAP;
+using ChaosAge.AI.battle;
 using UnityEngine;
 
 public class ActionUp : GOAPAction
 {
     private float stepTime;
+
+    public override void ApplyEffect(Dictionary<string, float> state)
+    {
+        state["locationY"] += 1;
+
+        var pos = $"{state["locationX"]}_{state["locationY"]}";
+        state[pos] = 1;
+    }
+
+    public override bool CheckPrecondition(Dictionary<string, float> state)
+    {
+        var nextX = state["locationX"];
+        var nextY = state["locationY"] + 1;
+        var pos = $"{nextX}_{nextY}";
+        if (state[pos] != 0 || AIBattleManager.Instance.CanMove(nextX, nextY) == false)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public override float GetCost()
     {
         return 1;

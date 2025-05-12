@@ -62,5 +62,15 @@ namespace AILibraryForNPC.Examples
                 _target.TakeDamage(5);
             }
         }
+
+        public override bool CheckPrecondition(Dictionary<string, float> state)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ApplyEffect(Dictionary<string, float> state)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

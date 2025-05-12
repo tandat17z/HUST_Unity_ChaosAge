@@ -23,6 +23,16 @@ namespace AILibraryForNPC.Examples
             _effect.Add("hasTarget", 1);
         }
 
+        public override void ApplyEffect(Dictionary<string, float> state)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override bool CheckPrecondition(Dictionary<string, float> state)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override float GetCost()
         {
             return 1;

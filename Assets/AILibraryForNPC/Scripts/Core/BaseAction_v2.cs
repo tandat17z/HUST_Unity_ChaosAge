@@ -1,5 +1,3 @@
-using AILibraryForNPC.core;
-
 namespace AILibraryForNPC.Core
 {
     public abstract class BaseAction_v2

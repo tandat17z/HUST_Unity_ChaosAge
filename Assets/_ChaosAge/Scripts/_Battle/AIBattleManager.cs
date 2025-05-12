@@ -172,5 +172,11 @@ namespace ChaosAge.AI.battle
             }
             return false;
         }
+
+        public bool CanMove(float nextX, float nextY)
+        {
+            // ô này trong phạm vi cho phép và không đè vào công trình nào
+            return true;
+        }
     }
 }
