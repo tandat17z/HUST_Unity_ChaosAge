@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using AILibraryForNPC.Core;
+using ChaosAge.AI.battle;
 using UnityEngine;
 
 namespace AILibraryForNPC.Modules.GOAP
@@ -16,14 +18,24 @@ namespace AILibraryForNPC.Modules.GOAP
         [SerializeField]
         private List<GOAPState> _goals;
 
-        public Dictionary<string, float> GetGoal()
+        public Dictionary<string, float> GetCurrentGoal(WorldState_v2 worldState)
         {
-            Dictionary<string, float> goal = new Dictionary<string, float>();
-            foreach (var state in _goals)
+            var disMin = float.MaxValue;
+            BattleBuilding goal = null;
+            foreach (var building in AIBattleManager.Instance.buildings)
             {
-                goal[state.key] = state.value;
+                var dis = Vector3.Distance(building.transform.position, transform.position);
+                if (dis < disMin)
+                {
+                    disMin = dis;
+                    goal = building;
+                }
             }
-            return goal;
+            return new Dictionary<string, float>
+            {
+                { "goalX", goal.transform.position.x },
+                { "goalY", goal.transform.position.z },
+            };
         }
     }
 }

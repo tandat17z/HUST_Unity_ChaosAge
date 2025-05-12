@@ -27,7 +27,11 @@ namespace AILibraryForNPC.Modules.GOAP
                     goapActions.Add(action as GOAPAction);
                 }
                 Debug.Log("Count actions: " + goapActions.Count);
-                _actionQueue = _planner.Plan(goapActions, _agent.GoalSystem.GetGoal(), worldState);
+                _actionQueue = _planner.Plan(
+                    goapActions,
+                    _agent.GoalSystem.GetCurrentGoal(worldState),
+                    worldState
+                );
             }
 
             // Lấy action tiếp theo từ plan

@@ -10,7 +10,7 @@ namespace AILibraryForNPC.Modules.GOAP
         public abstract Dictionary<string, float> GetPrecondition();
         public abstract Dictionary<string, float> GetEffect();
 
-        public bool IsAchievableGiven(Dictionary<string, float> state)
+        public virtual bool IsAchievableGiven(Dictionary<string, float> state)
         {
             foreach (var precondition in GetPrecondition())
             {
