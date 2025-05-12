@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using AILibraryForNPC.Algorithms;
 using AILibraryForNPC.Core;
@@ -33,6 +32,7 @@ namespace AILibraryForNPC.Modules.GOAP
             switch (currentAlgorithm)
             {
                 case PathfindingAlgorithm.AStar:
+                    AStar.Setup(new DefaultGOAPHeuristic());
                     path = AStar.FindPath(start, goal, actions);
                     break;
                 case PathfindingAlgorithm.Dijkstra:

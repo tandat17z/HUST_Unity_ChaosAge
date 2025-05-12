@@ -1,11 +1,18 @@
+using System;
 using System.Collections.Generic;
 using AILibraryForNPC.Modules.GOAP;
-using UnityEngine;
 
 namespace AILibraryForNPC.Algorithms
 {
     public class AStar
     {
+        private static IGOAPHeuristic heuristic;
+
+        public static void Setup(IGOAPHeuristic heuristic)
+        {
+            AStar.heuristic = heuristic;
+        }
+
         public static List<GOAPNode> FindPath(
             GOAPNode start,
             Dictionary<string, float> goal,
@@ -20,7 +27,7 @@ namespace AILibraryForNPC.Algorithms
 
             openSet.Add(start);
             gScore[start] = 0;
-            fScore[start] = Heuristic(start.state, goal);
+            fScore[start] = heuristic.CalculateHeuristic(start.state, goal);
 
             while (openSet.Count > 0)
             {
@@ -61,31 +68,12 @@ namespace AILibraryForNPC.Algorithms
 
                     cameFrom[neighbor] = current;
                     gScore[neighbor] = tentativeGScore;
-                    fScore[neighbor] = gScore[neighbor] + Heuristic(neighbor.state, goal);
+                    fScore[neighbor] =
+                        gScore[neighbor] + heuristic.CalculateHeuristic(neighbor.state, goal);
                 }
             }
 
             return null; // No path found
-        }
-
-        private static float Heuristic(
-            Dictionary<string, float> state,
-            Dictionary<string, float> goal
-        )
-        {
-            float h = 0;
-            foreach (var goalItem in goal)
-            {
-                if (!state.ContainsKey(goalItem.Key))
-                {
-                    h += goalItem.Value;
-                }
-                else if (state[goalItem.Key] < goalItem.Value)
-                {
-                    h += goalItem.Value - state[goalItem.Key];
-                }
-            }
-            return h;
         }
 
         private static GOAPNode GetLowestFScore(

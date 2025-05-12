@@ -14,7 +14,6 @@ namespace AILibraryForNPC.Algorithms
             var unvisited = new List<GOAPNode>();
             var visited = new HashSet<GOAPNode>();
             var distances = new Dictionary<GOAPNode, float>();
-            var previous = new Dictionary<GOAPNode, GOAPNode>();
 
             unvisited.Add(start);
             distances[start] = 0;
@@ -25,7 +24,7 @@ namespace AILibraryForNPC.Algorithms
 
                 if (GoalAchieved(goal, current.state))
                 {
-                    return ReconstructPath(previous, current);
+                    return ReconstructPath(current);
                 }
 
                 unvisited.Remove(current);
@@ -57,7 +56,6 @@ namespace AILibraryForNPC.Algorithms
                         continue;
 
                     distances[neighbor] = distance;
-                    previous[neighbor] = current;
                 }
             }
 
@@ -84,16 +82,13 @@ namespace AILibraryForNPC.Algorithms
             return lowest;
         }
 
-        private static List<GOAPNode> ReconstructPath(
-            Dictionary<GOAPNode, GOAPNode> previous,
-            GOAPNode current
-        )
+        private static List<GOAPNode> ReconstructPath(GOAPNode current)
         {
             var path = new List<GOAPNode>();
             while (current != null)
             {
                 path.Insert(0, current);
-                previous.TryGetValue(current, out current);
+                current = current.parent;
             }
             return path;
         }

@@ -23,12 +23,12 @@ namespace AILibraryForNPC.Examples
             _effect.Add("hasTarget", 1);
         }
 
-        public override void ApplyEffect(WorldState_v2 state)
+        public override void ApplyEffect(Dictionary<string, float> state)
         {
             throw new System.NotImplementedException();
         }
 
-        public override bool CheckPrecondition(WorldState_v2 state)
+        public override bool CheckPrecondition(Dictionary<string, float> state)
         {
             throw new System.NotImplementedException();
         }
