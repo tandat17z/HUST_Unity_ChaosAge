@@ -15,9 +15,6 @@ namespace AILibraryForNPC.Modules.GOAP
             public float value;
         }
 
-        [SerializeField]
-        private List<GOAPState> _goals;
-
         public Dictionary<string, float> GetCurrentGoal(WorldState_v2 worldState)
         {
             var disMin = float.MaxValue;

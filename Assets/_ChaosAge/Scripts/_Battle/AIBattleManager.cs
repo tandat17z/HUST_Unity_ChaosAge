@@ -13,12 +13,16 @@ namespace ChaosAge.AI.battle
 {
     public class AIBattleManager : Singleton<AIBattleManager>
     {
+        public const int MaxCell = 40;
+
         [SerializeField]
         public bool StartBattle = false;
 
         [SerializeField]
         public List<BattleBuilding> buildings;
         public List<BattleUnit> units;
+
+        private bool[,] _canMoveCells;
 
         protected override void OnAwake() { }
 
@@ -136,6 +140,25 @@ namespace ChaosAge.AI.battle
             buildings.Add(battleBuilding);
 
             BuildingManager.Instance.UpdateNavMesh();
+            ResetCanMoveCells();
+            foreach (var building in buildings)
+            {
+                var xCell = building.battleBuidlingConfig.x;
+                var yCell = building.battleBuidlingConfig.y;
+                _canMoveCells[xCell, yCell] = false;
+            }
+        }
+
+        private void ResetCanMoveCells()
+        {
+            _canMoveCells = new bool[MaxCell, MaxCell];
+            for (int i = 0; i < MaxCell; i++)
+            {
+                for (int j = 0; j < MaxCell; j++)
+                {
+                    _canMoveCells[i, j] = true;
+                }
+            }
         }
 
         void Update()
@@ -177,6 +200,21 @@ namespace ChaosAge.AI.battle
         {
             // ô này trong phạm vi cho phép và không đè vào công trình nào
             return true;
+        }
+
+        public Vector2 GetCell(Vector3 position)
+        {
+            return BuildingManager.Instance.Grid.ConvertGridPos(position);
+        }
+
+        public Vector3 GetWorldPosition(Vector2 cell)
+        {
+            return BuildingManager.Instance.Grid.GetCenterPosition((int)cell.x, (int)cell.y, 1, 1);
+        }
+
+        public bool CheckCanMoveOnCell(Vector2 cell)
+        {
+            return _canMoveCells[(int)cell.x, (int)cell.y];
         }
     }
 }

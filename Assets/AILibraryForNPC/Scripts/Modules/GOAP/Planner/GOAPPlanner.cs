@@ -26,17 +26,17 @@ namespace AILibraryForNPC.Modules.GOAP
             WorldState_v2 worldState
         )
         {
-            var start = new GOAPNode(null, 0, worldState.GetStates(), null);
-            List<GOAPNode> path = null;
+            var start = new GOAPNode(worldState.GetStates(), actions);
+            var target = new GOAPNode(goal, actions);
+            List<INode> path = null;
 
             switch (currentAlgorithm)
             {
                 case PathfindingAlgorithm.AStar:
-                    AStar.Setup(new DefaultGOAPHeuristic());
-                    path = AStar.FindPath(start, goal, actions);
+                    path = AStar.FindPath(start, target);
                     break;
                 case PathfindingAlgorithm.Dijkstra:
-                    path = Dijkstra.FindPath(start, goal, actions);
+                    path = Dijkstra.FindPath(start, target);
                     break;
             }
 
@@ -50,9 +50,9 @@ namespace AILibraryForNPC.Modules.GOAP
             var queue = new Queue<GOAPAction>();
             foreach (var node in path)
             {
-                if (node.action != null)
+                if (((GOAPNode)node).action != null)
                 {
-                    queue.Enqueue(node.action);
+                    queue.Enqueue(((GOAPNode)node).action);
                 }
             }
 

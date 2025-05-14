@@ -1,31 +1,38 @@
 using System.Collections.Generic;
+using AILibraryForNPC.Algorithms;
 
 namespace AILibraryForNPC.Modules.GOAP
 {
-    public class GOAPNode
+    public class GOAPNode : INode
     {
-        public GOAPNode parent;
-        public float runningCost;
-        public float heuristicCost;
         public GOAPAction action;
         public Dictionary<string, float> state;
+        public List<GOAPAction> availableActions;
 
-        public GOAPNode(
-            GOAPNode parent,
-            float runningCost,
-            Dictionary<string, float> state,
-            GOAPAction action
-        )
+        public GOAPNode(Dictionary<string, float> state, List<GOAPAction> availableActions)
         {
-            this.parent = parent;
-            this.runningCost = runningCost;
             this.state = new Dictionary<string, float>(state);
-            this.action = action;
+            this.availableActions = new List<GOAPAction>(availableActions);
         }
 
-        public float GetTotalCost()
+        public bool Equals(INode other)
         {
-            return runningCost + heuristicCost;
+            throw new System.NotImplementedException();
+        }
+
+        public float GetCost(INode neighbor)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public float GetHeuristic(INode goal)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<INode> GetNeighbors()
+        {
+            throw new System.NotImplementedException();
         }
 
         public override string ToString()

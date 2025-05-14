@@ -1,11 +1,16 @@
 using System.Collections.Generic;
+using AILibraryForNPC.Algorithms;
 using AILibraryForNPC.Core;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace AILibraryForNPC.Modules.GOAP
 {
     public class GOAPActionSystem : ActionSystem_v2
     {
+        [SerializeField]
+        private PathfindingAlgorithm _pathfindingAlgorithm;
+
         private GOAPAgent _agent;
         private GOAPPlanner _planner;
         private Queue<GOAPAction> _actionQueue = new();
@@ -13,6 +18,7 @@ namespace AILibraryForNPC.Modules.GOAP
         protected override void OnInitialize()
         {
             _planner = new GOAPPlanner();
+            _planner.SetAlgorithm(_pathfindingAlgorithm);
             _agent = GetComponent<GOAPAgent>();
         }
 
