@@ -6,33 +6,52 @@ namespace ChaosAge.camera
 {
     public class CameraController : MonoBehaviour
     {
-        [SerializeField] private Camera camera;
-        [SerializeField] private float moveSpeed = 50;
-        [SerializeField] private float moveSmooth = 5;
+        [SerializeField]
+        private Camera camera;
 
-        [SerializeField] private float zoomSpeed = 5f;
-        [SerializeField] private float zoomSmooth = 5f;
+        [SerializeField]
+        private float moveSpeed = 50;
+
+        [SerializeField]
+        private float moveSmooth = 5;
+
+        [SerializeField]
+        private float zoomSpeed = 5f;
+
+        [SerializeField]
+        private float zoomSmooth = 5f;
 
         [Header("")]
-        [SerializeField] private float right = 50;
-        [SerializeField] private float left = 50;
-        [SerializeField] private float up = 50;
-        [SerializeField] private float down = 50;
-        [SerializeField] private float angle = 45;
-        [SerializeField] private float zoom = 5;
-        [SerializeField] private float zoomMax = 10;
-        [SerializeField] private float zoomMin = 1;
+        [SerializeField]
+        private float right = 50;
+
+        [SerializeField]
+        private float left = 50;
+
+        [SerializeField]
+        private float up = 50;
+
+        [SerializeField]
+        private float down = 50;
+
+        [SerializeField]
+        private float angle = 45;
+
+        [SerializeField]
+        private float zoom = 5;
+
+        [SerializeField]
+        private float zoomMax = 10;
+
+        [SerializeField]
+        private float zoomMin = 1;
 
         private Transform _root;
         private Transform _pivot;
         private Transform _target;
 
-
         // bounds
         private Vector3 _center; // tâm của plane
-
-
-
 
         private void Awake()
         {
@@ -72,9 +91,7 @@ namespace ChaosAge.camera
 
             camera.transform.rotation = _target.rotation;
             camera.orthographicSize = this.zoom;
-
         }
-
 
         // Update is called once per frame
         void Update()
@@ -110,12 +127,19 @@ namespace ChaosAge.camera
 
             if (camera.orthographicSize != zoom)
             {
-                camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, zoom, zoomSmooth * Time.deltaTime);
-
+                camera.orthographicSize = Mathf.Lerp(
+                    camera.orthographicSize,
+                    zoom,
+                    zoomSmooth * Time.deltaTime
+                );
             }
             if (camera.transform.position != _target.position)
             {
-                camera.transform.position = Vector3.Lerp(camera.transform.position, _target.position, moveSmooth * Time.deltaTime);
+                camera.transform.position = Vector3.Lerp(
+                    camera.transform.position,
+                    _target.position,
+                    moveSmooth * Time.deltaTime
+                );
             }
         }
 
@@ -169,7 +193,6 @@ namespace ChaosAge.camera
             {
                 _root.position += Vector3.forward * Mathf.Abs(-dl.z + (_center.z - down));
             }
-
         }
 
         private float PlaneOrthographicSize()
@@ -179,5 +202,4 @@ namespace ChaosAge.camera
         }
         #endregion
     }
-
 }

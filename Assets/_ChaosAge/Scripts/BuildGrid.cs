@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using ChaosAge.building;
+﻿using ChaosAge.building;
 using ChaosAge.input;
 using UnityEngine;
 using UnityEngine.EventSystems;

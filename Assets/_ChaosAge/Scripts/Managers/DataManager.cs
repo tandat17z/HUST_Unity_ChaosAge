@@ -8,8 +8,14 @@ namespace DatSystem
     {
         private PlayerData _playerData;
         private GameConfig _gameConfig;
-        public PlayerData PlayerData { get { return _playerData; } }
-        public GameConfig GameConfig { get { return _gameConfig; } }
+        public PlayerData PlayerData
+        {
+            get { return _playerData; }
+        }
+        public GameConfig GameConfig
+        {
+            get { return _gameConfig; }
+        }
 
         public void LoadPlayerData()
         {
@@ -24,9 +30,6 @@ namespace DatSystem
             _gameConfig = GameConfig.LoadFromFile("Assets/_ChaosAge/Config.json");
         }
 
-        protected override void OnAwake()
-        {
-        }
+        protected override void OnAwake() { }
     }
-
 }
