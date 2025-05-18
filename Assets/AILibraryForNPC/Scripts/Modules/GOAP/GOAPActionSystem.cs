@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AILibraryForNPC.Core;
 using UnityEngine;
@@ -33,7 +34,7 @@ namespace AILibraryForNPC.Modules.GOAP
                 // Debug.Log("Count actions: " + goapActions.Count);
                 _actionQueue = _planner.Plan(
                     goapActions,
-                    _agent.GoalSystem.GetCurrentGoal(worldState),
+                    _agent.goalSystem.GetCurrentGoal(worldState),
                     worldState
                 );
             }
@@ -45,6 +46,11 @@ namespace AILibraryForNPC.Modules.GOAP
                 return currentAction;
             }
             return null;
+        }
+
+        public void CancelPlan()
+        {
+            _actionQueue = new Queue<GOAPAction>();
         }
     }
 }

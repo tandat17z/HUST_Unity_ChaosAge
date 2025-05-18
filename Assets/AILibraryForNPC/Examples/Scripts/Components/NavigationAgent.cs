@@ -90,6 +90,12 @@ namespace ChaosAge.Components
             this.position = AIBattleManager.Instance.GetWorldPosition(new Vector2(x, y));
         }
 
+        public bool CheckIfGoalReached(INode current)
+        {
+            var currentNode = (NavigationNode)current;
+            return x == currentNode.x && y == currentNode.y;
+        }
+
         public bool Equals(INode other)
         {
             var otherNode = (NavigationNode)other;

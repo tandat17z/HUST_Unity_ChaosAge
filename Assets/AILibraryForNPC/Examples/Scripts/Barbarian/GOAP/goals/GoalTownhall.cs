@@ -1,0 +1,19 @@
+using AILibraryForNPC.Core;
+using AILibraryForNPC.GOAP;
+
+public class GoalTownhall : GOAPGoal
+{
+    public override float GetWeight(WorldState_v2 worldState)
+    {
+        if (worldState.GetState("TownhallHp") <= 40)
+        {
+            return 0.9f;
+        }
+        return 0.1f;
+    }
+
+    public override bool IsGoalReached(WorldState_v2 worldState)
+    {
+        return worldState.GetState("TownhallHp") == 0 && worldState.GetState("PlayerHp") > 0;
+    }
+}

@@ -8,34 +8,24 @@ namespace AILibraryForNPC.Examples
 {
     public class GOAPMoveToTownhall : GOAPAction
     {
-        private Dictionary<string, float> _precondition;
-        private Dictionary<string, float> _effect;
-        private float _cost;
-
         private NavMeshAgent _navMeshAgent;
         private GameObject _target;
 
-        public GOAPMoveToTownhall()
-        {
-            _precondition = new Dictionary<string, float>();
-            _effect = new Dictionary<string, float>();
-            _precondition.Add("hasTownhall", 1);
-            _effect.Add("hasTarget", 1);
-        }
+        public GOAPMoveToTownhall() { }
 
-        public override void ApplyEffect(WorldState_v2 state)
-        {
-            throw new System.NotImplementedException();
-        }
+        public override void ApplyEffect(WorldState_v2 state) { }
 
         public override bool CheckPrecondition(WorldState_v2 state)
         {
-            throw new System.NotImplementedException();
+            _target = state.GetBuffer("Townhall") as GameObject;
+            return state.GetState("PlayerHp") > 0
+                && state.GetState("TownhallHp") > 0
+                && state.GetState("Moving") == 0;
         }
 
         public override float GetCost()
         {
-            return 1;
+            return Vector3.Distance(agent.transform.position, _target.transform.position);
         }
 
         public override bool IsComplete(WorldState_v2 worldState)
@@ -55,7 +45,7 @@ namespace AILibraryForNPC.Examples
         public override void PrePerform(WorldState_v2 worldState)
         {
             _navMeshAgent = agent.GetComponent<NavMeshAgent>();
-            _target = worldState.GetBuffer("targetTownhall") as GameObject;
+            _target = worldState.GetBuffer("Townhall") as GameObject;
             if (_target != null)
             {
                 _navMeshAgent.isStopped = false;

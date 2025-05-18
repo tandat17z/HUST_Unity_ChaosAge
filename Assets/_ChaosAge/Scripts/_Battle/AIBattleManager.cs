@@ -24,6 +24,8 @@ namespace ChaosAge.AI.battle
 
         private bool[,] _canMoveCells;
 
+        public GameObject home;
+
         protected override void OnAwake() { }
 
         public void LoadLevel(int level)
@@ -52,6 +54,9 @@ namespace ChaosAge.AI.battle
             BuildingManager.Instance.UpdateNavMesh();
 
             StartBattle = true;
+
+            home = new GameObject("Home");
+            home.transform.position = GetWorldPosition(new Vector2(5, 5));
         }
 
         public void DropUnit()

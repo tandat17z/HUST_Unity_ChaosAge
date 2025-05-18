@@ -12,6 +12,11 @@ public class GOAPNPCMove : GOAPAgent
         actionSystem.AddAction(new ActionRight());
     }
 
+    public override void RegisterGoals()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void RegisterSensors()
     {
         perceptionSystem.AddSensor(new LocationSensor());

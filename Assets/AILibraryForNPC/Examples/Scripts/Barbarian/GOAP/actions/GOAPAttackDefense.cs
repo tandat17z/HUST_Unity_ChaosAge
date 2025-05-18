@@ -6,31 +6,29 @@ using UnityEngine.AI;
 
 namespace AILibraryForNPC.Examples
 {
-    public class GOAPMoveToDefense : GOAPAction
+    public class GOAPAttackDefense : GOAPAction
     {
-        private Dictionary<string, float> _precondition;
-        private Dictionary<string, float> _effect;
-        private float _cost;
-
         private NavMeshAgent _navMeshAgent;
         private GameObject _target;
 
-        public GOAPMoveToDefense()
-        {
-            _precondition = new Dictionary<string, float>();
-            _effect = new Dictionary<string, float>();
-            _precondition.Add("hasDefense", 1);
-            _effect.Add("hasTarget", 1);
-        }
+        public GOAPAttackDefense() { }
 
         public override void ApplyEffect(WorldState_v2 state)
         {
-            throw new System.NotImplementedException();
+            state.AddState("PlayerState", (int)PlayerState.Attack);
+
+            var defenseHp = state.GetState("DefenseHp");
+            state.AddState("DefenseHp", defenseHp - 5);
+
+            var playerHp = state.GetState("PlayerHp");
+            state.AddState("PlayerHp", playerHp - 10);
         }
 
         public override bool CheckPrecondition(WorldState_v2 state)
         {
-            throw new System.NotImplementedException();
+            return state.GetState("PlayerState") == (int)PlayerState.MoveToDefense
+                && state.GetState("DefenseHp") > 0
+                && state.GetState("PlayerHp") > 0;
         }
 
         public override float GetCost()
@@ -55,7 +53,7 @@ namespace AILibraryForNPC.Examples
         public override void PrePerform(WorldState_v2 worldState)
         {
             _navMeshAgent = agent.GetComponent<NavMeshAgent>();
-            _target = worldState.GetBuffer("targetDefense") as GameObject;
+            _target = worldState.GetBuffer("targetTownhall") as GameObject;
             if (_target != null)
             {
                 _navMeshAgent.isStopped = false;

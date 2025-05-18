@@ -7,8 +7,16 @@ namespace AILibraryForNPC.Modules.GOAP
     [RequireComponent(typeof(GOAPGoalSystem))]
     public abstract class GOAPAgent : BaseAgent
     {
-        public GOAPGoalSystem GoalSystem => GetComponent<GOAPGoalSystem>();
+        public GOAPGoalSystem goalSystem => GetComponent<GOAPGoalSystem>();
 
         public abstract void RegisterGoals();
+
+        public void CancelPlan()
+        {
+            (currentAction as GOAPAction).Cancel();
+            currentAction = null;
+
+            (actionSystem as GOAPActionSystem).CancelPlan();
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace AILibraryForNPC.Core
         protected ActionSystem_v2 actionSystem;
         protected WorldState_v2 worldState;
 
-        private BaseAction_v2 _currentAction;
+        protected BaseAction_v2 currentAction;
 
         public bool IsStart { get; set; } = false;
 
@@ -40,23 +40,23 @@ namespace AILibraryForNPC.Core
             if (IsStart && _isCompleteInitialize)
             {
                 worldState = perceptionSystem.Observe();
-                if (_currentAction != null)
+                if (currentAction != null)
                 {
-                    if (_currentAction.IsComplete(worldState) == true)
+                    if (currentAction.IsComplete(worldState) == true)
                     {
-                        _currentAction.PostPerform(worldState);
-                        _currentAction = null;
+                        currentAction.PostPerform(worldState);
+                        currentAction = null;
                         return;
                     }
-                    _currentAction.Perform(worldState);
+                    currentAction.Perform(worldState);
                     return;
                 }
 
-                _currentAction = actionSystem.SelectAction(worldState);
-                if (_currentAction != null)
+                currentAction = actionSystem.SelectAction(worldState);
+                if (currentAction != null)
                 {
-                    Debug.LogWarning("currentAction: " + _currentAction.GetType().Name);
-                    _currentAction.PrePerform(worldState);
+                    Debug.LogWarning("currentAction: " + currentAction.GetType().Name);
+                    currentAction.PrePerform(worldState);
                 }
             }
         }

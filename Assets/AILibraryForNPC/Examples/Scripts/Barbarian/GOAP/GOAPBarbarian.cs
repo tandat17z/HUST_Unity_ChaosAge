@@ -11,18 +11,34 @@ namespace AILibraryForNPC.Examples
             GetComponent<NavMeshAgent>().updateRotation = false;
         }
 
+        public override void RegisterGoals()
+        {
+            goalSystem.AddGoal(new GoalDefense());
+            goalSystem.AddGoal(new GoalGoHome());
+        }
+
         public override void RegisterActions()
         {
             actionSystem.AddAction(new GOAPMoveToDefense());
             actionSystem.AddAction(new GOAPMoveToTownhall());
-            actionSystem.AddAction(new GOAPAttack());
+            actionSystem.AddAction(new GOAPAttackDefense());
+            actionSystem.AddAction(new GOAPAttackTownhall());
+            actionSystem.AddAction(new GOAPGoHome());
         }
 
         public override void RegisterSensors()
         {
-            perceptionSystem.AddSensor(new BarbarianSensor());
-            perceptionSystem.AddSensor(new ArmySensor());
-            perceptionSystem.AddSensor(new BuildingSensor());
+            perceptionSystem.AddSensor(new GoapBuildingSensor());
+            perceptionSystem.AddSensor(new GoapSensor());
         }
+    }
+
+    public enum PlayerState
+    {
+        Idle,
+        Home,
+        MoveToDefense,
+        MoveToTownhall,
+        Attack,
     }
 }
