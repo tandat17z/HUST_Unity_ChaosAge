@@ -29,12 +29,12 @@ namespace AILibraryForNPC.Algorithms
 
                 foreach (var neighbor in current.GetNeighbors())
                 {
-                    if (visited.Contains(neighbor))
+                    if (IsContains(visited, neighbor))
                         continue;
 
                     var tentativeDistance = distances[current] + current.GetCost(neighbor);
 
-                    if (!unvisited.Contains(neighbor))
+                    if (!IsContains(unvisited, neighbor))
                         unvisited.Add(neighbor);
                     else if (tentativeDistance >= distances[neighbor])
                         continue;
@@ -69,6 +69,26 @@ namespace AILibraryForNPC.Algorithms
                     lowest = node;
             }
             return lowest;
+        }
+
+        private static bool IsContains(HashSet<INode> list, INode node)
+        {
+            foreach (var item in list)
+            {
+                if (item.Equals(node))
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool IsContains(List<INode> list, INode node)
+        {
+            foreach (var item in list)
+            {
+                if (item.Equals(node))
+                    return true;
+            }
+            return false;
         }
     }
 }

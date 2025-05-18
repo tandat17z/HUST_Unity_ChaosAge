@@ -31,12 +31,12 @@ namespace AILibraryForNPC.Algorithms
 
                 foreach (var neighbor in current.GetNeighbors())
                 {
-                    if (closedSet.Contains(neighbor))
+                    if (IsContains(closedSet, neighbor))
                         continue;
 
                     var tentativeGScore = gScore[current] + current.GetCost(neighbor);
 
-                    if (!openSet.Contains(neighbor))
+                    if (!IsContains(openSet, neighbor))
                         openSet.Add(neighbor);
                     else if (tentativeGScore >= gScore[neighbor])
                         continue;
@@ -47,6 +47,16 @@ namespace AILibraryForNPC.Algorithms
                 }
             }
             return null;
+        }
+
+        private static bool IsContains(List<INode> list, INode node)
+        {
+            foreach (var item in list)
+            {
+                if (item.Equals(node))
+                    return true;
+            }
+            return false;
         }
 
         private static List<INode> ReconstructPath(Dictionary<INode, INode> cameFrom, INode current)

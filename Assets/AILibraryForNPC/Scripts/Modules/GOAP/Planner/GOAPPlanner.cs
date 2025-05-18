@@ -26,7 +26,7 @@ namespace AILibraryForNPC.Modules.GOAP
             WorldState_v2 worldState
         )
         {
-            var start = new GOAPNode(worldState.GetStates(), actions);
+            var start = new GOAPNode(worldState, actions);
             var target = new GOAPNode(goal, actions);
             List<INode> path = null;
 

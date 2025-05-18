@@ -23,12 +23,12 @@ namespace AILibraryForNPC.Examples
             _effect.Add("hasTarget", 1);
         }
 
-        public override void ApplyEffect(Dictionary<string, float> state)
+        public override void ApplyEffect(WorldState_v2 state)
         {
             throw new System.NotImplementedException();
         }
 
-        public override bool CheckPrecondition(Dictionary<string, float> state)
+        public override bool CheckPrecondition(WorldState_v2 state)
         {
             throw new System.NotImplementedException();
         }
@@ -36,16 +36,6 @@ namespace AILibraryForNPC.Examples
         public override float GetCost()
         {
             return 1;
-        }
-
-        public override Dictionary<string, float> GetEffect()
-        {
-            return _effect;
-        }
-
-        public override Dictionary<string, float> GetPrecondition()
-        {
-            return _precondition;
         }
 
         public override bool IsComplete(WorldState_v2 worldState)

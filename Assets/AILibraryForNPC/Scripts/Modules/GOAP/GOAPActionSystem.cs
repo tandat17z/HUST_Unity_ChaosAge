@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using AILibraryForNPC.Algorithms;
 using AILibraryForNPC.Core;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace AILibraryForNPC.Modules.GOAP
@@ -32,7 +30,7 @@ namespace AILibraryForNPC.Modules.GOAP
                 {
                     goapActions.Add(action as GOAPAction);
                 }
-                Debug.Log("Count actions: " + goapActions.Count);
+                // Debug.Log("Count actions: " + goapActions.Count);
                 _actionQueue = _planner.Plan(
                     goapActions,
                     _agent.GoalSystem.GetCurrentGoal(worldState),

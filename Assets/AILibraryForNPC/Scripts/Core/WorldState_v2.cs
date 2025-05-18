@@ -81,5 +81,19 @@ namespace AILibraryForNPC.Core
             }
             return result;
         }
+
+        public WorldState_v2 Clone()
+        {
+            var clone = new WorldState_v2();
+            foreach (var item in _state)
+            {
+                clone.AddState(item.Key, item.Value);
+            }
+            foreach (var item in _buffer)
+            {
+                clone.AddBuffer(item.Key, item.Value);
+            }
+            return clone;
+        }
     }
 }

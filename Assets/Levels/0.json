@@ -15,6 +15,16 @@
 
         {
             "id": 1,
+            "type": 1,
+            "level": 1,
+            "x": 15,
+            "y": 25,
+            "complete": false,
+            "buildTime": 0.0
+        },
+
+        {
+            "id": 2,
             "type": 10,
             "level": 1,
             "x": 19,

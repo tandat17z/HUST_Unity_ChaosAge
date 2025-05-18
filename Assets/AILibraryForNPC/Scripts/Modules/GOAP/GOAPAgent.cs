@@ -8,5 +8,7 @@ namespace AILibraryForNPC.Modules.GOAP
     public abstract class GOAPAgent : BaseAgent
     {
         public GOAPGoalSystem GoalSystem => GetComponent<GOAPGoalSystem>();
+
+        public void CancelPlan() { }
     }
 }

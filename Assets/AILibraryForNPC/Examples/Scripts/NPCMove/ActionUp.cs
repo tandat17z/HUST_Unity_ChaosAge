@@ -8,44 +8,29 @@ public class ActionUp : GOAPAction
 {
     private float stepTime;
 
-    public override void ApplyEffect(Dictionary<string, float> state)
+    public override void ApplyEffect(WorldState_v2 state)
     {
-        state["locationY"] += 1;
+        // state["locationY"] += 1;
 
-        var pos = $"{state["locationX"]}_{state["locationY"]}";
-        state[pos] = 1;
+        // var pos = $"{state["locationX"]}_{state["locationY"]}";
+        // state[pos] = 1;
     }
 
-    public override bool CheckPrecondition(Dictionary<string, float> state)
+    public override bool CheckPrecondition(WorldState_v2 state)
     {
-        var nextX = state["locationX"];
-        var nextY = state["locationY"] + 1;
-        var pos = $"{nextX}_{nextY}";
-        if (state[pos] != 0 || AIBattleManager.Instance.CanMove(nextX, nextY) == false)
-        {
-            return false;
-        }
+        // var nextX = state["locationX"];
+        // var nextY = state["locationY"] + 1;
+        // var pos = $"{nextX}_{nextY}";
+        // if (state[pos] != 0 || AIBattleManager.Instance.CanMove(nextX, nextY) == false)
+        // {
+        //     return false;
+        // }
         return true;
     }
 
     public override float GetCost()
     {
         return 1;
-    }
-
-    public override Dictionary<string, float> GetEffect()
-    {
-        var eff = new Dictionary<string, float>();
-        eff.Add("up", 1);
-        eff.Add("preActionUp", 1);
-        return eff;
-    }
-
-    public override Dictionary<string, float> GetPrecondition()
-    {
-        var eff = new Dictionary<string, float>();
-        eff.Add("preActionDown", 0);
-        return eff;
     }
 
     public override bool IsComplete(WorldState_v2 worldState)
