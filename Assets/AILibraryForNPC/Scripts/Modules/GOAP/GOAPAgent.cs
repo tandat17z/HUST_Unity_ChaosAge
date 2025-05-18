@@ -9,6 +9,6 @@ namespace AILibraryForNPC.Modules.GOAP
     {
         public GOAPGoalSystem GoalSystem => GetComponent<GOAPGoalSystem>();
 
-        public void CancelPlan() { }
+        public abstract void RegisterGoals();
     }
 }

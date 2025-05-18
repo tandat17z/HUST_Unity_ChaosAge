@@ -19,7 +19,7 @@ namespace AILibraryForNPC.Algorithms
             {
                 var current = GetLowestDistance(unvisited, distances);
 
-                if (current.Equals(goal))
+                if (goal.CheckIfGoalReached(current))
                 {
                     return ReconstructPath(cameFrom, current);
                 }

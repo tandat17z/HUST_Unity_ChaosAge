@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AILibraryForNPC.Algorithms;
 using AILibraryForNPC.Core;
+using AILibraryForNPC.GOAP;
 
 namespace AILibraryForNPC.Modules.GOAP
 {
@@ -10,6 +11,7 @@ namespace AILibraryForNPC.Modules.GOAP
         public WorldState_v2 worldState;
         public Dictionary<string, float> state;
         public List<GOAPAction> availableActions;
+        public GOAPGoal goal;
 
         public GOAPNode(
             WorldState_v2 state,
@@ -22,10 +24,9 @@ namespace AILibraryForNPC.Modules.GOAP
             this.action = action;
         }
 
-        public GOAPNode(Dictionary<string, float> state, List<GOAPAction> availableActions)
+        public void SetGoal(GOAPGoal goal)
         {
-            this.state = state;
-            this.availableActions = new List<GOAPAction>(availableActions);
+            this.goal = goal;
         }
 
         public bool Equals(INode other)
@@ -62,6 +63,11 @@ namespace AILibraryForNPC.Modules.GOAP
         public override string ToString()
         {
             return $"State: {string.Join(", ", state)}";
+        }
+
+        public bool CheckIfGoalReached(INode current)
+        {
+            return goal.IsGoalReached((current as GOAPNode).worldState);
         }
     }
 }

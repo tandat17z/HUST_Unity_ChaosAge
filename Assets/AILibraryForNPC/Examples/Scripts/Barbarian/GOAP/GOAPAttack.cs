@@ -7,8 +7,6 @@ namespace AILibraryForNPC.Examples
 {
     public class GOAPAttack : GOAPAction
     {
-        private Dictionary<string, float> _precondition;
-        private Dictionary<string, float> _effect;
         private float _cost;
 
         private BattleBuilding _target;
@@ -17,11 +15,6 @@ namespace AILibraryForNPC.Examples
 
         public GOAPAttack()
         {
-            _precondition = new Dictionary<string, float>();
-            _effect = new Dictionary<string, float>();
-
-            _precondition.Add("hasTarget", 1);
-            _effect.Add("attack", 1);
         }
 
         public override float GetCost()

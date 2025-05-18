@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AILibraryForNPC.Algorithms;
 using AILibraryForNPC.Core;
+using AILibraryForNPC.GOAP;
 using UnityEngine;
 
 namespace AILibraryForNPC.Modules.GOAP
@@ -22,12 +23,13 @@ namespace AILibraryForNPC.Modules.GOAP
 
         public Queue<GOAPAction> Plan(
             List<GOAPAction> actions,
-            Dictionary<string, float> goal,
+            GOAPGoal goal,
             WorldState_v2 worldState
         )
         {
             var start = new GOAPNode(worldState, actions);
-            var target = new GOAPNode(goal, actions);
+            var target = new GOAPNode(null, actions);
+            target.SetGoal(goal);
             List<INode> path = null;
 
             switch (currentAlgorithm)

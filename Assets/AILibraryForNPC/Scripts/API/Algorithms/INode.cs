@@ -12,5 +12,7 @@ namespace AILibraryForNPC.Algorithms
         public float GetCost(INode neighbor);
 
         public float GetHeuristic(INode goal);
+
+        public bool CheckIfGoalReached(INode current);
     }
 }
