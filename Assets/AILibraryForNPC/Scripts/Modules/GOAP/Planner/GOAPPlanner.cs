@@ -23,7 +23,7 @@ namespace AILibraryForNPC.Modules.GOAP
 
         public Queue<GOAPAction> Plan(
             List<GOAPAction> actions,
-            GOAPGoal goal,
+            GOAPBaseGoal goal,
             WorldState_v2 worldState
         )
         {

@@ -10,7 +10,7 @@ namespace AILibraryForNPC.Core
 
         protected BaseAction_v2 currentAction;
 
-        public bool IsStart { get; set; } = false;
+        public bool IsStart = false;
 
         private bool _isCompleteInitialize = false;
 

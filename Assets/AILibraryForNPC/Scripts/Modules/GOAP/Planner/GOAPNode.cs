@@ -11,7 +11,7 @@ namespace AILibraryForNPC.Modules.GOAP
         public WorldState_v2 worldState;
         public Dictionary<string, float> state;
         public List<GOAPAction> availableActions;
-        public GOAPGoal goal;
+        public GOAPBaseGoal goal;
 
         public GOAPNode(
             WorldState_v2 state,
@@ -24,7 +24,7 @@ namespace AILibraryForNPC.Modules.GOAP
             this.action = action;
         }
 
-        public void SetGoal(GOAPGoal goal)
+        public void SetGoal(GOAPBaseGoal goal)
         {
             this.goal = goal;
         }

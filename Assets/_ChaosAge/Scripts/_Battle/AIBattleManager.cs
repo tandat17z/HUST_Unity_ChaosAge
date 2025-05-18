@@ -79,7 +79,7 @@ namespace ChaosAge.AI.battle
 
             battleUnit.transform.position = pos;
 
-            battleUnit.GetComponent<BaseAgent>().IsStart = true;
+            battleUnit.GetComponent<BaseAgent>().IsStart = false;
             units.Add(battleUnit);
         }
 
@@ -176,16 +176,16 @@ namespace ChaosAge.AI.battle
                     return;
                 }
 
-                if (units.Count == 0)
-                {
-                    var rand = Random.Range(1, 10);
-                    for (int i = 0; i < rand; i++)
-                    {
-                        var x = Random.Range(1, 39);
-                        var y = Random.Range(1, 39);
-                        AddUnit(EUnitType.GOAPBarbarian, x, y);
-                    }
-                }
+                // if (units.Count == 0)
+                // {
+                //     var rand = Random.Range(1, 10);
+                //     for (int i = 0; i < rand; i++)
+                //     {
+                //         var x = Random.Range(1, 39);
+                //         var y = Random.Range(1, 39);
+                //         AddUnit(EUnitType.GOAPBarbarian, x, y);
+                //     }
+                // }
             }
         }
 

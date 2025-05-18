@@ -1,8 +1,13 @@
 using AILibraryForNPC.Core;
 using AILibraryForNPC.GOAP;
 
-public class GoalDefense : GOAPGoal
+public class GoalDefense : GOAPBaseGoal
 {
+    public override string GetName()
+    {
+        return "GoalDefense";
+    }
+
     public override float GetWeight(WorldState_v2 worldState)
     {
         if (worldState.GetState("DefenseHp") <= 40)

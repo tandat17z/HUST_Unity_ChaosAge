@@ -31,12 +31,11 @@ namespace AILibraryForNPC.Modules.GOAP
                 {
                     goapActions.Add(action as GOAPAction);
                 }
+
+                var bestGoal = _agent.goalSystem.GetCurrentGoal(worldState);
+                Debug.Log("Best goal: " + bestGoal.GetName());
                 // Debug.Log("Count actions: " + goapActions.Count);
-                _actionQueue = _planner.Plan(
-                    goapActions,
-                    _agent.goalSystem.GetCurrentGoal(worldState),
-                    worldState
-                );
+                _actionQueue = _planner.Plan(goapActions, bestGoal, worldState);
             }
 
             // Lấy action tiếp theo từ plan

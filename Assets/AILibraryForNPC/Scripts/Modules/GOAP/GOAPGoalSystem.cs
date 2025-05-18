@@ -8,20 +8,20 @@ namespace AILibraryForNPC.Modules.GOAP
 {
     public class GOAPGoalSystem : MonoBehaviour
     {
-        public List<GOAPGoal> goals = new List<GOAPGoal>();
+        public List<GOAPBaseGoal> goals = new List<GOAPBaseGoal>();
 
-        public void AddGoal(GOAPGoal goal)
+        public void AddGoal(GOAPBaseGoal goal)
         {
             goals.Add(goal);
         }
 
-        public GOAPGoal GetCurrentGoal(WorldState_v2 worldState)
+        public GOAPBaseGoal GetCurrentGoal(WorldState_v2 worldState)
         {
             if (goals == null || goals.Count == 0)
                 return null;
 
             // Tính trọng số của từng goal dựa trên worldState
-            var weightedGoals = new List<(GOAPGoal goal, float weight)>();
+            var weightedGoals = new List<(GOAPBaseGoal goal, float weight)>();
             foreach (var goal in goals)
             {
                 float weight = goal.GetWeight(worldState);
