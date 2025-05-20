@@ -32,7 +32,7 @@ namespace AILibraryForNPC.Algorithms
                     if (IsContains(visited, neighbor))
                         continue;
 
-                    var tentativeDistance = distances[current] + current.GetCost(neighbor);
+                    var tentativeDistance = distances[current] + neighbor.GetCost();
 
                     if (!IsContains(unvisited, neighbor))
                         unvisited.Add(neighbor);

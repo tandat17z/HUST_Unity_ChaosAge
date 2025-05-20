@@ -5,6 +5,7 @@ namespace AILibraryForNPC.Algorithms
 {
     public class AStar
     {
+        public static int maxStep = 1000;
         public static List<INode> FindPath(INode start, INode goal)
         {
             var openSet = new List<INode>();
@@ -17,8 +18,15 @@ namespace AILibraryForNPC.Algorithms
             gScore[start] = 0;
             fScore[start] = start.GetHeuristic(goal);
 
+            int step = 0;
             while (openSet.Count > 0)
             {
+                step++;
+                if (step > maxStep)
+                {
+                    return null;
+                }
+
                 var current = GetLowestFScore(openSet, fScore);
 
                 if (goal.CheckIfGoalReached(current))
@@ -34,7 +42,7 @@ namespace AILibraryForNPC.Algorithms
                     if (IsContains(closedSet, neighbor))
                         continue;
 
-                    var tentativeGScore = gScore[current] + current.GetCost(neighbor);
+                    var tentativeGScore = gScore[current] + neighbor.GetCost();
 
                     if (!IsContains(openSet, neighbor))
                         openSet.Add(neighbor);

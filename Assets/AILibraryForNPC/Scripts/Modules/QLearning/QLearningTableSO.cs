@@ -68,20 +68,10 @@ namespace AILibraryForNPC.Modules.QLearning
             qTable[key] = value;
         }
 
-        public void AddManualEntry(string key, float value)
-        {
-            qTable[key] = value;
-        }
-
         public void ResetTable()
         {
             qTable.Clear();
             serializedQTable.Clear();
-        }
-
-        public Dictionary<string, float> GetQTable()
-        {
-            return new Dictionary<string, float>(qTable);
         }
 
         public void ExportToJson(string filePath)

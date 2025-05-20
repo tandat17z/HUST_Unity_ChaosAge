@@ -17,6 +17,7 @@ namespace AILibraryForNPC.Modules.GOAP
 
         public GOAPBaseGoal GetCurrentGoal(WorldState_v2 worldState)
         {
+            Debug.Log("GetCurrentGoal" + goals.Count);
             if (goals == null || goals.Count == 0)
                 return null;
 

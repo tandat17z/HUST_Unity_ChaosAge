@@ -102,7 +102,7 @@ namespace ChaosAge.Components
             return x == otherNode.x && y == otherNode.y;
         }
 
-        public float GetCost(INode neighbor)
+        public float GetCost()
         {
             return 1;
         }

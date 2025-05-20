@@ -1,3 +1,4 @@
+using System;
 using AILibraryForNPC.Core;
 using AILibraryForNPC.Modules.GOAP;
 using UnityEngine;
@@ -28,7 +29,15 @@ namespace AILibraryForNPC.Examples
 
         public override float GetCost()
         {
-            return Vector3.Distance(agent.transform.position, _target.transform.position);
+            try
+            {
+                return Vector3.Distance(agent.transform.position, _target.transform.position);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Error getting cost: " + e.Message);
+                return 1;
+            }
         }
 
         public override bool IsComplete(WorldState_v2 worldState)

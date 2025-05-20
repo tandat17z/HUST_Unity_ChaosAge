@@ -18,7 +18,7 @@ namespace AILibraryForNPC.Core
         {
             if (_state.ContainsKey(key))
             {
-                Debug.LogWarning($"WorldState_v2: {key} already exists");
+                // Debug.LogWarning($"WorldState_v2: {key} already exists");
                 return;
             }
             _state[key] = value;

@@ -34,7 +34,7 @@ namespace AILibraryForNPC.Modules.QLearning
                         + $"{_lastStateKey} {_lastAction} {_reward} {worldState.GetStateKey()}"
                 );
                 UpdateQValue(_lastStateKey, _lastAction, _reward, worldState.GetStateKey());
-                _reward = 0;
+                ResetReward();
             }
 
             int index = ChooseAction(worldState);
@@ -68,6 +68,11 @@ namespace AILibraryForNPC.Modules.QLearning
         public void AddReward(float reward)
         {
             _reward += reward;
+        }
+
+        public void ResetReward()
+        {
+            _reward = 0;
         }
 
         private int ChooseAction(WorldState_v2 worldState)

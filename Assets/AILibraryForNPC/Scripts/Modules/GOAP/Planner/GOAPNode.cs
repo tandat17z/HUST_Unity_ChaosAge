@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using AILibraryForNPC.Algorithms;
 using AILibraryForNPC.Core;
 using AILibraryForNPC.GOAP;
+using UnityEngine;
 
 namespace AILibraryForNPC.Modules.GOAP
 {
@@ -35,7 +36,7 @@ namespace AILibraryForNPC.Modules.GOAP
             return worldState.Equals(otherNode.worldState);
         }
 
-        public float GetCost(INode neighbor)
+        public float GetCost()
         {
             return action.GetCost();
         }
@@ -55,6 +56,9 @@ namespace AILibraryForNPC.Modules.GOAP
                     var newState = worldState.Clone();
                     action.ApplyEffect(newState);
                     neighbors.Add(new GOAPNode(newState, availableActions, action));
+                    Debug.Log(
+                        "GetNeighbors: " + action.GetType().Name + " " + newState.GetString()
+                    );
                 }
             }
             return neighbors;

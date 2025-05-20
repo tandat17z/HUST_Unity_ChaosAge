@@ -23,6 +23,7 @@ namespace AILibraryForNPC.Modules.GOAP
 
         public override BaseAction_v2 SelectAction(WorldState_v2 worldState)
         {
+            Debug.LogWarning("SelectAction: " + worldState.GetString());
             // Lên kế hoạch action mới nếu cần
             if (_actionQueue == null || _actionQueue.Count == 0)
             {
@@ -31,7 +32,8 @@ namespace AILibraryForNPC.Modules.GOAP
                 {
                     goapActions.Add(action as GOAPAction);
                 }
-
+                Debug.Log("Count actions: " + _agent.name);
+                Debug.Log("Count actions: " + _agent.goalSystem.goals.Count);
                 var bestGoal = _agent.goalSystem.GetCurrentGoal(worldState);
                 Debug.Log("Best goal: " + bestGoal.GetName());
                 // Debug.Log("Count actions: " + goapActions.Count);

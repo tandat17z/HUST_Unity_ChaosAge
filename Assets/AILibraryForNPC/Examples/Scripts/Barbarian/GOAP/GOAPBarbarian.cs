@@ -8,6 +8,7 @@ namespace AILibraryForNPC.Examples
     {
         public override void OnAwake()
         {
+            base.OnAwake();
             GetComponent<NavMeshAgent>().updateRotation = false;
         }
 
@@ -16,8 +17,7 @@ namespace AILibraryForNPC.Examples
             goalSystem.AddGoal(new GoalDefense());
             goalSystem.AddGoal(new GoalGoHome());
             goalSystem.AddGoal(new GoalTownhall());
-
-            Debug.Log("RegisterGoals" + goalSystem.goals.Count);
+            Debug.LogWarning("RegisterGoals" + goalSystem.goals.Count);
         }
 
         public override void RegisterActions()

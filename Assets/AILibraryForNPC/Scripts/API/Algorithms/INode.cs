@@ -9,7 +9,7 @@ namespace AILibraryForNPC.Algorithms
 
         public bool Equals(INode other);
 
-        public float GetCost(INode neighbor);
+        public float GetCost();
 
         public float GetHeuristic(INode goal);
 
