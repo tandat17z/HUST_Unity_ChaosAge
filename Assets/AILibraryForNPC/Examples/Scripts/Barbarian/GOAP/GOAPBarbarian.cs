@@ -42,6 +42,7 @@ namespace AILibraryForNPC.Examples
         Home,
         MoveToDefense,
         MoveToTownhall,
-        Attack,
+        AttackDefense,
+        AttackTownhall,
     }
 }

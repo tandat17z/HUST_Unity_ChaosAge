@@ -23,7 +23,10 @@ namespace AILibraryForNPC.Examples
         public override bool CheckPrecondition(WorldState_v2 state)
         {
             _target = state.GetBuffer("Home") as GameObject;
-            return state.GetState("PlayerState") == (int)PlayerState.Attack
+            return (
+                    state.GetState("PlayerState") == (int)PlayerState.AttackTownhall
+                    || state.GetState("PlayerState") == (int)PlayerState.AttackDefense
+                )
                 && state.GetState("PlayerHp") > 0;
         }
 

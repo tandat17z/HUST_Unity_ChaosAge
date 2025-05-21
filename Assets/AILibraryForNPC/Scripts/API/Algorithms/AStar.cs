@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace AILibraryForNPC.Algorithms
 {
     public class AStar
     {
-        public static int maxStep = 1000;
+        public static int maxStep = 100;
+
         public static List<INode> FindPath(INode start, INode goal)
         {
             var openSet = new List<INode>();
@@ -73,9 +75,17 @@ namespace AILibraryForNPC.Algorithms
             while (current != null)
             {
                 path.Add(current);
-                current = cameFrom[current];
+                if (cameFrom.ContainsKey(current) == false)
+                {
+                    current = null;
+                }
+                else
+                {
+                    current = cameFrom[current];
+                }
             }
             path.Reverse();
+            Debug.LogWarning("path.Count: " + path.Count);
             return path;
         }
 

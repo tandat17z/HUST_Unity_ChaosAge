@@ -14,14 +14,21 @@ namespace AILibraryForNPC.Examples
 
         public GOAPMoveToTownhall() { }
 
-        public override void ApplyEffect(WorldState_v2 state) { }
+        public override void ApplyEffect(WorldState_v2 state)
+        {
+            state.AddState("PlayerState", (int)PlayerState.MoveToTownhall);
+        }
 
         public override bool CheckPrecondition(WorldState_v2 state)
         {
             _target = state.GetBuffer("Townhall") as GameObject;
+            var playerState = state.GetState("PlayerState");
             return state.GetState("PlayerHp") > 0
                 && state.GetState("TownhallHp") > 0
-                && state.GetState("Moving") == 0;
+                && (
+                    playerState != (int)PlayerState.AttackTownhall
+                    && playerState != (int)PlayerState.MoveToTownhall
+                );
         }
 
         public override float GetCost()

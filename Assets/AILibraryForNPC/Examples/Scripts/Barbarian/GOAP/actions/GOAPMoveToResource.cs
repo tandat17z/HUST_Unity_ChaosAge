@@ -16,13 +16,19 @@ namespace AILibraryForNPC.Examples
 
         public override void ApplyEffect(WorldState_v2 state)
         {
-            state.AddState("PlayerState", 1);
+            state.AddState("PlayerState", (int)PlayerState.MoveToDefense);
         }
 
         public override bool CheckPrecondition(WorldState_v2 state)
         {
             _target = state.GetBuffer("Defense") as GameObject;
-            return state.GetState("DefenseHp") > 0 && state.GetState("Moving") == 0;
+            var playerState = state.GetState("PlayerState");
+            return state.GetState("PlayerHp") > 0
+                && state.GetState("DefenseHp") > 0
+                && (
+                    playerState != (int)PlayerState.AttackDefense
+                    && playerState != (int)PlayerState.MoveToDefense
+                );
         }
 
         public override float GetCost()

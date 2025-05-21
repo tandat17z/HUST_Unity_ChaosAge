@@ -49,6 +49,7 @@ namespace AILibraryForNPC.Modules.GOAP
         public List<INode> GetNeighbors()
         {
             var neighbors = new List<INode>();
+            Debug.LogWarning("current node: " + worldState.GetStateKey());
             foreach (var action in availableActions)
             {
                 if (action.CheckPrecondition(worldState))
@@ -62,11 +63,6 @@ namespace AILibraryForNPC.Modules.GOAP
                 }
             }
             return neighbors;
-        }
-
-        public override string ToString()
-        {
-            return $"State: {string.Join(", ", state)}";
         }
 
         public bool CheckIfGoalReached(INode current)

@@ -15,7 +15,7 @@ namespace AILibraryForNPC.Examples
 
         public override void ApplyEffect(WorldState_v2 state)
         {
-            state.AddState("PlayerState", (int)PlayerState.Attack);
+            state.AddState("PlayerState", (int)PlayerState.AttackDefense);
 
             var defenseHp = state.GetState("DefenseHp");
             state.AddState("DefenseHp", defenseHp - 5);
@@ -26,7 +26,10 @@ namespace AILibraryForNPC.Examples
 
         public override bool CheckPrecondition(WorldState_v2 state)
         {
-            return state.GetState("PlayerState") == (int)PlayerState.MoveToDefense
+            return (
+                    state.GetState("PlayerState") == (int)PlayerState.MoveToDefense
+                    || state.GetState("PlayerState") == (int)PlayerState.AttackDefense
+                )
                 && state.GetState("DefenseHp") > 0
                 && state.GetState("PlayerHp") > 0;
         }

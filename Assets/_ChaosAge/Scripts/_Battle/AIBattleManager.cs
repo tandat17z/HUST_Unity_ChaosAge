@@ -79,7 +79,7 @@ namespace ChaosAge.AI.battle
 
             battleUnit.transform.position = pos;
 
-            battleUnit.GetComponent<BaseAgent>().IsStart = false;
+            battleUnit.GetComponent<BaseAgent>().IsStart = true;
             units.Add(battleUnit);
         }
 
