@@ -6,7 +6,7 @@ namespace AILibraryForNPC.Algorithms
 {
     public class AStar
     {
-        public static int maxStep = 100;
+        public static int maxStep = 10000;
 
         public static List<INode> FindPath(INode start, INode goal)
         {
@@ -85,7 +85,6 @@ namespace AILibraryForNPC.Algorithms
                 }
             }
             path.Reverse();
-            Debug.LogWarning("path.Count: " + path.Count);
             return path;
         }
 

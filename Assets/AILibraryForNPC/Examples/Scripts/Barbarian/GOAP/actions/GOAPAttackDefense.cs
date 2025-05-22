@@ -8,8 +8,8 @@ namespace AILibraryForNPC.Examples
 {
     public class GOAPAttackDefense : GOAPAction
     {
-        private NavMeshAgent _navMeshAgent;
         private GameObject _target;
+        private float _interval;
 
         public GOAPAttackDefense() { }
 
@@ -21,7 +21,7 @@ namespace AILibraryForNPC.Examples
             state.AddState("DefenseHp", defenseHp - 5);
 
             var playerHp = state.GetState("PlayerHp");
-            state.AddState("PlayerHp", playerHp - 10);
+            state.AddState("PlayerHp", playerHp - 6);
         }
 
         public override bool CheckPrecondition(WorldState_v2 state)
@@ -41,27 +41,22 @@ namespace AILibraryForNPC.Examples
 
         public override bool IsComplete(WorldState_v2 worldState)
         {
-            float range = 3f;
-            return _target == null
-                || Vector3.Distance(agent.transform.position, _target.transform.position) < range;
+            return _interval < 0;
         }
 
-        public override void Perform(WorldState_v2 worldState) { }
-
-        public override void PostPerform(WorldState_v2 worldState)
+        public override void Perform(WorldState_v2 worldState)
         {
-            _navMeshAgent.isStopped = true;
+            _interval -= Time.deltaTime;
         }
+
+        public override void PostPerform(WorldState_v2 worldState) { }
 
         public override void PrePerform(WorldState_v2 worldState)
         {
-            _navMeshAgent = agent.GetComponent<NavMeshAgent>();
-            _target = worldState.GetBuffer("targetTownhall") as GameObject;
-            if (_target != null)
-            {
-                _navMeshAgent.isStopped = false;
-                _navMeshAgent.SetDestination(_target.transform.position);
-            }
+            _target = worldState.GetBuffer("Defense") as GameObject;
+            _interval = 1;
+
+            _target.GetComponent<BattleBuilding>().TakeDamage(5);
         }
     }
 }

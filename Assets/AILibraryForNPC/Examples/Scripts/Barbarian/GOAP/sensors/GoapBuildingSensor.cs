@@ -1,6 +1,8 @@
 using AILibraryForNPC.Core;
+using AILibraryForNPC.Examples;
 using ChaosAge.AI.battle;
 using ChaosAge.Config;
+using UnityEngine;
 
 public class GoapBuildingSensor : BaseSensor_v2
 {
@@ -16,6 +18,16 @@ public class GoapBuildingSensor : BaseSensor_v2
             {
                 worldstate.AddState("TownhallHp", building.health);
                 worldstate.AddBuffer("Townhall", building.gameObject);
+
+                if (
+                    Vector3.Distance(
+                        agent.transform.position,
+                        building.gameObject.transform.position
+                    ) < 3
+                )
+                {
+                    worldstate.AddState("PlayerState", (int)PlayerState.MoveToTownhall);
+                }
             }
             else if (
                 building.type == EBuildingType.archertower
@@ -24,6 +36,16 @@ public class GoapBuildingSensor : BaseSensor_v2
             {
                 worldstate.AddState("DefenseHp", building.health);
                 worldstate.AddBuffer("Defense", building.gameObject);
+
+                if (
+                    Vector3.Distance(
+                        agent.transform.position,
+                        building.gameObject.transform.position
+                    ) < 3
+                )
+                {
+                    worldstate.AddState("PlayerState", (int)PlayerState.MoveToDefense);
+                }
             }
         }
     }

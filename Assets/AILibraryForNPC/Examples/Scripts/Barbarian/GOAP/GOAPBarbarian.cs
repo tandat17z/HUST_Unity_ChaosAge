@@ -17,7 +17,6 @@ namespace AILibraryForNPC.Examples
             goalSystem.AddGoal(new GoalDefense());
             goalSystem.AddGoal(new GoalGoHome());
             goalSystem.AddGoal(new GoalTownhall());
-            Debug.LogWarning("RegisterGoals" + goalSystem.goals.Count);
         }
 
         public override void RegisterActions()
@@ -31,8 +30,8 @@ namespace AILibraryForNPC.Examples
 
         public override void RegisterSensors()
         {
-            perceptionSystem.AddSensor(new GoapBuildingSensor());
             perceptionSystem.AddSensor(new GoapSensor());
+            perceptionSystem.AddSensor(new GoapBuildingSensor());
         }
     }
 

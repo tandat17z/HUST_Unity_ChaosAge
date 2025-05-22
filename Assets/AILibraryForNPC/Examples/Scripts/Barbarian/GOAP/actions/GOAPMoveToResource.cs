@@ -40,7 +40,7 @@ namespace AILibraryForNPC.Examples
             catch (Exception e)
             {
                 Debug.Log("Error getting cost: " + e.Message);
-                return 1;
+                return 10;
             }
         }
 

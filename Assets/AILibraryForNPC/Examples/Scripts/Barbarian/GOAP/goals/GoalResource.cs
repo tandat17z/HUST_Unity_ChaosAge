@@ -10,6 +10,10 @@ public class GoalDefense : GOAPBaseGoal
 
     public override float GetWeight(WorldState_v2 worldState)
     {
+        if (worldState.GetState("DefenseHp") <= 0)
+        {
+            return -1f;
+        }
         if (worldState.GetState("DefenseHp") <= 40)
         {
             return 0.5f;

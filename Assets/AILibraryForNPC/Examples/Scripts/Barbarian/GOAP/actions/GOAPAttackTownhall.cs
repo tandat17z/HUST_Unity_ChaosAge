@@ -8,7 +8,6 @@ namespace AILibraryForNPC.Examples
 {
     public class GOAPAttackTownhall : GOAPAction
     {
-        private NavMeshAgent _navMeshAgent;
         private GameObject _target;
         private float _interval;
 
@@ -52,8 +51,10 @@ namespace AILibraryForNPC.Examples
 
         public override void PrePerform(WorldState_v2 worldState)
         {
-            _interval = 3;
-            Debug.Log("GOAPAttackTownhall PrePerform" + worldState.GetBuffer("Townhall").name);
+            _target = worldState.GetBuffer("Townhall") as GameObject;
+            _interval = 1;
+
+            _target.GetComponent<BattleBuilding>().TakeDamage(5);
         }
     }
 }

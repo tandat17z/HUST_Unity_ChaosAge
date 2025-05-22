@@ -34,6 +34,18 @@ namespace ChaosAge.AI.battle
 
             var opponentData = PlayerData.LoadFromFile($"Assets/Levels/{level}.json");
             Initialize(opponentData.buildings);
+            ActiveAgent();
+        }
+
+        private void ActiveAgent()
+        {
+            foreach (var building in buildings)
+            {
+                if (building.TryGetComponent<BaseAgent>(out var agent))
+                {
+                    agent.IsStart = true;
+                }
+            }
         }
 
         public void Initialize(List<BuildingData> buildings)
@@ -173,6 +185,7 @@ namespace ChaosAge.AI.battle
                 if (buildings.Count == 0 || CheckTownHall() == false)
                 {
                     CreateBattle();
+                    ActiveAgent();
                     return;
                 }
 

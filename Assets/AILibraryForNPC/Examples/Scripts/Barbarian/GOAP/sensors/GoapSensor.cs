@@ -2,6 +2,7 @@ using AILibraryForNPC.Core;
 using AILibraryForNPC.Examples;
 using ChaosAge.AI.battle;
 using ChaosAge.Battle;
+using UnityEngine;
 
 public class GoapSensor : BaseSensor_v2
 {
@@ -14,5 +15,10 @@ public class GoapSensor : BaseSensor_v2
 
         var home = AIBattleManager.Instance.home;
         worldstate.AddBuffer("Home", home);
+
+        if (Vector3.Distance(agent.transform.position, home.transform.position) < 1)
+        {
+            worldstate.AddState("PlayerState", (int)PlayerState.Home);
+        }
     }
 }

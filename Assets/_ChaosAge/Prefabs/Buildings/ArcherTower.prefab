@@ -801,6 +801,8 @@ GameObject:
   - component: {fileID: 8680643771773694592}
   - component: {fileID: 6655862420951677313}
   - component: {fileID: 7412398160304781858}
+  - component: {fileID: 1867907776069108311}
+  - component: {fileID: 1571397925824988969}
   m_Layer: 0
   m_Name: ArcherTower
   m_TagString: Untagged
@@ -891,6 +893,31 @@ MonoBehaviour:
   target: -1
   attackTimer: 0
   percentage: 0
+--- !u!114 &1867907776069108311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949424055892338630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30dd075f0bf26324bbdd27784db1dc2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1571397925824988969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949424055892338630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9bbc8b126148a4597f3402a32d3991, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsStart: 0
 --- !u!1001 &8336019336937385487
 PrefabInstance:
   m_ObjectHideFlags: 0

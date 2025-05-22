@@ -39,13 +39,13 @@ namespace AILibraryForNPC.Examples
             catch (Exception e)
             {
                 Debug.Log("Error getting cost: " + e.Message);
-                return 1;
+                return 10;
             }
         }
 
         public override bool IsComplete(WorldState_v2 worldState)
         {
-            float range = 0.1f;
+            float range = 1f;
             return _target == null
                 || Vector3.Distance(agent.transform.position, _target.transform.position) < range;
         }

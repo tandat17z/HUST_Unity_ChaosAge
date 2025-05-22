@@ -49,15 +49,18 @@ namespace AILibraryForNPC.Modules.GOAP
             }
 
             // Convert path to action queue
+            var str = "";
             var queue = new Queue<GOAPAction>();
             foreach (var node in path)
             {
                 if (((GOAPNode)node).action != null)
                 {
                     queue.Enqueue(((GOAPNode)node).action);
+                    str += ((GOAPNode)node).action.GetType().Name + " -> ";
                 }
             }
 
+            Debug.Log(str);
             return queue;
         }
     }

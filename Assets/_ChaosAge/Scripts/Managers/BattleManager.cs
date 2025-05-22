@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AILibraryForNPC.Core;
 using AStarPathfinding;
 using ChaosAge.Battle;
 using ChaosAge.Config;
