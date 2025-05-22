@@ -16,12 +16,26 @@ namespace AILibraryForNPC.Modules.GOAP
 
         public abstract void RegisterGoals();
 
-        public void CancelPlan()
+        public abstract bool ConditionCancelPlan(WorldState_v2 worldState);
+
+        private void CancelPlan()
         {
-            (currentAction as GOAPAction).Cancel();
+            if (currentAction != null)
+            {
+                (currentAction as GOAPAction).Cancel();
+            }
             currentAction = null;
 
             (actionSystem as GOAPActionSystem).CancelPlan();
+        }
+
+        protected override void UpdateActionSystem()
+        {
+            if (ConditionCancelPlan(worldState))
+            {
+                CancelPlan();
+            }
+            base.UpdateActionSystem();
         }
     }
 }

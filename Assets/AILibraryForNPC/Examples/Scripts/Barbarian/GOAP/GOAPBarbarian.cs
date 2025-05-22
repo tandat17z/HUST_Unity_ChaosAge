@@ -1,3 +1,4 @@
+using AILibraryForNPC.Core;
 using AILibraryForNPC.Modules.GOAP;
 using UnityEngine;
 using UnityEngine.AI;
@@ -6,6 +7,8 @@ namespace AILibraryForNPC.Examples
 {
     public class GOAPBarbarian : GOAPAgent
     {
+        public PlayerState currentState;
+
         public override void OnAwake()
         {
             base.OnAwake();
@@ -32,6 +35,12 @@ namespace AILibraryForNPC.Examples
         {
             perceptionSystem.AddSensor(new GoapSensor());
             perceptionSystem.AddSensor(new GoapBuildingSensor());
+        }
+
+        public override bool ConditionCancelPlan(WorldState_v2 worldState)
+        {
+            // return false;
+            return worldState.GetState("PlayerHp") <= 50 && currentState != PlayerState.Home;
         }
     }
 

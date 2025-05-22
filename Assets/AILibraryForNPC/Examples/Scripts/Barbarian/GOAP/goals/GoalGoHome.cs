@@ -1,4 +1,5 @@
 using AILibraryForNPC.Core;
+using AILibraryForNPC.Examples;
 using AILibraryForNPC.GOAP;
 
 public class GoalGoHome : GOAPBaseGoal
@@ -19,6 +20,6 @@ public class GoalGoHome : GOAPBaseGoal
 
     public override bool IsGoalReached(WorldState_v2 worldState)
     {
-        return worldState.GetState("home") >= 100;
+        return worldState.GetState("PlayerState") == (int)PlayerState.Home;
     }
 }

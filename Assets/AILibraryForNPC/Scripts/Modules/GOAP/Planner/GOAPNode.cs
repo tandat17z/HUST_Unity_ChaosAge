@@ -49,7 +49,7 @@ namespace AILibraryForNPC.Modules.GOAP
         public List<INode> GetNeighbors()
         {
             var neighbors = new List<INode>();
-            Debug.LogWarning("current node: " + worldState.GetStateKey());
+            // Debug.LogWarning("current node: " + worldState.GetStateKey());
             foreach (var action in availableActions)
             {
                 if (action.CheckPrecondition(worldState))
@@ -57,9 +57,9 @@ namespace AILibraryForNPC.Modules.GOAP
                     var newState = worldState.Clone();
                     action.ApplyEffect(newState);
                     neighbors.Add(new GOAPNode(newState, availableActions, action));
-                    Debug.Log(
-                        "GetNeighbors: " + action.GetType().Name + " " + newState.GetString()
-                    );
+                    // Debug.Log(
+                    //     "GetNeighbors: " + action.GetType().Name + " " + newState.GetString()
+                    // );
                 }
             }
             return neighbors;

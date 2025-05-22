@@ -12,6 +12,8 @@ public class ATSensor : BaseSensor_v2
         foreach (var unit in AIBattleManager.Instance.units)
         {
             var distance = Vector3.Distance(unit.transform.position, agent.transform.position);
+            if (distance > 10)
+                continue;
             if (minUnit == null || distance < minDistance)
             {
                 minUnit = unit;

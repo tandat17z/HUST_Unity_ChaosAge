@@ -1,3 +1,4 @@
+using AILibraryForNPC.Core;
 using AILibraryForNPC.Modules.GOAP;
 
 public class GOAPNPCMove : GOAPAgent
@@ -20,5 +21,10 @@ public class GOAPNPCMove : GOAPAgent
     public override void RegisterSensors()
     {
         perceptionSystem.AddSensor(new LocationSensor());
+    }
+
+    public override bool ConditionCancelPlan(WorldState_v2 worldState)
+    {
+        return false;
     }
 }

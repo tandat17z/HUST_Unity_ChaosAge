@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace AILibraryForNPC.Core
@@ -39,25 +40,35 @@ namespace AILibraryForNPC.Core
         {
             if (IsStart && _isCompleteInitialize)
             {
-                worldState = perceptionSystem.Observe();
-                if (currentAction != null)
+                UpdatePerceptionSystem();
+                UpdateActionSystem();
+            }
+        }
+
+        private void UpdatePerceptionSystem()
+        {
+            worldState = perceptionSystem.Observe();
+        }
+
+        protected virtual void UpdateActionSystem()
+        {
+            if (currentAction != null)
+            {
+                if (currentAction.IsComplete(worldState) == true)
                 {
-                    if (currentAction.IsComplete(worldState) == true)
-                    {
-                        currentAction.PostPerform(worldState);
-                        currentAction = null;
-                        return;
-                    }
-                    currentAction.Perform(worldState);
+                    currentAction.PostPerform(worldState);
+                    currentAction = null;
                     return;
                 }
+                currentAction.Perform(worldState);
+                return;
+            }
 
-                currentAction = actionSystem.SelectAction(worldState);
-                if (currentAction != null)
-                {
-                    Debug.LogWarning("currentAction: " + currentAction.GetType().Name);
-                    currentAction.PrePerform(worldState);
-                }
+            currentAction = actionSystem.SelectAction(worldState);
+            if (currentAction != null)
+            {
+                // Debug.LogWarning("currentAction: " + currentAction.GetType().Name);
+                currentAction.PrePerform(worldState);
             }
         }
     }

@@ -18,10 +18,10 @@ namespace AILibraryForNPC.Examples
             state.AddState("PlayerState", (int)PlayerState.AttackDefense);
 
             var defenseHp = state.GetState("DefenseHp");
-            state.AddState("DefenseHp", defenseHp - 5);
+            state.AddState("DefenseHp", defenseHp - 20);
 
             var playerHp = state.GetState("PlayerHp");
-            state.AddState("PlayerHp", playerHp - 6);
+            state.AddState("PlayerHp", playerHp - 15);
         }
 
         public override bool CheckPrecondition(WorldState_v2 state)

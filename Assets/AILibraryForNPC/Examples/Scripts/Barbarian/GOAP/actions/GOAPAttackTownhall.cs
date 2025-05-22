@@ -18,7 +18,7 @@ namespace AILibraryForNPC.Examples
             state.AddState("PlayerState", (int)PlayerState.AttackTownhall);
 
             var townhallHp = state.GetState("TownhallHp");
-            state.AddState("TownhallHp", townhallHp - 5);
+            state.AddState("TownhallHp", townhallHp - 20);
             // neu khoang cach giua townhall va defense nho thì player bị trừ máu
         }
 

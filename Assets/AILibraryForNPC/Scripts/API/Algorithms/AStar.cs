@@ -6,7 +6,7 @@ namespace AILibraryForNPC.Algorithms
 {
     public class AStar
     {
-        public static int maxStep = 10000;
+        public static int maxStep = 1000;
 
         public static List<INode> FindPath(INode start, INode goal)
         {

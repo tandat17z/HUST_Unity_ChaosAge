@@ -265,7 +265,7 @@ public class BattleBuilding : MonoBehaviour
             unit.transform.position,
             () =>
             {
-                unit.TakeDamage(6);
+                unit.TakeDamage(10);
             }
         );
     }

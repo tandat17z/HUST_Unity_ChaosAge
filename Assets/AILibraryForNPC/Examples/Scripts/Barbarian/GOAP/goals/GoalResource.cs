@@ -18,11 +18,11 @@ public class GoalDefense : GOAPBaseGoal
         {
             return 0.5f;
         }
-        return 0.1f;
+        return 0.2f;
     }
 
     public override bool IsGoalReached(WorldState_v2 worldState)
     {
-        return worldState.GetState("DefenseHp") <= 0;
+        return worldState.GetState("DefenseHp") <= 0 && worldState.GetState("PlayerHp") > 0;
     }
 }
