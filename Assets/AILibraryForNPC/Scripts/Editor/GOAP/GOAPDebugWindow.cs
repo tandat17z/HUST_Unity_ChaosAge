@@ -7,6 +7,9 @@ using UnityEngine;
 public class GOAPDebugWindow : EditorWindow
 {
     private GOAPAgent executor;
+    private Dictionary<int, bool> expandedStates = new Dictionary<int, bool>();
+    private float expandedStateHeight = 200f;
+    private float collapsedStateHeight = 120f;
 
     [MenuItem("Tools/GOAP Debug Window")]
     public static void ShowWindow()
@@ -132,7 +135,6 @@ public class GOAPDebugWindow : EditorWindow
         float nodeWidth = 150f;
         float nodeHeight = 40f;
         float stateNodeWidth = 200f;
-        float stateNodeHeight = 120f;
         float spacing = 250f;
         float startX = 50f;
         float startY = 20f;
@@ -143,8 +145,8 @@ public class GOAPDebugWindow : EditorWindow
         var nextWorldState = worldState.Clone();
 
         // Draw initial state node
-        Rect initialStateRect = new Rect(startX, startY, stateNodeWidth, stateNodeHeight);
-        GUI.color = Color.green;
+        Rect initialStateRect = new Rect(startX, startY, stateNodeWidth, collapsedStateHeight);
+        GUI.color = Color.white;
         GUI.Box(initialStateRect, "Initial State");
         GUI.color = Color.white;
 
@@ -154,11 +156,11 @@ public class GOAPDebugWindow : EditorWindow
             initialStateRect.x + 5,
             initialStateRect.y + 25,
             stateNodeWidth - 10,
-            stateNodeHeight - 30
+            collapsedStateHeight - 30
         );
         GUI.BeginGroup(initialStateContent);
         initialStateScroll = GUI.BeginScrollView(
-            new Rect(0, 0, stateNodeWidth - 10, stateNodeHeight - 30),
+            new Rect(0, 0, stateNodeWidth - 10, collapsedStateHeight - 30),
             initialStateScroll,
             new Rect(0, 0, stateNodeWidth - 20, 100)
         );
@@ -166,6 +168,20 @@ public class GOAPDebugWindow : EditorWindow
         GUI.EndScrollView();
         GUI.EndGroup();
 
+        // Add expand/collapse button for initial state
+        if (
+            GUI.Button(
+                new Rect(initialStateRect.xMax - 25, initialStateRect.y + 5, 20, 20),
+                expandedStates.ContainsKey(-1) && expandedStates[-1] ? "▼" : "▶"
+            )
+        )
+        {
+            if (!expandedStates.ContainsKey(-1))
+                expandedStates[-1] = false;
+            expandedStates[-1] = !expandedStates[-1];
+        }
+
+        var preRect = initialStateRect;
         for (int i = 0; i < plan.Count; i++)
         {
             var action = plan[i];
@@ -173,17 +189,16 @@ public class GOAPDebugWindow : EditorWindow
 
             // Draw action node
             Rect nodeRect = new Rect(pos.x, pos.y, nodeWidth, nodeHeight);
-            GUI.color = (i == currentActionIndex) ? Color.cyan : Color.white;
+            GUI.color = (i == currentActionIndex) ? Color.green : Color.white;
             GUI.Box(nodeRect, action.GetType().Name);
             GUI.color = Color.white;
 
             // Draw state node
-            Rect stateRect = new Rect(
-                pos.x,
-                pos.y + nodeHeight + 10,
-                stateNodeWidth,
-                stateNodeHeight
-            );
+            float stateHeight =
+                expandedStates.ContainsKey(i) && expandedStates[i]
+                    ? expandedStateHeight
+                    : collapsedStateHeight;
+            Rect stateRect = new Rect(pos.x, pos.y + nodeHeight + 10, stateNodeWidth, stateHeight);
             GUI.color = Color.yellow;
             GUI.Box(stateRect, "State " + (i + 1));
             GUI.color = Color.white;
@@ -197,11 +212,11 @@ public class GOAPDebugWindow : EditorWindow
                 stateRect.x + 5,
                 stateRect.y + 25,
                 stateNodeWidth - 10,
-                stateNodeHeight - 30
+                stateHeight - 30
             );
             GUI.BeginGroup(stateContent);
             stateScroll = GUI.BeginScrollView(
-                new Rect(0, 0, stateNodeWidth - 10, stateNodeHeight - 30),
+                new Rect(0, 0, stateNodeWidth - 10, stateHeight - 30),
                 stateScroll,
                 new Rect(0, 0, stateNodeWidth - 20, 100)
             );
@@ -209,22 +224,28 @@ public class GOAPDebugWindow : EditorWindow
             GUI.EndScrollView();
             GUI.EndGroup();
 
+            // Add expand/collapse button
+            if (
+                GUI.Button(
+                    new Rect(stateRect.xMax - 25, stateRect.y + 5, 20, 20),
+                    expandedStates.ContainsKey(i) && expandedStates[i] ? "▼" : "▶"
+                )
+            )
+            {
+                if (!expandedStates.ContainsKey(i))
+                    expandedStates[i] = false;
+                expandedStates[i] = !expandedStates[i];
+            }
+
             // Draw arrows
-            if (i == 0)
+            if (i < plan.Count - 1)
             {
                 // Arrow from initial state to first action
-                Vector2 from = new Vector2(initialStateRect.xMax, initialStateRect.center.y);
+                Vector2 from = new Vector2(preRect.xMax, preRect.center.y);
                 Vector2 to = new Vector2(nodeRect.xMin, nodeRect.center.y);
                 DrawArrow(from, to);
             }
-
-            if (i < plan.Count - 1)
-            {
-                // Arrow from current state to next action
-                Vector2 from = new Vector2(stateRect.xMax, stateRect.center.y);
-                Vector2 to = new Vector2(pos.x + spacing + nodeWidth, nodeRect.center.y);
-                DrawArrow(from, to);
-            }
+            preRect = nodeRect;
         }
 
         Handles.EndGUI();
