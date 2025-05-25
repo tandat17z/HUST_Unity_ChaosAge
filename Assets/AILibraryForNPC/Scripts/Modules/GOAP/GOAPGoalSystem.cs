@@ -9,6 +9,7 @@ namespace AILibraryForNPC.Modules.GOAP
     public class GOAPGoalSystem : MonoBehaviour
     {
         public List<GOAPBaseGoal> goals = new List<GOAPBaseGoal>();
+        private GOAPBaseGoal _currentGoal;
 
         public void AddGoal(GOAPBaseGoal goal)
         {
@@ -37,7 +38,13 @@ namespace AILibraryForNPC.Modules.GOAP
 
             // Chọn ngẫu nhiên nếu có nhiều goal bằng trọng số
             int index = Random.Range(0, bestGoals.Count);
-            return bestGoals[index].goal;
+            _currentGoal = bestGoals[index].goal;
+            return _currentGoal;
+        }
+
+        public GOAPBaseGoal GetCurrentGoal()
+        {
+            return _currentGoal;
         }
     }
 }

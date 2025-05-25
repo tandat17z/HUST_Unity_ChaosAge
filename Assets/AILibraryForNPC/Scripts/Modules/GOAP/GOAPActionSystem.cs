@@ -13,6 +13,9 @@ namespace AILibraryForNPC.Modules.GOAP
         private GOAPAgent _agent;
         private GOAPPlanner _planner;
         private Queue<GOAPAction> _actionQueue = new();
+        private List<GOAPAction> _beginPlan = new();
+        private WorldState_v2 _beginWorldState;
+        private int _currentActionIndex;
 
         protected override void OnInitialize()
         {
@@ -23,7 +26,7 @@ namespace AILibraryForNPC.Modules.GOAP
 
         public override BaseAction_v2 SelectAction(WorldState_v2 worldState)
         {
-            Debug.LogWarning("SelectAction: " + worldState.GetString());
+            _currentActionIndex += 1;
             // Lên kế hoạch action mới nếu cần
             if (_actionQueue == null || _actionQueue.Count == 0)
             {
@@ -32,19 +35,20 @@ namespace AILibraryForNPC.Modules.GOAP
                 {
                     goapActions.Add(action as GOAPAction);
                 }
-                Debug.Log("Count actions: " + _agent.name);
-                Debug.Log("Count actions: " + _agent.goalSystem.goals.Count);
+
                 var bestGoal = _agent.goalSystem.GetCurrentGoal(worldState);
-                Debug.Log("Best goal: " + bestGoal.GetName());
                 // Debug.Log("Count actions: " + goapActions.Count);
                 _actionQueue = _planner.Plan(goapActions, bestGoal, worldState);
+                _beginWorldState = worldState.Clone();
+                _beginPlan = new List<GOAPAction>(_actionQueue);
+                _currentActionIndex = 0;
             }
 
             // Lấy action tiếp theo từ plan
             if (_actionQueue != null && _actionQueue.Count > 0)
             {
-                var currentAction = _actionQueue.Dequeue();
-                return currentAction;
+                var action = _actionQueue.Dequeue();
+                return action;
             }
             return null;
         }
@@ -52,6 +56,31 @@ namespace AILibraryForNPC.Modules.GOAP
         public void CancelPlan()
         {
             _actionQueue = new Queue<GOAPAction>();
+        }
+
+        public List<GOAPAction> GetCurrentPlan()
+        {
+            return _beginPlan;
+        }
+
+        public int GetCurrentActionIndex()
+        {
+            return _currentActionIndex;
+        }
+
+        public List<GOAPAction> GetActions()
+        {
+            var actions = new List<GOAPAction>();
+            foreach (var action in _actions)
+            {
+                actions.Add(action as GOAPAction);
+            }
+            return actions;
+        }
+
+        public WorldState_v2 GetBeginWorldState()
+        {
+            return _beginWorldState;
         }
     }
 }

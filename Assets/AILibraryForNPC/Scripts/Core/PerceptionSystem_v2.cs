@@ -32,5 +32,15 @@ namespace AILibraryForNPC.Core
             }
             return worldState;
         }
+
+        internal WorldState_v2 InitWorldState()
+        {
+            WorldState_v2 worldState = new WorldState_v2();
+            foreach (var sensor in _sensors)
+            {
+                sensor.InitializeWorldState(worldState);
+            }
+            return worldState;
+        }
     }
 }

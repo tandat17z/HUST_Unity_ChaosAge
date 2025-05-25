@@ -71,5 +71,10 @@ namespace AILibraryForNPC.Core
                 currentAction.PrePerform(worldState);
             }
         }
+
+        public WorldState_v2 GetWorldState()
+        {
+            return worldState;
+        }
     }
 }

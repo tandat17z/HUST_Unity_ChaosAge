@@ -1,3 +1,4 @@
+using System;
 using AILibraryForNPC.Core;
 using UnityEngine;
 
@@ -36,6 +37,11 @@ namespace AILibraryForNPC.Modules.GOAP
                 CancelPlan();
             }
             base.UpdateActionSystem();
+        }
+
+        public WorldState_v2 InitWorldState()
+        {
+            return perceptionSystem.InitWorldState();
         }
     }
 }
