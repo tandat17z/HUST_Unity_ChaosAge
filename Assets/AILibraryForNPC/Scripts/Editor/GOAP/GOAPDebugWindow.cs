@@ -80,11 +80,27 @@ public class GOAPDebugWindow : EditorWindow
         if (goalSystem != null)
         {
             var currentGoal = goalSystem.GetCurrentGoal();
-            if (currentGoal != null)
+            var worldState = goalSystem.GetWorldState();
+            for (int i = 0; i < goalSystem.goals.Count; i++)
             {
-                EditorGUILayout.LabelField(currentGoal.GetName());
-                return;
+                if (goalSystem.goals[i] == currentGoal)
+                    EditorGUILayout.LabelField(
+                        $"{goalSystem.goals[i].GetName()}: {goalSystem.goals[i].GetWeight(worldState)}",
+                        new GUIStyle(EditorStyles.label) { normal = { textColor = Color.green } }
+                    );
+                else
+                    EditorGUILayout.LabelField(
+                        $"{goalSystem.goals[i].GetName()}: {goalSystem.goals[i].GetWeight(worldState)}"
+                    );
             }
+            return;
+            // if (currentGoal != null)
+            // {
+            //     EditorGUILayout.LabelField(
+            //         currentGoal.GetName() + ": " + currentGoal.GetWeight(worldState)
+            //     );
+            //     return;
+            // }
         }
         EditorGUILayout.LabelField("No goal system found.");
     }

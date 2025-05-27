@@ -10,6 +10,7 @@ namespace AILibraryForNPC.Modules.GOAP
     {
         public List<GOAPBaseGoal> goals = new List<GOAPBaseGoal>();
         private GOAPBaseGoal _currentGoal;
+        private WorldState_v2 _worldState;
 
         public void AddGoal(GOAPBaseGoal goal)
         {
@@ -23,6 +24,7 @@ namespace AILibraryForNPC.Modules.GOAP
                 return null;
 
             // Tính trọng số của từng goal dựa trên worldState
+            _worldState = worldState;
             var weightedGoals = new List<(GOAPBaseGoal goal, float weight)>();
             foreach (var goal in goals)
             {
@@ -45,6 +47,16 @@ namespace AILibraryForNPC.Modules.GOAP
         public GOAPBaseGoal GetCurrentGoal()
         {
             return _currentGoal;
+        }
+
+        public WorldState_v2 GetWorldState()
+        {
+            return _worldState;
+        }
+
+        public int GetCurrentGoalIndex()
+        {
+            return goals.IndexOf(_currentGoal);
         }
     }
 }
