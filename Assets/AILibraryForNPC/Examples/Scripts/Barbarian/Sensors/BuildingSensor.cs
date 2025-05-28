@@ -94,18 +94,16 @@ namespace AILibraryForNPC.Examples
 
         private int GetHpLevel(float hp)
         {
-            if (hp <= 30)
+            if (hp <= 40)
                 return 0;
             return 1;
         }
 
         private int GetDistanceLevel(float distance)
         {
-            if (distance <= 5)
+            if (distance <= 7.5)
                 return 0;
-            if (distance <= 10)
-                return 1;
-            return 2;
+            return 1;
         }
     }
 }

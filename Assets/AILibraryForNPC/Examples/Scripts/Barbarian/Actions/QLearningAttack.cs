@@ -5,15 +5,16 @@ using UnityEngine;
 
 namespace AILibraryForNPC.Examples
 {
-    public class Attack : QLearningAction
+    public class QLearningAttack : QLearningAction
     {
         private BattleBuilding _target;
         private float _countTime;
         public float interval = 1;
+        private string _previousStateKey;
 
         public override bool IsComplete(WorldState_v2 worldState)
         {
-            return _countTime < 0;
+            return _countTime < 0 || _previousStateKey != worldState.GetStateKey();
         }
 
         public override void Perform(WorldState_v2 worldState)
@@ -28,23 +29,36 @@ namespace AILibraryForNPC.Examples
 
         public override void PrePerform(WorldState_v2 worldState)
         {
+            _previousStateKey = worldState.GetStateKey();
             _target = worldState.GetBuffer("target") as BattleBuilding;
+
             if (_target != null)
             {
-                _target.TakeDamage(5);
-                AddReward(5);
+                // trong pham vi tran cong
+                if (Vector3.Distance(agent.transform.position, _target.transform.position) < 3f)
+                {
+                    _target.TakeDamage(5);
+                    AddReward(5);
 
-                if (_target == null && _target.type == EBuildingType.townhall)
-                {
-                    AddReward(100);
+                    if (_target == null && _target.type == EBuildingType.townhall)
+                    {
+                        AddReward(100);
+                    }
+                    if (_target == null && _target.type == EBuildingType.archertower)
+                    {
+                        AddReward(50);
+                    }
                 }
-                if (_target == null && _target.type == EBuildingType.archertower)
+                else
                 {
-                    AddReward(50);
+                    _target = null;
+                    _countTime = -1;
+                    AddReward(-3);
                 }
             }
             else
             {
+                _countTime = -1;
                 AddReward(-3);
             }
         }

@@ -33,6 +33,7 @@ namespace AILibraryForNPC.Modules.QLearning
                     "UpdateQValue: "
                         + $"{_lastStateKey} {_lastAction} {_reward} {worldState.GetStateKey()}"
                 );
+                Debug.Log(worldState.GetString());
                 UpdateQValue(_lastStateKey, _lastAction, _reward, worldState.GetStateKey());
                 _reward = 0;
             }
