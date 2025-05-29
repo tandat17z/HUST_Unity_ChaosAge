@@ -37,8 +37,8 @@ namespace AILibraryForNPC.Examples
                 // trong pham vi tran cong
                 if (Vector3.Distance(agent.transform.position, _target.transform.position) < 3f)
                 {
-                    _target.TakeDamage(5);
-                    AddReward(5);
+                    _target.TakeDamage(10);
+                    AddReward(10);
 
                     if (_target == null && _target.type == EBuildingType.townhall)
                     {
@@ -53,13 +53,13 @@ namespace AILibraryForNPC.Examples
                 {
                     _target = null;
                     _countTime = -1;
-                    AddReward(-3);
+                    AddReward(-10);
                 }
             }
             else
             {
                 _countTime = -1;
-                AddReward(-3);
+                AddReward(-10);
             }
         }
     }

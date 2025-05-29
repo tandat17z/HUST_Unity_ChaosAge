@@ -71,10 +71,12 @@ namespace AILibraryForNPC.Examples
             if (_distanceToDefense < _distanceToTownhall)
             {
                 worldstate.AddBuffer("target", _targetDefense.GetComponent<BattleBuilding>());
+                worldstate.AddState("TargetIsDefense", 0);
             }
             else
             {
                 worldstate.AddBuffer("target", _targetTownhall.GetComponent<BattleBuilding>());
+                worldstate.AddState("TargetIsTownhall", 1);
             }
         }
 
@@ -94,16 +96,18 @@ namespace AILibraryForNPC.Examples
 
         private int GetHpLevel(float hp)
         {
-            if (hp <= 40)
+            if (hp <= 20)
                 return 0;
             return 1;
         }
 
         private int GetDistanceLevel(float distance)
         {
-            if (distance <= 7.5)
+            if (distance <= 3)
                 return 0;
-            return 1;
+            if (distance <= 15)
+                return 1;
+            return 2;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace AILibraryForNPC.Examples
 
         public int GetHealthLevel(float health)
         {
-            if (health <= 40)
+            if (health <= 20)
                 return 0;
             return 1;
         }

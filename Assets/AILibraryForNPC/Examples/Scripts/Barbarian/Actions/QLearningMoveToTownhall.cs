@@ -21,10 +21,6 @@ namespace AILibraryForNPC.Examples
                 || _previousStateKey != worldState.GetStateKey()
             )
             {
-                Debug.LogWarning(
-                    "IsComplete: "
-                        + $"{_target} {Vector3.Distance(agent.transform.position, _target.transform.position)} {_previousStateKey} {worldState.GetStateKey()}"
-                );
                 return true;
             }
             else
@@ -53,11 +49,11 @@ namespace AILibraryForNPC.Examples
 
                 if (Vector3.Distance(agent.transform.position, _target.transform.position) < 3f)
                 {
-                    AddReward(-5);
+                    AddReward(-10);
                 }
                 else
                 {
-                    AddReward(-1);
+                    AddReward(-3); // chi phí di chuyển
                 }
             }
         }
