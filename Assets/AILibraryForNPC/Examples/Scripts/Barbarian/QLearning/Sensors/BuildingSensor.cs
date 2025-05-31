@@ -68,31 +68,16 @@ namespace AILibraryForNPC.Examples
                 SetTownhallInfo(worldstate);
             }
 
-            if (_targetDefense != null)
+            if (_distanceToDefense < _distanceToTownhall)
             {
-                worldstate.AddState("hasDefense", 1);
+                worldstate.AddBuffer("target", _targetDefense.GetComponent<BattleBuilding>());
+                worldstate.AddState("TargetIsDefense", 0);
             }
             else
             {
-                worldstate.RemoveState("hasDefense");
+                worldstate.AddBuffer("target", _targetTownhall.GetComponent<BattleBuilding>());
+                worldstate.AddState("TargetIsTownhall", 1);
             }
-            if (_targetTownhall != null)
-            {
-                worldstate.AddState("hasTownhall", 1);
-            }
-            else
-            {
-                worldstate.RemoveState("hasTownhall");
-            }
-
-            var newTarget =
-                _distanceToDefense < _distanceToTownhall ? _targetDefense : _targetTownhall;
-            if (worldstate.GetBuffer("target") != newTarget.GetComponent<BattleBuilding>())
-            {
-                worldstate.RemoveState("hasTarget");
-                worldstate.RemoveState("attack");
-            }
-            worldstate.AddBuffer("target", newTarget.GetComponent<BattleBuilding>());
         }
 
         private void SetDefenseInfo(WorldState_v2 worldstate)
@@ -111,16 +96,16 @@ namespace AILibraryForNPC.Examples
 
         private int GetHpLevel(float hp)
         {
-            if (hp <= 30)
+            if (hp <= 20)
                 return 0;
             return 1;
         }
 
         private int GetDistanceLevel(float distance)
         {
-            if (distance <= 5)
+            if (distance <= 3)
                 return 0;
-            if (distance <= 10)
+            if (distance <= 15)
                 return 1;
             return 2;
         }

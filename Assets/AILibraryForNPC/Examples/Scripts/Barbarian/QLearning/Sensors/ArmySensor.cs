@@ -17,9 +17,7 @@ namespace AILibraryForNPC.Examples
         {
             if (countUnit <= 3)
                 return 0;
-            if (countUnit <= 6)
-                return 1;
-            return 2;
+            return 1;
         }
     }
 }

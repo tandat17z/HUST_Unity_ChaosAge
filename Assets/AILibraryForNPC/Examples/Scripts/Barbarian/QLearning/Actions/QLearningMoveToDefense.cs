@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace AILibraryForNPC.Examples
 {
-    public class MoveToTownhall : QLearningAction
+    public class QLearningMoveToDefense : QLearningAction
     {
         private NavMeshAgent _navMeshAgent;
         private GameObject _target;
@@ -14,9 +14,15 @@ namespace AILibraryForNPC.Examples
         public override bool IsComplete(WorldState_v2 worldState)
         {
             float range = 3f;
-            return _target == null
+            if (
+                _target == null
                 || Vector3.Distance(agent.transform.position, _target.transform.position) < range
-                || _previousStateKey != worldState.GetStateKey();
+                || _previousStateKey != worldState.GetStateKey()
+            )
+            {
+                return true;
+            }
+            return false;
         }
 
         public override void Perform(WorldState_v2 worldState) { }
@@ -28,15 +34,23 @@ namespace AILibraryForNPC.Examples
 
         public override void PrePerform(WorldState_v2 worldState)
         {
+            _previousStateKey = worldState.GetStateKey();
             _navMeshAgent = agent.GetComponent<NavMeshAgent>();
 
-            _target = worldState.GetBuffer("targetTownhall") as GameObject;
+            _target = worldState.GetBuffer("targetDefense") as GameObject;
             if (_target != null)
             {
                 _navMeshAgent.isStopped = false;
                 _navMeshAgent.SetDestination(_target.transform.position);
 
-                AddReward(-1);
+                if (Vector3.Distance(agent.transform.position, _target.transform.position) < 3f)
+                {
+                    AddReward(-10);
+                }
+                else
+                {
+                    AddReward(-5); // chi phí di chuyển
+                }
             }
         }
     }

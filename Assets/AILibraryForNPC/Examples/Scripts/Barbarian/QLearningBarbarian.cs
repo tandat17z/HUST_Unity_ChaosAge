@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 namespace AILibraryForNPC.Examples
 {
-    public class Barbarian : QLearningAgent
+    public class QLearningBarbarian : QLearningAgent
     {
         public override void OnAwake()
         {
@@ -12,15 +12,15 @@ namespace AILibraryForNPC.Examples
 
         public override void RegisterActions()
         {
-            actionSystem.AddAction(new MoveToDefense());
-            actionSystem.AddAction(new MoveToTownhall());
-            actionSystem.AddAction(new Attack());
+            actionSystem.AddAction(new QLearningMoveToDefense());
+            actionSystem.AddAction(new QLearningMoveToTownhall());
+            actionSystem.AddAction(new QLearningAttack());
         }
 
         public override void RegisterSensors()
         {
             perceptionSystem.AddSensor(new BarbarianSensor());
-            perceptionSystem.AddSensor(new ArmySensor());
+            // perceptionSystem.AddSensor(new ArmySensor());
             perceptionSystem.AddSensor(new BuildingSensor());
         }
     }
