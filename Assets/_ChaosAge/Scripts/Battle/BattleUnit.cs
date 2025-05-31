@@ -130,6 +130,14 @@ namespace ChaosAge.Battle
             }
         }
 
+        public void AddHealth(float hp)
+        {
+            health += hp;
+            Debug.Log("AddHealth: " + hp + " " + health);
+            health = Mathf.Min(health, 100);
+            hpSlider.value = health / unit.health;
+        }
+
         private void Update()
         {
             hpSlider.value = health / unit.health;

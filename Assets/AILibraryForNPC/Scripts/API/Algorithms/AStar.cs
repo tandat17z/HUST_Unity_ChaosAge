@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace AILibraryForNPC.Algorithms
 {
     public class AStar
     {
+        public static int maxStep = 1000;
+
         public static List<INode> FindPath(INode start, INode goal)
         {
             var openSet = new List<INode>();
@@ -17,11 +20,18 @@ namespace AILibraryForNPC.Algorithms
             gScore[start] = 0;
             fScore[start] = start.GetHeuristic(goal);
 
+            int step = 0;
             while (openSet.Count > 0)
             {
+                step++;
+                if (step > maxStep)
+                {
+                    return null;
+                }
+
                 var current = GetLowestFScore(openSet, fScore);
 
-                if (current.Equals(goal))
+                if (goal.CheckIfGoalReached(current))
                 {
                     return ReconstructPath(cameFrom, current);
                 }
@@ -31,12 +41,12 @@ namespace AILibraryForNPC.Algorithms
 
                 foreach (var neighbor in current.GetNeighbors())
                 {
-                    if (closedSet.Contains(neighbor))
+                    if (IsContains(closedSet, neighbor))
                         continue;
 
-                    var tentativeGScore = gScore[current] + current.GetCost(neighbor);
+                    var tentativeGScore = gScore[current] + neighbor.GetCost();
 
-                    if (!openSet.Contains(neighbor))
+                    if (!IsContains(openSet, neighbor))
                         openSet.Add(neighbor);
                     else if (tentativeGScore >= gScore[neighbor])
                         continue;
@@ -49,13 +59,30 @@ namespace AILibraryForNPC.Algorithms
             return null;
         }
 
+        private static bool IsContains(List<INode> list, INode node)
+        {
+            foreach (var item in list)
+            {
+                if (item.Equals(node))
+                    return true;
+            }
+            return false;
+        }
+
         private static List<INode> ReconstructPath(Dictionary<INode, INode> cameFrom, INode current)
         {
             var path = new List<INode>();
             while (current != null)
             {
                 path.Add(current);
-                current = cameFrom[current];
+                if (cameFrom.ContainsKey(current) == false)
+                {
+                    current = null;
+                }
+                else
+                {
+                    current = cameFrom[current];
+                }
             }
             path.Reverse();
             return path;

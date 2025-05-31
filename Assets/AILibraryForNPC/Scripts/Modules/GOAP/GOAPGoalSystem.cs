@@ -1,38 +1,62 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using AILibraryForNPC.Core;
-using ChaosAge.AI.battle;
+using AILibraryForNPC.GOAP;
 using UnityEngine;
 
 namespace AILibraryForNPC.Modules.GOAP
 {
     public class GOAPGoalSystem : MonoBehaviour
     {
-        [Serializable]
-        public class GOAPState
+        public List<GOAPBaseGoal> goals = new List<GOAPBaseGoal>();
+        private GOAPBaseGoal _currentGoal;
+        private WorldState_v2 _worldState;
+
+        public void AddGoal(GOAPBaseGoal goal)
         {
-            public string key;
-            public float value;
+            goals.Add(goal);
         }
 
-        public Dictionary<string, float> GetCurrentGoal(WorldState_v2 worldState)
+        public GOAPBaseGoal GetCurrentGoal(WorldState_v2 worldState)
         {
-            var disMin = float.MaxValue;
-            BattleBuilding goal = null;
-            foreach (var building in AIBattleManager.Instance.buildings)
+            Debug.Log("GetCurrentGoal" + goals.Count);
+            if (goals == null || goals.Count == 0)
+                return null;
+
+            // Tính trọng số của từng goal dựa trên worldState
+            _worldState = worldState;
+            var weightedGoals = new List<(GOAPBaseGoal goal, float weight)>();
+            foreach (var goal in goals)
             {
-                var dis = Vector3.Distance(building.transform.position, transform.position);
-                if (dis < disMin)
-                {
-                    disMin = dis;
-                    goal = building;
-                }
+                float weight = goal.GetWeight(worldState);
+                weightedGoals.Add((goal, weight));
             }
-            return new Dictionary<string, float>
-            {
-                { "goalX", goal.transform.position.x },
-                { "goalY", goal.transform.position.z },
-            };
+
+            // Tìm trọng số lớn nhất
+            float maxWeight = weightedGoals.Max(g => g.weight);
+
+            // Lọc các goal có trọng số lớn nhất
+            var bestGoals = weightedGoals.Where(g => g.weight == maxWeight).ToList();
+
+            // Chọn ngẫu nhiên nếu có nhiều goal bằng trọng số
+            int index = Random.Range(0, bestGoals.Count);
+            _currentGoal = bestGoals[index].goal;
+            return _currentGoal;
+        }
+
+        public GOAPBaseGoal GetCurrentGoal()
+        {
+            return _currentGoal;
+        }
+
+        public WorldState_v2 GetWorldState()
+        {
+            return _worldState;
+        }
+
+        public int GetCurrentGoalIndex()
+        {
+            return goals.IndexOf(_currentGoal);
         }
     }
 }

@@ -16,11 +16,6 @@ namespace AILibraryForNPC.Core
 
         public void AddState(string key, float value)
         {
-            if (_state.ContainsKey(key))
-            {
-                Debug.LogWarning($"WorldState_v2: {key} already exists");
-                return;
-            }
             _state[key] = value;
         }
 
@@ -33,24 +28,24 @@ namespace AILibraryForNPC.Core
             _state.Remove(key);
         }
 
-        public void AddBuffer(string key, Object value)
-        {
-            if (_buffer.ContainsKey(key))
-            {
-                Debug.LogWarning($"WorldState_v2: {key} already exists");
-                return;
-            }
-            _buffer[key] = value;
-        }
-
         public float GetState(string key)
         {
             if (!_state.ContainsKey(key))
             {
-                Debug.LogWarning($"WorldState_v2: {key} does not exist");
+                // Debug.LogWarning($"WorldState_v2: {key} does not exist");
                 return 0;
             }
             return _state[key];
+        }
+
+        public string GetStateKey()
+        {
+            return string.Join("_", _state.Values);
+        }
+
+        public void AddBuffer(string key, Object value)
+        {
+            _buffer[key] = value;
         }
 
         public Object GetBuffer(string key)
@@ -60,11 +55,6 @@ namespace AILibraryForNPC.Core
                 return null;
             }
             return _buffer[key];
-        }
-
-        public string GetStateKey()
-        {
-            return string.Join("_", _state.Values);
         }
 
         public Dictionary<string, float> GetStates()
@@ -80,6 +70,20 @@ namespace AILibraryForNPC.Core
                 result += $"{item.Key}: {item.Value}   ";
             }
             return result;
+        }
+
+        public WorldState_v2 Clone()
+        {
+            var clone = new WorldState_v2();
+            foreach (var item in _state)
+            {
+                clone.AddState(item.Key, item.Value);
+            }
+            foreach (var item in _buffer)
+            {
+                clone.AddBuffer(item.Key, item.Value);
+            }
+            return clone;
         }
     }
 }

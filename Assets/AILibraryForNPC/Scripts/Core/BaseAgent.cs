@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace AILibraryForNPC.Core
@@ -8,9 +9,9 @@ namespace AILibraryForNPC.Core
         protected ActionSystem_v2 actionSystem;
         protected WorldState_v2 worldState;
 
-        private BaseAction_v2 _currentAction;
+        protected BaseAction_v2 currentAction;
 
-        public bool IsStart { get; set; } = false;
+        public bool IsStart = false;
 
         private bool _isCompleteInitialize = false;
 
@@ -39,26 +40,41 @@ namespace AILibraryForNPC.Core
         {
             if (IsStart && _isCompleteInitialize)
             {
-                worldState = perceptionSystem.Observe();
-                if (_currentAction != null)
+                UpdatePerceptionSystem();
+                UpdateActionSystem();
+            }
+        }
+
+        private void UpdatePerceptionSystem()
+        {
+            worldState = perceptionSystem.Observe();
+        }
+
+        protected virtual void UpdateActionSystem()
+        {
+            if (currentAction != null)
+            {
+                if (currentAction.IsComplete(worldState) == true)
                 {
-                    if (_currentAction.IsComplete(worldState) == true)
-                    {
-                        _currentAction.PostPerform(worldState);
-                        _currentAction = null;
-                        return;
-                    }
-                    _currentAction.Perform(worldState);
+                    currentAction.PostPerform(worldState);
+                    currentAction = null;
                     return;
                 }
-
-                _currentAction = actionSystem.SelectAction(worldState);
-                if (_currentAction != null)
-                {
-                    Debug.LogWarning("currentAction: " + _currentAction.GetType().Name);
-                    _currentAction.PrePerform(worldState);
-                }
+                currentAction.Perform(worldState);
+                return;
             }
+
+            currentAction = actionSystem.SelectAction(worldState);
+            if (currentAction != null)
+            {
+                // Debug.LogWarning("currentAction: " + currentAction.GetType().Name);
+                currentAction.PrePerform(worldState);
+            }
+        }
+
+        public WorldState_v2 GetWorldState()
+        {
+            return worldState;
         }
     }
 }

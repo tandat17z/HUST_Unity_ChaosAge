@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ChaosAge.AI.battle;
+using ChaosAge.Battle;
 using ChaosAge.building;
 using ChaosAge.Config;
 using ChaosAge.Data;
@@ -251,5 +252,21 @@ public class BattleBuilding : MonoBehaviour
                 HandleBuilding(index, deltaTime);
             }
         }
+    }
+
+    public void SpawnProjectile(BattleUnit unit)
+    {
+        Debug.Log("spawn projectile");
+        var projectile = FactoryManager.Instance.SpawnProjectile(TargetType.unit);
+        BattleManager.Instance.Projectiles.Add(projectile);
+
+        projectile.Move(
+            transform.position,
+            unit.transform.position,
+            () =>
+            {
+                unit.TakeDamage(10);
+            }
+        );
     }
 }

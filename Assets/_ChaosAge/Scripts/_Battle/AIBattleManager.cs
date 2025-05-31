@@ -24,6 +24,8 @@ namespace ChaosAge.AI.battle
 
         private bool[,] _canMoveCells;
 
+        public GameObject home;
+
         protected override void OnAwake() { }
 
         public void LoadLevel(int level)
@@ -32,6 +34,18 @@ namespace ChaosAge.AI.battle
 
             var opponentData = PlayerData.LoadFromFile($"Assets/Levels/{level}.json");
             Initialize(opponentData.buildings);
+            ActiveAgent();
+        }
+
+        private void ActiveAgent()
+        {
+            foreach (var building in buildings)
+            {
+                if (building.TryGetComponent<BaseAgent>(out var agent))
+                {
+                    agent.IsStart = true;
+                }
+            }
         }
 
         public void Initialize(List<BuildingData> buildings)
@@ -52,6 +66,9 @@ namespace ChaosAge.AI.battle
             BuildingManager.Instance.UpdateNavMesh();
 
             StartBattle = true;
+
+            home = new GameObject("Home");
+            home.transform.position = GetWorldPosition(new Vector2(5, 5));
         }
 
         public void DropUnit()
@@ -168,19 +185,20 @@ namespace ChaosAge.AI.battle
                 if (buildings.Count == 0 || CheckTownHall() == false)
                 {
                     CreateBattle();
+                    ActiveAgent();
                     return;
                 }
 
-                if (units.Count == 0)
-                {
-                    var rand = Random.Range(1, 10);
-                    for (int i = 0; i < rand; i++)
-                    {
-                        var x = Random.Range(1, 39);
-                        var y = Random.Range(1, 39);
-                        AddUnit(EUnitType.GOAPBarbarian, x, y);
-                    }
-                }
+                // if (units.Count == 0)
+                // {
+                //     var rand = Random.Range(1, 10);
+                //     for (int i = 0; i < rand; i++)
+                //     {
+                //         var x = Random.Range(1, 39);
+                //         var y = Random.Range(1, 39);
+                //         AddUnit(EUnitType.GOAPBarbarian, x, y);
+                //     }
+                // }
             }
         }
 
