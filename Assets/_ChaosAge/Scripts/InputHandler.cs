@@ -1,9 +1,7 @@
-﻿namespace ChaosAge.input
+﻿namespace ChaosAge
 {
-    using ChaosAge.AI.battle;
-    using ChaosAge.building;
-    using ChaosAge.manager;
-    using DatSystem.UI;
+    using System;
+    using ChaosAge.camera;
     using DatSystem.utils;
     using UnityEngine;
 
@@ -11,162 +9,146 @@
     {
         protected override void OnAwake() { }
 
-        public bool MoveMap
-        {
-            get => _moveMap;
-        }
-        public bool MoveBuilding
-        {
-            get => _moveBuilding;
-        }
+        private CameraController cameraController;
 
-        private Controls _inputs;
-        private bool _canInteract;
-        private bool _moveMap;
-        private bool _moveBuilding;
+        private bool isDragging = false;
+        private Vector2 initialDragPosition;
+        private Vector2 currentDragPosition;
 
-        private Building buildingWhenStartTouch;
-        private float _startTouchTime;
+        private float initialTouchDistance;
+        private bool isPinching = false;
 
-        private void Awake()
-        {
-            _inputs = new Controls();
-        }
+        private Plane groundPlane;
 
         private void Start()
         {
-            _canInteract = true;
+            groundPlane = new Plane(Vector3.up, Vector3.zero);
+            cameraController = Camera.main.GetComponent<CameraController>();
         }
 
-        private void OnEnable()
-        {
-            _inputs.Enable();
+        #region Handle Touch
 
-            // Nếu chạm vào công trình:
-            // - Công trình này đã được chọn --> di chuyển
-            // - Chưa thì sẽ chọn nếu là touch
-            // không thì sẽ move map
-            //_inputs.Main.Touch.started += _ => TouchStarted();
-            //_inputs.Main.Touch.canceled += _ => TouchCanceled();
+        private void Update()
+        {
+            HandleTouchInput();
         }
 
-        private void OnDisable()
+        private void HandleTouchInput()
         {
-            _inputs.Disable();
+            // if (Input.touchCount == 1)
+            // {
+            HandleOneTouch();
+            // }
 
-            //_inputs.Main.Touch.started -= _ => TouchStarted();
-            //_inputs.Main.Touch.canceled -= _ => TouchCanceled();
-        }
-
-        public Vector2 GetMoveDelta()
-        {
-            return _inputs.Main.MoveDelta.ReadValue<Vector2>();
-        }
-
-        public Vector3 GetPointerPositionInMap()
-        {
-            var screenPos = _inputs.Main.PointerPosition.ReadValue<Vector2>();
-            return ConvertScreenPositionToPlanePosition(screenPos);
-        }
-
-        public float GetMouseScroll()
-        {
-            return _inputs.Main.MouseScroll.ReadValue<float>();
-        }
-
-        public void TouchStarted()
-        {
-            _startTouchTime = Time.time;
-            if (_canInteract)
+            if (Input.touchCount == 2)
             {
-                if (GameManager.Instance.GameState == GameState.City)
-                {
-                    var posInPlane = GetPointerPositionInMap();
-
-                    buildingWhenStartTouch = BuildingManager.Instance.HasBuildingAtPosition(
-                        posInPlane
-                    );
-                    if (buildingWhenStartTouch != null)
-                    {
-                        if (buildingWhenStartTouch == BuildingManager.Instance.SelectedBuilding)
-                        {
-                            BuildingManager.Instance.StartMove(posInPlane);
-                            _moveBuilding = true;
-                            return;
-                        }
-                    }
-                }
-
-                _moveMap = true;
+                HandleTwoTouch();
             }
         }
 
-        public void TouchCanceled()
+        private void HandleOneTouch()
         {
-            Debug.Log("TouchCanceled");
-            _moveMap = false;
-            _moveBuilding = false;
-
-            // Nếu đang build từ shop
-            if (PanelManager.Instance.GetPanel<UIBuild>() != null)
+            if (Input.GetMouseButtonDown(0))
             {
-                return;
+                isDragging = true;
+                initialDragPosition = Input.mousePosition;
+                HandleTouchBegin();
             }
 
-            Debug.Log("TouchCanceled 2");
-            if (buildingWhenStartTouch != null)
+            if (Input.GetMouseButton(0) && isDragging)
             {
-                var pointerPos = _inputs.Main.PointerPosition.ReadValue<Vector2>();
-                var posInPlane = ConvertScreenPositionToPlanePosition(pointerPos);
-
-                var building = BuildingManager.Instance.HasBuildingAtPosition(posInPlane);
-                if (building == buildingWhenStartTouch)
-                {
-                    BuildingManager.Instance.Select(building);
-                }
+                currentDragPosition = Input.mousePosition;
+                HandleTouchDrag(initialDragPosition, currentDragPosition);
+                initialDragPosition = currentDragPosition;
             }
-            else
-            {
-                if (Time.time - _startTouchTime < 0.5f)
-                {
-                    // đã TAP
-                    BuildingManager.Instance.Unselect();
-                }
-            }
-            buildingWhenStartTouch = null;
 
-            Debug.Log("TouchCanceled 3 " + (Time.time - _startTouchTime));
-            // TAP
-            if (Time.time - _startTouchTime < 0.5f)
+            if (Input.GetMouseButtonUp(0) && isDragging)
             {
-                if (GameManager.Instance.GameState == GameState.Battle)
+                isDragging = false;
+                HandleTouchEnd();
+
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit hit))
                 {
-                    BattleManager.Instance.DropUnit();
-                }
-                else if (GameManager.Instance.GameState == GameState.BattleAI)
-                {
-                    AIBattleManager.Instance.DropUnit();
+                    HandleCellClick(hit);
                 }
             }
         }
 
-        public Vector3 ConvertScreenPositionToPlanePosition(Vector2 screenPosition)
+        private void HandleTwoTouch()
+        {
+            Touch touch0 = Input.GetTouch(0);
+            Touch touch1 = Input.GetTouch(1);
+
+            if (touch1.phase == TouchPhase.Began)
+            {
+                initialTouchDistance = Vector2.Distance(touch0.position, touch1.position);
+                isPinching = true;
+            }
+            else if (
+                isPinching && (touch0.phase == TouchPhase.Moved || touch1.phase == TouchPhase.Moved)
+            )
+            {
+                float currentTouchDistance = Vector2.Distance(touch0.position, touch1.position);
+                float deltaDistance = currentTouchDistance - initialTouchDistance;
+                HandlePinchZoom(deltaDistance);
+                initialTouchDistance = currentTouchDistance;
+            }
+            else if (touch0.phase == TouchPhase.Ended || touch1.phase == TouchPhase.Ended)
+            {
+                isPinching = false;
+            }
+        }
+
+        #endregion
+
+
+        private void HandleTouchBegin()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void HandleTouchDrag(Vector2 start, Vector2 end)
+        {
+            Vector2 delta = end - start;
+            // TODO: Implement logic for dragging, e.g., moving the camera or buildings
+            Vector3 worldStart = GetWorldPosition(start);
+            Vector3 worldEnd = GetWorldPosition(end);
+
+            Vector3 worldDelta = worldEnd - worldStart;
+            cameraController.Move(new Vector2(worldDelta.x, worldDelta.z));
+            Debug.Log("Dragging by: " + delta);
+        }
+
+        private void HandleTouchEnd()
+        {
+            Debug.Log("Drag ended.");
+            // TODO: Implement logic to finalize dragging actions, such as placing or adjusting buildings
+        }
+
+        private void HandlePinchZoom(float delta)
+        {
+            Debug.Log("Pinch Zoom delta: " + delta);
+            // TODO: Implement logic to handle zooming the camera
+        }
+
+        private void HandleCellClick(RaycastHit hit)
+        {
+            Debug.Log("Clicked on position: " + hit.point);
+
+            // TODO: Xử lý logic kiểm tra xem ô được chọn có chứa công trình hay không
+            // Nếu chứa công trình, bật chế độ di chuyển hoặc nâng cấp
+            // Nếu ô trống, xử lý logic đặt công trình mới
+        }
+
+        private Vector3 GetWorldPosition(Vector2 screenPosition)
         {
             Ray ray = Camera.main.ScreenPointToRay(screenPosition);
-            Plane mapPlane = new Plane(Vector3.up, Vector3.zero); // Mặt phẳng y = 0, pháp vector là (0, 1, 0)
-
-            float distance;
-            if (mapPlane.Raycast(ray, out distance))
+            if (groundPlane.Raycast(ray, out float distance))
             {
-                Vector3 worldPosition = ray.GetPoint(distance);
-                return new Vector3(worldPosition.x, 0, worldPosition.z);
+                return ray.GetPoint(distance);
             }
             return Vector3.zero;
-        }
-
-        public void ActiveInteract(bool value)
-        {
-            //_canInteract = value;
         }
     }
 }

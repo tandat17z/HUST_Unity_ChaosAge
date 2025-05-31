@@ -974,7 +974,8 @@ namespace ChaosAge.manager
         public void DropUnit()
         {
             var type = PanelManager.Instance.GetPanel<PanelBattle>().GetCurrentBuildingType();
-            var pos = InputHandler.Instance.GetPointerPositionInMap();
+            // var pos = InputHandler.Instance.GetPointerPositionInMap();
+            var pos = Vector3.zero;
             var posCell = BuildingManager.Instance.Grid.ConvertGridPos(pos);
             BattleManager.Instance.AddUnit(type, (int)posCell.x, (int)posCell.y);
         }

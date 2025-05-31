@@ -1,6 +1,4 @@
-﻿using ChaosAge.input;
-using ChaosAge.manager;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ChaosAge.camera
 {
@@ -16,12 +14,8 @@ namespace ChaosAge.camera
         private float moveSmooth = 5;
 
         [SerializeField]
-        private float zoomSpeed = 5f;
-
-        [SerializeField]
         private float zoomSmooth = 5f;
 
-        [Header("")]
         [SerializeField]
         private float right = 50;
 
@@ -49,15 +43,13 @@ namespace ChaosAge.camera
         private Transform _root;
         private Transform _pivot;
         private Transform _target;
+        private Vector3 _center;
 
-        // bounds
-        private Vector3 _center; // tâm của plane
-
-        private void Awake()
+        void Awake()
         {
-            _root = new GameObject("CameraHelper").transform; // vị trị cam chiếu tới plane
-            _pivot = new GameObject("CameraPivot").transform; // để quay cam
-            _target = new GameObject("CameraTarget").transform; // vị trí của cam
+            _root = new GameObject("CameraHelper").transform;
+            _pivot = new GameObject("CameraPivot").transform;
+            _target = new GameObject("CameraTarget").transform;
 
             _pivot.SetParent(_root);
             _target.SetParent(_pivot);
@@ -66,16 +58,14 @@ namespace ChaosAge.camera
             camera.nearClipPlane = 0;
         }
 
-        private void Start()
+        void Start()
         {
-            //Initialize(Vector3 center, float right, float left, float up, float down, float angle, float zoom, float zoomMin, float zoomMax)
-            //Initialize(Vector3.zero, 40, 40, 40, 40, 45, 10, 5, 20);
             Initialize(Vector3.zero);
         }
 
         private void Initialize(Vector3 center)
         {
-            _center = Vector3.zero;
+            _center = center;
 
             _pivot.SetParent(_root);
             _target.SetParent(_pivot);
@@ -84,122 +74,75 @@ namespace ChaosAge.camera
             _root.localEulerAngles = Vector3.zero;
 
             _pivot.localPosition = Vector3.zero;
-            _pivot.localEulerAngles = new Vector3(this.angle, 0, 0);
+            _pivot.localEulerAngles = new Vector3(angle, 0, 0);
 
             _target.localPosition = new Vector3(0, 0, -100);
             _target.localEulerAngles = Vector3.zero;
 
             camera.transform.rotation = _target.rotation;
-            camera.orthographicSize = this.zoom;
+            camera.orthographicSize = zoom;
         }
 
-        // Update is called once per frame
         void Update()
         {
-#if UNITY_EDITOR
-            if (Input.touchSupported == false)
-            {
-                float mouseScroll = InputHandler.Instance.GetMouseScroll();
-                if (mouseScroll > 0)
-                {
-                    zoom -= 10f * Time.deltaTime;
-                }
-                else if (mouseScroll < 0)
-                {
-                    zoom += 10f * Time.deltaTime;
-                }
-            }
-#endif
-            if (InputHandler.Instance.MoveMap)
-            {
-                Vector2 move = InputHandler.Instance.GetMoveDelta();
-                if (move != Vector2.zero)
-                {
-                    move.x /= Screen.width;
-                    move.y /= Screen.height;
-
-                    _root.position -= _root.right.normalized * move.x * moveSpeed;
-                    _root.position -= _root.forward.normalized * move.y * moveSpeed;
-                }
-            }
-
+            // HandleInput();
             AdjustBounds();
 
-            if (camera.orthographicSize != zoom)
-            {
-                camera.orthographicSize = Mathf.Lerp(
-                    camera.orthographicSize,
-                    zoom,
-                    zoomSmooth * Time.deltaTime
-                );
-            }
-            if (camera.transform.position != _target.position)
-            {
-                camera.transform.position = Vector3.Lerp(
-                    camera.transform.position,
-                    _target.position,
-                    moveSmooth * Time.deltaTime
-                );
-            }
+            camera.orthographicSize = Mathf.Lerp(
+                camera.orthographicSize,
+                zoom,
+                zoomSmooth * Time.deltaTime
+            );
+            camera.transform.position = Vector3.Lerp(
+                camera.transform.position,
+                _target.position,
+                moveSmooth * Time.deltaTime
+            );
         }
 
-        #region Bounds
+        // private void HandleInput()
+        // {
+        //     float h = Input.GetAxis("Horizontal");
+        //     float v = Input.GetAxis("Vertical");
+
+        //     Vector2 moveDelta = new Vector2(h, v);
+        //     Move(moveDelta);
+
+        //     float scroll = Input.GetAxis("Mouse ScrollWheel");
+        //     Zoom(-scroll * 5f);
+        // }
+
+        public void Move(Vector2 delta)
+        {
+            _root.position -= _root.right.normalized * delta.x * moveSpeed * Time.deltaTime;
+            _root.position -= _root.forward.normalized * delta.y * moveSpeed * Time.deltaTime;
+        }
+
+        public void Zoom(float deltaZoom)
+        {
+            zoom = Mathf.Clamp(zoom + deltaZoom, zoomMin, zoomMax);
+        }
+
         private void AdjustBounds()
         {
-            if (zoom < zoomMin)
-            {
-                zoom = zoomMin;
-            }
-            if (zoom > zoomMax)
-            {
-                zoom = zoomMax;
-            }
+            zoom = Mathf.Clamp(zoom, zoomMin, zoomMax);
 
-            float h = PlaneOrthographicSize();
+            float h = zoom * 2f / Mathf.Sin(angle * Mathf.Deg2Rad) / 2;
             float w = camera.aspect * h;
-
-            if (h > (up + down) / 2f)
-            {
-                float n = (up + down) / 2f;
-                zoom = n * Mathf.Sin(angle * Mathf.Deg2Rad);
-            }
-
-            if (w > (right + left) / 2f)
-            {
-                float n = (right + left) / 2f;
-                zoom = n * Mathf.Sin(angle * Mathf.Deg2Rad) / camera.aspect;
-            }
 
             Vector3 tr = _root.position + _root.right.normalized * w + _root.forward.normalized * h;
             Vector3 tl = _root.position - _root.right.normalized * w + _root.forward.normalized * h;
-            Vector3 dr = _root.position + _root.right.normalized * w - _root.forward.normalized * h;
             Vector3 dl = _root.position - _root.right.normalized * w - _root.forward.normalized * h;
 
             if (tr.x > _center.x + right)
-            {
                 _root.position += Vector3.left * Mathf.Abs(tr.x - (_center.x + right));
-            }
             if (tl.x < _center.x - left)
-            {
                 _root.position += Vector3.right * Mathf.Abs(-tl.x + (_center.x - left));
-            }
 
             if (tr.z > _center.z + up)
-            {
                 _root.position += Vector3.back * Mathf.Abs(tr.z - (_center.z + up));
-            }
-
             if (dl.z < _center.z - down)
-            {
                 _root.position += Vector3.forward * Mathf.Abs(-dl.z + (_center.z - down));
-            }
         }
-
-        private float PlaneOrthographicSize()
-        {
-            float h = zoom * 2f;
-            return h / Mathf.Sin(angle * Mathf.Deg2Rad) / 2;
-        }
-        #endregion
     }
 }

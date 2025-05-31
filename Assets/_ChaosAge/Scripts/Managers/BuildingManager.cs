@@ -178,15 +178,15 @@ namespace ChaosAge.manager
             _buildingBasePosition = poinerPosInPlane;
         }
 
-        private void Update()
-        {
-            if (InputHandler.Instance.MoveBuilding)
-            {
-                var currentPosition = InputHandler.Instance.GetPointerPositionInMap();
+        // private void Update()
+        // {
+        //     if (InputHandler.Instance.MoveBuilding)
+        //     {
+        //         var currentPosition = InputHandler.Instance.GetPointerPositionInMap();
 
-                _selectedBuilding.UpdateGridPosition(_buildingBasePosition, currentPosition);
-            }
-        }
+        //         _selectedBuilding.UpdateGridPosition(_buildingBasePosition, currentPosition);
+        //     }
+        // }
 
         [Button("Test")]
         public void UpdateNavMesh()

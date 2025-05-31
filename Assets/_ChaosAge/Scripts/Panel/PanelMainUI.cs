@@ -45,7 +45,7 @@ public class PanelMainUI : Panel
     {
         GameManager.Instance.SwitchToBattleAI();
 
-        InputHandler.Instance.ActiveInteract(false);
+        // InputHandler.Instance.ActiveInteract(false);
     }
 
     public override void Open(UIData uiData)
@@ -53,21 +53,21 @@ public class PanelMainUI : Panel
         base.Open(uiData);
         _playerData = DataManager.Instance.PlayerData;
 
-        InputHandler.Instance.ActiveInteract(true);
+        // InputHandler.Instance.ActiveInteract(true);
     }
 
     private void ShopButtonClicked()
     {
         PanelManager.Instance.OpenPanel<PanelShop>();
 
-        InputHandler.Instance.ActiveInteract(false);
+        // InputHandler.Instance.ActiveInteract(false);
     }
 
     private void BattleButtonClicked()
     {
         GameManager.Instance.SwitchToBattle();
 
-        InputHandler.Instance.ActiveInteract(false);
+        // InputHandler.Instance.ActiveInteract(false);
     }
 
     private void Update()

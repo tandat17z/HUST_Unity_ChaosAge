@@ -10,10 +10,15 @@ using UnityEngine.UI;
 
 public class PanelShop : Panel
 {
-    [SerializeField] Button btnClose;
+    [SerializeField]
+    Button btnClose;
+
     [Header("")]
-    [SerializeField] Transform container;
-    [SerializeField] Transform buttonBuildPrefab;
+    [SerializeField]
+    Transform container;
+
+    [SerializeField]
+    Transform buttonBuildPrefab;
 
     private List<ButtonBuild> _buttonBuilds;
 
@@ -41,14 +46,15 @@ public class PanelShop : Panel
         foreach (var btn in _buttonBuilds)
         {
             var type = btn.buildingType;
-            btn.SetInteractable(playerData.GetBuildingNumber(type) < gameConfig.GetBuildingMaxNumber(type));
+            btn.SetInteractable(
+                playerData.GetBuildingNumber(type) < gameConfig.GetBuildingMaxNumber(type)
+            );
         }
-
     }
+
     public override void Close()
     {
-        InputHandler.Instance.ActiveInteract(true);
+        // InputHandler.Instance.ActiveInteract(true);
         base.Close();
-
     }
 }

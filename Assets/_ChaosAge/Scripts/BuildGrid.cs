@@ -125,7 +125,7 @@ namespace ChaosAge.editor
                 return;
             }
             Debug.Log("BuildingGrid onmousedown");
-            InputHandler.Instance.TouchStarted();
+            // InputHandler.Instance.TouchStarted();
         }
 
         private void OnMouseUp()
@@ -135,7 +135,7 @@ namespace ChaosAge.editor
                 // Nếu đang click vào UI, thì không làm gì cả
                 return;
             }
-            InputHandler.Instance.TouchCanceled();
+            // InputHandler.Instance.TouchCanceled();
         }
 
         public Vector3 GetDirection(Vector3 vector3)

@@ -12,7 +12,8 @@ using UnityEngine.UI;
 
 public class PopupLoss : Panel
 {
-    [SerializeField] Button btnClose;
+    [SerializeField]
+    Button btnClose;
 
     public override void OnSetup()
     {
@@ -24,18 +25,16 @@ public class PopupLoss : Panel
     public override void Open(UIData uiData)
     {
         base.Open(uiData);
-        InputHandler.Instance.ActiveInteract(false);
-
+        // InputHandler.Instance.ActiveInteract(false);
     }
+
     public override void Close()
     {
-        InputHandler.Instance.ActiveInteract(true);
+        // InputHandler.Instance.ActiveInteract(true);
 
         GameManager.Instance.SwitchToCity();
 
-
         PanelManager.Instance.ClosePanel<PanelBattle>();
         base.Close();
-
     }
 }
