@@ -23,7 +23,7 @@ namespace ChaosAge
 
         [SerializeField]
         private Building selectedBuilding;
-        private List<Building> buildings;
+        private List<Building> buildings = new List<Building>();
         private Building buildingToPlace;
 
         #region Load map
@@ -37,6 +37,8 @@ namespace ChaosAge
                 spawned.SetInfo(id, data.level);
                 spawned.PlacedOnGrid(data.x, data.y);
                 id++;
+
+                buildings.Add(spawned);
             }
         }
 
@@ -63,6 +65,7 @@ namespace ChaosAge
 
         public Building SelectBuilding(Vector2 gridPosition)
         {
+            Debug.Log("SelectBuilding: " + gridPosition);
             // Deselect current building if any
             if (selectedBuilding != null)
             {
@@ -89,6 +92,14 @@ namespace ChaosAge
             Vector2 buildingPos = building.gridPosition;
             Vector2 buildingSize = building.size;
 
+            Debug.Log(
+                "IsPositionInBuilding: "
+                    + position
+                    + " buildingPos: "
+                    + buildingPos
+                    + " buildingSize: "
+                    + buildingSize
+            );
             return position.x >= buildingPos.x
                 && position.x < buildingPos.x + buildingSize.x
                 && position.y >= buildingPos.y

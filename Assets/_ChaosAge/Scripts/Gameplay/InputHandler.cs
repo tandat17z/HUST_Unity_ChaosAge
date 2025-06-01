@@ -79,12 +79,6 @@
             {
                 isDragging = false;
                 HandleTouchEnd();
-
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit))
-                {
-                    HandleCellClick(hit);
-                }
             }
         }
 
@@ -130,13 +124,20 @@
 
             Vector3 worldDelta = worldEnd - worldStart;
             cameraController.Move(new Vector2(worldDelta.x, worldDelta.z));
-            Debug.Log("Dragging by: " + delta);
         }
 
         private void HandleTouchEnd()
         {
-            Debug.Log("Drag ended.");
-            // TODO: Implement logic to finalize dragging actions, such as placing or adjusting buildings
+            var cellPos = GetCellPosition(Input.mousePosition);
+            var building = BuildingManager.Instance.SelectBuilding(cellPos);
+            if (building != null)
+            {
+                Debug.Log("Building selected: " + building.Type);
+            }
+            else
+            {
+                Debug.Log("No building selected");
+            }
         }
 
         private void HandlePinchZoom(float delta)
@@ -144,13 +145,10 @@
             cameraController.Zoom(delta);
         }
 
-        private void HandleCellClick(RaycastHit hit)
+        private Vector2 GetCellPosition(Vector2 screenPosition)
         {
-            Debug.Log("Clicked on position: " + hit.point);
-
-            // TODO: Xử lý logic kiểm tra xem ô được chọn có chứa công trình hay không
-            // Nếu chứa công trình, bật chế độ di chuyển hoặc nâng cấp
-            // Nếu ô trống, xử lý logic đặt công trình mới
+            var pos = GetWorldPosition(screenPosition);
+            return BuildingManager.Instance.Grid.GetCellPosition(pos);
         }
 
         private Vector3 GetWorldPosition(Vector2 screenPosition)

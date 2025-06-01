@@ -41,9 +41,17 @@ namespace ChaosAge
         public int Health => health;
         public int BuildCost => buildCost;
         public int UpgradeCost => upgradeCost;
+        public bool IsSelected => isSelected;
+        public bool IsMoving => isMoving;
 
         private bool isSelected = false;
         private bool isMoving = false;
+        private BuildingVisual buildingVisual;
+
+        private void Awake()
+        {
+            buildingVisual = GetComponent<BuildingVisual>();
+        }
 
         public void SetInfo(int id, int level)
         {
@@ -59,26 +67,24 @@ namespace ChaosAge
         public void Select()
         {
             isSelected = true;
-            // TODO: Add visual feedback for selection
+            buildingVisual?.OnBuildingSelected();
         }
 
         public void Deselect()
         {
             isSelected = false;
             isMoving = false;
-            // TODO: Remove visual feedback for selection
+            buildingVisual?.OnBuildingDeselected();
         }
 
         public void StartMoving()
         {
             isMoving = true;
-            // TODO: Add visual feedback for moving state
         }
 
         public void StopMoving()
         {
             isMoving = false;
-            // TODO: Remove visual feedback for moving state
         }
 
         public void SetGridPosition(Vector2 newPosition)
@@ -98,7 +104,6 @@ namespace ChaosAge
             {
                 level++;
                 health += 100; // Example health increase per level
-                // TODO: Add visual feedback for upgrade
             }
         }
 

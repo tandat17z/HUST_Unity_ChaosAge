@@ -1,5 +1,6 @@
 namespace ChaosAge
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
@@ -67,13 +68,13 @@ namespace ChaosAge
                 );
             }
         }
+#endif
 
-        public Vector2 ConvertGridPos(Vector3 pos)
+        public Vector2 GetCellPosition(Vector3 pos)
         {
             var local = transform.InverseTransformPoint(pos);
             return Vector2.right * Mathf.FloorToInt(local.x / _cellSize)
                 + Vector2.up * Mathf.FloorToInt(local.z / _cellSize);
         }
-#endif
     }
 }
