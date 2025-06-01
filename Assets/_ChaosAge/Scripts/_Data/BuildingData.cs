@@ -23,17 +23,27 @@ namespace ChaosAge.Data
         public bool complete;
         public float buildTime;
 
-        public BuildingData(EBuildingType type, int x, int y)
+        public BuildingData(int id, EBuildingType type, int level, Vector2 gridPosition)
         {
-            // this.id = id;
+            this.id = id;
             this.type = type;
-            this.x = x;
-            this.y = y;
-
-            this.level = 1;
-            this.complete = true;
+            this.level = level;
+            this.x = (int)gridPosition.x;
+            this.y = (int)gridPosition.y;
         }
 
-        public BuildingData() { }
+        public static BuildingData Load(int buildingId)
+        {
+            var json = PlayerPrefs.GetString($"MY_BUILDING_{buildingId}");
+            Debug.Log($"Load buiding {buildingId} : {json}");
+            return JsonUtility.FromJson<BuildingData>(json);
+        }
+
+        public void Save()
+        {
+            var json = JsonUtility.ToJson(this);
+            Debug.Log($"Save building {id} : {json}");
+            PlayerPrefs.SetString($"MY_BUILDING_{id}", json);
+        }
     }
 }

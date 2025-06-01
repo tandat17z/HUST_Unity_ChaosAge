@@ -54,7 +54,7 @@ namespace ChaosAge.manager
             BuildingManager.Instance.Clear();
 
             var opponentData = PlayerData.LoadFromFile($"Assets/Levels/{level}.json");
-            Initialize(opponentData.buildings);
+            // Initialize(opponentData.buildings);
         }
 
         public void Initialize(List<BuildingData> buildings)

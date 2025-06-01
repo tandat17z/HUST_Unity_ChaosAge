@@ -33,7 +33,7 @@ namespace ChaosAge.AI.battle
             // BuildingManager.Instance.Clear();
 
             var opponentData = PlayerData.LoadFromFile($"Assets/Levels/{level}.json");
-            Initialize(opponentData.buildings);
+            // Initialize(opponentData.buildingIds);
             ActiveAgent();
         }
 
@@ -113,7 +113,7 @@ namespace ChaosAge.AI.battle
 
             // archertower0
             var battleBuilding = b.GetComponent<BattleBuilding>();
-            battleBuilding.SetInfo(new BuildingData(EBuildingType.townhall, x, y));
+            // battleBuilding.SetInfo(new BuildingData(EBuildingType.townhall, x, y));
             buildings.Add(battleBuilding);
 
             b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.archertower);
@@ -123,7 +123,7 @@ namespace ChaosAge.AI.battle
             b.PlacedOnGrid(x, y);
 
             battleBuilding = b.GetComponent<BattleBuilding>();
-            battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
+            // battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
             buildings.Add(battleBuilding);
 
             // archertower0
@@ -134,7 +134,7 @@ namespace ChaosAge.AI.battle
             b.PlacedOnGrid(x, y);
 
             battleBuilding = b.GetComponent<BattleBuilding>();
-            battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
+            // battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
             buildings.Add(battleBuilding);
 
             // archertower1
@@ -145,7 +145,7 @@ namespace ChaosAge.AI.battle
             b.PlacedOnGrid(x, y);
 
             battleBuilding = b.GetComponent<BattleBuilding>();
-            battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
+            // battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
             buildings.Add(battleBuilding);
 
             b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.archertower);
@@ -155,7 +155,7 @@ namespace ChaosAge.AI.battle
             b.PlacedOnGrid(x, y);
 
             battleBuilding = b.GetComponent<BattleBuilding>();
-            battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
+            // battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
             buildings.Add(battleBuilding);
 
             // BuildingManager.Instance.UpdateNavMesh();

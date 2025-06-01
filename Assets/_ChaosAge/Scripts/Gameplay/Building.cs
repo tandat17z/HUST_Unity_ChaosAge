@@ -1,6 +1,9 @@
 namespace ChaosAge
 {
+    using System;
     using ChaosAge.Config;
+    using ChaosAge.Data;
+    using DatSystem;
     using UnityEngine;
 
     public class Building : MonoBehaviour
@@ -47,15 +50,14 @@ namespace ChaosAge
             buildingVisual = GetComponent<BuildingVisual>();
         }
 
-        public void SetInfo(int id, int level)
+        public void SetInfo(BuildingData buildingData)
         {
-            this.id = id;
-            this.level = level;
-        }
+            this.id = buildingData.id;
+            this.level = buildingData.level;
+            this.Type = buildingData.type;
+            this.gridPosition = new Vector2(buildingData.x, buildingData.y);
 
-        public void PlacedOnGrid(int x, int y)
-        {
-            SetGridPosition(new Vector2(x, y));
+            SetGridPosition(gridPosition);
         }
 
         public void Select()
@@ -81,6 +83,7 @@ namespace ChaosAge
         public void StopMoving()
         {
             // TODO: Implement stopping movement
+            DataManager.Instance.SaveBuilding(this);
         }
 
         public void SetGridPosition(Vector2 newPosition)
@@ -124,6 +127,11 @@ namespace ChaosAge
                 && cellPos.x < gridPosition.x + size.x
                 && cellPos.y >= gridPosition.y
                 && cellPos.y < gridPosition.y + size.y;
+        }
+
+        public BuildingData GetData()
+        {
+            return new BuildingData(id, Type, level, gridPosition);
         }
     }
 }

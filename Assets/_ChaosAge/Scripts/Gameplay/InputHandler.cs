@@ -159,7 +159,14 @@
             }
         }
 
-        private void HandleTouchEnd() { }
+        private void HandleTouchEnd()
+        {
+            if (inputStatus == EInputStatus.BuildingMoving)
+            {
+                var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
+                selectedBuilding.StopMoving();
+            }
+        }
 
         private void HandleTap()
         {

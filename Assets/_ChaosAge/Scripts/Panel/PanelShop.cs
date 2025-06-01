@@ -46,9 +46,9 @@ public class PanelShop : Panel
         foreach (var btn in _buttonBuilds)
         {
             var type = btn.buildingType;
-            btn.SetInteractable(
-                playerData.GetBuildingNumber(type) < gameConfig.GetBuildingMaxNumber(type)
-            );
+            // btn.SetInteractable(
+            //     playerData.GetBuildingNumber(type) < gameConfig.GetBuildingMaxNumber(type)
+            // );
         }
     }
 

@@ -86,15 +86,7 @@
 
         public BuildingData GetData()
         {
-            return new BuildingData()
-            {
-                id = _id,
-                type = type,
-                level = _level,
-
-                x = _x,
-                y = _y,
-            };
+            return null;
         }
 
         public void SetSelected(bool v)

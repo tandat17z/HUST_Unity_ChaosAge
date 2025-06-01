@@ -27,13 +27,10 @@ namespace ChaosAge
         public void LoadMap(List<BuildingData> listBuildingData)
         {
             Clear();
-            int id = 0;
             foreach (var data in listBuildingData)
             {
                 var spawned = FactoryManager.Instance.SpawnBuilding(data.type);
-                spawned.SetInfo(id, data.level);
-                spawned.PlacedOnGrid(data.x, data.y);
-                id++;
+                spawned.SetInfo(data);
 
                 _buildings.Add(spawned);
             }

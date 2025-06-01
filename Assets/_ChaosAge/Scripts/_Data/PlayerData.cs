@@ -12,25 +12,20 @@ namespace ChaosAge.Data
         public int Elixir;
         public int Gem;
 
-        public List<BuildingData> buildings;
+        public List<int> buildingIds;
         public List<UnitData> units;
 
         public PlayerData()
         {
-            buildings = new List<BuildingData>();
-            buildings.Add(new BuildingData(EBuildingType.townhall, 20, 20));
-            buildings.Add(new BuildingData(EBuildingType.buildershut, 25, 20));
-            buildings.Add(new BuildingData(EBuildingType.goldmine, 28, 20));
-            buildings.Add(new BuildingData(EBuildingType.armycamp, 32, 20));
+            buildingIds = new List<int>();
         }
 
         #region File
         public void Save()
         {
             string json = JsonUtility.ToJson(this);
-            Debug.Log(json);
+            Debug.LogWarning(json);
             PlayerPrefs.SetString("PLAYER_DATA", json);
-            PlayerPrefs.Save();
         }
 
         public void SaveToFile(string filePath)
@@ -38,6 +33,19 @@ namespace ChaosAge.Data
             string json = JsonUtility.ToJson(this, true);
             File.WriteAllText(filePath, json);
             Debug.Log("Saved to: " + filePath);
+        }
+
+        public static PlayerData LoadFromFile(string filePath)
+        {
+            string json = File.ReadAllText(filePath);
+            return JsonUtility.FromJson<PlayerData>(json);
+        }
+        #endregion
+
+        public void AddBuilding(BuildingData buildingData)
+        {
+            buildingIds.Add(buildingData.id);
+            Save();
         }
 
         public static PlayerData Load()
@@ -53,41 +61,15 @@ namespace ChaosAge.Data
             return new PlayerData();
         }
 
-        public static PlayerData LoadFromFile(string filePath)
+        public List<BuildingData> GetListBuildingData()
         {
-            string json = File.ReadAllText(filePath);
-            return JsonUtility.FromJson<PlayerData>(json);
-        }
-        #endregion
-
-        public void AddBuiling(BuildingData buildingData)
-        {
-            buildings.Add(buildingData);
-            Save();
-        }
-
-        public void UpdateBuildingData(BuildingData buildingData)
-        {
-            int index = buildings.FindIndex(b => b.id == buildingData.id);
-            if (index != -1)
+            var listBuildingData = new List<BuildingData>();
+            foreach (var buildingId in buildingIds)
             {
-                buildings[index] = buildingData;
-                Save();
+                var buildingData = BuildingData.Load(buildingId);
+                listBuildingData.Add(buildingData);
             }
-        }
-
-        public int GetBuildingNumber(EBuildingType type)
-        {
-            int num = 0;
-            foreach (var building in buildings)
-            {
-                if (building.type == type)
-                {
-                    num += 1;
-                }
-            }
-            return num;
+            return listBuildingData;
         }
     }
-
 }

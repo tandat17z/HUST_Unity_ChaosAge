@@ -133,7 +133,7 @@ namespace ChaosAge.manager
                 _selectedBuilding.ConfirmMove();
 
                 var _playerData = DataManager.Instance.PlayerData;
-                _playerData.UpdateBuildingData(_selectedBuilding.GetData());
+                // _playerData.UpdateBuildingData(_selectedBuilding.GetData());
 
                 PanelManager.Instance.ClosePanel<UIBuildingInfo>();
             }
@@ -143,11 +143,11 @@ namespace ChaosAge.manager
         public void Create(Building0 building)
         {
             // lưu vào data
-            var data = new BuildingData(building.Type, building.CurrentX, building.CurrentY);
-            DataManager.Instance.PlayerData.AddBuiling(data);
+            // var data = new BuildingData(building.Type, building.CurrentX, building.CurrentY);
+            // DataManager.Instance.PlayerData.AddBuiling(data);
 
-            building.SetInfo(data.id, data.level);
-            _buildings.Add(building);
+            // building.SetInfo(data.id, data.level);
+            // _buildings.Add(building);
 
             Unselect();
         }

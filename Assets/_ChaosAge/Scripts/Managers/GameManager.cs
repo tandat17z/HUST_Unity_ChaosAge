@@ -51,7 +51,9 @@ namespace ChaosAge.manager
         {
             _gameState = GameState.City;
             BattleManager.Instance.Reset();
-            ChaosAge.BuildingManager.Instance.LoadMap(_playerData.buildings);
+
+            var buildingDatas = _playerData.GetListBuildingData();
+            ChaosAge.BuildingManager.Instance.LoadMap(buildingDatas);
 
             PanelManager.Instance.OpenPanel<PanelMainUI>();
         }

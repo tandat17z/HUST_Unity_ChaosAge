@@ -33,8 +33,8 @@ public class PanelCheat : Panel
             Debug.Log($"Click load from file");
             if (int.TryParse(inputLevel.text, out var level))
             {
-                var buildings = PlayerData.LoadFromFile($"Assets/Levels/{level}.json").buildings;
-                BuildingManager.Instance.LoadMap(buildings);
+                // var buildings = PlayerData.LoadFromFile($"Assets/Levels/{level}.json").buildings;
+                // BuildingManager.Instance.LoadMap(buildings);
 
                 Debug.Log($"Load from file: {level}");
 
