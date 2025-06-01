@@ -3,10 +3,17 @@
     using System;
     using ChaosAge.camera;
     using DatSystem.utils;
+    using DG.Tweening.Plugins.Options;
     using UnityEngine;
 
     public class InputHandler : Singleton<InputHandler>
     {
+        public enum EInputStatus
+        {
+            BuildingMoving,
+            CameraMoving,
+        }
+
         protected override void OnAwake() { }
 
         private CameraController cameraController;
@@ -14,18 +21,20 @@
         private bool isDragging = false;
         private Vector2 initialDragPosition;
         private Vector2 currentDragPosition;
+        private float startTouchTime;
 
         private float initialTouchDistance;
         private bool isPinching = false;
-
         private Plane groundPlane;
-
         private float zoomSpeed = 5f;
+
+        private EInputStatus inputStatus;
 
         private void Start()
         {
             groundPlane = new Plane(Vector3.up, Vector3.zero);
             cameraController = Camera.main.GetComponent<CameraController>();
+            inputStatus = EInputStatus.CameraMoving;
         }
 
         #region Handle Touch
@@ -65,6 +74,7 @@
             {
                 isDragging = true;
                 initialDragPosition = Input.mousePosition;
+                startTouchTime = Time.time;
                 HandleTouchBegin();
             }
 
@@ -79,6 +89,11 @@
             {
                 isDragging = false;
                 HandleTouchEnd();
+
+                if (Time.time - startTouchTime < 0.2f)
+                {
+                    HandleTap();
+                }
             }
         }
 
@@ -109,33 +124,56 @@
 
         #endregion
 
-
         private void HandleTouchBegin()
         {
-            // throw new NotImplementedException();
+            var cellPos = GetCellPosition(Input.mousePosition);
+            var building = BuildingManager.Instance.SelectedBuilding;
+            if (building != null && building.IsCellPositionInBuilding(cellPos))
+            {
+                inputStatus = EInputStatus.BuildingMoving;
+                building.StartMoving(cellPos);
+            }
+            else
+            {
+                inputStatus = EInputStatus.CameraMoving;
+            }
         }
 
         private void HandleTouchDrag(Vector2 start, Vector2 end)
         {
-            Vector2 delta = end - start;
-            // TODO: Implement logic for dragging, e.g., moving the camera or buildings
-            Vector3 worldStart = GetWorldPosition(start);
-            Vector3 worldEnd = GetWorldPosition(end);
+            if (inputStatus == EInputStatus.CameraMoving)
+            {
+                // TODO: Implement logic for dragging, e.g., moving the camera or buildings
+                Vector3 worldStart = GetWorldPosition(start);
+                Vector3 worldEnd = GetWorldPosition(end);
 
-            Vector3 worldDelta = worldEnd - worldStart;
-            cameraController.Move(new Vector2(worldDelta.x, worldDelta.z));
+                Vector3 worldDelta = worldEnd - worldStart;
+                cameraController.Move(new Vector2(worldDelta.x, worldDelta.z));
+            }
+            else if (inputStatus == EInputStatus.BuildingMoving)
+            {
+                // TODO: Implement logic for moving buildings
+                var targetCellPos = GetCellPosition(end);
+                var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
+                selectedBuilding.MoveTo(targetCellPos);
+            }
         }
 
-        private void HandleTouchEnd()
+        private void HandleTouchEnd() { }
+
+        private void HandleTap()
         {
             var cellPos = GetCellPosition(Input.mousePosition);
             var building = BuildingManager.Instance.SelectBuilding(cellPos);
             if (building != null)
             {
+                // inputStatus = EInputStatus.BuildingMoving;
                 Debug.Log("Building selected: " + building.Type);
             }
             else
             {
+                BuildingManager.Instance.DeselectBuilding();
+                // inputStatus = EInputStatus.CameraMoving;
                 Debug.Log("No building selected");
             }
         }

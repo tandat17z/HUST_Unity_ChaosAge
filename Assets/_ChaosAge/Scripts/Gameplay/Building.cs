@@ -1,8 +1,5 @@
 namespace ChaosAge
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using ChaosAge.Config;
     using UnityEngine;
 
@@ -35,18 +32,15 @@ namespace ChaosAge
         [Header("Building Size")]
         public Vector2 size = new Vector2(3, 3); // Size in grid cells
 
+        private BuildingVisual buildingVisual;
         public int Id => id;
         public int Level => level;
         public int MaxLevel => maxLevel;
         public int Health => health;
         public int BuildCost => buildCost;
         public int UpgradeCost => upgradeCost;
-        public bool IsSelected => isSelected;
-        public bool IsMoving => isMoving;
 
-        private bool isSelected = false;
-        private bool isMoving = false;
-        private BuildingVisual buildingVisual;
+        private Vector2 offset;
 
         private void Awake()
         {
@@ -66,25 +60,27 @@ namespace ChaosAge
 
         public void Select()
         {
-            isSelected = true;
             buildingVisual?.OnBuildingSelected();
         }
 
         public void Deselect()
         {
-            isSelected = false;
-            isMoving = false;
             buildingVisual?.OnBuildingDeselected();
         }
 
-        public void StartMoving()
+        public void StartMoving(Vector2 startCellPos)
         {
-            isMoving = true;
+            offset = startCellPos - gridPosition;
+        }
+
+        public void MoveTo(Vector2 cellPos)
+        {
+            SetGridPosition(cellPos - offset);
         }
 
         public void StopMoving()
         {
-            isMoving = false;
+            // TODO: Implement stopping movement
         }
 
         public void SetGridPosition(Vector2 newPosition)
@@ -120,6 +116,14 @@ namespace ChaosAge
         {
             // TODO: Add destruction effects
             Destroy(gameObject);
+        }
+
+        public bool IsCellPositionInBuilding(Vector2 cellPos)
+        {
+            return cellPos.x >= gridPosition.x
+                && cellPos.x < gridPosition.x + size.x
+                && cellPos.y >= gridPosition.y
+                && cellPos.y < gridPosition.y + size.y;
         }
     }
 }

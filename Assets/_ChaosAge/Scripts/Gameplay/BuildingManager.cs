@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ChaosAge.Data;
@@ -9,10 +10,7 @@ namespace ChaosAge
 {
     public class BuildingManager : Singleton<BuildingManager>
     {
-        protected override void OnAwake()
-        {
-            buildings = new List<Building>();
-        }
+        protected override void OnAwake() { }
 
         [SerializeField]
         private Grid grid;
@@ -21,10 +19,9 @@ namespace ChaosAge
             get => grid;
         }
 
-        [SerializeField]
-        private Building selectedBuilding;
-        private List<Building> buildings = new List<Building>();
-        private Building buildingToPlace;
+        public Building SelectedBuilding => _selectedBuilding;
+        private Building _selectedBuilding;
+        private List<Building> _buildings = new List<Building>();
 
         #region Load map
         public void LoadMap(List<BuildingData> listBuildingData)
@@ -38,72 +35,50 @@ namespace ChaosAge
                 spawned.PlacedOnGrid(data.x, data.y);
                 id++;
 
-                buildings.Add(spawned);
+                _buildings.Add(spawned);
             }
         }
 
         public void Clear()
         {
-            foreach (var building in buildings)
+            foreach (var building in _buildings)
             {
                 Destroy(building.gameObject);
             }
-            buildings.Clear();
+            _buildings.Clear();
         }
 
         #endregion
 
         #region Building
-        public void SetBuildingToPlace(Building building)
-        {
-            if (selectedBuilding != null)
-            {
-                selectedBuilding.Deselect();
-            }
-            buildingToPlace = building;
-        }
-
         public Building SelectBuilding(Vector2 gridPosition)
         {
             Debug.Log("SelectBuilding: " + gridPosition);
             // Deselect current building if any
-            if (selectedBuilding != null)
-            {
-                selectedBuilding.Deselect();
-            }
+            DeselectBuilding();
 
             // Find building at grid position
-            foreach (Building building in buildings)
+            foreach (Building building in _buildings)
             {
-                if (IsPositionInBuilding(gridPosition, building))
+                if (building.IsCellPositionInBuilding(gridPosition))
                 {
-                    selectedBuilding = building;
-                    selectedBuilding.Select();
-                    return selectedBuilding;
+                    _selectedBuilding = building;
+                    _selectedBuilding.Select();
+                    return _selectedBuilding;
                 }
             }
 
-            selectedBuilding = null;
+            _selectedBuilding = null;
             return null;
         }
 
-        private bool IsPositionInBuilding(Vector2 position, Building building)
+        public void DeselectBuilding()
         {
-            Vector2 buildingPos = building.gridPosition;
-            Vector2 buildingSize = building.size;
-
-            Debug.Log(
-                "IsPositionInBuilding: "
-                    + position
-                    + " buildingPos: "
-                    + buildingPos
-                    + " buildingSize: "
-                    + buildingSize
-            );
-            return position.x >= buildingPos.x
-                && position.x < buildingPos.x + buildingSize.x
-                && position.y >= buildingPos.y
-                && position.y < buildingPos.y + buildingSize.y;
+            if (_selectedBuilding != null)
+            {
+                _selectedBuilding.Deselect();
+                _selectedBuilding = null;
+            }
         }
 
         public bool CanPlaceBuilding(Building building, Vector2 gridPosition)
@@ -116,7 +91,7 @@ namespace ChaosAge
                 return false;
 
             // Check for overlapping with other buildings
-            foreach (Building existingBuilding in buildings)
+            foreach (Building existingBuilding in _buildings)
             {
                 if (DoBuildingsOverlap(gridPosition, building.size, existingBuilding))
                 {
@@ -152,7 +127,7 @@ namespace ChaosAge
                 return;
 
             building.SetGridPosition(gridPosition);
-            buildings.Add(building);
+            _buildings.Add(building);
         }
 
         public void MoveBuilding(Building building, Vector2 newGridPosition)
@@ -180,20 +155,12 @@ namespace ChaosAge
 
         public void RemoveBuilding(Building building)
         {
-            if (building == selectedBuilding)
+            if (building == _selectedBuilding)
             {
-                selectedBuilding = null;
+                _selectedBuilding = null;
             }
-            buildings.Remove(building);
+            _buildings.Remove(building);
         }
-
-#if UNITY_EDITOR
-        [Button("Test")]
-        public void Test()
-        {
-            SelectBuilding(new Vector2(0, 0));
-        }
-#endif
-    }
         #endregion
+    }
 }
