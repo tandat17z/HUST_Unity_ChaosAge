@@ -20,6 +20,8 @@
 
         private Plane groundPlane;
 
+        private float zoomSpeed = 5f;
+
         private void Start()
         {
             groundPlane = new Plane(Vector3.up, Vector3.zero);
@@ -31,6 +33,17 @@
         private void Update()
         {
             HandleTouchInput();
+            HandleZoomInput();
+        }
+
+        private void HandleZoomInput()
+        {
+            // Handle mouse wheel zoom
+            float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+            if (scrollInput != 0)
+            {
+                HandlePinchZoom(-scrollInput * zoomSpeed);
+            }
         }
 
         private void HandleTouchInput()
@@ -128,8 +141,7 @@
 
         private void HandlePinchZoom(float delta)
         {
-            Debug.Log("Pinch Zoom delta: " + delta);
-            // TODO: Implement logic to handle zooming the camera
+            cameraController.Zoom(delta);
         }
 
         private void HandleCellClick(RaycastHit hit)
