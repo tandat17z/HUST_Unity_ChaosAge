@@ -1,6 +1,4 @@
-using System;
 using ChaosAge.Data;
-using ChaosAge.input;
 using ChaosAge.manager;
 using DatSystem;
 using DatSystem.UI;
@@ -12,13 +10,7 @@ public class PanelMainUI : Panel
 {
     [Header("Resources")]
     [SerializeField]
-    TMP_Text textGold;
-
-    [SerializeField]
-    TMP_Text textElixir;
-
-    [SerializeField]
-    TMP_Text textGem;
+    UIResource[] UIResources;
 
     [Header("Buttons")]
     [SerializeField]
@@ -27,33 +19,20 @@ public class PanelMainUI : Panel
     [SerializeField]
     Button btnBattle;
 
-    [SerializeField]
-    Button btnBattleAI;
-
     private PlayerData _playerData;
 
+    #region setup
     public override void OnSetup()
     {
         base.OnSetup();
 
         btnShop.onClick.AddListener(ShopButtonClicked);
         btnBattle.onClick.AddListener(BattleButtonClicked);
-        btnBattleAI.onClick.AddListener(BattleAIButtonClicked);
     }
 
     private void BattleAIButtonClicked()
     {
         GameManager.Instance.SwitchToBattleAI();
-
-        // InputHandler.Instance.ActiveInteract(false);
-    }
-
-    public override void Open(UIData uiData)
-    {
-        base.Open(uiData);
-        _playerData = DataManager.Instance.PlayerData;
-
-        // InputHandler.Instance.ActiveInteract(true);
     }
 
     private void ShopButtonClicked()
@@ -69,14 +48,25 @@ public class PanelMainUI : Panel
 
         // InputHandler.Instance.ActiveInteract(false);
     }
+    #endregion
+
+    public override void Open(UIData uiData)
+    {
+        base.Open(uiData);
+        _playerData = DataManager.Instance.PlayerData;
+        UpdateUIResource();
+    }
+
+    private void UpdateUIResource()
+    {
+        foreach (var resource in UIResources)
+        {
+            resource.SetInfo(_playerData.GetResourceAmount(resource.ResourceType));
+        }
+    }
 
     private void Update()
     {
-        if (_playerData != null)
-        {
-            textGold.text = _playerData.Gold.ToString();
-            textElixir.text = _playerData.Elixir.ToString();
-            textGem.text = _playerData.Gem.ToString();
-        }
+        UpdateUIResource();
     }
 }

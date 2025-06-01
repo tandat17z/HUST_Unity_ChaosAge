@@ -13,43 +13,24 @@ public class PanelShop : Panel
     [SerializeField]
     Button btnClose;
 
-    [Header("")]
+    [Header("Building In Shop")]
     [SerializeField]
-    Transform container;
-
-    [SerializeField]
-    Transform buttonBuildPrefab;
-
-    private List<ButtonBuild> _buttonBuilds;
+    private UIBuildingInShop[] _buildingInShops;
 
     public override void OnSetup()
     {
         base.OnSetup();
         btnClose.onClick.AddListener(Close);
 
-        _buttonBuilds = new();
-        foreach (EBuildingType type in Enum.GetValues(typeof(EBuildingType)))
+        foreach (var buildingInShop in _buildingInShops)
         {
-            var btnBuild = Instantiate(buttonBuildPrefab, container).GetComponent<ButtonBuild>();
-            btnBuild.SetInfo(type);
-
-            _buttonBuilds.Add(btnBuild);
+            buildingInShop.OnSetup();
         }
     }
 
     public override void Open(UIData uiData)
     {
         base.Open(uiData);
-
-        var playerData = DataManager.Instance.PlayerData;
-        var gameConfig = DataManager.Instance.GameConfig;
-        foreach (var btn in _buttonBuilds)
-        {
-            var type = btn.buildingType;
-            // btn.SetInteractable(
-            //     playerData.GetBuildingNumber(type) < gameConfig.GetBuildingMaxNumber(type)
-            // );
-        }
     }
 
     public override void Close()

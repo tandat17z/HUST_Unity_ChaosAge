@@ -2,9 +2,11 @@
 {
     using System;
     using ChaosAge.camera;
+    using DatSystem.UI;
     using DatSystem.utils;
     using DG.Tweening.Plugins.Options;
     using UnityEngine;
+    using UnityEngine.EventSystems;
 
     public class InputHandler : Singleton<InputHandler>
     {
@@ -41,6 +43,9 @@
 
         private void Update()
         {
+            if (PanelManager.Instance.GetPanel<PanelShop>() != null)
+                return;
+
             HandleTouchInput();
             HandleZoomInput();
         }

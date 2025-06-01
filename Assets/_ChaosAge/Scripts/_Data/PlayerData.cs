@@ -71,5 +71,17 @@ namespace ChaosAge.Data
             }
             return listBuildingData;
         }
+
+        public int GetResourceAmount(EResourceType resourceType)
+        {
+            switch (resourceType)
+            {
+                case EResourceType.Gold:
+                    return Gold;
+                case EResourceType.Elixir:
+                    return Elixir;
+            }
+            return 0;
+        }
     }
 }
