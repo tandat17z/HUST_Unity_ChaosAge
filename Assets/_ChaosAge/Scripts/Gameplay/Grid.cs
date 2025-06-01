@@ -1,10 +1,10 @@
-﻿using ChaosAge.building;
-using UnityEngine;
-using UnityEngine.EventSystems;
-
-namespace ChaosAge.editor
+namespace ChaosAge
 {
-    public class BuildGrid : MonoBehaviour
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+
+    public class Grid : MonoBehaviour
     {
         [SerializeField]
         private int _rows;
@@ -14,18 +14,6 @@ namespace ChaosAge.editor
 
         [SerializeField]
         private int _cellSize;
-        public int Row
-        {
-            get => _rows;
-        }
-        public int Column
-        {
-            get => _columns;
-        }
-        public int CellSize
-        {
-            get => _cellSize;
-        }
 
         public Vector3 GetStartPosition(int x, int y)
         {
@@ -52,34 +40,6 @@ namespace ChaosAge.editor
                 (transform.right.normalized * columns * _cellSize)
                 + (transform.forward.normalized * rows * _cellSize);
             return position;
-        }
-
-        public Vector3 GetEndPosition(Building0 building)
-        {
-            return GetEndPosition(
-                building.CurrentX,
-                building.CurrentY,
-                building.Rows,
-                building.Columns
-            );
-        }
-
-        public bool IsWorldPositionIsOnPlane(Vector3 position, Building0 building)
-        {
-            position = transform.InverseTransformPoint(position);
-            Rect rect = new Rect(
-                building.CurrentX,
-                building.CurrentY,
-                building.Columns,
-                building.Rows
-            );
-
-            if (rect.Contains(new Vector2(position.x, position.z)))
-            {
-                return true;
-            }
-
-            return false;
         }
 
 #if UNITY_EDITOR
@@ -115,32 +75,5 @@ namespace ChaosAge.editor
                 + Vector2.up * Mathf.FloorToInt(local.z / _cellSize);
         }
 #endif
-
-        private void OnMouseDown()
-        {
-            if (EventSystem.current.IsPointerOverGameObject())
-            {
-                // Nếu đang click vào UI, thì không làm gì cả
-                return;
-            }
-            Debug.Log("BuildingGrid onmousedown");
-            // InputHandler.Instance.TouchStarted();
-        }
-
-        private void OnMouseUp()
-        {
-            if (EventSystem.current.IsPointerOverGameObject())
-            {
-                // Nếu đang click vào UI, thì không làm gì cả
-                return;
-            }
-            // InputHandler.Instance.TouchCanceled();
-        }
-
-        public Vector3 GetDirection(Vector3 vector3)
-        {
-            var rotated = Quaternion.Euler(0, 45, 0) * vector3;
-            return rotated;
-        }
     }
 }

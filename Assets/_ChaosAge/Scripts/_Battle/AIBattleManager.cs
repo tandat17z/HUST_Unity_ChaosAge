@@ -30,7 +30,7 @@ namespace ChaosAge.AI.battle
 
         public void LoadLevel(int level)
         {
-            BuildingManager.Instance.Clear();
+            // BuildingManager.Instance.Clear();
 
             var opponentData = PlayerData.LoadFromFile($"Assets/Levels/{level}.json");
             Initialize(opponentData.buildings);
@@ -54,7 +54,7 @@ namespace ChaosAge.AI.battle
             this.buildings = new List<BattleBuilding>();
             foreach (var data in buildings)
             {
-                var b = FactoryManager.Instance.SpawnBuilding(data.type);
+                var b = FactoryManager0.Instance.SpawnBuilding(data.type);
                 b.SetInfo(data.id, data.level);
                 b.PlacedOnGrid(data.x, data.y);
 
@@ -63,7 +63,7 @@ namespace ChaosAge.AI.battle
                 this.buildings.Add(battleBuilding);
             }
 
-            BuildingManager.Instance.UpdateNavMesh();
+            // BuildingManager.Instance.UpdateNavMesh();
 
             StartBattle = true;
 
@@ -76,20 +76,21 @@ namespace ChaosAge.AI.battle
             var type = PanelManager.Instance.GetPanel<PanelBattle>().GetCurrentBuildingType();
             // var pos = InputHandler.Instance.GetPointerPositionInMap();
             var pos = Vector3.zero;
-            var posCell = BuildingManager.Instance.Grid.ConvertGridPos(pos);
+            // var posCell = BuildingManager.Instance.Grid.ConvertGridPos(pos);
+            var posCell = new Vector2(0, 0);
             AddUnit(type, (int)posCell.x, (int)posCell.y);
         }
 
         public void AddUnit(EUnitType unitType, int x, int y) // ok
         {
             unitType = EUnitType.GOAPBarbarian;
-            var battleUnit = FactoryManager.Instance.SpawnUnit(unitType);
+            var battleUnit = FactoryManager0.Instance.SpawnUnit(unitType);
             battleUnit.SetInfo();
             var position = BattleVector2.GridToWorldPosition(new BattleVector2Int(x, y));
-            var pos = BuildingManager.Instance.Grid.transform.TransformPoint(
-                new Vector3(position.x, 0, position.y)
-            );
-
+            // var pos = BuildingManager.Instance.Grid.transform.TransformPoint(
+            //     new Vector3(position.x, 0, position.y)
+            // );
+            var pos = new Vector3(0, 0, 0);
             battleUnit.transform.position = pos;
 
             battleUnit.GetComponent<BaseAgent>().IsStart = true;
@@ -104,7 +105,7 @@ namespace ChaosAge.AI.battle
             }
             buildings.Clear();
 
-            var b = FactoryManager.Instance.SpawnBuilding(EBuildingType.townhall);
+            var b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.townhall);
             var x = Random.Range(5, 35);
             var y = Random.Range(5, 35);
             b.SetInfo(0, 1);
@@ -115,7 +116,7 @@ namespace ChaosAge.AI.battle
             battleBuilding.SetInfo(new BuildingData(EBuildingType.townhall, x, y));
             buildings.Add(battleBuilding);
 
-            b = FactoryManager.Instance.SpawnBuilding(EBuildingType.archertower);
+            b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.archertower);
             x = Random.Range(5, 20);
             y = Random.Range(5, 20);
             b.SetInfo(1, 1);
@@ -126,7 +127,7 @@ namespace ChaosAge.AI.battle
             buildings.Add(battleBuilding);
 
             // archertower0
-            b = FactoryManager.Instance.SpawnBuilding(EBuildingType.archertower);
+            b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.archertower);
             x = Random.Range(20, 35);
             y = Random.Range(5, 20);
             b.SetInfo(2, 1);
@@ -137,7 +138,7 @@ namespace ChaosAge.AI.battle
             buildings.Add(battleBuilding);
 
             // archertower1
-            b = FactoryManager.Instance.SpawnBuilding(EBuildingType.archertower);
+            b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.archertower);
             x = Random.Range(20, 35);
             y = Random.Range(20, 35);
             b.SetInfo(3, 1);
@@ -147,7 +148,7 @@ namespace ChaosAge.AI.battle
             battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
             buildings.Add(battleBuilding);
 
-            b = FactoryManager.Instance.SpawnBuilding(EBuildingType.archertower);
+            b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.archertower);
             x = Random.Range(5, 20);
             y = Random.Range(20, 35);
             b.SetInfo(4, 1);
@@ -157,7 +158,7 @@ namespace ChaosAge.AI.battle
             battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
             buildings.Add(battleBuilding);
 
-            BuildingManager.Instance.UpdateNavMesh();
+            // BuildingManager.Instance.UpdateNavMesh();
             ResetCanMoveCells();
             foreach (var building in buildings)
             {
@@ -223,12 +224,14 @@ namespace ChaosAge.AI.battle
 
         public Vector2 GetCell(Vector3 position)
         {
-            return BuildingManager.Instance.Grid.ConvertGridPos(position);
+            // return BuildingManager.Instance.Grid.ConvertGridPos(position);
+            return new Vector2(0, 0);
         }
 
         public Vector3 GetWorldPosition(Vector2 cell)
         {
-            return BuildingManager.Instance.Grid.GetCenterPosition((int)cell.x, (int)cell.y, 1, 1);
+            // return BuildingManager.Instance.Grid.GetCenterPosition((int)cell.x, (int)cell.y, 1, 1);
+            return new Vector3(0, 0, 0);
         }
 
         public bool CheckCanMoveOnCell(Vector2 cell)

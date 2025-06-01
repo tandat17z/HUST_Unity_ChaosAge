@@ -118,7 +118,7 @@
 
         private void HandleTouchBegin()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         private void HandleTouchDrag(Vector2 start, Vector2 end)

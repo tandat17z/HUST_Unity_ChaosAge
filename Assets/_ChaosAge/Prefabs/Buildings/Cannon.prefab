@@ -799,8 +799,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8680643771773694592}
-  - component: {fileID: 6655862420951677313}
-  - component: {fileID: 7668720216530209503}
+  - component: {fileID: 4414931084135477753}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -827,7 +826,7 @@ Transform:
   - {fileID: 9103649842108770949}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6655862420951677313
+--- !u!114 &4414931084135477753
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -836,61 +835,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6949424055892338630}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a336fcd68cca0e4d9182912af933c1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 022c61ad839a3c7419d16a8c53618633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 9
-  baseArea: {fileID: 940234634715403717}
-  layoutLevel: {fileID: 5999527273194705743}
-  _id: 0
-  _level: 0
-  _rows: 3
-  _columns: 3
-  _x: 0
-  _y: 0
-  _currentX: 0
-  _currentY: 0
---- !u!114 &7668720216530209503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6949424055892338630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8ccb3c16f3f8eb4799876a7e33a9063, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpSlider: {fileID: 3784874692568237884}
-  text: {fileID: 924707932057025384}
-  type: 9
+  buildingName: 
+  Type: 9
+  gridPosition: {x: 0, y: 0}
+  id: 0
   level: 1
-  battleBuidlingConfig:
-    id: 0
-    type: 9
-    level: 1
-    x: 0
-    y: 0
-    columns: 3
-    rows: 3
-    storage: 0
-    health: 100
-    damage: 20
-    capacity: 0
-    speed: 1
-    radius: 10
-    isConstructing: 0
-    buildTime: 0
-    targetType: 1
-    blindRange: 0
-    splashRange: 0
-    rangedSpeed: 4
-    percentage: 0
-  health: 0
-  target: -1
-  attackTimer: 0
-  percentage: 0
+  maxLevel: 3
+  health: 100
+  buildCost: 100
+  upgradeCost: 50
+  size: {x: 3, y: 3}
 --- !u!1001 &8780911176789937518
 PrefabInstance:
   m_ObjectHideFlags: 0

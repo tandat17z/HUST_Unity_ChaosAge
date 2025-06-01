@@ -5,11 +5,8 @@ namespace ChaosAge.Managers
 {
     public class BuildingManager : Singleton<BuildingManager>
     {
-        public Building SelectedBuilding { get; set; }
+        public Building0 SelectedBuilding { get; set; }
 
-        protected override void OnAwake()
-        {
-
-        }
+        protected override void OnAwake() { }
     }
 }

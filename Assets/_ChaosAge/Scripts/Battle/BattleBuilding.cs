@@ -191,7 +191,7 @@ public class BattleBuilding : MonoBehaviour
                                 worldCenterPosition
                             );
 
-                            var projectile = FactoryManager.Instance.SpawnProjectile(
+                            var projectile = FactoryManager0.Instance.SpawnProjectile(
                                 TargetType.unit
                             );
                             projectile.target = idxUnit;
@@ -257,7 +257,7 @@ public class BattleBuilding : MonoBehaviour
     public void SpawnProjectile(BattleUnit unit)
     {
         Debug.Log("spawn projectile");
-        var projectile = FactoryManager.Instance.SpawnProjectile(TargetType.unit);
+        var projectile = FactoryManager0.Instance.SpawnProjectile(TargetType.unit);
         BattleManager.Instance.Projectiles.Add(projectile);
 
         projectile.Move(

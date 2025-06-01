@@ -10,11 +10,11 @@ public class AIBuildingSO : ScriptableObject
 {
     public Transform[] buildingPrefabs;
 
-    private Dictionary<EBuildingType, Building> _dictBuilding = new();
+    private Dictionary<EBuildingType, Building0> _dictBuilding = new();
 
     //private Dictionary<EBuildingType, BattleBuilding> _dictBattleBuilding = new();
 
-    public Building GetBuilingPrefab(EBuildingType buildingType)
+    public Building0 GetBuilingPrefab(EBuildingType buildingType)
     {
         if (_dictBuilding.ContainsKey(buildingType) == false)
         {
@@ -22,7 +22,7 @@ public class AIBuildingSO : ScriptableObject
             _dictBuilding.Clear();
             foreach (Transform t in buildingPrefabs)
             {
-                var building = t.GetComponent<Building>();
+                var building = t.GetComponent<Building0>();
                 if (_dictBuilding.ContainsKey(building.Type) == false)
                 {
                     _dictBuilding.Add(building.Type, building);

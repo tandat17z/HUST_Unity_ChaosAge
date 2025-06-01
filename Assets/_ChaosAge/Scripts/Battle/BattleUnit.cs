@@ -309,7 +309,7 @@ namespace ChaosAge.Battle
                 // đánh xa
                 if (unit.attackRange > 0 && unit.rangedSpeed > 0)
                 {
-                    var projectile = FactoryManager.Instance.SpawnProjectile(TargetType.building);
+                    var projectile = FactoryManager0.Instance.SpawnProjectile(TargetType.building);
                     projectile.target = target;
                     projectile.timer = distance / unit.rangedSpeed;
                     projectile.damage = unit.damage * multiplier;

@@ -799,10 +799,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8680643771773694592}
-  - component: {fileID: 6655862420951677313}
-  - component: {fileID: 7412398160304781858}
-  - component: {fileID: 1867907776069108311}
-  - component: {fileID: 1571397925824988969}
+  - component: {fileID: -5709899362839720534}
   m_Layer: 0
   m_Name: ArcherTower
   m_TagString: Untagged
@@ -829,7 +826,7 @@ Transform:
   - {fileID: 8369311084599691748}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6655862420951677313
+--- !u!114 &-5709899362839720534
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -838,86 +835,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6949424055892338630}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a336fcd68cca0e4d9182912af933c1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 022c61ad839a3c7419d16a8c53618633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 10
-  baseArea: {fileID: 940234634715403717}
-  layoutLevel: {fileID: 5999527273194705743}
-  _id: 0
-  _level: 0
-  _rows: 3
-  _columns: 3
-  _x: 0
-  _y: 0
-  _currentX: 0
-  _currentY: 0
---- !u!114 &7412398160304781858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6949424055892338630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8ccb3c16f3f8eb4799876a7e33a9063, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpSlider: {fileID: 3784874692568237884}
-  text: {fileID: 924707932057025384}
-  type: 10
+  buildingName: 
+  Type: 10
+  gridPosition: {x: 0, y: 0}
+  id: 0
   level: 1
-  battleBuidlingConfig:
-    id: 0
-    type: 10
-    level: 1
-    x: 0
-    y: 0
-    columns: 3
-    rows: 3
-    storage: 0
-    health: 100
-    damage: 0
-    capacity: 0
-    speed: 0.5
-    radius: 15
-    isConstructing: 0
-    buildTime: 0
-    targetType: 3
-    blindRange: 0
-    splashRange: 0
-    rangedSpeed: 8
-    percentage: 0
-  health: 0
-  target: -1
-  attackTimer: 0
-  percentage: 0
---- !u!114 &1867907776069108311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6949424055892338630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30dd075f0bf26324bbdd27784db1dc2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1571397925824988969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6949424055892338630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea9bbc8b126148a4597f3402a32d3991, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsStart: 0
+  maxLevel: 3
+  health: 100
+  buildCost: 100
+  upgradeCost: 50
+  size: {x: 3, y: 3}
 --- !u!1001 &8336019336937385487
 PrefabInstance:
   m_ObjectHideFlags: 0

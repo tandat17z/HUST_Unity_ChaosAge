@@ -38,20 +38,20 @@ namespace ChaosAge.input
 
         private void OnTouchMoved(Vector3 delta)
         {
-            var building = BuildingManager.Instance.SelectedBuilding;
-            if (building != null)
-            {
-                building.transform.position = _startTouchPos + delta;
-            }
+            // var building = BuildingManager.Instance.SelectedBuilding;
+            // if (building != null)
+            // {
+            //     building.transform.position = _startTouchPos + delta;
+            // }
         }
 
         public void OnTouchStarted(Vector3 touchPos)
         {
-            var building = BuildingManager.Instance.SelectedBuilding;
-            if (building != null)
-            {
-                _startTouchPos = touchPos;
-            }
+            // var building = BuildingManager.Instance.SelectedBuilding;
+            // if (building != null)
+            // {
+            //     _startTouchPos = touchPos;
+            // }
         }
 
         GameObject RaycastBuilding(Vector3 worldPos)
@@ -74,18 +74,18 @@ namespace ChaosAge.input
 
         void SelectBuilding(GameObject building)
         {
-            BuildingManager.Instance.SelectedBuilding = building.GetComponent<Building>();
-            Debug.Log("Selected building: " + building.name);
-            // TODO: highlight hoặc hiển thị UI nếu muốn
+            // BuildingManager.Instance.SelectedBuilding = building.GetComponent<Building0>();
+            // Debug.Log("Selected building: " + building.name);
+            // // TODO: highlight hoặc hiển thị UI nếu muốn
         }
 
         void DeselectBuilding()
         {
-            if (BuildingManager.Instance.SelectedBuilding != null)
-            {
-                Debug.Log("Deselected building: " + BuildingManager.Instance.SelectedBuilding.name);
-                BuildingManager.Instance.SelectedBuilding = null;
-            }
+            // if (BuildingManager.Instance.SelectedBuilding != null)
+            // {
+            //     Debug.Log("Deselected building: " + BuildingManager.Instance.SelectedBuilding.name);
+            //     BuildingManager.Instance.SelectedBuilding = null;
+            // }
         }
     }
 }

@@ -27,8 +27,8 @@ namespace ChaosAge.manager
         public List<BattleBuilding> _buildings = new List<BattleBuilding>();
         public List<BattleUnit> _units = new List<BattleUnit>();
         public List<UnitToAdd> _unitsToAdd = new List<UnitToAdd>();
-        public Grid grid = null;
-        private Grid unlimitedGrid = null;
+        public AStarPathfinding.Grid grid = null;
+        private AStarPathfinding.Grid unlimitedGrid = null;
         private AStarSearch search = null;
         private AStarSearch unlimitedSearch = null;
         public List<Tile> blockedTiles = new List<Tile>();
@@ -62,7 +62,7 @@ namespace ChaosAge.manager
             var battleBuildings = new List<BattleBuilding>();
             foreach (var data in buildings)
             {
-                var b = FactoryManager.Instance.SpawnBuilding(data.type);
+                var b = FactoryManager0.Instance.SpawnBuilding(data.type);
                 b.SetInfo(data.id, data.level);
                 b.PlacedOnGrid(data.x, data.y);
 
@@ -86,8 +86,8 @@ namespace ChaosAge.manager
             _buildings = buildings;
 
             // Thuật toán tìm đường
-            grid = new Grid(ConfigData.gridSize, ConfigData.gridSize);
-            unlimitedGrid = new Grid(ConfigData.gridSize, ConfigData.gridSize);
+            grid = new AStarPathfinding.Grid(ConfigData.gridSize, ConfigData.gridSize);
+            unlimitedGrid = new AStarPathfinding.Grid(ConfigData.gridSize, ConfigData.gridSize);
             search = new AStarSearch(grid);
             unlimitedSearch = new AStarSearch(unlimitedGrid);
 
@@ -168,7 +168,7 @@ namespace ChaosAge.manager
         {
             UnitToAdd unitToAdd = new UnitToAdd();
 
-            var battleUnit = FactoryManager.Instance.SpawnUnit(unitType);
+            var battleUnit = FactoryManager0.Instance.SpawnUnit(unitType);
             battleUnit.Initialize(x, y);
             unitToAdd.unit = battleUnit;
             unitToAdd.x = x;

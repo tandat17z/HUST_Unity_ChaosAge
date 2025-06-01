@@ -9,7 +9,7 @@ namespace ChaosAge.manager
     using DatSystem.utils;
     using UnityEngine;
 
-    public class FactoryManager : Singleton<FactoryManager>
+    public class FactoryManager0 : Singleton<FactoryManager0>
     {
         protected override void OnAwake() { }
 
@@ -28,12 +28,12 @@ namespace ChaosAge.manager
         [SerializeField]
         AIBuildingSO aiBbuildingSO;
 
-        public Building SpawnBuilding(EBuildingType buildingType)
+        public Building0 SpawnBuilding(EBuildingType buildingType)
         {
             var prefab = buildingSO.GetBuilingPrefab(buildingType);
 
             var spawned = Instantiate(prefab, container);
-            var building = spawned.GetComponent<Building>();
+            var building = spawned.GetComponent<Building0>();
             return building;
         }
 

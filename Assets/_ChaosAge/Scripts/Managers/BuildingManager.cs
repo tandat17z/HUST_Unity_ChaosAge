@@ -25,14 +25,14 @@ namespace ChaosAge.manager
             get { return grid; }
         }
 
-        public List<Building> Buildings
+        public List<Building0> Buildings
         {
             get => _buildings;
         }
-        public Building SelectedBuilding => _selectedBuilding;
+        public Building0 SelectedBuilding => _selectedBuilding;
 
-        private List<Building> _buildings = new();
-        private Building _selectedBuilding;
+        private List<Building0> _buildings = new();
+        private Building0 _selectedBuilding;
 
         private Vector3 _buildingBasePosition;
 
@@ -41,7 +41,7 @@ namespace ChaosAge.manager
             Clear();
             foreach (var data in listBuildingData)
             {
-                var spawned = FactoryManager.Instance.SpawnBuilding(data.type);
+                var spawned = FactoryManager0.Instance.SpawnBuilding(data.type);
                 spawned.SetInfo(data.id, data.level);
                 spawned.PlacedOnGrid(data.x, data.y);
                 spawned.SetSelected(false);
@@ -64,7 +64,7 @@ namespace ChaosAge.manager
         /// </summary>
         /// <param name="building"></param>
         /// <returns></returns>
-        public bool CanPlaceBuilding(Building building)
+        public bool CanPlaceBuilding(Building0 building)
         {
             if (
                 building.CurrentX < 0
@@ -97,9 +97,9 @@ namespace ChaosAge.manager
             return true;
         }
 
-        public Building SelectAtPosition(Vector3 poinerPosInPlane)
+        public Building0 SelectAtPosition(Vector3 poinerPosInPlane)
         {
-            foreach (Building building in _buildings)
+            foreach (Building0 building in _buildings)
             {
                 if (grid.IsWorldPositionIsOnPlane(poinerPosInPlane, building))
                 {
@@ -110,7 +110,7 @@ namespace ChaosAge.manager
             return null;
         }
 
-        public void Select(Building building)
+        public void Select(Building0 building)
         {
             if (_selectedBuilding != building)
             {
@@ -140,7 +140,7 @@ namespace ChaosAge.manager
             _selectedBuilding = null;
         }
 
-        public void Create(Building building)
+        public void Create(Building0 building)
         {
             // lưu vào data
             var data = new BuildingData(building.Type, building.CurrentX, building.CurrentY);
@@ -152,7 +152,7 @@ namespace ChaosAge.manager
             Unselect();
         }
 
-        public Building HasBuildingAtPosition(Vector3 posInPlane)
+        public Building0 HasBuildingAtPosition(Vector3 posInPlane)
         {
             if (
                 _selectedBuilding != null
@@ -162,7 +162,7 @@ namespace ChaosAge.manager
                 return _selectedBuilding;
             }
 
-            foreach (Building building in _buildings)
+            foreach (Building0 building in _buildings)
             {
                 if (grid.IsWorldPositionIsOnPlane(posInPlane, building))
                 {

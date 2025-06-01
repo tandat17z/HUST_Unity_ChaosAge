@@ -1,5 +1,5 @@
+using ChaosAge;
 using ChaosAge.AI.battle;
-using ChaosAge.camera;
 using ChaosAge.Data;
 using DatSystem;
 using DatSystem.UI;
@@ -10,9 +10,6 @@ namespace ChaosAge.manager
 {
     public class GameManager : Singleton<GameManager>
     {
-        [SerializeField]
-        CameraController cameraController;
-
         private GameState _gameState = GameState.City;
 
         public GameState GameState
@@ -54,7 +51,7 @@ namespace ChaosAge.manager
         {
             _gameState = GameState.City;
             BattleManager.Instance.Reset();
-            BuildingManager.Instance.LoadMap(_playerData.buildings);
+            ChaosAge.BuildingManager.Instance.LoadMap(_playerData.buildings);
 
             PanelManager.Instance.OpenPanel<PanelMainUI>();
         }

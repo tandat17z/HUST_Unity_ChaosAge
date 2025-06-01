@@ -8,9 +8,14 @@ using UnityEngine;
 
 public class UIBuildingInfo : Panel
 {
-    [SerializeField] RectTransform pInfo;
-    [SerializeField] TMP_Text textName;
-    [SerializeField] TMP_Text textLevel;
+    [SerializeField]
+    RectTransform pInfo;
+
+    [SerializeField]
+    TMP_Text textName;
+
+    [SerializeField]
+    TMP_Text textLevel;
 
     public override void OnSetup()
     {
@@ -28,13 +33,16 @@ public class UIBuildingInfo : Panel
         if (building)
         {
             var screenPos = Camera.main.WorldToScreenPoint(building.transform.position);
-            pInfo.anchoredPosition = new Vector2(screenPos.x - Screen.width / 2, screenPos.y - Screen.height / 2);
+            pInfo.anchoredPosition = new Vector2(
+                screenPos.x - Screen.width / 2,
+                screenPos.y - Screen.height / 2
+            );
 
             ShowTextInfo(building);
         }
     }
 
-    private void ShowTextInfo(Building building)
+    private void ShowTextInfo(Building0 building)
     {
         textName.text = building.Type.ToString();
         textLevel.text = $"Level {building.Level}";

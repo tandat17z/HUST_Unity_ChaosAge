@@ -6,7 +6,7 @@
     using Sirenix.OdinInspector;
     using UnityEngine;
 
-    public class Building : MonoBehaviour
+    public class Building0 : MonoBehaviour
     {
         [SerializeField]
         EBuildingType type;

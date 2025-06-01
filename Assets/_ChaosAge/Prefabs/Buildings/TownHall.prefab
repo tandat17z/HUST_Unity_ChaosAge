@@ -361,8 +361,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7375931668188252939}
   - component: {fileID: 641292361823827265}
-  - component: {fileID: 6766182125413594223}
-  - component: {fileID: 219157626582511213}
+  - component: {fileID: 4162947591032670963}
   m_Layer: 0
   m_Name: TownHall
   m_TagString: Untagged
@@ -431,7 +430,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6766182125413594223
+--- !u!114 &4162947591032670963
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -440,61 +439,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4941198582526404387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a336fcd68cca0e4d9182912af933c1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 022c61ad839a3c7419d16a8c53618633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  baseArea: {fileID: 7263312186702347649}
-  layoutLevel: {fileID: 5951831805773102092}
-  _id: 0
-  _level: 0
-  _rows: 4
-  _columns: 4
-  _x: 0
-  _y: 0
-  _currentX: 0
-  _currentY: 0
---- !u!114 &219157626582511213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4941198582526404387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8ccb3c16f3f8eb4799876a7e33a9063, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpSlider: {fileID: 338651154277785491}
-  text: {fileID: 5856033806984442607}
-  type: 0
+  buildingName: 
+  Type: 0
+  gridPosition: {x: 0, y: 0}
+  id: 0
   level: 1
-  battleBuidlingConfig:
-    id: 0
-    type: 0
-    level: 1
-    x: 0
-    y: 0
-    columns: 4
-    rows: 4
-    storage: 0
-    health: 100
-    damage: 0
-    capacity: 0
-    speed: 0
-    radius: 0
-    isConstructing: 0
-    buildTime: 0
-    targetType: 0
-    blindRange: 0
-    splashRange: 0
-    rangedSpeed: 5
-    percentage: 0
-  health: 0
-  target: -1
-  attackTimer: 0
-  percentage: 0
+  maxLevel: 3
+  health: 100
+  buildCost: 100
+  upgradeCost: 50
+  size: {x: 4, y: 4}
 --- !u!1 &5884415446654983610
 GameObject:
   m_ObjectHideFlags: 0
