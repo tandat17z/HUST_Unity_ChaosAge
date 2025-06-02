@@ -20,6 +20,7 @@ namespace ChaosAge.manager
         }
 
         private PlayerData _playerData;
+        private PanelLog _panelLog;
 
         #region Init
         protected override void OnAwake()
@@ -46,6 +47,7 @@ namespace ChaosAge.manager
 
             // open UI
             PanelManager.Instance.OpenPanel<PanelCheat>();
+            PanelManager.Instance.OpenPanel<PanelLog>();
         }
         #endregion
 
@@ -80,6 +82,11 @@ namespace ChaosAge.manager
             PanelManager.Instance.OpenPanel<PanelBattle>();
 
             AIBattleManager.Instance.LoadLevel(0);
+        }
+
+        public void Log(string log)
+        {
+            PanelLog.Instance.ShowLog(log);
         }
     }
 

@@ -39,34 +39,8 @@ namespace ChaosAge
 
             HideBuildUI();
 
-            buttonBuildOk.onClick.AddListener(OnBuildOk);
-            buttonBuildCancel.onClick.AddListener(OnBuildCancel);
-        }
-
-        private void OnBuildOk()
-        {
-            if (BuildingManager.Instance.CheckOverlapBuilding(building))
-            {
-                Debug.LogWarning("Overlap building");
-            }
-            else
-            {
-                Debug.Log("Build building");
-                building.StopMoving();
-                building.IsBuilding = false;
-                HideBuildUI();
-
-                // save building data
-                var newBuildingData = building.GetData();
-                newBuildingData.Save();
-                DataManager.Instance.PlayerData.AddBuilding(newBuildingData);
-            }
-        }
-
-        private void OnBuildCancel()
-        {
-            BuildingManager.Instance.DeselectBuilding();
-            Destroy(building.gameObject);
+            buttonBuildOk.onClick.AddListener(building.OnBuildOk);
+            buttonBuildCancel.onClick.AddListener(building.OnBuildCancel);
         }
 
         private void UpdateHealthBar()

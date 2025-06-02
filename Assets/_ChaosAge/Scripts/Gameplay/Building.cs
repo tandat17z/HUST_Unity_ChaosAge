@@ -3,6 +3,7 @@ namespace ChaosAge
     using System;
     using ChaosAge.Config;
     using ChaosAge.Data;
+    using ChaosAge.manager;
     using DatSystem;
     using UnityEngine;
 
@@ -110,6 +111,8 @@ namespace ChaosAge
             }
             Deselect();
             DataManager.Instance.SaveBuilding(this);
+
+            GameManager.Instance.Log("Stop moving");
         }
 
         public void SetGridPosition(Vector2 newPosition)
@@ -158,6 +161,32 @@ namespace ChaosAge
         public BuildingData GetData()
         {
             return new BuildingData(id, Type, level, gridPosition);
+        }
+
+        public void OnBuildOk()
+        {
+            if (BuildingManager.Instance.CheckOverlapBuilding(this))
+            {
+                GameManager.Instance.Log("Overlap building");
+            }
+            else
+            {
+                GameManager.Instance.Log("Build building");
+                StopMoving();
+                IsBuilding = false;
+                _buildingVisual.HideBuildUI();
+
+                // save building data
+                var newBuildingData = GetData();
+                newBuildingData.Save();
+                DataManager.Instance.PlayerData.AddBuilding(newBuildingData);
+            }
+        }
+
+        public void OnBuildCancel()
+        {
+            BuildingManager.Instance.DeselectBuilding();
+            Destroy(gameObject);
         }
     }
 }
