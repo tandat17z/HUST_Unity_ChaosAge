@@ -186,6 +186,11 @@ namespace ChaosAge
                 false
             );
 
+            if (_selectedBuilding != null)
+            {
+                _selectedBuilding.Deselect();
+            }
+
             _selectedBuilding = CreateBuilding(data);
             _selectedBuilding.IsBuilding = true;
             _selectedBuilding.MoveTo(new Vector2(20, 20));

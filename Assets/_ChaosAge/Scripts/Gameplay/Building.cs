@@ -65,16 +65,19 @@ namespace ChaosAge
             this.gridPosition = new Vector2(buildingData.x, buildingData.y);
 
             SetGridPosition(gridPosition);
+            _buildingVisual.SetVisual(level);
         }
 
         public void Select()
         {
             _buildingVisual?.OnBuildingSelected();
+            _buildingVisual.ShowInfoUI();
         }
 
         public void Deselect()
         {
             _buildingVisual?.OnBuildingDeselected();
+            _buildingVisual.HideInfoUI();
         }
 
         public void OverlapBuilding()
@@ -131,7 +134,12 @@ namespace ChaosAge
             if (level < maxLevel)
             {
                 level++;
-                health += 100; // Example health increase per level
+                DataManager.Instance.SaveBuilding(this);
+                _buildingVisual.SetVisual(level);
+            }
+            else
+            {
+                GameManager.Instance.Log("Failed to upgrade, max level");
             }
         }
 

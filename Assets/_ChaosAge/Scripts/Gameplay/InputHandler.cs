@@ -4,6 +4,7 @@
     using ChaosAge.camera;
     using DatSystem.UI;
     using DatSystem.utils;
+    using DG.Tweening;
     using DG.Tweening.Plugins.Options;
     using UnityEngine;
     using UnityEngine.EventSystems;
@@ -64,6 +65,11 @@
         {
             // if (Input.touchCount == 1)
             // {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                Debug.Log("Click lên UI");
+                return;
+            }
             HandleOneTouch();
             // }
 
@@ -93,12 +99,13 @@
             if (Input.GetMouseButtonUp(0) && isDragging)
             {
                 isDragging = false;
-                HandleTouchEnd();
 
                 if (Time.time - startTouchTime < 0.2f)
                 {
                     HandleTap();
                 }
+
+                HandleTouchEnd();
             }
         }
 
@@ -143,6 +150,10 @@
             {
                 _inputStatus = EInputStatus.CameraMoving;
             }
+            if (PanelManager.Instance.GetPanel<PanelBuildingOption>() != null)
+            {
+                PanelManager.Instance.ClosePanel<PanelBuildingOption>();
+            }
         }
 
         private void HandleTouchDrag(Vector2 start, Vector2 end)
@@ -167,11 +178,21 @@
 
         private void HandleTouchEnd()
         {
-            // if (_inputStatus == EInputStatus.BuildingMoving)
-            // {
-            //     var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
-            //     selectedBuilding.StopMoving();
-            // }
+            var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
+            if (selectedBuilding != null)
+            {
+                if (PanelManager.Instance.GetPanel<PanelBuildingOption>() == null)
+                {
+                    PanelManager.Instance.OpenPanel<PanelBuildingOption>();
+                }
+            }
+            else
+            {
+                if (PanelManager.Instance.GetPanel<PanelBuildingOption>() != null)
+                {
+                    PanelManager.Instance.ClosePanel<PanelBuildingOption>();
+                }
+            }
         }
 
         private void HandleTap()
@@ -187,11 +208,7 @@
 
             var cellPos = GetCellPosition(Input.mousePosition);
             var building = BuildingManager.Instance.SelectBuilding(cellPos);
-            if (building != null)
-            {
-                // inputStatus = EInputStatus.BuildingMoving;
-                Debug.Log("Building selected: " + building.Type);
-            }
+            if (building != null) { }
             else
             {
                 BuildingManager.Instance.DeselectBuilding();

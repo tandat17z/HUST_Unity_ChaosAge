@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class PanelLog : Panel
 {
-    public static PanelLog Instance;
-
     [SerializeField]
     private TMP_Text textLog;
 
@@ -15,8 +13,8 @@ public class PanelLog : Panel
 
     public override void OnSetup()
     {
+        base.OnSetup();
         Reset();
-        Instance = this;
     }
 
     public override void Open(UIData uiData)

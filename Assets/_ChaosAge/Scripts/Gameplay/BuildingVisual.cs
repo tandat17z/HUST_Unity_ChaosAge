@@ -14,6 +14,9 @@ namespace ChaosAge
         private MeshRenderer meshRenderer;
 
         [SerializeField]
+        private TextMeshProUGUI nameText;
+
+        [SerializeField]
         private TextMeshProUGUI levelText;
 
         [SerializeField]
@@ -30,6 +33,18 @@ namespace ChaosAge
         [SerializeField]
         private StatusAndMaterial[] materials;
 
+        [SerializeField]
+        private GameObject buildingModel;
+
+        [SerializeField]
+        private GameObject infoUI;
+
+        [SerializeField]
+        private GameObject battleUI;
+
+        [SerializeField]
+        private GameObject buildUI;
+
         private Building building;
 
         private void Awake()
@@ -37,10 +52,12 @@ namespace ChaosAge
             if (building == null)
                 building = GetComponent<Building>();
 
-            HideBuildUI();
-
             buttonBuildOk.onClick.AddListener(building.OnBuildOk);
             buttonBuildCancel.onClick.AddListener(building.OnBuildCancel);
+
+            HideBuildUI();
+            HideInfoUI();
+            HideBattleUI();
         }
 
         private void UpdateHealthBar()
@@ -88,15 +105,49 @@ namespace ChaosAge
 
         public void ShowBuildUI()
         {
-            buttonBuildOk.gameObject.SetActive(true);
-            buttonBuildCancel.gameObject.SetActive(true);
+            buildUI.SetActive(true);
+            levelText.gameObject.SetActive(false);
         }
 
         public void HideBuildUI()
         {
-            buttonBuildOk.gameObject.SetActive(false);
-            buttonBuildCancel.gameObject.SetActive(false);
+            buildUI.SetActive(false);
+            levelText.gameObject.SetActive(true);
         }
+
+        public void SetVisual(int level)
+        {
+            buildingModel.transform.localScale = new Vector3(1, level, 1);
+        }
+
+        public void ShowInfoUI()
+        {
+            UpdateLevelDisplay();
+            infoUI.SetActive(true);
+        }
+
+        public void HideInfoUI()
+        {
+            infoUI.SetActive(false);
+        }
+
+        public void ShowBattleUI()
+        {
+            battleUI.SetActive(true);
+        }
+
+        public void HideBattleUI()
+        {
+            battleUI.SetActive(false);
+        }
+
+#if UNITY_EDITOR
+        public void OnValidate()
+        {
+            var building = GetComponent<Building>();
+            nameText.text = building.Type.ToString();
+        }
+#endif
     }
 
     [System.Serializable]

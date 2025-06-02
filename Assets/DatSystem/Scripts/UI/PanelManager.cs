@@ -81,6 +81,7 @@ namespace DatSystem.UI
             }
 
             panel.Open(uiData);
+            Debug.Log("Open Panel: " + panelName);
             var currentDisplay = GetTopScreen();
             if (currentDisplay)
             {

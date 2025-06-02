@@ -86,7 +86,10 @@ namespace ChaosAge.manager
 
         public void Log(string log)
         {
-            PanelLog.Instance.ShowLog(log);
+            var panelLog = PanelManager.Instance.GetPanel<PanelLog>();
+            panelLog.ShowLog(log);
+
+            Debug.Log(log);
         }
     }
 
