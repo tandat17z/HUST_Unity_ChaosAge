@@ -41,7 +41,7 @@ public class UIBuildingInShop : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        _textName.text = _buildingType.ToString();
+        OnSetup();
     }
 #endif
 }

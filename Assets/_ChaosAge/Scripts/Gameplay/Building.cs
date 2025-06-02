@@ -43,6 +43,8 @@ namespace ChaosAge
         public int BuildCost => buildCost;
         public int UpgradeCost => upgradeCost;
 
+        // For moving building
+        private Vector2 originalGridPosition;
         private Vector2 offset;
 
         private void Awake()
@@ -70,19 +72,39 @@ namespace ChaosAge
             buildingVisual?.OnBuildingDeselected();
         }
 
+        public void OverlapBuilding()
+        {
+            buildingVisual?.OnBuildingOverlap();
+        }
+
         public void StartMoving(Vector2 startCellPos)
         {
+            originalGridPosition = gridPosition;
             offset = startCellPos - gridPosition;
         }
 
         public void MoveTo(Vector2 cellPos)
         {
             SetGridPosition(cellPos - offset);
+
+            if (BuildingManager.Instance.CheckOverlapBuilding(this))
+            {
+                OverlapBuilding();
+            }
+            else
+            {
+                Select();
+            }
         }
 
         public void StopMoving()
         {
             // TODO: Implement stopping movement
+            if (BuildingManager.Instance.CheckOverlapBuilding(this) == true)
+            {
+                SetGridPosition(originalGridPosition);
+            }
+            Deselect();
             DataManager.Instance.SaveBuilding(this);
         }
 

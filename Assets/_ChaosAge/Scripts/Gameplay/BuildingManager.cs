@@ -158,6 +158,25 @@ namespace ChaosAge
             }
             _buildings.Remove(building);
         }
+
+        public bool CheckOverlapBuilding(Building selectedBuilding)
+        {
+            foreach (Building building in _buildings)
+            {
+                if (
+                    building != selectedBuilding
+                    && DoBuildingsOverlap(
+                        selectedBuilding.gridPosition,
+                        selectedBuilding.size,
+                        building
+                    )
+                )
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         #endregion
     }
 }

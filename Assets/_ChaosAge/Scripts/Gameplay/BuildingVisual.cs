@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -66,6 +67,11 @@ namespace ChaosAge
             }
             return mat.material;
         }
+
+        public void OnBuildingOverlap()
+        {
+            meshRenderer.material = GetMaterial(EBuildingStatus.Overlap);
+        }
     }
 
     [System.Serializable]
@@ -79,5 +85,6 @@ namespace ChaosAge
     {
         Normal,
         Selected,
+        Overlap,
     }
 }
