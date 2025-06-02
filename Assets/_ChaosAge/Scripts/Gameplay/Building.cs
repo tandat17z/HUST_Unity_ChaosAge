@@ -35,7 +35,8 @@ namespace ChaosAge
         [Header("Building Size")]
         public Vector2 size = new Vector2(3, 3); // Size in grid cells
 
-        private BuildingVisual buildingVisual;
+        public BuildingVisual BuildingVisual => _buildingVisual;
+        private BuildingVisual _buildingVisual;
         public int Id => id;
         public int Level => level;
         public int MaxLevel => maxLevel;
@@ -47,9 +48,12 @@ namespace ChaosAge
         private Vector2 originalGridPosition;
         private Vector2 offset;
 
+        // For building
+        public bool IsBuilding { get; set; } = false;
+
         private void Awake()
         {
-            buildingVisual = GetComponent<BuildingVisual>();
+            _buildingVisual = GetComponent<BuildingVisual>();
         }
 
         public void SetInfo(BuildingData buildingData)
@@ -64,17 +68,17 @@ namespace ChaosAge
 
         public void Select()
         {
-            buildingVisual?.OnBuildingSelected();
+            _buildingVisual?.OnBuildingSelected();
         }
 
         public void Deselect()
         {
-            buildingVisual?.OnBuildingDeselected();
+            _buildingVisual?.OnBuildingDeselected();
         }
 
         public void OverlapBuilding()
         {
-            buildingVisual?.OnBuildingOverlap();
+            _buildingVisual?.OnBuildingOverlap();
         }
 
         public void StartMoving(Vector2 startCellPos)

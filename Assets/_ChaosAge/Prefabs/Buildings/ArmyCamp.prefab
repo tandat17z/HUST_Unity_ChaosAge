@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8680643771773694592}
   - component: {fileID: 7294814132016174836}
-  - component: {fileID: 7009690324960623960}
+  - component: {fileID: 2906594747917324760}
   m_Layer: 0
   m_Name: ArmyCamp
   m_TagString: Untagged
@@ -224,7 +224,7 @@ MonoBehaviour:
   buildCost: 100
   upgradeCost: 50
   size: {x: 5, y: 5}
---- !u!114 &7009690324960623960
+--- !u!114 &2906594747917324760
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,6 +239,8 @@ MonoBehaviour:
   meshRenderer: {fileID: 940234634715403717}
   levelText: {fileID: 1475806566029835539}
   healthBar: {fileID: 2942499349294158458}
+  buttonBuildOk: {fileID: 75406954762815815}
+  buttonBuildCancel: {fileID: 8033621949095745445}
   materials:
   - status: 0
     material: {fileID: 2100000, guid: 7da372d46699cfa49a51e79027f654d1, type: 2}
@@ -347,6 +349,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
+--- !u!114 &75406954762815815 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8604488503316899461, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
+  m_PrefabInstance: {fileID: 8530572566318395330}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1475806566029835539 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7068875488801592017, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
@@ -374,3 +387,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4529278851274775302, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
   m_PrefabInstance: {fileID: 8530572566318395330}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8033621949095745445 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1810312996182538343, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
+  m_PrefabInstance: {fileID: 8530572566318395330}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

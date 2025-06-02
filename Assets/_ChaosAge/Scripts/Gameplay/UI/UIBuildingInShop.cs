@@ -1,7 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using ChaosAge;
 using ChaosAge.Config;
+using DatSystem.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +29,8 @@ public class UIBuildingInShop : MonoBehaviour
 
     private void OnClick()
     {
-        Debug.Log("OnClick");
+        BuildingManager.Instance.CreateBuilding(_buildingType);
+        PanelManager.Instance.ClosePanel<PanelShop>();
     }
 
     public void OnSetup()

@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7375931668188252939}
   - component: {fileID: 641292361823827265}
   - component: {fileID: -4001744771481008044}
-  - component: {fileID: 6174917386767642869}
+  - component: {fileID: 4295942607505894424}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -184,7 +184,7 @@ MonoBehaviour:
   buildCost: 100
   upgradeCost: 50
   size: {x: 1, y: 1}
---- !u!114 &6174917386767642869
+--- !u!114 &4295942607505894424
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,6 +199,8 @@ MonoBehaviour:
   meshRenderer: {fileID: 7263312186702347649}
   levelText: {fileID: 3313935336772835093}
   healthBar: {fileID: 1248538818079832188}
+  buttonBuildOk: {fileID: 4075070296232256321}
+  buttonBuildCancel: {fileID: 6267674193076305315}
   materials:
   - status: 0
     material: {fileID: 2100000, guid: 7da372d46699cfa49a51e79027f654d1, type: 2}
@@ -406,6 +408,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4075070296232256321 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8604488503316899461, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
+  m_PrefabInstance: {fileID: 5756944393186149828}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6267674193076305315 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1810312996182538343, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
+  m_PrefabInstance: {fileID: 5756944393186149828}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &8160519718862954178 stripped

@@ -47,11 +47,14 @@ namespace DatSystem
             }
         }
 
-        private BuildingData CreateBuilding(EBuildingType type, Vector2 position)
+        public BuildingData CreateBuilding(EBuildingType type, Vector2 position, bool isSave = true)
         {
             var buildingData = new BuildingData(CountBuildingId, type, 1, position);
             CountBuildingId++;
-            buildingData.Save();
+            if (isSave)
+            {
+                buildingData.Save();
+            }
             return buildingData;
         }
 

@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ChaosAge.Config;
 using ChaosAge.Data;
+using DatSystem;
 using DatSystem.utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using static ChaosAge.InputHandler;
 
 namespace ChaosAge
 {
@@ -29,10 +32,7 @@ namespace ChaosAge
             Clear();
             foreach (var data in listBuildingData)
             {
-                var spawned = FactoryManager.Instance.SpawnBuilding(data.type);
-                spawned.SetInfo(data);
-
-                _buildings.Add(spawned);
+                CreateBuilding(data);
             }
         }
 
@@ -176,6 +176,30 @@ namespace ChaosAge
                 }
             }
             return false;
+        }
+
+        public void CreateBuilding(EBuildingType buildingType)
+        {
+            var data = DataManager.Instance.CreateBuilding(
+                buildingType,
+                new Vector2(20, 20),
+                false
+            );
+
+            _selectedBuilding = CreateBuilding(data);
+            _selectedBuilding.IsBuilding = true;
+            _selectedBuilding.MoveTo(new Vector2(20, 20));
+
+            _selectedBuilding.BuildingVisual.ShowBuildUI();
+        }
+
+        public Building CreateBuilding(BuildingData data)
+        {
+            var spawned = FactoryManager.Instance.SpawnBuilding(data.type);
+            spawned.SetInfo(data);
+
+            _buildings.Add(spawned);
+            return spawned;
         }
         #endregion
     }

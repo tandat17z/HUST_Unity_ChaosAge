@@ -1,5 +1,7 @@
+using System;
 using ChaosAge;
 using ChaosAge.AI.battle;
+using ChaosAge.Config;
 using ChaosAge.Data;
 using DatSystem;
 using DatSystem.UI;

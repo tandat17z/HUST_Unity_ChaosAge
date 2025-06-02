@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7375931668188252939}
   - component: {fileID: 4162947591032670963}
-  - component: {fileID: 317361558708215998}
+  - component: {fileID: -6206110440209384581}
   m_Layer: 0
   m_Name: TownHall
   m_TagString: Untagged
@@ -142,7 +142,7 @@ MonoBehaviour:
   buildCost: 100
   upgradeCost: 50
   size: {x: 4, y: 4}
---- !u!114 &317361558708215998
+--- !u!114 &-6206110440209384581
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,6 +157,8 @@ MonoBehaviour:
   meshRenderer: {fileID: 5886288373702521312}
   levelText: {fileID: 5856033806984442607}
   healthBar: {fileID: 7920154342230252934}
+  buttonBuildOk: {fileID: 4914614399540561595}
+  buttonBuildCancel: {fileID: 3045270494727886937}
   materials:
   - status: 0
     material: {fileID: 2100000, guid: 7da372d46699cfa49a51e79027f654d1, type: 2}
@@ -427,6 +429,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4529278851274775302, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
   m_PrefabInstance: {fileID: 3701254611378659390}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3045270494727886937 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1810312996182538343, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
+  m_PrefabInstance: {fileID: 3701254611378659390}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4914614399540561595 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8604488503316899461, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
+  m_PrefabInstance: {fileID: 3701254611378659390}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5856033806984442607 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7068875488801592017, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}

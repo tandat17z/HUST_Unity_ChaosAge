@@ -30,13 +30,13 @@
         private Plane groundPlane;
         private float zoomSpeed = 5f;
 
-        private EInputStatus inputStatus;
+        private EInputStatus _inputStatus;
 
         private void Start()
         {
             groundPlane = new Plane(Vector3.up, Vector3.zero);
             cameraController = Camera.main.GetComponent<CameraController>();
-            inputStatus = EInputStatus.CameraMoving;
+            _inputStatus = EInputStatus.CameraMoving;
         }
 
         #region Handle Touch
@@ -133,20 +133,21 @@
         {
             var cellPos = GetCellPosition(Input.mousePosition);
             var building = BuildingManager.Instance.SelectedBuilding;
+
             if (building != null && building.IsCellPositionInBuilding(cellPos))
             {
-                inputStatus = EInputStatus.BuildingMoving;
+                _inputStatus = EInputStatus.BuildingMoving;
                 building.StartMoving(cellPos);
             }
             else
             {
-                inputStatus = EInputStatus.CameraMoving;
+                _inputStatus = EInputStatus.CameraMoving;
             }
         }
 
         private void HandleTouchDrag(Vector2 start, Vector2 end)
         {
-            if (inputStatus == EInputStatus.CameraMoving)
+            if (_inputStatus == EInputStatus.CameraMoving)
             {
                 // TODO: Implement logic for dragging, e.g., moving the camera or buildings
                 Vector3 worldStart = GetWorldPosition(start);
@@ -155,7 +156,7 @@
                 Vector3 worldDelta = worldEnd - worldStart;
                 cameraController.Move(new Vector2(worldDelta.x, worldDelta.z));
             }
-            else if (inputStatus == EInputStatus.BuildingMoving)
+            else if (_inputStatus == EInputStatus.BuildingMoving)
             {
                 // TODO: Implement logic for moving buildings
                 var targetCellPos = GetCellPosition(end);
@@ -166,15 +167,24 @@
 
         private void HandleTouchEnd()
         {
-            if (inputStatus == EInputStatus.BuildingMoving)
-            {
-                var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
-                selectedBuilding.StopMoving();
-            }
+            // if (_inputStatus == EInputStatus.BuildingMoving)
+            // {
+            //     var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
+            //     selectedBuilding.StopMoving();
+            // }
         }
 
         private void HandleTap()
         {
+            var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
+            if (selectedBuilding != null)
+            {
+                if (selectedBuilding.IsBuilding)
+                    return;
+
+                selectedBuilding.StopMoving();
+            }
+
             var cellPos = GetCellPosition(Input.mousePosition);
             var building = BuildingManager.Instance.SelectBuilding(cellPos);
             if (building != null)

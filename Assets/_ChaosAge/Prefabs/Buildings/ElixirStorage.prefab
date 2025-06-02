@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8680643771773694592}
   - component: {fileID: 3205555128467923503}
-  - component: {fileID: 3983894908021389534}
+  - component: {fileID: -135224209452124129}
   m_Layer: 0
   m_Name: ElixirStorage
   m_TagString: Untagged
@@ -224,7 +224,7 @@ MonoBehaviour:
   buildCost: 100
   upgradeCost: 50
   size: {x: 3, y: 3}
---- !u!114 &3983894908021389534
+--- !u!114 &-135224209452124129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,6 +239,8 @@ MonoBehaviour:
   meshRenderer: {fileID: 940234634715403717}
   levelText: {fileID: 3139739203471489016}
   healthBar: {fileID: 1674316491833710737}
+  buttonBuildOk: {fileID: 4531290084067492780}
+  buttonBuildCancel: {fileID: 5806458175277145422}
   materials:
   - status: 0
     material: {fileID: 2100000, guid: 7da372d46699cfa49a51e79027f654d1, type: 2}
@@ -367,6 +369,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4531290084067492780 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8604488503316899461, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
+  m_PrefabInstance: {fileID: 5299374356201547049}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5806458175277145422 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1810312996182538343, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
+  m_PrefabInstance: {fileID: 5299374356201547049}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &8597393646332493359 stripped
