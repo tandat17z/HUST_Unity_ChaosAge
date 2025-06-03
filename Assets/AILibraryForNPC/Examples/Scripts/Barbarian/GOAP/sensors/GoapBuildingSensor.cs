@@ -14,7 +14,7 @@ public class GoapBuildingSensor : BaseSensor_v2
         worldstate.AddBuffer("Defense", null);
         foreach (var building in buildings)
         {
-            if (building.type == EBuildingType.townhall && worldstate.GetBuffer("Townhall") == null)
+            if (building.type == EBuildingType.TownHall && worldstate.GetBuffer("Townhall") == null)
             {
                 worldstate.AddState("TownhallHp", building.health);
                 worldstate.AddBuffer("Townhall", building.gameObject);
@@ -30,7 +30,7 @@ public class GoapBuildingSensor : BaseSensor_v2
                 }
             }
             else if (
-                building.type == EBuildingType.archertower
+                building.type == EBuildingType.ArcherTowner
                 && worldstate.GetBuffer("Defense") == null
             )
             {

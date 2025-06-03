@@ -31,11 +31,14 @@ public class PanelBuildingOption : Panel
 
     private void OnClickOptionUpgrade()
     {
-        GameManager.Instance.Log(
-            $"Upgrade: {_building.name} Lv.{_building.Level} -> {_building.Level + 1}"
-        );
-
-        _building.Upgrade();
+        if (ChaosAge.BuildingManager.Instance.CanUpgradeBuilding(_building.Type, _building.Level))
+        {
+            _building.Upgrade();
+        }
+        else
+        {
+            GameManager.Instance.Log("Cannot upgrade building");
+        }
     }
 
     public override void Open(UIData uiData)

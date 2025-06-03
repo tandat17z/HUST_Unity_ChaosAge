@@ -33,16 +33,16 @@ namespace DatSystem
             if (_playerData.buildingIds.Count == 0) // new player
             {
                 _playerData.AddBuilding(
-                    CreateBuilding(EBuildingType.townhall, new Vector2(20, 20))
+                    CreateBuilding(EBuildingType.TownHall, new Vector2(20, 20))
                 );
                 _playerData.AddBuilding(
-                    CreateBuilding(EBuildingType.buildershut, new Vector2(25, 20))
+                    CreateBuilding(EBuildingType.BuildersHut, new Vector2(25, 20))
                 );
                 _playerData.AddBuilding(
-                    CreateBuilding(EBuildingType.goldmine, new Vector2(28, 20))
+                    CreateBuilding(EBuildingType.GoldMine, new Vector2(28, 20))
                 );
                 _playerData.AddBuilding(
-                    CreateBuilding(EBuildingType.armycamp, new Vector2(32, 20))
+                    CreateBuilding(EBuildingType.GoldStorage, new Vector2(32, 20))
                 );
             }
         }

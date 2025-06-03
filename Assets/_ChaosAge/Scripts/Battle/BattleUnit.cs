@@ -196,7 +196,7 @@ namespace ChaosAge.Battle
                 if (_buildings[target].health > 0)
                 {
                     if (
-                        _buildings[target].battleBuidlingConfig.type == EBuildingType.wall
+                        _buildings[target].battleBuidlingConfig.type == EBuildingType.Wall
                         && mainTarget >= 0
                         && _buildings[mainTarget].health <= 0
                     )
@@ -264,11 +264,11 @@ namespace ChaosAge.Battle
             {
                 switch (buildingTarget.battleBuidlingConfig.type)
                 {
-                    case EBuildingType.townhall:
-                    case EBuildingType.goldmine:
-                    case EBuildingType.goldstorage:
-                    case EBuildingType.elixirmine:
-                    case EBuildingType.elixirstorage:
+                    case EBuildingType.TownHall:
+                    case EBuildingType.GoldMine:
+                    case EBuildingType.GoldStorage:
+                    case EBuildingType.ElixirMine:
+                    case EBuildingType.ElixirStorage:
                         //case EBuildingType.darkelixirmine:
                         //case EBuildingType.darkelixirstorage:
                         if (unit.priority != Data.TargetPriority.resources)
@@ -276,14 +276,14 @@ namespace ChaosAge.Battle
                             multiplier = unit.priorityMultiplier;
                         }
                         break;
-                    case EBuildingType.wall:
+                    case EBuildingType.Wall:
                         if (unit.priority != Data.TargetPriority.walls)
                         {
                             multiplier = unit.priorityMultiplier;
                         }
                         break;
-                    case EBuildingType.cannon:
-                    case EBuildingType.archertower:
+                    case EBuildingType.Cannon:
+                    case EBuildingType.ArcherTowner:
                         //case EBuildingType.mortor:
                         //case EBuildingType.airdefense:
                         //case EBuildingType.wizardtower:

@@ -105,7 +105,7 @@ namespace ChaosAge.AI.battle
             }
             buildings.Clear();
 
-            var b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.townhall);
+            var b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.TownHall);
             var x = Random.Range(5, 35);
             var y = Random.Range(5, 35);
             b.SetInfo(0, 1);
@@ -116,7 +116,7 @@ namespace ChaosAge.AI.battle
             // battleBuilding.SetInfo(new BuildingData(EBuildingType.townhall, x, y));
             buildings.Add(battleBuilding);
 
-            b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.archertower);
+            b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.ArcherTowner);
             x = Random.Range(5, 20);
             y = Random.Range(5, 20);
             b.SetInfo(1, 1);
@@ -127,7 +127,7 @@ namespace ChaosAge.AI.battle
             buildings.Add(battleBuilding);
 
             // archertower0
-            b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.archertower);
+            b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.ArcherTowner);
             x = Random.Range(20, 35);
             y = Random.Range(5, 20);
             b.SetInfo(2, 1);
@@ -138,7 +138,7 @@ namespace ChaosAge.AI.battle
             buildings.Add(battleBuilding);
 
             // archertower1
-            b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.archertower);
+            b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.ArcherTowner);
             x = Random.Range(20, 35);
             y = Random.Range(20, 35);
             b.SetInfo(3, 1);
@@ -148,7 +148,7 @@ namespace ChaosAge.AI.battle
             // battleBuilding.SetInfo(new BuildingData(EBuildingType.archertower, x, y));
             buildings.Add(battleBuilding);
 
-            b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.archertower);
+            b = FactoryManager0.Instance.SpawnBuilding(EBuildingType.ArcherTowner);
             x = Random.Range(5, 20);
             y = Random.Range(20, 35);
             b.SetInfo(4, 1);
@@ -208,7 +208,7 @@ namespace ChaosAge.AI.battle
         {
             foreach (var building in buildings)
             {
-                if (building.type == EBuildingType.townhall)
+                if (building.type == EBuildingType.TownHall)
                 {
                     return true;
                 }

@@ -5,9 +5,7 @@ using ChaosAge.Config;
 using ChaosAge.Data;
 using DatSystem;
 using DatSystem.utils;
-using Sirenix.OdinInspector;
 using UnityEngine;
-using static ChaosAge.InputHandler;
 
 namespace ChaosAge
 {
@@ -22,6 +20,10 @@ namespace ChaosAge
             get => grid;
         }
 
+        private PlayerData _playerData;
+
+        public Building TownHall => _townhall;
+        private Building _townhall;
         public Building SelectedBuilding => _selectedBuilding;
         private Building _selectedBuilding;
         private List<Building> _buildings = new List<Building>();
@@ -32,7 +34,12 @@ namespace ChaosAge
             Clear();
             foreach (var data in listBuildingData)
             {
-                CreateBuilding(data);
+                var building = CreateBuilding(data);
+
+                if (data.type == EBuildingType.TownHall)
+                {
+                    _townhall = building;
+                }
             }
         }
 
@@ -78,33 +85,6 @@ namespace ChaosAge
             }
         }
 
-        public bool CanPlaceBuilding(Building building, Vector2 gridPosition)
-        {
-            if (building == null)
-                return false;
-
-            // Check if position is within grid bounds
-            if (!IsWithinGridBounds(gridPosition, building.size))
-                return false;
-
-            // Check for overlapping with other buildings
-            foreach (Building existingBuilding in _buildings)
-            {
-                if (DoBuildingsOverlap(gridPosition, building.size, existingBuilding))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private bool IsWithinGridBounds(Vector2 position, Vector2 size)
-        {
-            // TODO: Implement grid bounds check based on your grid system
-            return true;
-        }
-
         private bool DoBuildingsOverlap(Vector2 position1, Vector2 size1, Building building2)
         {
             Vector2 position2 = building2.gridPosition;
@@ -118,48 +98,48 @@ namespace ChaosAge
             );
         }
 
-        public void PlaceBuilding(Building building, Vector2 gridPosition)
+        public bool CanUpgradeBuilding(EBuildingType buildingType, int level)
         {
-            if (!CanPlaceBuilding(building, gridPosition))
-                return;
-
-            building.SetGridPosition(gridPosition);
-            _buildings.Add(building);
-        }
-
-        public void MoveBuilding(Building building, Vector2 newGridPosition)
-        {
-            if (!CanPlaceBuilding(building, newGridPosition))
-                return;
-
-            building.SetGridPosition(newGridPosition);
-        }
-
-        public bool CanUpgradeBuilding(Building building)
-        {
-            if (building == null)
-                return false;
-            return building.Level < building.MaxLevel;
-        }
-
-        public void UpgradeBuilding(Building building)
-        {
-            if (!CanUpgradeBuilding(building))
-                return;
-
-            building.Upgrade();
-        }
-
-        public void RemoveBuilding(Building building)
-        {
-            if (building == _selectedBuilding)
+            // Kiểm tra cost
+            var playerData = DataManager.Instance.PlayerData;
+            var buildingConfigSO = SOManager.Instance.GetSO<BuildingConfigSO>(
+                $"{buildingType}_{level}"
+            );
+            foreach (var cost in buildingConfigSO.costs)
             {
-                _selectedBuilding = null;
+                if (playerData.GetResource(cost.resourceType) < cost.quantity)
+                {
+                    return false;
+                }
             }
-            _buildings.Remove(building);
+
+            // Kiểm tra unlock level
+            var townhallConfig = SOManager.Instance.GetSO<TownhallConfigSO>(
+                $"{EBuildingType.TownHall}_{_townhall.Level}"
+            );
+            if (_townhall.Level < buildingConfigSO.unlockedLevel)
+            {
+                return false;
+            }
+
+            // Kiểm tra số lượng building
+            if (
+                GetBuildingNumber(buildingType)
+                >= townhallConfig.GetLimitBuildingNumber(buildingType)
+            )
+            {
+                return false;
+            }
+
+            return true;
         }
 
-        public bool CheckOverlapBuilding(Building selectedBuilding)
+        public int GetBuildingNumber(EBuildingType type)
+        {
+            return _buildings.FindAll(building => building.Type == type).Count;
+        }
+
+        public bool CanPlaceBuilding(Building selectedBuilding)
         {
             foreach (Building building in _buildings)
             {

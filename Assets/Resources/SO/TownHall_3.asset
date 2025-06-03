@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 994165b6dd665a34c90ea7cccfbbc914, type: 3}
+  m_Name: TownHall_3
+  m_EditorClassIdentifier: 
+  buildingType: 0
+  level: 3
+  unlockedLevel: 2
+  timeToBuild: 120
+  costs:
+  - resourceType: 0
+    quantity: 400
+  health: 500
+  capacities:
+  - resourceType: 0
+    quantity: 500
+  - resourceType: 1
+    quantity: 500
+  limitBuildingNumber:
+  - buildingType: 0
+    quantity: 1
+  - buildingType: 1
+    quantity: 3
+  - buildingType: 2
+    quantity: 2
+  - buildingType: 3
+    quantity: 3
+  - buildingType: 4
+    quantity: 2
+  - buildingType: 5
+    quantity: 3
+  - buildingType: 6
+    quantity: 3
+  - buildingType: 7
+    quantity: 2
+  - buildingType: 8
+    quantity: 50

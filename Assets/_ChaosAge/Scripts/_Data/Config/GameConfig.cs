@@ -15,14 +15,13 @@ namespace ChaosAge.Config
         {
             buildingConfigs = new();
 
-            buildingConfigs.Add(new BuildingConfig(EBuildingType.townhall));
-            buildingConfigs.Add(new BuildingConfig(EBuildingType.buildershut));
-            buildingConfigs.Add(new BuildingConfig(EBuildingType.goldmine));
-            buildingConfigs.Add(new BuildingConfig(EBuildingType.goldstorage));
-            buildingConfigs.Add(new BuildingConfig(EBuildingType.armycamp));
-            buildingConfigs.Add(new BuildingConfig(EBuildingType.cannon));
-            buildingConfigs.Add(new BuildingConfig(EBuildingType.archertower));
-            buildingConfigs.Add(new BuildingConfig(EBuildingType.wall));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.TownHall));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.BuildersHut));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.GoldMine));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.GoldStorage));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.Cannon));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.ArcherTowner));
+            buildingConfigs.Add(new BuildingConfig(EBuildingType.Wall));
 
             SaveToFile("config.json");
         }
@@ -39,7 +38,6 @@ namespace ChaosAge.Config
             string json = File.ReadAllText(filePath);
             return JsonUtility.FromJson<GameConfig>(json);
         }
-
 
         //
         public (int, int) GetBuildingSize(EBuildingType type)
@@ -82,5 +80,4 @@ namespace ChaosAge.Config
             return data;
         }
     }
-
 }

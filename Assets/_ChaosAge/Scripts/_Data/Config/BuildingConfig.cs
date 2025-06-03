@@ -72,7 +72,7 @@ namespace ChaosAge.Config
         public bool isConstructing = false;
         public int buildTime = 0;
         public BuildingTargetType targetType = BuildingTargetType.none;
-        public float blindRange = 0; // Vùng mù
+        public float blindRange = 0; // Vï¿½ng mï¿½
         public float splashRange = 0;
         public float rangedSpeed = 5;
         public float percentage = 0;
@@ -86,18 +86,14 @@ namespace ChaosAge.Config
     [Serializable]
     public enum EBuildingType
     {
-        townhall,
-        goldmine,
-        goldstorage,
-        elixirmine,
-        elixirstorage,
-        buildershut,
-        armycamp,
-        barracks,
-        wall,
-        cannon,
-        archertower,
-        //mortor, airdefense, wizardtower, hiddentesla, bombtower, xbow, infernotower, decoration, obstacle, boomb, springtrap, airbomb, giantbomb, seekingairmine, skeletontrap
+        TownHall,
+        GoldMine,
+        GoldStorage,
+        ElixirMine,
+        ElixirStorage,
+        BuildersHut,
+        Cannon,
+        ArcherTowner,
+        Wall,
     }
 }
-

@@ -1,6 +1,6 @@
 namespace ChaosAge
 {
-    using System;
+    using System.Collections.Generic;
     using ChaosAge.Config;
     using ChaosAge.Data;
     using ChaosAge.manager;
@@ -10,28 +10,13 @@ namespace ChaosAge
     public class Building : MonoBehaviour
     {
         [Header("Building Properties")]
-        public string buildingName;
         public EBuildingType Type;
         public Vector2 gridPosition;
 
         [Header("Building Stats")]
-        [SerializeField]
         private int id;
-
-        [SerializeField]
         private int level = 1;
-
-        [SerializeField]
-        private int maxLevel = 3;
-
-        [SerializeField]
-        private int health = 100;
-
-        [SerializeField]
-        private int buildCost = 100;
-
-        [SerializeField]
-        private int upgradeCost = 50;
+        private BuildingConfigSO _buildingConfigSO;
 
         [Header("Building Size")]
         public Vector2 size = new Vector2(3, 3); // Size in grid cells
@@ -40,10 +25,7 @@ namespace ChaosAge
         private BuildingVisual _buildingVisual;
         public int Id => id;
         public int Level => level;
-        public int MaxLevel => maxLevel;
-        public int Health => health;
-        public int BuildCost => buildCost;
-        public int UpgradeCost => upgradeCost;
+        public BuildingConfigSO BuildingConfigSO => _buildingConfigSO;
 
         // For moving building
         private Vector2 originalGridPosition;
@@ -65,7 +47,14 @@ namespace ChaosAge
             this.gridPosition = new Vector2(buildingData.x, buildingData.y);
 
             SetGridPosition(gridPosition);
+
+            LoadConfig();
             _buildingVisual.SetVisual(level);
+        }
+
+        private void LoadConfig()
+        {
+            _buildingConfigSO = SOManager.Instance.GetSO<BuildingConfigSO>($"{Type}_{level}");
         }
 
         public void Select()
@@ -95,7 +84,7 @@ namespace ChaosAge
         {
             SetGridPosition(cellPos - offset);
 
-            if (BuildingManager.Instance.CheckOverlapBuilding(this))
+            if (BuildingManager.Instance.CanPlaceBuilding(this) == false)
             {
                 OverlapBuilding();
             }
@@ -108,7 +97,7 @@ namespace ChaosAge
         public void StopMoving()
         {
             // TODO: Implement stopping movement
-            if (BuildingManager.Instance.CheckOverlapBuilding(this) == true)
+            if (BuildingManager.Instance.CanPlaceBuilding(this) == true)
             {
                 SetGridPosition(originalGridPosition);
             }
@@ -131,31 +120,11 @@ namespace ChaosAge
 
         public void Upgrade()
         {
-            if (level < maxLevel)
-            {
-                level++;
-                DataManager.Instance.SaveBuilding(this);
-                _buildingVisual.SetVisual(level);
-            }
-            else
-            {
-                GameManager.Instance.Log("Failed to upgrade, max level");
-            }
-        }
+            level++;
+            DataManager.Instance.SaveBuilding(this);
 
-        public void TakeDamage(int damage)
-        {
-            health -= damage;
-            if (health <= 0)
-            {
-                DestroyBuilding();
-            }
-        }
-
-        private void DestroyBuilding()
-        {
-            // TODO: Add destruction effects
-            Destroy(gameObject);
+            LoadConfig();
+            _buildingVisual.SetVisual(level);
         }
 
         public bool IsCellPositionInBuilding(Vector2 cellPos)
@@ -173,7 +142,7 @@ namespace ChaosAge
 
         public void OnBuildOk()
         {
-            if (BuildingManager.Instance.CheckOverlapBuilding(this))
+            if (BuildingManager.Instance.CanPlaceBuilding(this))
             {
                 GameManager.Instance.Log("Overlap building");
             }

@@ -1,6 +1,4 @@
 using System;
-using ChaosAge.building;
-using ChaosAge.Managers;
 using UnityEngine;
 
 namespace ChaosAge.input

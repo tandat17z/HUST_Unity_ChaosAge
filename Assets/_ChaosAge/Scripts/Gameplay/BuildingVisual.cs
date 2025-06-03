@@ -64,8 +64,8 @@ namespace ChaosAge
         {
             if (healthBar != null)
             {
-                float healthPercentage = (float)building.Health / 100f;
-                healthBar.fillAmount = healthPercentage;
+                // float healthPercentage = (float)building.Health / 100f;
+                // healthBar.fillAmount = healthPercentage;
             }
         }
 

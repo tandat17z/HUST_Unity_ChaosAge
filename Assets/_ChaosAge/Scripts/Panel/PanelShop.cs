@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using ChaosAge.Config;
-using ChaosAge.input;
-using ChaosAge.UI.elements;
-using DatSystem;
 using DatSystem.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,16 +15,18 @@ public class PanelShop : Panel
     {
         base.OnSetup();
         btnClose.onClick.AddListener(Close);
-
-        foreach (var buildingInShop in _buildingInShops)
-        {
-            buildingInShop.OnSetup();
-        }
     }
 
     public override void Open(UIData uiData)
     {
         base.Open(uiData);
+
+        Debug.LogWarning("Open");
+
+        foreach (var buildingInShop in _buildingInShops)
+        {
+            buildingInShop.SetInfo();
+        }
     }
 
     public override void Close()

@@ -27,7 +27,7 @@ namespace AILibraryForNPC.Examples
             _distanceToTownhall = float.MaxValue;
             foreach (var building in buildings)
             {
-                if (building.health > 0 && building.type == EBuildingType.archertower)
+                if (building.health > 0 && building.type == EBuildingType.ArcherTowner)
                 {
                     var dis = Vector3.Distance(
                         agent.transform.position,
@@ -39,7 +39,7 @@ namespace AILibraryForNPC.Examples
                         archerTower = building;
                     }
                 }
-                if (building.health > 0 && building.type == EBuildingType.townhall)
+                if (building.health > 0 && building.type == EBuildingType.TownHall)
                 {
                     var dis = Vector3.Distance(
                         agent.transform.position,

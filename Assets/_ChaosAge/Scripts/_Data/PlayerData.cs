@@ -8,6 +8,7 @@ namespace ChaosAge.Data
 
     public class PlayerData
     {
+        public int level;
         public int Gold;
         public int Elixir;
         public int Gem;
@@ -73,6 +74,18 @@ namespace ChaosAge.Data
         }
 
         public int GetResourceAmount(EResourceType resourceType)
+        {
+            switch (resourceType)
+            {
+                case EResourceType.Gold:
+                    return Gold;
+                case EResourceType.Elixir:
+                    return Elixir;
+            }
+            return 0;
+        }
+
+        public int GetResource(EResourceType resourceType)
         {
             switch (resourceType)
             {

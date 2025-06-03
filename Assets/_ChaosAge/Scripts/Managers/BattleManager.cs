@@ -116,7 +116,7 @@ namespace ChaosAge.manager
                     _buildings[i].battleBuidlingConfig.y + _buildings[i].battleBuidlingConfig.rows;
 
                 if (
-                    _buildings[i].battleBuidlingConfig.type != EBuildingType.wall
+                    _buildings[i].battleBuidlingConfig.type != EBuildingType.Wall
                     && _buildings[i].battleBuidlingConfig.columns > 1
                     && _buildings[i].battleBuidlingConfig.rows > 1
                 )
@@ -516,17 +516,17 @@ namespace ChaosAge.manager
                 );
                 switch (_buildings[i].battleBuidlingConfig.type)
                 {
-                    case EBuildingType.townhall:
-                    case EBuildingType.elixirmine:
-                    case EBuildingType.elixirstorage:
+                    case EBuildingType.TownHall:
+                    case EBuildingType.ElixirMine:
+                    case EBuildingType.ElixirStorage:
                     //case EBuildingType.darkelixirmine:
                     //case EBuildingType.darkelixirstorage:
-                    case EBuildingType.goldmine:
-                    case EBuildingType.goldstorage:
+                    case EBuildingType.GoldMine:
+                    case EBuildingType.GoldStorage:
                         _units[unitIdx].resourceTargets.Add(i, distance);
                         break;
-                    case EBuildingType.cannon:
-                    case EBuildingType.archertower:
+                    case EBuildingType.Cannon:
+                    case EBuildingType.ArcherTowner:
                         //case EBuildingType.mortor:
                         //case EBuildingType.airdefense:
                         //case EBuildingType.wizardtower:
@@ -536,7 +536,7 @@ namespace ChaosAge.manager
                         //case EBuildingType.infernotower:
                         _units[unitIdx].defenceTargets.Add(i, distance);
                         break;
-                    case EBuildingType.wall:
+                    case EBuildingType.Wall:
                         // Don't include
                         break;
                     default:
@@ -630,7 +630,7 @@ namespace ChaosAge.manager
                             || _units[i].mainTarget != target.Key
                             || _units[i].mainTarget < 0
                             || _buildings[_units[i].mainTarget].battleBuidlingConfig.type
-                                != EBuildingType.wall
+                                != EBuildingType.Wall
                             || _buildings[_units[i].mainTarget].health <= 0
                         )
                         {
@@ -697,7 +697,7 @@ namespace ChaosAge.manager
                                 )
                                 {
                                     if (
-                                        blockedTiles[j].id == EBuildingType.wall
+                                        blockedTiles[j].id == EBuildingType.Wall
                                         && _buildings[blockedTiles[j].index].health > 0
                                     )
                                     {
@@ -723,7 +723,7 @@ namespace ChaosAge.manager
         private (int, Path) GetPathToBuilding(int buildingIndex, int unitIndex) // ok
         {
             // Nếu là tường, decor, obstacle thì return null
-            if (_buildings[buildingIndex].battleBuidlingConfig.type == EBuildingType.wall) // || _buildings[buildingIndex].building.type == EBuildingType.decoration || _buildings[buildingIndex].building.type == EBuildingType.obstacle)
+            if (_buildings[buildingIndex].battleBuidlingConfig.type == EBuildingType.Wall) // || _buildings[buildingIndex].building.type == EBuildingType.decoration || _buildings[buildingIndex].building.type == EBuildingType.obstacle)
             {
                 return (-1, null);
             }
@@ -746,7 +746,7 @@ namespace ChaosAge.manager
 
             if (
                 _units[unitIndex].unit.movement == Data.UnitMoveType.ground
-                && _buildings[buildingIndex].battleBuidlingConfig.type == EBuildingType.wall
+                && _buildings[buildingIndex].battleBuidlingConfig.type == EBuildingType.Wall
             )
             {
                 startX--;
@@ -818,7 +818,7 @@ namespace ChaosAge.manager
                                         )
                                         {
                                             if (
-                                                blockedTiles[j].id == EBuildingType.wall
+                                                blockedTiles[j].id == EBuildingType.Wall
                                                 && _buildings[blockedTiles[j].index].health > 0
                                             )
                                             {
@@ -853,7 +853,7 @@ namespace ChaosAge.manager
                             || _units[i].mainTarget != buildingIndex
                             || _units[i].mainTarget < 0
                             || _buildings[_units[i].mainTarget].battleBuidlingConfig.type
-                                != EBuildingType.wall
+                                != EBuildingType.Wall
                             || _buildings[_units[i].mainTarget].health <= 0
                         )
                         {

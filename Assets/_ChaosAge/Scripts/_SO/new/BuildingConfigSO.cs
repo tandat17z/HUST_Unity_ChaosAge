@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ChaosAge.Config;
 using UnityEngine;
 
@@ -6,8 +7,12 @@ public class BuildingConfigSO : ScriptableObject
 {
     public EBuildingType buildingType;
     public int level;
-    public int costGold;
-    public int costElixir;
+
+    [Header("Upgrade Config")]
+    public int unlockedLevel;
     public int timeToBuild;
+    public List<ResourceAndQuantity> costs;
+
+    [Header("Properties")]
     public int health;
 }
