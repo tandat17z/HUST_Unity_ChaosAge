@@ -27,7 +27,7 @@ public class UIBuildingInShop : MonoBehaviour
     private TMP_Text _textNumber;
 
     [SerializeField]
-    private List<GroupResource> _groupResources;
+    private UIResourceCost _uiResourceCost;
 
     private void Start()
     {
@@ -47,30 +47,7 @@ public class UIBuildingInShop : MonoBehaviour
         _textNumber.text = $"{num}/{maxNum}";
         _textNumber.color = num >= maxNum ? Color.red : Color.white;
 
-        ResetGroupResource();
-        foreach (var cost in buildingConfigSO.costs)
-        {
-            var groupResource = GetGroupResource(cost.resourceType);
-            groupResource.textCost.text = cost.quantity.ToString();
-            groupResource.textCost.color =
-                cost.quantity >= playerData.GetResource(cost.resourceType)
-                    ? Color.red
-                    : Color.white;
-            groupResource.objCost.SetActive(true);
-        }
-    }
-
-    private void ResetGroupResource()
-    {
-        foreach (var groupResource in _groupResources)
-        {
-            groupResource.objCost.SetActive(false);
-        }
-    }
-
-    private GroupResource GetGroupResource(EResourceType resourceType)
-    {
-        return _groupResources.Find(group => group.resourceType == resourceType);
+        _uiResourceCost.SetInfo(buildingConfigSO.costs.ToArray());
     }
 
     private void OnClick()
@@ -92,12 +69,4 @@ public class UIBuildingInShop : MonoBehaviour
         _textName.text = _buildingType.ToString();
     }
 #endif
-
-    [System.Serializable]
-    public class GroupResource
-    {
-        public EResourceType resourceType;
-        public GameObject objCost;
-        public TMP_Text textCost;
-    }
 }

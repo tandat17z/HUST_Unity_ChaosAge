@@ -38,7 +38,7 @@ namespace ChaosAge.manager
         {
             // load data
             DataManager.Instance.LoadPlayerData();
-            DataManager.Instance.LoadGameConfig();
+            // DataManager.Instance.LoadGameConfig();
 
             // load
             _playerData = DataManager.Instance.PlayerData;

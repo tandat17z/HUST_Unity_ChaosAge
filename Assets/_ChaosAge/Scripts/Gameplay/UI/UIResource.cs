@@ -1,5 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using ChaosAge;
+using ChaosAge.Config;
+using DatSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,11 +18,10 @@ public class UIResource : MonoBehaviour
     [SerializeField]
     private Image _imageSlider;
 
-    private int _maxAmount = 100;
-
     public void SetInfo(int amount)
     {
-        _textMeshProUGUI.text = amount.ToString();
+        var _maxAmount = DataManager.Instance.GetMaxResource(ResourceType);
+        _textMeshProUGUI.text = amount.ToString() + "/" + _maxAmount;
         _imageSlider.fillAmount = (float)amount / _maxAmount;
     }
 }

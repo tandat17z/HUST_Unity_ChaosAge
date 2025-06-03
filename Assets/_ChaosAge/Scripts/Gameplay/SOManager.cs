@@ -16,6 +16,8 @@ public class SOManager : Singleton<SOManager>
         {
             name = typeof(T).Name;
         }
+
+        Debug.LogWarning("GetSO: " + name);
         if (!_soMap.ContainsKey(name))
         {
             _soMap[name] = Resources.Load<T>($"SO/{name}");

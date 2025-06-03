@@ -26,7 +26,11 @@ namespace ChaosAge
         private Building _townhall;
         public Building SelectedBuilding => _selectedBuilding;
         private Building _selectedBuilding;
+
+        public List<Building> Buildings => _buildings;
         private List<Building> _buildings = new List<Building>();
+
+        public static Action OnCompleteBuild;
 
         #region Load map
         public void LoadMap(List<BuildingData> listBuildingData)
@@ -41,6 +45,8 @@ namespace ChaosAge
                     _townhall = building;
                 }
             }
+
+            DataManager.Instance.UpdateMaxResource();
         }
 
         public void Clear()
@@ -166,6 +172,7 @@ namespace ChaosAge
         {
             var data = DataManager.Instance.CreateBuilding(
                 buildingType,
+                0,
                 new Vector2(20, 20),
                 false
             );
@@ -195,6 +202,7 @@ namespace ChaosAge
         {
             BeginUpgrade(building);
             DataManager.Instance.PlayerData.AddBuilding(building.GetData());
+            OnCompleteBuild?.Invoke();
         }
 
         public void BeginUpgrade(Building building)
@@ -208,6 +216,7 @@ namespace ChaosAge
                 playerData.ReduceResource(cost.resourceType, cost.quantity);
             }
         }
+
         #endregion
     }
 }

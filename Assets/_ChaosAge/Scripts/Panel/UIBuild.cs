@@ -9,9 +9,14 @@ using UnityEngine.UI;
 
 public class UIBuild : Panel
 {
-    [SerializeField] RectTransform pButton;
-    [SerializeField] Button btnConfirm;
-    [SerializeField] Button btnCancel;
+    [SerializeField]
+    RectTransform pButton;
+
+    [SerializeField]
+    Button btnConfirm;
+
+    [SerializeField]
+    Button btnCancel;
 
     private PlayerData _playerData;
     private GameConfig _gameConfig;
@@ -28,7 +33,7 @@ public class UIBuild : Panel
         base.Open(uiData);
 
         _playerData = DataManager.Instance.PlayerData;
-        _gameConfig = DataManager.Instance.GameConfig;
+        _gameConfig = null;
     }
 
     private void OnConfirm()
@@ -60,7 +65,10 @@ public class UIBuild : Panel
         if (building)
         {
             var screenPos = Camera.main.WorldToScreenPoint(building.transform.position);
-            pButton.anchoredPosition = new Vector2(screenPos.x - Screen.width / 2, screenPos.y - Screen.height / 2);
+            pButton.anchoredPosition = new Vector2(
+                screenPos.x - Screen.width / 2,
+                screenPos.y - Screen.height / 2
+            );
         }
     }
 }

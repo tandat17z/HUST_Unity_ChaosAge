@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ChaosAge;
 using ChaosAge.Config;
 using ChaosAge.Data;
@@ -9,7 +10,10 @@ namespace DatSystem
 {
     public class DataManager : Singleton<DataManager>
     {
-        protected override void OnAwake() { }
+        protected override void OnAwake()
+        {
+            BuildingManager.OnCompleteBuild += UpdateMaxResource;
+        }
 
         private int CountBuildingId
         {
@@ -17,15 +21,11 @@ namespace DatSystem
             set => PlayerPrefs.SetInt("COUNT_BUILDING_ID", value);
         }
         private PlayerData _playerData;
-        private GameConfig _gameConfig;
         public PlayerData PlayerData
         {
             get { return _playerData; }
         }
-        public GameConfig GameConfig
-        {
-            get { return _gameConfig; }
-        }
+        private Dictionary<EResourceType, int> _dictMaxResource = new();
 
         public void LoadPlayerData()
         {
@@ -33,23 +33,28 @@ namespace DatSystem
             if (_playerData.buildingIds.Count == 0) // new player
             {
                 _playerData.AddBuilding(
-                    CreateBuilding(EBuildingType.TownHall, new Vector2(20, 20))
+                    CreateBuilding(EBuildingType.TownHall, 1, new Vector2(20, 20))
                 );
                 _playerData.AddBuilding(
-                    CreateBuilding(EBuildingType.BuildersHut, new Vector2(25, 20))
+                    CreateBuilding(EBuildingType.BuildersHut, 1, new Vector2(25, 20))
                 );
                 _playerData.AddBuilding(
-                    CreateBuilding(EBuildingType.GoldMine, new Vector2(28, 20))
+                    CreateBuilding(EBuildingType.GoldMine, 1, new Vector2(28, 20))
                 );
                 _playerData.AddBuilding(
-                    CreateBuilding(EBuildingType.GoldStorage, new Vector2(32, 20))
+                    CreateBuilding(EBuildingType.GoldStorage, 1, new Vector2(32, 20))
                 );
             }
         }
 
-        public BuildingData CreateBuilding(EBuildingType type, Vector2 position, bool isSave = true)
+        public BuildingData CreateBuilding(
+            EBuildingType type,
+            int level,
+            Vector2 position,
+            bool isSave = true
+        )
         {
-            var buildingData = new BuildingData(CountBuildingId, type, 0, position);
+            var buildingData = new BuildingData(CountBuildingId, type, level, position);
             CountBuildingId++;
             if (isSave)
             {
@@ -58,15 +63,42 @@ namespace DatSystem
             return buildingData;
         }
 
-        public void LoadGameConfig()
-        {
-            _gameConfig = GameConfig.LoadFromFile("Assets/_ChaosAge/Config.json");
-        }
-
-        internal void SaveBuilding(Building building)
+        public void SaveBuilding(Building building)
         {
             var buildingData = building.GetData();
             buildingData.Save();
+        }
+
+        public int GetMaxResource(EResourceType resourceType)
+        {
+            return _dictMaxResource[resourceType];
+        }
+
+        public void UpdateMaxResource()
+        {
+            _dictMaxResource.Clear();
+            _dictMaxResource[EResourceType.Gold] = 0;
+            _dictMaxResource[EResourceType.Elixir] = 0;
+            foreach (var building in BuildingManager.Instance.Buildings)
+            {
+                var buildingConfig = building.BuildingConfigSO;
+                switch (building.Type)
+                {
+                    case EBuildingType.TownHall:
+                        var townHallSO = buildingConfig as TownhallConfigSO;
+                        foreach (var capa in townHallSO.capacities)
+                        {
+                            _dictMaxResource[capa.resourceType] += capa.quantity;
+                        }
+                        break;
+                    case EBuildingType.GoldStorage:
+                    case EBuildingType.ElixirStorage:
+                        var storageSO = buildingConfig as StorageConfigSO;
+                        var capacity = storageSO.capacity;
+                        _dictMaxResource[capacity.resourceType] += capacity.quantity;
+                        break;
+                }
+            }
         }
     }
 }

@@ -10,10 +10,14 @@ using UnityEngine.UI;
 public class PanelBuildingOption : Panel
 {
     [SerializeField]
+    private Button btnOptionInfo;
+
+    [Header("Upgrade")]
+    [SerializeField]
     private Button btnOptionUpgrade;
 
     [SerializeField]
-    private Button btnOptionInfo;
+    private UIResourceCost uiResourceCost;
 
     private Building _building;
 
@@ -51,8 +55,19 @@ public class PanelBuildingOption : Panel
     {
         base.Open(uiData);
 
-        Debug.Log("Open PanelBuildingOption");
         _building = ChaosAge.BuildingManager.Instance.SelectedBuilding;
+
+        var buildingConfigSO = SOManager.Instance.GetSO<BuildingConfigSO>(
+            $"{_building.Type}_{_building.Level + 1}"
+        );
+        if (buildingConfigSO != null)
+        {
+            uiResourceCost.SetInfo(buildingConfigSO.costs.ToArray());
+        }
+        else
+        {
+            uiResourceCost.SetInfo(new ResourceAndQuantity[] { });
+        }
     }
 
     public override void Close()

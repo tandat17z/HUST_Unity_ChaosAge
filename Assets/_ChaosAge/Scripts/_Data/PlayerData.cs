@@ -4,6 +4,7 @@ namespace ChaosAge.Data
     using System.Collections.Generic;
     using System.IO;
     using ChaosAge.Config;
+    using DatSystem;
     using UnityEngine;
 
     public class PlayerData
@@ -51,15 +52,14 @@ namespace ChaosAge.Data
 
         public static PlayerData Load()
         {
+            var playerData = new PlayerData();
             if (PlayerPrefs.HasKey("PLAYER_DATA"))
             {
                 Debug.Log("Load player from PlayerPref");
                 string json = PlayerPrefs.GetString("PLAYER_DATA");
-
-                return JsonUtility.FromJson<PlayerData>(json);
+                playerData = JsonUtility.FromJson<PlayerData>(json);
             }
-            Debug.Log("Load new player");
-            return new PlayerData();
+            return playerData;
         }
 
         public List<BuildingData> GetListBuildingData()
@@ -78,10 +78,18 @@ namespace ChaosAge.Data
             switch (resourceType)
             {
                 case EResourceType.Gold:
-                    Gold += amount;
+                    Gold = Mathf.Clamp(
+                        Gold + amount,
+                        0,
+                        DataManager.Instance.GetMaxResource(EResourceType.Gold)
+                    );
                     break;
                 case EResourceType.Elixir:
-                    Elixir += amount;
+                    Elixir = Mathf.Clamp(
+                        Elixir + amount,
+                        0,
+                        DataManager.Instance.GetMaxResource(EResourceType.Elixir)
+                    );
                     break;
             }
             Save();
