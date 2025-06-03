@@ -31,8 +31,14 @@ public class PanelBuildingOption : Panel
 
     private void OnClickOptionUpgrade()
     {
-        if (ChaosAge.BuildingManager.Instance.CanUpgradeBuilding(_building.Type, _building.Level))
+        if (
+            ChaosAge.BuildingManager.Instance.CanUpgradeBuilding(
+                _building.Type,
+                _building.Level + 1
+            )
+        )
         {
+            ChaosAge.BuildingManager.Instance.BeginUpgrade(_building);
             _building.Upgrade();
         }
         else

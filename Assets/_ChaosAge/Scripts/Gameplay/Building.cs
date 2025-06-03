@@ -48,8 +48,8 @@ namespace ChaosAge
 
             SetGridPosition(gridPosition);
 
-            LoadConfig();
             _buildingVisual.SetVisual(level);
+            LoadConfig();
         }
 
         private void LoadConfig()
@@ -148,15 +148,11 @@ namespace ChaosAge
             }
             else
             {
-                GameManager.Instance.Log("Build building");
                 StopMoving();
                 IsBuilding = false;
                 _buildingVisual.HideBuildUI();
 
-                // save building data
-                var newBuildingData = GetData();
-                newBuildingData.Save();
-                DataManager.Instance.PlayerData.AddBuilding(newBuildingData);
+                BuildingManager.Instance.BeginBuild(this);
             }
         }
 

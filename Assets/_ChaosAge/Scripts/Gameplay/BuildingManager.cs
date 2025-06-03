@@ -105,6 +105,10 @@ namespace ChaosAge
             var buildingConfigSO = SOManager.Instance.GetSO<BuildingConfigSO>(
                 $"{buildingType}_{level}"
             );
+            if (buildingConfigSO == null)
+            {
+                return false;
+            }
             foreach (var cost in buildingConfigSO.costs)
             {
                 if (playerData.GetResource(cost.resourceType) < cost.quantity)
@@ -185,6 +189,24 @@ namespace ChaosAge
 
             _buildings.Add(spawned);
             return spawned;
+        }
+
+        public void BeginBuild(Building building)
+        {
+            BeginUpgrade(building);
+            DataManager.Instance.PlayerData.AddBuilding(building.GetData());
+        }
+
+        public void BeginUpgrade(Building building)
+        {
+            var playerData = DataManager.Instance.PlayerData;
+            var buildingConfigSO = SOManager.Instance.GetSO<BuildingConfigSO>(
+                $"{building.Type}_{building.Level + 1}"
+            );
+            foreach (var cost in buildingConfigSO.costs)
+            {
+                playerData.ReduceResource(cost.resourceType, cost.quantity);
+            }
         }
         #endregion
     }

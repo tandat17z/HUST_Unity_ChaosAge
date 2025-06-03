@@ -49,7 +49,7 @@ namespace DatSystem
 
         public BuildingData CreateBuilding(EBuildingType type, Vector2 position, bool isSave = true)
         {
-            var buildingData = new BuildingData(CountBuildingId, type, 1, position);
+            var buildingData = new BuildingData(CountBuildingId, type, 0, position);
             CountBuildingId++;
             if (isSave)
             {

@@ -73,16 +73,18 @@ namespace ChaosAge.Data
             return listBuildingData;
         }
 
-        public int GetResourceAmount(EResourceType resourceType)
+        public void AddResource(EResourceType resourceType, int amount)
         {
             switch (resourceType)
             {
                 case EResourceType.Gold:
-                    return Gold;
+                    Gold += amount;
+                    break;
                 case EResourceType.Elixir:
-                    return Elixir;
+                    Elixir += amount;
+                    break;
             }
-            return 0;
+            Save();
         }
 
         public int GetResource(EResourceType resourceType)
@@ -95,6 +97,20 @@ namespace ChaosAge.Data
                     return Elixir;
             }
             return 0;
+        }
+
+        public void ReduceResource(EResourceType resourceType, int amount)
+        {
+            switch (resourceType)
+            {
+                case EResourceType.Gold:
+                    Gold -= amount;
+                    break;
+                case EResourceType.Elixir:
+                    Elixir -= amount;
+                    break;
+            }
+            Save();
         }
     }
 }

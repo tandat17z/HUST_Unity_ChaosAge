@@ -61,7 +61,7 @@ public class PanelMainUI : Panel
     {
         foreach (var resource in UIResources)
         {
-            resource.SetInfo(_playerData.GetResourceAmount(resource.ResourceType));
+            resource.SetInfo(_playerData.GetResource(resource.ResourceType));
         }
     }
 
