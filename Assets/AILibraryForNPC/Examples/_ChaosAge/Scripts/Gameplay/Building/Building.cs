@@ -3,17 +3,25 @@ namespace ChaosAge.building
     using ChaosAge.data;
     using ChaosAge.manager;
     using DatSystem;
+    using Sirenix.OdinInspector;
     using UnityEngine;
+    using UnityEngine.VFX;
 
     public class Building : MonoBehaviour
     {
         [Header("Building Properties")]
         public EBuildingType Type;
+
+        [SerializeField, ReadOnly]
         public Vector2 gridPosition;
 
         [Header("Building Stats")]
         private int id;
+
+        [SerializeField, ReadOnly]
         private int level = 1;
+
+        [SerializeField, ReadOnly]
         private BuildingConfigSO _buildingConfigSO;
 
         [Header("Building Size")]
@@ -21,6 +29,9 @@ namespace ChaosAge.building
 
         public BuildingVisual BuildingVisual => _buildingVisual;
         private BuildingVisual _buildingVisual;
+
+        private BuildingTimer _buildingTimer;
+
         public int Id => id;
         public int Level => level;
         public BuildingConfigSO BuildingConfigSO => _buildingConfigSO;
@@ -35,6 +46,9 @@ namespace ChaosAge.building
         private void Awake()
         {
             _buildingVisual = GetComponent<BuildingVisual>();
+            _buildingTimer = GetComponent<BuildingTimer>();
+
+            _buildingTimer.OnTimerEnded += CompleteUpgrade;
         }
 
         public void SetInfo(BuildingData buildingData)
@@ -46,8 +60,14 @@ namespace ChaosAge.building
 
             SetGridPosition(gridPosition);
 
-            _buildingVisual.SetVisual(level);
             LoadConfig();
+
+            UpdateVisual();
+        }
+
+        private void UpdateVisual()
+        {
+            _buildingVisual.Init();
         }
 
         private void LoadConfig()
@@ -55,6 +75,13 @@ namespace ChaosAge.building
             _buildingConfigSO = SOManager.Instance.GetSO<BuildingConfigSO>($"{Type}_{level}");
         }
 
+        public BuildingData GetData()
+        {
+            var remainingTime = _buildingTimer.GetRemainingTime();
+            return new BuildingData(id, Type, level, gridPosition, remainingTime);
+        }
+
+        #region Select/ Deselect
         public void Select()
         {
             _buildingVisual?.OnBuildingSelected();
@@ -70,6 +97,27 @@ namespace ChaosAge.building
         public void OverlapBuilding()
         {
             _buildingVisual?.OnBuildingOverlap();
+        }
+        #endregion
+
+        #region Moving
+        public bool IsCellPositionInBuilding(Vector2 cellPos)
+        {
+            return cellPos.x >= gridPosition.x
+                && cellPos.x < gridPosition.x + size.x
+                && cellPos.y >= gridPosition.y
+                && cellPos.y < gridPosition.y + size.y;
+        }
+
+        public void SetGridPosition(Vector2 newPosition)
+        {
+            gridPosition = newPosition;
+            transform.position = BuildingManager.Instance.Grid.GetCenterPosition(
+                (int)newPosition.x,
+                (int)newPosition.y,
+                (int)size.x,
+                (int)size.y
+            );
         }
 
         public void StartMoving(Vector2 startCellPos)
@@ -104,60 +152,48 @@ namespace ChaosAge.building
 
             GameManager.Instance.Log("Stop moving");
         }
+        #endregion
 
-        public void SetGridPosition(Vector2 newPosition)
+        #region Build/Upgrade
+        public void StartUpgrade()
         {
-            gridPosition = newPosition;
-            transform.position = BuildingManager.Instance.Grid.GetCenterPosition(
-                (int)newPosition.x,
-                (int)newPosition.y,
-                (int)size.x,
-                (int)size.y
+            var nextLevel = level + 1;
+            var nextBuildingConfigSO = SOManager.Instance.GetSO<BuildingConfigSO>(
+                $"{Type}_{nextLevel}"
             );
+            _buildingTimer.StartTimer(nextBuildingConfigSO.timeToBuild);
+
+            _buildingVisual.HideBuildUI();
+            _buildingVisual.ShowUpgradeUI();
+            StopMoving();
         }
 
-        public void Upgrade()
+        public bool CheckUpgrading()
+        {
+            return _buildingTimer.IsTimerRunning;
+        }
+
+        public void CompleteUpgrade()
         {
             level++;
             DataManager.Instance.SaveBuilding(this);
 
             LoadConfig();
-            _buildingVisual.SetVisual(level);
+            UpdateVisual();
+
+            _buildingVisual.HideUpgradeUI();
+
+            BuildingManager.OnCompleteUpgrade?.Invoke();
         }
 
-        public bool IsCellPositionInBuilding(Vector2 cellPos)
+        #endregion
+
+#if UNITY_EDITOR
+        private void OnValidate()
         {
-            return cellPos.x >= gridPosition.x
-                && cellPos.x < gridPosition.x + size.x
-                && cellPos.y >= gridPosition.y
-                && cellPos.y < gridPosition.y + size.y;
+            _buildingVisual = GetComponent<BuildingVisual>();
+            _buildingVisual.SetSize(size);
         }
-
-        public BuildingData GetData()
-        {
-            return new BuildingData(id, Type, level, gridPosition);
-        }
-
-        public void OnBuildOk()
-        {
-            if (BuildingManager.Instance.CanPlaceBuilding(this))
-            {
-                GameManager.Instance.Log("Overlap building");
-            }
-            else
-            {
-                StopMoving();
-                IsBuilding = false;
-                _buildingVisual.HideBuildUI();
-
-                BuildingManager.Instance.BeginBuild(this);
-            }
-        }
-
-        public void OnBuildCancel()
-        {
-            BuildingManager.Instance.DeselectBuilding();
-            Destroy(gameObject);
-        }
+#endif
     }
 }

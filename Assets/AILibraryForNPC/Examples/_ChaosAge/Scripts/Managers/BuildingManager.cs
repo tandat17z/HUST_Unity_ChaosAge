@@ -31,7 +31,7 @@ namespace ChaosAge.manager
         public List<Building> Buildings => _buildings;
         private List<Building> _buildings = new List<Building>();
 
-        public static Action OnCompleteBuild;
+        public static Action OnCompleteUpgrade;
 
         #region Load map
         public void LoadMap(List<BuildingData> listBuildingData)
@@ -61,7 +61,7 @@ namespace ChaosAge.manager
 
         #endregion
 
-        #region Building
+        #region Select/Deselect
         public Building SelectBuilding(Vector2 gridPosition)
         {
             Debug.Log("SelectBuilding: " + gridPosition);
@@ -91,7 +91,9 @@ namespace ChaosAge.manager
                 _selectedBuilding = null;
             }
         }
+        #endregion
 
+        #region Check
         private bool DoBuildingsOverlap(Vector2 position1, Vector2 size1, Building building2)
         {
             Vector2 position2 = building2.gridPosition;
@@ -120,6 +122,9 @@ namespace ChaosAge.manager
             {
                 if (playerData.GetResource(cost.resourceType) < cost.quantity)
                 {
+                    Debug.LogWarning(
+                        $"Cannot upgrade building {buildingType} level {level} because player has not enough resource {cost.resourceType} {cost.quantity}"
+                    );
                     return false;
                 }
             }
@@ -130,6 +135,9 @@ namespace ChaosAge.manager
             );
             if (_townhall.Level < buildingConfigSO.unlockedLevel)
             {
+                Debug.LogWarning(
+                    $"Cannot upgrade building {buildingType} level {level} because townhall level is not enough {_townhall.Level} < {buildingConfigSO.unlockedLevel}"
+                );
                 return false;
             }
 
@@ -168,7 +176,9 @@ namespace ChaosAge.manager
             }
             return false;
         }
+        #endregion
 
+        #region Create
         public void CreateBuilding(EBuildingType buildingType)
         {
             var data = DataManager.Instance.CreateBuilding(
@@ -199,16 +209,31 @@ namespace ChaosAge.manager
             return spawned;
         }
 
-        public void BeginBuild(Building building)
-        {
-            BeginUpgrade(building);
+        #endregion
 
-            DataManager.Instance.PlayerData.AddBuilding(building.GetData());
-            OnCompleteBuild?.Invoke();
+        #region Build/Upgrade
+
+        public void OnBuildOk(Building building)
+        {
+            if (CanPlaceBuilding(building))
+            {
+                GameManager.Instance.Log("Overlap building");
+            }
+            else
+            {
+                StartBuild(building);
+            }
         }
 
-        public void BeginUpgrade(Building building)
+        public void StartBuild(Building building)
         {
+            StartUpgrade(building);
+            DataManager.Instance.PlayerData.AddBuilding(building.GetData());
+        }
+
+        public void StartUpgrade(Building building)
+        {
+            // Trừ tài nguyên
             var playerData = DataManager.Instance.PlayerData;
             var buildingConfigSO = SOManager.Instance.GetSO<BuildingConfigSO>(
                 $"{building.Type}_{building.Level + 1}"
@@ -218,7 +243,14 @@ namespace ChaosAge.manager
                 playerData.ReduceResource(cost.resourceType, cost.quantity);
             }
 
-            building.Upgrade();
+            // Bắt đầu upgrade
+            building.StartUpgrade();
+        }
+
+        public void OnBuildCancel(Building building)
+        {
+            building.Deselect();
+            Destroy(building.gameObject);
         }
 
         #endregion

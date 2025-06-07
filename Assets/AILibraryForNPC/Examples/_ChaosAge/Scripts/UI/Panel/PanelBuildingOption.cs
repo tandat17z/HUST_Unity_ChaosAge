@@ -32,9 +32,9 @@ public class PanelBuildingOption : Panel
 
     private void OnClickOptionUpgrade()
     {
-        if (BuildingManager.Instance.CanUpgradeBuilding(_building.Type, _building.Level + 1))
+        if (BuildingManager.Instance.CanUpgradeBuilding(_building.Type, _building.Level))
         {
-            BuildingManager.Instance.BeginUpgrade(_building);
+            BuildingManager.Instance.StartUpgrade(_building);
         }
         else
         {

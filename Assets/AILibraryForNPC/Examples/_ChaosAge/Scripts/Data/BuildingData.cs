@@ -20,16 +20,22 @@ namespace ChaosAge.data
         public int x;
         public int y;
 
-        public bool complete;
-        public float buildTime;
+        public float remainingTime;
 
-        public BuildingData(int id, EBuildingType type, int level, Vector2 gridPosition)
+        public BuildingData(
+            int id,
+            EBuildingType type,
+            int level,
+            Vector2 gridPosition,
+            float remainingTime = 0
+        )
         {
             this.id = id;
             this.type = type;
             this.level = level;
             this.x = (int)gridPosition.x;
             this.y = (int)gridPosition.y;
+            this.remainingTime = remainingTime;
         }
 
         public static BuildingData Load(int buildingId)

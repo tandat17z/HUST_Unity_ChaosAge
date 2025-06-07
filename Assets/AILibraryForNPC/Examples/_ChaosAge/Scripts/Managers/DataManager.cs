@@ -11,7 +11,7 @@ namespace DatSystem
     {
         protected override void OnAwake()
         {
-            BuildingManager.OnCompleteBuild += UpdateMaxResource;
+            BuildingManager.OnCompleteUpgrade += UpdateMaxResource;
         }
 
         private int CountBuildingId

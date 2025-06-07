@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using ChaosAge.manager;
 using DatSystem;
 using TMPro;
 using UnityEngine;
@@ -20,7 +21,10 @@ namespace ChaosAge.building
         private TextMeshProUGUI levelText;
 
         [SerializeField]
-        private Image healthBar;
+        private Image slider;
+
+        [SerializeField]
+        private TMP_Text sliderText;
 
         [Header("Build")]
         [SerializeField]
@@ -37,6 +41,10 @@ namespace ChaosAge.building
         private GameObject buildingModel;
 
         [SerializeField]
+        private GameObject buildingModelUpgrade;
+
+        [Header("UI")]
+        [SerializeField]
         private GameObject infoUI;
 
         [SerializeField]
@@ -52,21 +60,57 @@ namespace ChaosAge.building
             if (building == null)
                 building = GetComponent<Building>();
 
-            buttonBuildOk.onClick.AddListener(building.OnBuildOk);
-            buttonBuildCancel.onClick.AddListener(building.OnBuildCancel);
+            buttonBuildOk.onClick.AddListener(() =>
+            {
+                BuildingManager.Instance.OnBuildOk(building);
+            });
+            buttonBuildCancel.onClick.AddListener(() =>
+            {
+                BuildingManager.Instance.OnBuildCancel(building);
+            });
 
             HideBuildUI();
             HideInfoUI();
             HideBattleUI();
         }
 
-        private void UpdateHealthBar()
+        public void Init()
         {
-            if (healthBar != null)
+            HideBuildUI();
+            HideInfoUI();
+            HideBattleUI();
+
+            if (building.CheckUpgrading())
             {
-                // float healthPercentage = (float)building.Health / 100f;
-                // healthBar.fillAmount = healthPercentage;
+                ShowUpgradeUI();
             }
+            else
+            {
+                HideUpgradeUI();
+            }
+        }
+
+        public void ShowUpgradeUI()
+        {
+            buildingModelUpgrade.SetActive(true);
+            battleUI.SetActive(true);
+        }
+
+        public void HideUpgradeUI()
+        {
+            buildingModelUpgrade.SetActive(false);
+            battleUI.SetActive(false);
+        }
+
+        public void SetTime(float remainingTime, float duration)
+        {
+            sliderText.text = $"{(int)remainingTime}s";
+            slider.fillAmount = remainingTime / duration;
+        }
+
+        private void UpdateSlider(float percentage)
+        {
+            slider.fillAmount = percentage;
         }
 
         private void UpdateLevelDisplay()
@@ -115,11 +159,6 @@ namespace ChaosAge.building
             levelText.gameObject.SetActive(true);
         }
 
-        public void SetVisual(int level)
-        {
-            buildingModel.transform.localScale = new Vector3(1, level, 1);
-        }
-
         public void ShowInfoUI()
         {
             UpdateLevelDisplay();
@@ -146,6 +185,11 @@ namespace ChaosAge.building
         {
             var building = GetComponent<Building>();
             nameText.text = building.Type.ToString();
+        }
+
+        public void SetSize(Vector2 size)
+        {
+            meshRenderer.transform.localScale = new Vector3(size.x, size.y, 1);
         }
 #endif
     }
