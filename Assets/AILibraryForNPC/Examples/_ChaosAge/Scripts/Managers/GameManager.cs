@@ -53,29 +53,17 @@ namespace ChaosAge.manager
         public void SwitchToCity()
         {
             _gameState = GameState.City;
-            // BattleManager.Instance.Reset();
+            PanelManager.Instance.ClosePanel<PanelBattle>();
+            PanelManager.Instance.OpenPanel<PanelMainUI>();
 
             var buildingDatas = _playerData.GetListBuildingData();
             BuildingManager.Instance.LoadMap(buildingDatas);
-
-            PanelManager.Instance.OpenPanel<PanelMainUI>();
-        }
-
-        public void SwitchToBattle()
-        {
-            _gameState = GameState.Battle;
-            PanelManager.Instance.ClosePanel<PanelMainUI>();
-
-            PanelManager.Instance.OpenPanel<PanelBattle>();
-
-            // BattleManager.Instance.LoadLevel(0);
         }
 
         public void SwitchToBattleAI()
         {
             _gameState = GameState.BattleAI;
             PanelManager.Instance.ClosePanel<PanelMainUI>();
-
             PanelManager.Instance.OpenPanel<PanelBattle>();
 
             AIBattleManager.Instance.LoadLevel(0);

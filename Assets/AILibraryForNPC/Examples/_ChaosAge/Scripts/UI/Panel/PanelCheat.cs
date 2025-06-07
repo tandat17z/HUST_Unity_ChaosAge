@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using ChaosAge.data;
+using ChaosAge.manager;
 using DatSystem;
 using DatSystem.UI;
 using TMPro;
@@ -32,15 +36,31 @@ public class PanelCheat : Panel
 
         loadFromJson.onClick.AddListener(() =>
         {
-            Debug.Log($"Click load from file");
             if (int.TryParse(inputLevel.text, out var level))
             {
-                // var buildings = PlayerData.LoadFromFile($"Assets/Levels/{level}.json").buildings;
-                // BuildingManager.Instance.LoadMap(buildings);
+                var filePath = $"Assets/Levels/{level}.json";
+                string json = File.ReadAllText(filePath);
+                var buildingFile = JsonUtility.FromJson<PlayerData.BuildingFile>(json);
 
+                // lưu data hiện tại vào playerdata
+                SaveToPlayerData(buildingFile.listBuilding);
+
+                BuildingManager.Instance.LoadMap(buildingFile.listBuilding);
                 Debug.Log($"Load from file: {level}");
             }
         });
+    }
+
+    private void SaveToPlayerData(List<BuildingData> buildingDatas)
+    {
+        foreach (var buildingData in buildingDatas)
+        {
+            buildingData.Save();
+        }
+
+        var playerData = DataManager.Instance.PlayerData;
+        playerData.buildingIds = buildingDatas.Select(b => b.id).ToList();
+        playerData.Save();
     }
 
     public override void Open(UIData uiData)

@@ -29,9 +29,16 @@ namespace ChaosAge.data
             PlayerPrefs.SetString("PLAYER_DATA", json);
         }
 
+        public class BuildingFile
+        {
+            public List<BuildingData> listBuilding;
+        }
+
         public void SaveToFile(string filePath)
         {
-            string json = JsonUtility.ToJson(this, true);
+            var buildingFile = new BuildingFile();
+            buildingFile.listBuilding = GetListBuildingData();
+            string json = JsonUtility.ToJson(buildingFile, true);
             File.WriteAllText(filePath, json);
             Debug.Log("Saved to: " + filePath);
         }

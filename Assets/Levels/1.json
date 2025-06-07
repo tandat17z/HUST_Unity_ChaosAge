@@ -1,80 +1,76 @@
 {
-    "Gold": 0,
-    "Elixir": 0,
-    "Gem": 0,
-    "buildings": [
+    "listBuilding": [
         {
             "id": 0,
             "type": 0,
-            "level": 0,
-            "x": 23,
-            "y": 23,
-            "complete": false
+            "level": 2,
+            "x": 12,
+            "y": 29,
+            "remainingTime": 0.0
         },
         {
             "id": 1,
-            "type": 3,
-            "level": 0,
-            "x": 8,
-            "y": 25,
-            "complete": false
+            "type": 5,
+            "level": 1,
+            "x": 25,
+            "y": 20,
+            "remainingTime": 0.0
         },
         {
             "id": 2,
             "type": 1,
             "level": 1,
-            "x": 18,
-            "y": 33,
-            "complete": false
+            "x": 16,
+            "y": 17,
+            "remainingTime": 0.0
         },
         {
             "id": 3,
             "type": 2,
-            "level": 0,
-            "x": 7,
-            "y": 16,
-            "complete": false
+            "level": 1,
+            "x": 10,
+            "y": 23,
+            "remainingTime": 0.0
         },
         {
             "id": 4,
-            "type": 0,
-            "level": 3,
+            "type": 3,
+            "level": 2,
             "x": 20,
-            "y": 17,
-            "complete": false
-        },
-        {
-            "id": 5,
-            "type": 2,
-            "level": 1,
-            "x": 12,
-            "y": 30,
-            "complete": false
+            "y": 23,
+            "remainingTime": 0.0
         },
         {
             "id": 6,
-            "type": 12,
+            "type": 6,
             "level": 1,
             "x": 12,
-            "y": 20,
-            "complete": false
+            "y": 13,
+            "remainingTime": 0.0
         },
         {
             "id": 7,
-            "type": 12,
-            "level": 0,
-            "x": 12,
-            "y": 10,
-            "complete": false
+            "type": 8,
+            "level": 1,
+            "x": 20,
+            "y": 20,
+            "remainingTime": -0.015947800129652025
         },
         {
             "id": 8,
-            "type": 12,
-            "level": 0,
-            "x": 16,
-            "y": 13,
-            "complete": false
+            "type": 8,
+            "level": 1,
+            "x": 21,
+            "y": 20,
+            "remainingTime": -0.017251700162887574
+        },
+        {
+            "id": 9,
+            "type": 8,
+            "level": 1,
+            "x": 22,
+            "y": 20,
+            "remainingTime": -0.015607999637722969
         }
-    ],
-    "units": []
+    ]
 }

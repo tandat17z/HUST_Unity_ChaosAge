@@ -1,37 +1,52 @@
 {
-    "Gold": 0,
-    "Elixir": 0,
-    "Gem": 0,
-    "buildings": [
+    "listBuilding": [
         {
             "id": 0,
             "type": 0,
-            "level": 1,
-            "x": 11,
-            "y": 17,
-            "complete": false,
-            "buildTime": 0.0
+            "level": 2,
+            "x": 16,
+            "y": 22,
+            "remainingTime": 0.0
         },
-
         {
             "id": 1,
-            "type": 1,
+            "type": 5,
             "level": 1,
-            "x": 15,
-            "y": 25,
-            "complete": false,
-            "buildTime": 0.0
+            "x": 25,
+            "y": 20,
+            "remainingTime": 0.0
         },
-
         {
             "id": 2,
-            "type": 10,
+            "type": 1,
             "level": 1,
-            "x": 19,
+            "x": 16,
             "y": 17,
-            "complete": false,
-            "buildTime": 0.0
+            "remainingTime": 0.0
+        },
+        {
+            "id": 3,
+            "type": 2,
+            "level": 1,
+            "x": 10,
+            "y": 23,
+            "remainingTime": 0.0
+        },
+        {
+            "id": 4,
+            "type": 3,
+            "level": 2,
+            "x": 20,
+            "y": 23,
+            "remainingTime": 0.0
+        },
+        {
+            "id": 6,
+            "type": 6,
+            "level": 1,
+            "x": 12,
+            "y": 13,
+            "remainingTime": 0.0
         }
-    ],
-    "units": []
+    ]
 }

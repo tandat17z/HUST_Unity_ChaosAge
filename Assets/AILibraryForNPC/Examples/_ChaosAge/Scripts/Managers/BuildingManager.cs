@@ -171,10 +171,10 @@ namespace ChaosAge.manager
                     )
                 )
                 {
-                    return true;
+                    return false;
                 }
             }
-            return false;
+            return true;
         }
         #endregion
 
@@ -214,7 +214,7 @@ namespace ChaosAge.manager
 
         public void OnBuildOk(Building building)
         {
-            if (CanPlaceBuilding(building))
+            if (CanPlaceBuilding(building) == false)
             {
                 GameManager.Instance.Log("Overlap building");
             }

@@ -30,11 +30,6 @@ public class PanelMainUI : Panel
         btnBattle.onClick.AddListener(BattleButtonClicked);
     }
 
-    private void BattleAIButtonClicked()
-    {
-        GameManager.Instance.SwitchToBattleAI();
-    }
-
     private void ShopButtonClicked()
     {
         PanelManager.Instance.OpenPanel<PanelShop>();
@@ -44,7 +39,7 @@ public class PanelMainUI : Panel
 
     private void BattleButtonClicked()
     {
-        GameManager.Instance.SwitchToBattle();
+        GameManager.Instance.SwitchToBattleAI();
 
         // InputHandler.Instance.ActiveInteract(false);
     }

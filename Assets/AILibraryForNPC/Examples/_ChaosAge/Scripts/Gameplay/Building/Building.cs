@@ -146,7 +146,7 @@ namespace ChaosAge.building
         public void StopMoving()
         {
             // TODO: Implement stopping movement
-            if (BuildingManager.Instance.CanPlaceBuilding(this) == true)
+            if (BuildingManager.Instance.CanPlaceBuilding(this) == false)
             {
                 SetGridPosition(originalGridPosition);
             }
