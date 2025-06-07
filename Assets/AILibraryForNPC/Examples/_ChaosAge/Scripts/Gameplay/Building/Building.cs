@@ -1,5 +1,6 @@
 namespace ChaosAge.building
 {
+    using System;
     using ChaosAge.data;
     using ChaosAge.manager;
     using DatSystem;
@@ -40,8 +41,7 @@ namespace ChaosAge.building
         private Vector2 originalGridPosition;
         private Vector2 offset;
 
-        // For building
-        public bool IsBuilding { get; set; } = false;
+        public Action OnInitialized { get; set; }
 
         private void Awake()
         {
@@ -63,6 +63,9 @@ namespace ChaosAge.building
             LoadConfig();
 
             UpdateVisual();
+
+            Debug.Log($"Building {id} initialized");
+            OnInitialized?.Invoke();
         }
 
         private void UpdateVisual()

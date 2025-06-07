@@ -65,7 +65,7 @@
             // {
             if (EventSystem.current.IsPointerOverGameObject())
             {
-                Debug.Log("Click lên UI");
+                // Debug.Log("Click lên UI");
                 return;
             }
             HandleOneTouch();
@@ -198,7 +198,7 @@
             var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
             if (selectedBuilding != null)
             {
-                if (selectedBuilding.IsBuilding)
+                if (selectedBuilding.CheckUpgrading())
                     return;
 
                 selectedBuilding.StopMoving();
