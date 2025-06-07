@@ -18,7 +18,7 @@ MonoBehaviour:
   timeToBuild: 60
   costs:
   - resourceType: 0
-    quantity: 200
+    quantity: 150
   health: 200
   capacities:
   - resourceType: 0
