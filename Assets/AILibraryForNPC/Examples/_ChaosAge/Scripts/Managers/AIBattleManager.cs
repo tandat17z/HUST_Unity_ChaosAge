@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using AILibraryForNPC.Core;
 using ChaosAge.Battle;
 using ChaosAge.data;
@@ -29,10 +30,11 @@ namespace ChaosAge.AI.battle
 
         public void LoadLevel(int level)
         {
-            // BuildingManager.Instance.Clear();
+            var filePath = $"Assets/Levels/{level}.json";
+            string json = File.ReadAllText(filePath);
+            var buildingFile = JsonUtility.FromJson<PlayerData.BuildingFile>(json);
 
-            var opponentData = PlayerData.LoadFromFile($"Assets/Levels/{level}.json");
-            // Initialize(opponentData.buildingIds);
+            BuildingManager.Instance.LoadMap(buildingFile.listBuilding, true);
             ActiveAgent();
         }
 
@@ -82,7 +84,7 @@ namespace ChaosAge.AI.battle
 
         public void AddUnit(EUnitType unitType, int x, int y) // ok
         {
-            unitType = EUnitType.GOAPBarbarian;
+            // unitType = EUnitType.barbarian;
             var battleUnit = FactoryManager.Instance.SpawnUnit(unitType);
             battleUnit.SetInfo();
             // var position = BattleVector2.GridToWorldPosition(new BattleVector2Int(x, y));

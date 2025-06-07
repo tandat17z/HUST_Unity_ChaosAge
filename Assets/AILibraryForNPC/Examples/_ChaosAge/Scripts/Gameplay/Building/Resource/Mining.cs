@@ -31,7 +31,7 @@ namespace ChaosAge.building
         {
             _building = GetComponent<Building>();
             _building.OnInitialized += Init;
-
+            _building.OnStopRunning += OnStopRunning;
             _claimButton.onClick.AddListener(() =>
             {
                 var amount = Claim();
@@ -48,9 +48,15 @@ namespace ChaosAge.building
             });
         }
 
+        private void OnStopRunning()
+        {
+            _claimButton.gameObject.SetActive(false);
+        }
+
         void OnDestroy()
         {
             _building.OnInitialized -= Init;
+            _building.OnStopRunning -= OnStopRunning;
         }
 
         private void Init()
@@ -78,9 +84,6 @@ namespace ChaosAge.building
                 $"{_building.Id}_MiningStartClaimTime",
                 _startClaimTime.Ticks.ToString()
             );
-            Debug.Log($"Start Claim {_startClaimTime}");
-            Debug.Log($"Delta Time {deltaTime.TotalSeconds}");
-            Debug.Log($"Claim {amount} {_resourceType}");
             amount = Mathf.Min(amount, _capacity);
             return (int)amount;
         }

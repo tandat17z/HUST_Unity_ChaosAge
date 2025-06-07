@@ -33,6 +33,13 @@ namespace ChaosAge.building
             _remainingTime = 0;
 
             OnTimerEnded += OnComplete;
+            building.OnStopRunning += StopTimer;
+        }
+
+        private void OnDestroy()
+        {
+            OnTimerEnded -= OnComplete;
+            building.OnStopRunning -= StopTimer;
         }
 
         private void OnComplete()

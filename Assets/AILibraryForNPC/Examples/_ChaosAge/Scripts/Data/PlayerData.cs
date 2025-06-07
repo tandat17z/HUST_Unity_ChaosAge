@@ -14,7 +14,7 @@ namespace ChaosAge.data
         public int Gem;
 
         public List<int> buildingIds;
-        public List<UnitData> units;
+        public List<int> units;
 
         public PlayerData()
         {
@@ -125,6 +125,15 @@ namespace ChaosAge.data
                     break;
             }
             Save();
+        }
+
+        public int GetUnitNum(EUnitType unitType)
+        {
+            if (units.Count <= (int)unitType)
+            {
+                return 0;
+            }
+            return units[(int)unitType];
         }
     }
 }

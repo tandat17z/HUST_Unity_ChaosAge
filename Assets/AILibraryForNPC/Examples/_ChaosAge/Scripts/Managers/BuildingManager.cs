@@ -34,12 +34,12 @@ namespace ChaosAge.manager
         public static Action OnCompleteUpgrade;
 
         #region Load map
-        public void LoadMap(List<BuildingData> listBuildingData)
+        public void LoadMap(List<BuildingData> listBuildingData, bool isBattle = false)
         {
             Clear();
             foreach (var data in listBuildingData)
             {
-                var building = CreateBuilding(data);
+                var building = CreateBuilding(data, isBattle);
 
                 if (data.type == EBuildingType.TownHall)
                 {
@@ -179,7 +179,7 @@ namespace ChaosAge.manager
         #endregion
 
         #region Create
-        public void CreateBuilding(EBuildingType buildingType)
+        public void CreateBuilding(EBuildingType buildingType, bool isBattle = false)
         {
             var data = DataManager.Instance.CreateBuilding(
                 buildingType,
@@ -193,16 +193,20 @@ namespace ChaosAge.manager
                 _selectedBuilding.Deselect();
             }
 
-            _selectedBuilding = CreateBuilding(data);
+            _selectedBuilding = CreateBuilding(data, isBattle);
             _selectedBuilding.MoveTo(new Vector2(20, 20));
 
             _selectedBuilding.BuildingVisual.ShowBuildUI();
         }
 
-        public Building CreateBuilding(BuildingData data)
+        public Building CreateBuilding(BuildingData data, bool isBattle = false)
         {
             var spawned = FactoryManager.Instance.SpawnBuilding(data.type);
             spawned.SetInfo(data);
+            if (isBattle)
+            {
+                spawned.StopRunning();
+            }
 
             _buildings.Add(spawned);
             return spawned;

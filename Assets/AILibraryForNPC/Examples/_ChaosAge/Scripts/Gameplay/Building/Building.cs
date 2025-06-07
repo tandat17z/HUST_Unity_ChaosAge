@@ -42,6 +42,7 @@ namespace ChaosAge.building
         private Vector2 offset;
 
         public Action OnInitialized { get; set; }
+        public Action OnStopRunning { get; set; }
 
         private void Awake()
         {
@@ -198,5 +199,10 @@ namespace ChaosAge.building
             _buildingVisual.SetSize(size);
         }
 #endif
+
+        public void StopRunning()
+        {
+            OnStopRunning?.Invoke();
+        }
     }
 }

@@ -63,11 +63,12 @@ namespace ChaosAge.manager
         public void SwitchToBattleAI(int level)
         {
             Log($"SwitchToBattleAI: {level}");
-            // _gameState = GameState.BattleAI;
-            // PanelManager.Instance.ClosePanel<PanelMainUI>();
-            // PanelManager.Instance.OpenPanel<PanelBattle>();
+            _gameState = GameState.BattleAI;
+            PanelManager.Instance.ClosePanel<PopupSelectLevel>();
+            PanelManager.Instance.ClosePanel<PanelMainUI>();
+            PanelManager.Instance.OpenPanel<PanelBattle>();
 
-            // AIBattleManager.Instance.LoadLevel(level);
+            AIBattleManager.Instance.LoadLevel(level);
         }
 
         public void Log(string log)
@@ -82,7 +83,6 @@ namespace ChaosAge.manager
     public enum GameState
     {
         City,
-        Battle,
         BattleAI,
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using ChaosAge.data;
 using ChaosAge.manager;
 using DatSystem.UI;
@@ -9,29 +10,28 @@ public class PanelBattle : Panel
     [SerializeField]
     Button btnClose;
 
-    public static ButtonUnit SelectedButtonUnit;
+    [SerializeField]
+    UIButtonUnit[] btnUnits;
 
-    private bool _isActive = false;
+    public static EUnitType SelectedUnit;
 
     public override void OnSetup()
     {
         base.OnSetup();
 
-        btnClose.onClick.AddListener(Close);
+        btnClose.onClick.AddListener(() =>
+        {
+            GameManager.Instance.SwitchToCity();
+        });
     }
 
     public override void Open(UIData uiData)
     {
         base.Open(uiData);
-        _isActive = true;
-    }
-
-    public override void Close()
-    {
-        _isActive = false;
-
-        GameManager.Instance.SwitchToCity();
-        base.Close();
+        for (int i = 0; i < btnUnits.Length; i++)
+        {
+            btnUnits[i].SetUnit((EUnitType)i);
+        }
     }
 
     //private void Update()
@@ -50,8 +50,15 @@ public class PanelBattle : Panel
 
     public EUnitType GetCurrentBuildingType()
     {
-        if (SelectedButtonUnit == null)
-            return EUnitType.barbarian;
-        return SelectedButtonUnit.Type;
+        return SelectedUnit;
+    }
+
+    public void SetSelectedUnit(EUnitType unitType)
+    {
+        SelectedUnit = unitType;
+        for (int i = 0; i < btnUnits.Length; i++)
+        {
+            btnUnits[i].Deselect();
+        }
     }
 }

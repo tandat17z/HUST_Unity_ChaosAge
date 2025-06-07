@@ -167,6 +167,8 @@
             }
             else if (_inputStatus == EInputStatus.BuildingMoving)
             {
+                if (GameManager.Instance.GameState == GameState.BattleAI)
+                    return;
                 // TODO: Implement logic for moving buildings
                 var targetCellPos = GetCellPosition(end);
                 var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
@@ -181,6 +183,8 @@
             {
                 if (PanelManager.Instance.GetPanel<PanelBuildingOption>() == null)
                 {
+                    if (GameManager.Instance.GameState == GameState.BattleAI)
+                        return;
                     PanelManager.Instance.OpenPanel<PanelBuildingOption>();
                 }
             }
