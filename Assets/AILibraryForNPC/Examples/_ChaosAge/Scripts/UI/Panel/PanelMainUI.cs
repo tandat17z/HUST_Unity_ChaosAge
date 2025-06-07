@@ -39,7 +39,7 @@ public class PanelMainUI : Panel
 
     private void BattleButtonClicked()
     {
-        GameManager.Instance.SwitchToBattleAI();
+        PanelManager.Instance.OpenPanel<PopupSelectLevel>();
 
         // InputHandler.Instance.ActiveInteract(false);
     }

@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 3420285021241698860}
   - component: {fileID: 8677637850081359739}
   - component: {fileID: 9152696881108838393}
+  - component: {fileID: 2473835090914514756}
   m_Layer: 5
   m_Name: UIBuildingInShop
   m_TagString: Untagged
@@ -388,6 +389,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2473835090914514756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6777558877881637876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2252062895be3274e813cf8f30c02449, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  clickScale: 0.9
+  duration: 0.09
+  baseScale: {x: 1, y: 1, z: 1}
 --- !u!1 &7567939807766067935
 GameObject:
   m_ObjectHideFlags: 0

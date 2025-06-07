@@ -60,13 +60,14 @@ namespace ChaosAge.manager
             BuildingManager.Instance.LoadMap(buildingDatas);
         }
 
-        public void SwitchToBattleAI()
+        public void SwitchToBattleAI(int level)
         {
-            _gameState = GameState.BattleAI;
-            PanelManager.Instance.ClosePanel<PanelMainUI>();
-            PanelManager.Instance.OpenPanel<PanelBattle>();
+            Log($"SwitchToBattleAI: {level}");
+            // _gameState = GameState.BattleAI;
+            // PanelManager.Instance.ClosePanel<PanelMainUI>();
+            // PanelManager.Instance.OpenPanel<PanelBattle>();
 
-            AIBattleManager.Instance.LoadLevel(0);
+            // AIBattleManager.Instance.LoadLevel(level);
         }
 
         public void Log(string log)
