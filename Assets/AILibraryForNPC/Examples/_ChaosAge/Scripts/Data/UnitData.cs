@@ -27,8 +27,8 @@ namespace ChaosAge.data
     [Serializable]
     public enum EUnitType
     {
-        barbarian,
-        archer,
+        Barbarian,
+        Archer,
         // goblin,
         // healer,
         // wallbreaker,

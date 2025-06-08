@@ -2,7 +2,6 @@
 using System.Linq;
 using ChaosAge.AI.battle;
 using ChaosAge.data;
-using ChaosAge.manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,115 +10,47 @@ namespace ChaosAge.Battle
 {
     public class BattleUnit : MonoBehaviour
     {
-        [SerializeField]
-        Slider hpSlider;
-
-        [SerializeField]
-        TMP_Text text;
-
         public EUnitType Type
         {
-            get => unit.type;
+            get => unitConfig.type;
         }
 
-        public UnitData unit = null;
-        public float health = 0;
+        public UnitConfigSO unitConfig = null;
+        private VisualUnit _visualUnit;
+        public float Health => _health;
+        private float _health;
 
-        // public int target = -1;
-        // public int mainTarget = -1;
-        // public BattleVector2 position;
-        // public Path path = null;
-        // public float pathTime = 0;
-        // public float pathTraveledTime = 0;
-        // public float attackTimer = 0;
-
-        // <id, distance>
-        public Dictionary<int, float> resourceTargets = new Dictionary<int, float>();
-        public Dictionary<int, float> defenceTargets = new Dictionary<int, float>();
-        public Dictionary<int, float> otherTargets = new Dictionary<int, float>();
-
-        //public AttackCallback attackCallback = null;
-        //public IndexCallback dieCallback = null;
-        //public FloatCallback damageCallback = null;
-        //public FloatCallback healCallback = null;
-
-        public void SetInfo()
+        private void Awake()
         {
-            hpSlider.gameObject.SetActive(true);
-            text.gameObject.SetActive(true);
-            health = unit.health;
-            hpSlider.value = 1;
-            text.text = unit.type.ToString();
+            _visualUnit = GetComponent<VisualUnit>();
         }
 
-        public void Initialize(int x, int y) // todo
+        public void SetInfo() { }
+
+        public void Initialize(Vector2 cell) // todo
         {
-            if (unit == null)
-            {
-                return;
-            }
-            // position = BattleVector2.GridToWorldPosition(new BattleVector2Int(x, y));
-            health = unit.health;
+            _health = unitConfig.health;
+            _visualUnit.SetHealth((int)Health, unitConfig.health);
 
-            hpSlider.value = 1;
-            text.text = unit.type.ToString();
+            transform.position = AIBattleManager.Instance.GetWorldPosition(cell);
         }
-
-        public Dictionary<int, float> GetAllTargets()
-        {
-            Dictionary<int, float> temp = new Dictionary<int, float>();
-            if (otherTargets.Count > 0)
-            {
-                temp = temp.Concat(otherTargets).ToDictionary(x => x.Key, x => x.Value);
-            }
-            if (resourceTargets.Count > 0)
-            {
-                temp = temp.Concat(resourceTargets).ToDictionary(x => x.Key, x => x.Value);
-            }
-            if (defenceTargets.Count > 0)
-            {
-                temp = temp.Concat(defenceTargets).ToDictionary(x => x.Key, x => x.Value);
-            }
-            return temp;
-        }
-
-        // public void AssignTarget(int target, Path path)
-        // {
-        //     attackTimer = 0;
-        //     this.target = target;
-        //     this.path = path;
-        //     if (path != null)
-        //     {
-        //         pathTraveledTime = 0;
-        //         pathTime = path.length / (unit.moveSpeed * ConfigData.gridCellSize);
-        //     }
-        // }
-
-        // public void AssignHealerTarget(int target, float distance)
-        // {
-        //     attackTimer = 0;
-        //     this.target = target;
-        //     pathTraveledTime = 0;
-        //     pathTime = distance / (unit.moveSpeed * ConfigData.gridCellSize);
-        // }
 
         public void TakeDamage(float damage)
         {
-            if (health <= 0)
+            if (_health <= 0)
             {
                 return;
             }
-            health -= damage;
-            hpSlider.value = health / unit.health;
+            _health -= damage;
             //if (damageCallback != null)
             //{
             //    damageCallback.Invoke((long)unit.type, damage);
             //}
-            if (health < 0)
+            if (_health < 0)
             {
-                health = 0;
+                _health = 0;
             }
-            if (health <= 0)
+            if (_health <= 0)
             {
                 //if (dieCallback != null)
                 //{
@@ -128,24 +59,15 @@ namespace ChaosAge.Battle
                 Destroy(gameObject);
                 AIBattleManager.Instance.units.Remove(this);
             }
+
+            _visualUnit.SetHealth((int)_health, unitConfig.health);
         }
 
         public void AddHealth(float hp)
         {
-            health += hp;
-            Debug.Log("AddHealth: " + hp + " " + health);
-            health = Mathf.Min(health, 100);
-            hpSlider.value = health / unit.health;
-        }
-
-        private void Update()
-        {
-            hpSlider.value = health / unit.health;
-            text.text = unit.type.ToString();
-            // var pos = BuildingManager.Instance.Grid.transform.TransformPoint(
-            //     new Vector3(position.x, 0, position.y)
-            // );
-            // transform.position = pos;
+            _health += hp;
+            Debug.Log("AddHealth: " + hp + " " + _health);
+            _health = Mathf.Min(_health, 100);
         }
 
         // public void HandleUnit(int index, float deltaTime)

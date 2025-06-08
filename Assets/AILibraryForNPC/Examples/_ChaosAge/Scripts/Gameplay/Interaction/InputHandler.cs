@@ -1,5 +1,6 @@
 ﻿namespace ChaosAge.interaction
 {
+    using ChaosAge.AI.battle;
     using ChaosAge.camera;
     using ChaosAge.manager;
     using DatSystem.UI;
@@ -199,6 +200,19 @@
 
         private void HandleTap()
         {
+            var cellPos = GetCellPosition(Input.mousePosition);
+            if (GameManager.Instance.GameState == GameState.BattleAI)
+            {
+                if (PanelBattle.SelectedUnit == null)
+                {
+                    GameManager.Instance.Log("Please select a unit");
+                }
+                else
+                {
+                    AIBattleManager.Instance.AddUnit(PanelBattle.SelectedUnit, cellPos);
+                }
+                return;
+            }
             var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
             if (selectedBuilding != null)
             {
@@ -208,7 +222,6 @@
                 selectedBuilding.StopMoving();
             }
 
-            var cellPos = GetCellPosition(Input.mousePosition);
             var building = BuildingManager.Instance.SelectBuilding(cellPos);
             if (building != null) { }
             else

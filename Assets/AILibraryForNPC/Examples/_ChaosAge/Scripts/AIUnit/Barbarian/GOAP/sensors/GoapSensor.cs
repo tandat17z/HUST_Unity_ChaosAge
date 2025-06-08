@@ -10,7 +10,7 @@ public class GoapSensor : BaseSensor_v2
     {
         worldstate.AddState("PlayerState", (int)PlayerState.Idle);
 
-        var hp = agent.GetComponent<BattleUnit>().health;
+        var hp = agent.GetComponent<BattleUnit>().Health;
         worldstate.AddState("PlayerHp", hp);
 
         var home = AIBattleManager.Instance.home;

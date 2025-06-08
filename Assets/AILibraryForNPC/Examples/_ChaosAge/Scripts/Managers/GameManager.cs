@@ -68,7 +68,8 @@ namespace ChaosAge.manager
             PanelManager.Instance.ClosePanel<PanelMainUI>();
             PanelManager.Instance.OpenPanel<PanelBattle>();
 
-            AIBattleManager.Instance.LoadLevel(level);
+            // load level
+            AIBattleManager.Instance.Initialize(level);
         }
 
         public void Log(string log)

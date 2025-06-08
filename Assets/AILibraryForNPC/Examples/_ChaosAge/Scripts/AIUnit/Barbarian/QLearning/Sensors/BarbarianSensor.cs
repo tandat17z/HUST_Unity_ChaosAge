@@ -9,7 +9,7 @@ namespace AILibraryForNPC.Examples
 
         public override void Observe(WorldState_v2 worldstate)
         {
-            _health = agent.GetComponent<BattleUnit>().health;
+            _health = agent.GetComponent<BattleUnit>().Health;
             worldstate.AddState("health", GetHealthLevel(_health));
         }
 

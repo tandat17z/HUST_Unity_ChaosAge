@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f611317cbe8557946bfe8982ef966673, type: 3}
-  m_Name: UnitSO
+  m_Script: {fileID: 11500000, guid: 4b64d5fb67db6264aaa6db77bb76ec89, type: 3}
+  m_Name: BarbarianSO
   m_EditorClassIdentifier: 
-  buildingPrefabs:
-  - {fileID: 6215746415848282489, guid: 97819c5f45d4017428703a61bb3694bc, type: 3}
-  - {fileID: 6215746415848282489, guid: e87a66295f05b5442aa40b266ade32bd, type: 3}
+  type: 0
+  health: 100
+  damage: 10
+  attackRange: 3
+  attackSpeed: 1
+  attackDelay: 1
