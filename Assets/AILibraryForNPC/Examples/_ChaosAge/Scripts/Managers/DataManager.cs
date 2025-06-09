@@ -93,8 +93,11 @@ namespace DatSystem
                     case EBuildingType.GoldStorage:
                     case EBuildingType.ElixirStorage:
                         var storageSO = buildingConfig as StorageConfigSO;
-                        var capacity = storageSO.capacity;
-                        _dictMaxResource[capacity.resourceType] += capacity.quantity;
+                        if (storageSO != null)
+                        {
+                            var capacity = storageSO.capacity;
+                            _dictMaxResource[capacity.resourceType] += capacity.quantity;
+                        }
                         break;
                 }
             }

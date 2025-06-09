@@ -19,7 +19,7 @@ namespace ChaosAge.manager
         }
 
         private PlayerData _playerData;
-        private PanelLog _panelLog;
+        private int _currentBattleLevel = 1;
 
         #region Init
         protected override void OnAwake()
@@ -60,16 +60,20 @@ namespace ChaosAge.manager
             BuildingManager.Instance.LoadMap(buildingDatas);
         }
 
-        public void SwitchToBattleAI(int level)
+        public void SwitchToBattleAI(int level = -1)
         {
-            Log($"SwitchToBattleAI: {level}");
+            if (level == -1)
+            {
+                level = _currentBattleLevel;
+            }
+            _currentBattleLevel = level;
             _gameState = GameState.BattleAI;
             PanelManager.Instance.ClosePanel<PopupSelectLevel>();
             PanelManager.Instance.ClosePanel<PanelMainUI>();
             PanelManager.Instance.OpenPanel<PanelBattle>();
 
             // load level
-            AIBattleManager.Instance.Initialize(level);
+            AIBattleManager.Instance.Initialize(_currentBattleLevel);
         }
 
         public void Log(string log)
