@@ -48,7 +48,7 @@ public class UIBuildingInShop : MonoBehaviour
 
     private void OnClick()
     {
-        if (BuildingManager.Instance.CanUpgradeBuilding(_buildingType, 1))
+        if (BuildingManager.Instance.CanUpgradeBuilding(_buildingType, 0))
         {
             BuildingManager.Instance.CreateBuilding(_buildingType);
             PanelManager.Instance.ClosePanel<PanelShop>();

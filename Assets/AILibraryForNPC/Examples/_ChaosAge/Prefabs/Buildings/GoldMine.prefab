@@ -397,8 +397,8 @@ MonoBehaviour:
   meshRenderer: {fileID: 940234634715403717}
   nameText: {fileID: 2678579658494673562}
   levelText: {fileID: 6133543626215733764}
-  slider: {fileID: 0}
-  sliderText: {fileID: 0}
+  slider: {fileID: 1118353206124452255}
+  sliderText: {fileID: 6966096716013264519}
   buttonBuildOk: {fileID: 3484874034652870350}
   buttonBuildCancel: {fileID: 6785249910941689900}
   materials:
@@ -662,6 +662,17 @@ PrefabInstance:
       addedObject: {fileID: 4525929424182268636}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
+--- !u!114 &1118353206124452255 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5237891549301443028, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
+  m_PrefabInstance: {fileID: 5131159959242117195}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2678579658494673562 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7068875488801592017, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
@@ -709,6 +720,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6966096716013264519 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2853319269824450252, guid: e5eaac17a49d4b5409aa928d09e76243, type: 3}
+  m_PrefabInstance: {fileID: 5131159959242117195}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7358639881948646439 stripped

@@ -194,6 +194,7 @@ namespace ChaosAge.manager
             }
 
             _selectedBuilding = CreateBuilding(data, isBattle);
+            _selectedBuilding.Select();
             _selectedBuilding.MoveTo(new Vector2(20, 20));
 
             _selectedBuilding.BuildingVisual.ShowBuildUI();

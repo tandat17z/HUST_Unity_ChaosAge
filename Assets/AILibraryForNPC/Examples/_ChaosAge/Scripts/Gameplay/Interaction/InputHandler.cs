@@ -213,12 +213,10 @@
                 }
                 return;
             }
+
             var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
             if (selectedBuilding != null)
             {
-                if (selectedBuilding.CheckUpgrading())
-                    return;
-
                 selectedBuilding.StopMoving();
             }
 

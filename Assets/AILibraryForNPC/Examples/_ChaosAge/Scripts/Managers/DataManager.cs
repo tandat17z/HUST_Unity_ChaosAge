@@ -70,6 +70,10 @@ namespace DatSystem
 
         public int GetMaxResource(EResourceType resourceType)
         {
+            if (_dictMaxResource.ContainsKey(resourceType) == false)
+            {
+                return 0;
+            }
             return _dictMaxResource[resourceType];
         }
 
