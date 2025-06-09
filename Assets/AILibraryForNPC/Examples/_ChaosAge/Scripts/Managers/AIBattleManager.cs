@@ -17,9 +17,10 @@ namespace ChaosAge.AI.battle
         [SerializeField]
         public bool StartBattle = false;
 
-        [SerializeField]
-        public List<BattleBuilding> buildings;
-        public List<BattleUnit> units;
+        public List<BattleBuilding> buildings => _buildings;
+        private List<BattleBuilding> _buildings;
+        public List<BattleUnit> units => _units;
+        private List<BattleUnit> _units;
 
         private bool[,] _canMoveCells;
 
@@ -38,7 +39,7 @@ namespace ChaosAge.AI.battle
 
         private void ActiveBuildingAgent()
         {
-            foreach (var building in buildings)
+            foreach (var building in _buildings)
             {
                 if (building.TryGetComponent<BaseAgent>(out var agent))
                 {
@@ -51,14 +52,15 @@ namespace ChaosAge.AI.battle
         {
             LoadLevel(level);
 
-            units = new List<BattleUnit>();
-            buildings = new List<BattleBuilding>();
+            _units = new List<BattleUnit>();
+            _buildings = new List<BattleBuilding>();
             foreach (var building in BuildingManager.Instance.Buildings)
             {
-                var b = building.GetComponent<BattleBuilding>();
-                buildings.Add(b);
+                var battleBuilding = building.gameObject.AddComponent<BattleBuilding>();
+                battleBuilding.Init();
+                _buildings.Add(battleBuilding);
             }
-            // ActiveBuildingAgent();
+            ActiveBuildingAgent();
 
             StartBattle = true;
 

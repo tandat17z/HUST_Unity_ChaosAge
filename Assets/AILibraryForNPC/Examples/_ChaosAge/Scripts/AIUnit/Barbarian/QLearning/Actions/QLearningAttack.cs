@@ -40,11 +40,11 @@ namespace AILibraryForNPC.Examples
                     _target.TakeDamage(10);
                     AddReward(10);
 
-                    if (_target == null && _target.type == EBuildingType.TownHall)
+                    if (_target == null && _target.Type == EBuildingType.TownHall)
                     {
                         AddReward(100);
                     }
-                    if (_target == null && _target.type == EBuildingType.ArcherTowner)
+                    if (_target == null && _target.Type == EBuildingType.ArcherTowner)
                     {
                         AddReward(50);
                     }

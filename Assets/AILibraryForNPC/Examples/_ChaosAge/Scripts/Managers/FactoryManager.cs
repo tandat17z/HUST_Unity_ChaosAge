@@ -21,6 +21,9 @@ namespace ChaosAge.spawner
         [SerializeField]
         private UnitSO unitSO;
 
+        [SerializeField]
+        private ProjectileSO projectileSO;
+
         public Building SpawnBuilding(EBuildingType buildingType)
         {
             var prefab = buildingSO.GetBuildingPrefab(buildingType);
@@ -37,7 +40,9 @@ namespace ChaosAge.spawner
 
         public BattleProjectile SpawnProjectile(TargetType unit)
         {
-            throw new NotImplementedException();
+            var prefab = projectileSO.GetProjectilePrefab(unit);
+            var spawned = Instantiate(prefab, container);
+            return spawned;
         }
     }
 }
