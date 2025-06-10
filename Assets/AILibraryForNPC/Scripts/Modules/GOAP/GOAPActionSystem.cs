@@ -39,9 +39,11 @@ namespace AILibraryForNPC.Modules.GOAP
                 var bestGoal = _agent.goalSystem.GetCurrentGoal(worldState);
                 // Debug.Log("Count actions: " + goapActions.Count);
                 _actionQueue = _planner.Plan(goapActions, bestGoal, worldState);
+                if(_actionQueue != null){
                 _beginWorldState = worldState.Clone();
                 _beginPlan = new List<GOAPAction>(_actionQueue);
                 _currentActionIndex = 0;
+                }
             }
 
             // Lấy action tiếp theo từ plan

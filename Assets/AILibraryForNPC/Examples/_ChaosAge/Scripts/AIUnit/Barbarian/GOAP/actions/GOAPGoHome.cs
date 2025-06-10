@@ -16,6 +16,7 @@ namespace AILibraryForNPC.Examples
 
         public GOAPGoHome() {
             _playerHp = 100;
+            _range = 2f;
         }
 
         public override void ApplyEffect(WorldState_v2 state)

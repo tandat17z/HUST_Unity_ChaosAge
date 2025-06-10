@@ -35,6 +35,7 @@ public class BattleBuilding : MonoBehaviour
         health = _building.BuildingConfigSO.health;
         Debug.LogWarning($"show ui {_building.Type}");
         _buildingVisual.ShowInfoUI();
+        _buildingVisual.ShowBattleUI();
     }
 
     public void TakeDamage(float damage)
@@ -42,6 +43,9 @@ public class BattleBuilding : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
+            if(Type == EBuildingType.TownHall){
+                AIBattleManager.Instance.SetResult(EGameState.Win);
+            }
             Destroy(gameObject);
             AIBattleManager.Instance.buildings.Remove(this);
         }
@@ -61,5 +65,13 @@ public class BattleBuilding : MonoBehaviour
                 unit.TakeDamage(10);
             }
         );
+    }
+
+    private void Update()
+    {
+        if (_buildingVisual != null && _building != null && _building.BuildingConfigSO != null)
+        {
+            _buildingVisual.SetTime(health, _building.BuildingConfigSO.health);
+        }
     }
 }

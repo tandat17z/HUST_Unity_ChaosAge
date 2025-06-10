@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using AILibraryForNPC.Core;
@@ -5,6 +6,7 @@ using ChaosAge.Battle;
 using ChaosAge.data;
 using ChaosAge.manager;
 using ChaosAge.spawner;
+using DatSystem.UI;
 using DatSystem.utils;
 using UnityEngine;
 
@@ -61,6 +63,7 @@ namespace ChaosAge.AI.battle
 
             home = new GameObject("Home");
             home.transform.position = GetWorldPosition(new Vector2(5, 5));
+            UpdateNavMesh();
         }
 
         // public void DropUnit()
@@ -168,5 +171,30 @@ namespace ChaosAge.AI.battle
         {
             return _canMoveCells[(int)cell.x, (int)cell.y];
         }
+
+        public void UpdateNavMesh()
+        {
+            BuildingManager.Instance.UpdateNavMesh();
+        }
+
+        public void SetResult(EGameState state)
+        {
+            if (state == EGameState.Win)
+            {
+                Debug.Log("Win");
+                PanelManager.Instance.OpenPanel<PopupWin>();
+            }
+            else
+            {
+                Debug.Log("Lose");
+                PanelManager.Instance.OpenPanel<PopupLoss>();
+            }
+        }
+    }
+
+    public enum EGameState
+    {
+        Win,
+        Lose
     }
 }

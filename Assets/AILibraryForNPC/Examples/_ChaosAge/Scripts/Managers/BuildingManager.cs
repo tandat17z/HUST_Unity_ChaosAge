@@ -8,6 +8,7 @@ namespace ChaosAge.manager
     using ChaosAge.spawner;
     using DatSystem;
     using DatSystem.utils;
+    using Unity.AI.Navigation;
     using UnityEngine;
 
     public class BuildingManager : Singleton<BuildingManager>
@@ -16,6 +17,8 @@ namespace ChaosAge.manager
 
         [SerializeField]
         private MapGrid grid;
+        [SerializeField]
+        private NavMeshSurface navMeshSurface;
         public MapGrid Grid
         {
             get => grid;
@@ -258,5 +261,12 @@ namespace ChaosAge.manager
         }
 
         #endregion
+
+        public void UpdateNavMesh(){
+            // Xóa NavMesh cũ và tạo NavMesh mới
+            navMeshSurface.RemoveData(); // Xóa NavMesh cũ
+            navMeshSurface.BuildNavMesh(); // Tạo NavMesh mới
+            Debug.Log("NavMesh đã được cập nhật!");
+        }
     }
 }

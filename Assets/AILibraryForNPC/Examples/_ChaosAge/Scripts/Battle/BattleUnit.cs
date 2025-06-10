@@ -66,8 +66,8 @@ namespace ChaosAge.Battle
         public void AddHealth(float hp)
         {
             _health += hp;
-            Debug.Log("AddHealth: " + hp + " " + _health);
             _health = Mathf.Min(_health, 100);
+            _visualUnit.SetHealth((int)_health, unitConfig.health);
         }
 
         // public void HandleUnit(int index, float deltaTime)
