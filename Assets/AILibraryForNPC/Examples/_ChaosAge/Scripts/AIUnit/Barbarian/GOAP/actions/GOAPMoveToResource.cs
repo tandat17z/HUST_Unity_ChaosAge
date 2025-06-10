@@ -11,8 +11,11 @@ namespace AILibraryForNPC.Examples
     {
         private NavMeshAgent _navMeshAgent;
         private GameObject _target;
+        private float _range;
 
-        public GOAPMoveToDefense() { }
+        public GOAPMoveToDefense() {
+            _range = 3f;
+        }
 
         public override void ApplyEffect(WorldState_v2 state)
         {
@@ -46,9 +49,8 @@ namespace AILibraryForNPC.Examples
 
         public override bool IsComplete(WorldState_v2 worldState)
         {
-            float range = 3f;
             return _target == null
-                || Vector3.Distance(agent.transform.position, _target.transform.position) < range;
+                || Vector3.Distance(agent.transform.position, _target.transform.position) < _range;
         }
 
         public override void Perform(WorldState_v2 worldState) { }

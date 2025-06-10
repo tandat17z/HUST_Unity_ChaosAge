@@ -14,9 +14,6 @@ namespace ChaosAge.AI.battle
     {
         public const int MaxCell = 40;
 
-        [SerializeField]
-        public bool StartBattle = false;
-
         public List<BattleBuilding> buildings => _buildings;
         private List<BattleBuilding> _buildings;
         public List<BattleUnit> units => _units;
@@ -62,8 +59,6 @@ namespace ChaosAge.AI.battle
             }
             ActiveBuildingAgent();
 
-            StartBattle = true;
-
             home = new GameObject("Home");
             home.transform.position = GetWorldPosition(new Vector2(5, 5));
         }
@@ -83,7 +78,7 @@ namespace ChaosAge.AI.battle
             var battleUnit = FactoryManager.Instance.SpawnUnit(unitType);
             battleUnit.Initialize(cell);
 
-            // battleUnit.GetComponent<BaseAgent>().IsStart = true;
+            battleUnit.GetComponent<BaseAgent>().IsStart = true;
             units.Add(battleUnit);
         }
 

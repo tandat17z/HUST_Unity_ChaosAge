@@ -8,6 +8,7 @@ public class GoapBuildingSensor : BaseSensor_v2
 {
     public override void Observe(WorldState_v2 worldstate)
     {
+        var range = 3f;
         var buildings = AIBattleManager.Instance.buildings;
 
         worldstate.AddBuffer("Townhall", null);
@@ -23,7 +24,7 @@ public class GoapBuildingSensor : BaseSensor_v2
                     Vector3.Distance(
                         agent.transform.position,
                         building.gameObject.transform.position
-                    ) < 3
+                    ) < range
                 )
                 {
                     worldstate.AddState("PlayerState", (int)PlayerState.MoveToTownhall);
@@ -41,7 +42,7 @@ public class GoapBuildingSensor : BaseSensor_v2
                     Vector3.Distance(
                         agent.transform.position,
                         building.gameObject.transform.position
-                    ) < 3
+                    ) < range
                 )
                 {
                     worldstate.AddState("PlayerState", (int)PlayerState.MoveToDefense);

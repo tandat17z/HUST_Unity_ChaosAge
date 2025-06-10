@@ -10,15 +10,18 @@ namespace AILibraryForNPC.Examples
     {
         private GameObject _target;
         private float _interval;
+        private float _playerDamage;
 
-        public GOAPAttackTownhall() { }
+        public GOAPAttackTownhall() {
+            _playerDamage = 20;
+        }
 
         public override void ApplyEffect(WorldState_v2 state)
         {
             state.AddState("PlayerState", (int)PlayerState.AttackTownhall);
 
             var townhallHp = state.GetState("TownhallHp");
-            state.AddState("TownhallHp", townhallHp - 20);
+            state.AddState("TownhallHp", townhallHp - _playerDamage);
             // neu khoang cach giua townhall va defense nho thì player bị trừ máu
         }
 
@@ -54,7 +57,7 @@ namespace AILibraryForNPC.Examples
             _target = worldState.GetBuffer("Townhall") as GameObject;
             _interval = 1;
 
-            _target.GetComponent<BattleBuilding>().TakeDamage(5);
+            _target.GetComponent<BattleBuilding>().TakeDamage(_playerDamage);
         }
     }
 }

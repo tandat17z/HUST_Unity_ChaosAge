@@ -15,7 +15,7 @@ public class GoalGoHome : GOAPBaseGoal
         {
             return 1;
         }
-        return 0;
+        return 0.1f;
     }
 
     public override bool IsGoalReached(WorldState_v2 worldState)

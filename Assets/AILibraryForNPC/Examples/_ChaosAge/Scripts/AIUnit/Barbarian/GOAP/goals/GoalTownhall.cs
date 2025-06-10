@@ -12,13 +12,13 @@ public class GoalTownhall : GOAPBaseGoal
     {
         if (worldState.GetState("TownhallHp") <= 0)
         {
-            return -1f;
+            return 0f;
         }
         if (worldState.GetState("TownhallHp") <= 40)
         {
             return 0.9f;
         }
-        return 0.1f;
+        return 0.3f;
     }
 
     public override bool IsGoalReached(WorldState_v2 worldState)

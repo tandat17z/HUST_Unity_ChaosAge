@@ -12,7 +12,7 @@ public class GoalDefense : GOAPBaseGoal
     {
         if (worldState.GetState("DefenseHp") <= 0)
         {
-            return -1f;
+            return 0f;
         }
         if (worldState.GetState("DefenseHp") <= 40)
         {

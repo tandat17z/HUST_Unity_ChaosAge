@@ -10,18 +10,23 @@ namespace AILibraryForNPC.Examples
     {
         private GameObject _target;
         private float _interval;
+        private float _playerDamage;
+        private float _defenseDamage;
 
-        public GOAPAttackDefense() { }
+        public GOAPAttackDefense() {
+            _playerDamage = 20;
+            _defenseDamage = 15;
+        }
 
         public override void ApplyEffect(WorldState_v2 state)
         {
             state.AddState("PlayerState", (int)PlayerState.AttackDefense);
 
             var defenseHp = state.GetState("DefenseHp");
-            state.AddState("DefenseHp", defenseHp - 20);
+            state.AddState("DefenseHp", defenseHp - _playerDamage);
 
             var playerHp = state.GetState("PlayerHp");
-            state.AddState("PlayerHp", playerHp - 15);
+            state.AddState("PlayerHp", playerHp - _defenseDamage);
         }
 
         public override bool CheckPrecondition(WorldState_v2 state)
@@ -56,7 +61,7 @@ namespace AILibraryForNPC.Examples
             _target = worldState.GetBuffer("Defense") as GameObject;
             _interval = 1;
 
-            _target.GetComponent<BattleBuilding>().TakeDamage(5);
+            _target.GetComponent<BattleBuilding>().TakeDamage(_playerDamage);
         }
     }
 }
