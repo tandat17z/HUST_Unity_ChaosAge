@@ -1,4 +1,5 @@
 using System;
+using ChaosAge.AI.battle;
 using ChaosAge.data;
 using ChaosAge.manager;
 using DatSystem.UI;
@@ -19,10 +20,13 @@ public class PanelBattle : Panel
     {
         base.OnSetup();
 
-        btnClose.onClick.AddListener(() =>
-        {
-            GameManager.Instance.SwitchToCity();
-        });
+        btnClose.onClick.AddListener(OnClose);
+    }
+
+    private void OnClose()
+    {
+        Close();
+        AIBattleManager.Instance.SetResult(EGameState.Lose);
     }
 
     public override void Open(UIData uiData)
@@ -32,25 +36,6 @@ public class PanelBattle : Panel
         {
             btnUnits[i].SetUnit((EUnitType)i);
         }
-    }
-
-    //private void Update()
-    //{
-    //    if (_isActive)
-    //    {
-
-    //        if (Input.GetMouseButtonDown(0) && SelectedButtonUnit != null)
-    //        {
-    //            var pos = InputHandler.Instance.GetPointerPositionInMap();
-    //            var posCell = BuildingManager.Instance.Grid.ConvertGridPos(pos);
-    //            BattleManager.Instance.AddUnit(SelectedButtonUnit.Type, (int)posCell.x, (int)posCell.y);
-    //        }
-    //    }
-    //}
-
-    public EUnitType GetCurrentBuildingType()
-    {
-        return SelectedUnit;
     }
 
     public void SetSelectedUnit(EUnitType unitType)

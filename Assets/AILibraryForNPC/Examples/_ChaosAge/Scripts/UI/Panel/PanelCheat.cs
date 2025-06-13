@@ -79,5 +79,19 @@ public class PanelCheat : Panel
         {
             _playerData.AddResource(EResourceType.Elixir, 5);
         }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            _playerData.AddUnit(EUnitType.Barbarian, 1);
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _playerData.AddUnit(EUnitType.Archer, 1);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            _playerData.ReduceUnit(EUnitType.Barbarian, 1000);
+            _playerData.ReduceUnit(EUnitType.Archer, 1000);
+        }
     }
 }

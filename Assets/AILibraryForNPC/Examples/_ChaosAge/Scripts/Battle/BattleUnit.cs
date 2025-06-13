@@ -37,30 +37,17 @@ namespace ChaosAge.Battle
 
         public void TakeDamage(float damage)
         {
-            if (_health <= 0)
-            {
-                return;
-            }
+            if (_health <= 0) return;
+
             _health -= damage;
-            //if (damageCallback != null)
-            //{
-            //    damageCallback.Invoke((long)unit.type, damage);
-            //}
-            if (_health < 0)
-            {
-                _health = 0;
-            }
+            if (_health < 0) _health = 0;
+            _visualUnit.SetHealth((int)_health, unitConfig.health);
+
             if (_health <= 0)
             {
-                //if (dieCallback != null)
-                //{
-                //    dieCallback.Invoke((long)unit.type);
-                //}
-                Destroy(gameObject);
-                AIBattleManager.Instance.units.Remove(this);
+                AIBattleManager.Instance.RemoveUnit(this);
             }
 
-            _visualUnit.SetHealth((int)_health, unitConfig.health);
         }
 
         public void AddHealth(float hp)

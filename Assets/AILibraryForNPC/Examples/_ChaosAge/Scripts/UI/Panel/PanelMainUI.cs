@@ -12,6 +12,9 @@ public class PanelMainUI : Panel
     [SerializeField]
     UIResource[] UIResources;
 
+    [SerializeField]
+    UIUnit[] UIUnits;
+
     [Header("Buttons")]
     [SerializeField]
     Button btnShop;
@@ -60,8 +63,17 @@ public class PanelMainUI : Panel
         }
     }
 
+    private void UpdateUIUnit()
+    {
+        foreach (var unit in UIUnits)
+        {
+            unit.SetInfo(_playerData.GetUnitNum(unit.UnitType));
+        }
+    }
+
     private void Update()
     {
         UpdateUIResource();
+        UpdateUIUnit();
     }
 }

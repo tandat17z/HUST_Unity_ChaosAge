@@ -135,5 +135,22 @@ namespace ChaosAge.data
             }
             return units[(int)unitType];
         }
+
+        public void AddUnit(EUnitType unitType, int amount)
+        {
+            for (int i = units.Count; i <= (int)unitType; i++)
+            {
+                units.Add(0);
+            }
+            units[(int)unitType] += amount;
+            Save();
+        }
+
+        public void ReduceUnit(EUnitType unitType, int amount)
+        {
+            units[(int)unitType] = Mathf.Max(0, units[(int)unitType] - amount);
+            Save();
+        }
+
     }
 }

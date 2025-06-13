@@ -26,16 +26,19 @@ public class UIButtonUnit : MonoBehaviour
     TMP_Text txtLevel;
 
     [SerializeField]
+    TMP_Text txtNum;
+
+    [SerializeField]
     private int _num;
 
-    private void Start() { }
 
     public void SetUnit(EUnitType unitType)
     {
         _unitType = unitType;
         _num = DataManager.Instance.PlayerData.GetUnitNum(unitType);
         txtName.text = unitType.ToString();
-        txtLevel.text = _num.ToString();
+        txtLevel.text = "Lv. 1";
+        txtNum.text = _num.ToString();
 
         Deselect();
         btn.onClick.AddListener(OnClick);

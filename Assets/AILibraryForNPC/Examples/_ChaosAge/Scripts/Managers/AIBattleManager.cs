@@ -6,6 +6,7 @@ using ChaosAge.Battle;
 using ChaosAge.data;
 using ChaosAge.manager;
 using ChaosAge.spawner;
+using DatSystem;
 using DatSystem.UI;
 using DatSystem.utils;
 using UnityEngine;
@@ -18,14 +19,45 @@ namespace ChaosAge.AI.battle
 
         public List<BattleBuilding> buildings => _buildings;
         private List<BattleBuilding> _buildings;
-        public List<BattleUnit> units => _units;
         private List<BattleUnit> _units;
+        public List<BattleUnit> units => _units;
 
         private bool[,] _canMoveCells;
 
         public GameObject home;
 
-        protected override void OnAwake() { }
+        public Action<BattleBuilding> OnRemoveBuilding;
+        public Action<BattleUnit> OnRemoveUnit;
+
+        protected override void OnAwake()
+        {
+            OnRemoveBuilding += RemoveTownHall;
+            OnRemoveUnit += CheckLose;
+        }
+
+        private void CheckLose(BattleUnit unit)
+        {
+            var playerData = DataManager.Instance.PlayerData;
+            if (units.Count == 0 && playerData.units.Count == 0)
+            {
+                SetResult(EGameState.Lose);
+            }
+        }
+
+        private void RemoveTownHall(BattleBuilding building)
+        {
+            Debug.Log("Check event RemoveTownHall");
+            if (building.Type == EBuildingType.TownHall)
+            {
+                SetResult(EGameState.Win, 1);
+            }
+        }
+
+        void OnDestroy()
+        {
+            OnRemoveBuilding -= RemoveTownHall;
+            OnRemoveUnit -= CheckLose;
+        }
 
         public void LoadLevel(int level)
         {
@@ -49,6 +81,8 @@ namespace ChaosAge.AI.battle
 
         public void Initialize(int level)
         {
+            Reset();
+
             LoadLevel(level);
 
             _units = new List<BattleUnit>();
@@ -82,7 +116,10 @@ namespace ChaosAge.AI.battle
             battleUnit.Initialize(cell);
 
             battleUnit.GetComponent<BaseAgent>().IsStart = true;
-            units.Add(battleUnit);
+            _units.Add(battleUnit);
+
+            var playerData = DataManager.Instance.PlayerData;
+            playerData.ReduceUnit(unitType, 1);
         }
 
         // public void CreateBattle()
@@ -177,18 +214,54 @@ namespace ChaosAge.AI.battle
             BuildingManager.Instance.UpdateNavMesh();
         }
 
-        public void SetResult(EGameState state)
+        public void SetResult(EGameState state, int star = 0)
         {
+            Reset();
             if (state == EGameState.Win)
             {
                 Debug.Log("Win");
+                PanelManager.Instance.ClosePanel<PanelBattle>();
                 PanelManager.Instance.OpenPanel<PopupWin>();
             }
             else
             {
+                // khi het thoi gian
+                // khi het quân còn sống
+                // khi tự kết thúc
                 Debug.Log("Lose");
                 PanelManager.Instance.OpenPanel<PopupLoss>();
             }
+        }
+
+        public void RemoveBuilding(BattleBuilding building)
+        {
+            buildings.Remove(building);
+            Destroy(building.gameObject);
+
+            OnRemoveBuilding?.Invoke(building);
+        }
+
+        public void RemoveUnit(BattleUnit battleUnit)
+        {
+            _units.Remove(battleUnit);
+            Destroy(battleUnit.gameObject);
+            OnRemoveUnit?.Invoke(battleUnit);
+        }
+
+        public void Reset()
+        {
+            if (_units == null) return;
+            foreach (var unit in _units)
+            {
+                Destroy(unit.gameObject);
+            }
+            _units.Clear();
+        }
+
+        public bool CheckAddUnit(EUnitType unitType, Vector2 cellPos)
+        {
+            var playerData = DataManager.Instance.PlayerData;
+            return playerData.GetUnitNum(unitType) > 0;
         }
     }
 

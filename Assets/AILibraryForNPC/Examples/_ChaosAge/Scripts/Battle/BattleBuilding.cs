@@ -1,13 +1,9 @@
-﻿using ChaosAge;
-using ChaosAge.AI.battle;
+﻿using ChaosAge.AI.battle;
 using ChaosAge.Battle;
 using ChaosAge.building;
 using ChaosAge.data;
 using ChaosAge.spawner;
-using Sirenix.OdinInspector;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BattleBuilding : MonoBehaviour
 {
@@ -43,11 +39,7 @@ public class BattleBuilding : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            if(Type == EBuildingType.TownHall){
-                AIBattleManager.Instance.SetResult(EGameState.Win);
-            }
-            Destroy(gameObject);
-            AIBattleManager.Instance.buildings.Remove(this);
+            AIBattleManager.Instance.RemoveBuilding(this);
         }
     }
 

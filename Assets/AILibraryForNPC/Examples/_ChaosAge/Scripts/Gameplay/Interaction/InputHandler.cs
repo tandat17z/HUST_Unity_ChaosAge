@@ -209,7 +209,11 @@
                 }
                 else
                 {
-                    AIBattleManager.Instance.AddUnit(PanelBattle.SelectedUnit, cellPos);
+                    var unitType = PanelBattle.SelectedUnit;
+                    if (AIBattleManager.Instance.CheckAddUnit(unitType, cellPos))
+                    {
+                        AIBattleManager.Instance.AddUnit(unitType, cellPos);
+                    }
                 }
                 return;
             }

@@ -16,12 +16,19 @@ public class PopupLoss : Panel
     {
         base.OnSetup();
 
-        btnClose.onClick.AddListener(Close);
-        btnReplay.onClick.AddListener(Replay);
+        btnClose.onClick.AddListener(OnClose);
+        btnReplay.onClick.AddListener(OnReplay);
     }
 
-    private void Replay()
+    private void OnClose()
     {
+        Close();
+        GameManager.Instance.SwitchToCity();
+    }
+
+    private void OnReplay()
+    {
+        Close();
         GameManager.Instance.SwitchToBattleAI();
     }
 
@@ -29,13 +36,5 @@ public class PopupLoss : Panel
     {
         base.Open(uiData);
         // InputHandler.Instance.ActiveInteract(false);
-    }
-
-    public override void Close()
-    {
-        // InputHandler.Instance.ActiveInteract(true);
-
-        base.Close();
-        GameManager.Instance.SwitchToCity();
     }
 }
