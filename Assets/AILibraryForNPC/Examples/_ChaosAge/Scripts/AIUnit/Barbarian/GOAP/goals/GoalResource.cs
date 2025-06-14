@@ -25,4 +25,11 @@ public class GoalDefense : GOAPBaseGoal
     {
         return worldState.GetState("DefenseHp") <= 0 && worldState.GetState("PlayerHp") > 0;
     }
+
+
+    public override float GetHeuristic(WorldState_v2 worldState)
+    {
+        var currentDefenseHp = worldState.GetState("DefenseHp");
+        return currentDefenseHp;
+    }
 }

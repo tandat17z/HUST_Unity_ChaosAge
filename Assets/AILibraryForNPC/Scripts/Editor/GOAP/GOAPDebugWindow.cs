@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using AILibraryForNPC.Core;
+using AILibraryForNPC.Algorithms;
 using AILibraryForNPC.Modules.GOAP;
 using UnityEditor;
 using UnityEngine;
@@ -46,6 +46,16 @@ public class GOAPDebugWindow : EditorWindow
             );
             return;
         }
+
+        // Add logging toggle
+        EditorGUILayout.Space();
+        GOAPNode.isLog = EditorGUILayout.Toggle("Show Search Logs", GOAPNode.isLog);
+
+        // Add A* maxStep control
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("A* Settings", EditorStyles.boldLabel);
+        AStar.maxStep = EditorGUILayout.IntField("Max Search Steps", AStar.maxStep);
+        EditorGUILayout.Space();
 
         DrawWorldState();
         DrawGoalInfo();
@@ -118,6 +128,11 @@ public class GOAPDebugWindow : EditorWindow
         }
 
         var currentActionIndex = executor.GetComponent<GOAPActionSystem>().GetCurrentActionIndex();
+
+        // Begin scroll view for plan
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        Vector2 planScroll = EditorGUILayout.BeginScrollView(new Vector2(), GUILayout.Height(100));
+
         for (int i = 0; i < plan.Count; i++)
         {
             if (i == currentActionIndex)
@@ -128,6 +143,9 @@ public class GOAPDebugWindow : EditorWindow
             else
                 EditorGUILayout.LabelField($"Step {i + 1}: {plan[i].GetType().Name}");
         }
+
+        EditorGUILayout.EndScrollView();
+        EditorGUILayout.EndVertical();
     }
 
     private Vector2 graphScroll;

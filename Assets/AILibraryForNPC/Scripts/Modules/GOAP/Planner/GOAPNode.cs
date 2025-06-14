@@ -8,9 +8,9 @@ namespace AILibraryForNPC.Modules.GOAP
 {
     public class GOAPNode : INode
     {
+        public static bool isLog = false;  // Static field to control logging
         public GOAPAction action;
         public WorldState_v2 worldState;
-        public Dictionary<string, float> state;
         public List<GOAPAction> availableActions;
         public GOAPBaseGoal goal;
 
@@ -41,15 +41,19 @@ namespace AILibraryForNPC.Modules.GOAP
             return action.GetCost();
         }
 
-        public float GetHeuristic(INode goal)
+        public float GetHeuristic(INode node)
         {
-            return 1;
+            return goal.GetHeuristic((node as GOAPNode).worldState);
         }
 
         public List<INode> GetNeighbors()
         {
             var neighbors = new List<INode>();
-            // Debug.LogWarning("current node: " + worldState.GetStateKey());
+
+            if (isLog)
+            {
+                Debug.LogWarning("current node: " + worldState.GetStateKey());
+            }
             foreach (var action in availableActions)
             {
                 if (action.CheckPrecondition(worldState))
@@ -57,9 +61,12 @@ namespace AILibraryForNPC.Modules.GOAP
                     var newState = worldState.Clone();
                     action.ApplyEffect(newState);
                     neighbors.Add(new GOAPNode(newState, availableActions, action));
-                    // Debug.Log(
-                    //     "GetNeighbors: " + action.GetType().Name + " " + newState.GetString()
-                    // );
+                    if (isLog)
+                    {
+                        Debug.Log(
+                            "GetNeighbors: " + action.GetType().Name + " " + newState.GetString()
+                        );
+                    }
                 }
             }
             return neighbors;

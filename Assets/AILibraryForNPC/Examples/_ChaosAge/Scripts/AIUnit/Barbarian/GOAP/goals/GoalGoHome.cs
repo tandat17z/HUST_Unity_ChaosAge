@@ -22,4 +22,9 @@ public class GoalGoHome : GOAPBaseGoal
     {
         return worldState.GetState("PlayerState") == (int)PlayerState.Home;
     }
+
+    public override float GetHeuristic(WorldState_v2 worldState)
+    {
+        return 1000;
+    }
 }

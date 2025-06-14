@@ -19,7 +19,6 @@ namespace AILibraryForNPC.Modules.GOAP
 
         public GOAPBaseGoal GetCurrentGoal(WorldState_v2 worldState)
         {
-            Debug.Log("GetCurrentGoal" + goals.Count);
             if (goals == null || goals.Count == 0)
                 return null;
 
@@ -41,6 +40,7 @@ namespace AILibraryForNPC.Modules.GOAP
             // Chọn ngẫu nhiên nếu có nhiều goal bằng trọng số
             int index = Random.Range(0, bestGoals.Count);
             _currentGoal = bestGoals[index].goal;
+            Debug.Log("GetCurrentGoal: " + _currentGoal.GetName() + " " + maxWeight);
             return _currentGoal;
         }
 

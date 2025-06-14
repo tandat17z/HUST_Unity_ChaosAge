@@ -16,6 +16,7 @@ namespace AILibraryForNPC.Modules.GOAP
         private List<GOAPAction> _beginPlan = new();
         private WorldState_v2 _beginWorldState;
         private int _currentActionIndex;
+        private float _delaySearch = 0;
 
         protected override void OnInitialize()
         {
@@ -36,13 +37,22 @@ namespace AILibraryForNPC.Modules.GOAP
                     goapActions.Add(action as GOAPAction);
                 }
 
+                if(_delaySearch > 0){
+                    _delaySearch -= Time.deltaTime;
+                    return null;
+                }
+
                 var bestGoal = _agent.goalSystem.GetCurrentGoal(worldState);
-                // Debug.Log("Count actions: " + goapActions.Count);
                 _actionQueue = _planner.Plan(goapActions, bestGoal, worldState);
+
                 if(_actionQueue != null){
-                _beginWorldState = worldState.Clone();
-                _beginPlan = new List<GOAPAction>(_actionQueue);
-                _currentActionIndex = 0;
+                    _beginWorldState = worldState.Clone();
+                    _beginPlan = new List<GOAPAction>(_actionQueue);
+                    _currentActionIndex = 0;
+                    _delaySearch = 0;
+                }
+                else{
+                    _delaySearch = 5f;
                 }
             }
 
