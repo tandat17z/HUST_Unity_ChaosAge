@@ -387,11 +387,12 @@ MonoBehaviour:
     material: {fileID: 2100000, guid: 25be50282cdf97a4dbabb923b2ac60a6, type: 2}
   - status: 2
     material: {fileID: 2100000, guid: d402a19f7d137c6428274681de4d4049, type: 2}
-  buildingModel: {fileID: 5331090866642826945}
   buildingModelUpgrade: {fileID: 3919162662673181824}
   infoUI: {fileID: 7539450009212877125}
   battleUI: {fileID: 4127889069404669194}
   buildUI: {fileID: 8190817643711746034}
+  models:
+  - {fileID: 5999527273194705743}
 --- !u!114 &4934297467271776550
 MonoBehaviour:
   m_ObjectHideFlags: 0

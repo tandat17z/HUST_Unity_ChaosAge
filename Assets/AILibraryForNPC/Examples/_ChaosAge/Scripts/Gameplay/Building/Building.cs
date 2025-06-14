@@ -49,7 +49,7 @@ namespace ChaosAge.building
             _buildingVisual = GetComponent<BuildingVisual>();
             _buildingTimer = GetComponent<BuildingTimer>();
 
-            _buildingTimer.OnTimerEnded += CompleteUpgrade;
+            _buildingTimer.OnTimerEnded += HandleCompleteUpgrade;
         }
 
         public void SetInfo(BuildingData buildingData)
@@ -177,8 +177,11 @@ namespace ChaosAge.building
         {
             return _buildingTimer.IsTimerRunning;
         }
+        public void CompleteUpgradeByTime(){
+            _buildingTimer.CompleteUpgradeByTime();
+        }
 
-        public void CompleteUpgrade()
+        public void HandleCompleteUpgrade()
         {
             level++;
             DataManager.Instance.SaveBuilding(this);

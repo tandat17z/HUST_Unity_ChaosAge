@@ -38,9 +38,6 @@ namespace ChaosAge.building
         private StatusAndMaterial[] materials;
 
         [SerializeField]
-        private GameObject buildingModel;
-
-        [SerializeField]
         private GameObject buildingModelUpgrade;
 
         [Header("UI")]
@@ -52,6 +49,10 @@ namespace ChaosAge.building
 
         [SerializeField]
         private GameObject buildUI;
+
+        [Header("Model by level")]
+        [SerializeField]
+        private MeshRenderer[] models;
 
         private Building building;
 
@@ -87,6 +88,20 @@ namespace ChaosAge.building
             else
             {
                 HideUpgradeUI();
+            }
+
+            UpdateModel();
+        }
+
+        private void UpdateModel()
+        {
+            foreach(var model in models){
+                try{
+                    model.material = SOManager.Instance.GetSO<MaterialsByLevelSO>().GetMaterial(building.Level);
+                }
+                catch(Exception e){
+                    Debug.LogError($"Error updating model for building {building.Type} level {building.Level}: {e.Message}");
+                }
             }
         }
 

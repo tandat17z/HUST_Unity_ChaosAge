@@ -263,11 +263,13 @@ MonoBehaviour:
     material: {fileID: 2100000, guid: 25be50282cdf97a4dbabb923b2ac60a6, type: 2}
   - status: 2
     material: {fileID: 2100000, guid: d402a19f7d137c6428274681de4d4049, type: 2}
-  buildingModel: {fileID: 1547395217730729611}
   buildingModelUpgrade: {fileID: 403524545773476028}
   infoUI: {fileID: 7984441633159403944}
   battleUI: {fileID: 4550566048984327655}
   buildUI: {fileID: 8630110518504091423}
+  models:
+  - {fileID: 4663225579578002124}
+  materialsByLevel: []
 --- !u!114 &8883659546732997575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,7 +346,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 147c3050b1bb6f7419b4876afd421f00, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

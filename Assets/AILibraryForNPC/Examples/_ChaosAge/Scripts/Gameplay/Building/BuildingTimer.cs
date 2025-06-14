@@ -108,6 +108,11 @@ namespace ChaosAge.building
             _isTimerRunning = false;
         }
 
+        public void CompleteUpgradeByTime()
+        {
+            _remainingTime = 0.1f;
+        }
+
         void Update()
         {
             if (_isTimerRunning)

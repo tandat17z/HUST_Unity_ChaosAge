@@ -1,3 +1,4 @@
+using System;
 using ChaosAge.building;
 using ChaosAge.manager;
 using DatSystem.UI;
@@ -17,6 +18,8 @@ public class PanelBuildingOption : Panel
     [SerializeField]
     private UIResourceCost uiResourceCost;
 
+    [SerializeField]
+    private Button btnOptionComplete;
     private Building _building;
     private Tween _tweenClose;
 
@@ -25,6 +28,16 @@ public class PanelBuildingOption : Panel
         base.OnSetup();
         btnOptionUpgrade.onClick.AddListener(OnClickOptionUpgrade);
         btnOptionInfo.onClick.AddListener(OnClickOptionInfo);
+        btnOptionComplete.onClick.AddListener(OnClickOptionComplete);
+    }
+
+    private void OnClickOptionComplete()
+    {
+        if (_building.CheckUpgrading() == true){
+            BuildingManager.Instance.CompleteUpgradeByTime(_building);
+        }
+
+        Close();
     }
 
     private void OnClickOptionInfo()
@@ -40,6 +53,7 @@ public class PanelBuildingOption : Panel
         )
         {
             BuildingManager.Instance.StartUpgrade(_building);
+            Close();
         }
         else
         {
@@ -67,6 +81,14 @@ public class PanelBuildingOption : Panel
             uiResourceCost.gameObject.SetActive(false);
         }
 
+        if(_building.CheckUpgrading() == true){
+            btnOptionComplete.gameObject.SetActive(true);
+            btnOptionUpgrade.gameObject.SetActive(false);
+        }
+        else{
+            btnOptionComplete.gameObject.SetActive(false);
+            btnOptionUpgrade.gameObject.SetActive(true);
+        }
         EffectOpen();
     }
 

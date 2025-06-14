@@ -146,7 +146,7 @@ namespace ChaosAge.manager
             }
 
             // Kiểm tra số lượng building
-            if (
+            if (level == 0 &&
                 GetBuildingNumber(buildingType)
                 >= townhallConfig.GetLimitBuildingNumber(buildingType)
             )
@@ -256,6 +256,11 @@ namespace ChaosAge.manager
 
             // Bắt đầu upgrade
             building.StartUpgrade();
+        }
+
+        public void CompleteUpgradeByTime(Building building)
+        {
+            building.CompleteUpgradeByTime();
         }
 
         public void OnBuildCancel(Building building)
