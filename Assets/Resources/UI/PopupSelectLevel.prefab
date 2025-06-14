@@ -45,7 +45,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000002861023, y: 0.0006978813}
+  m_AnchoredPosition: {x: 0.00006771088, y: 0.0006978813}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3697503600691921763
@@ -270,8 +270,136 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keepCached: 0
-  openTween: []
-  closeTween: []
+  openTween:
+  - tweenType: 6
+    target: {fileID: 6197989131800662392}
+    from: 0.5
+    to: 1
+    mFrom: {x: 0, y: 0, z: 0}
+    mTo: {x: 0, y: 0, z: 0}
+    duration: 0.4
+    delay: 0
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - tweenType: 1
+    target: {fileID: 7376521604992586665}
+    from: 0.3
+    to: 0.45
+    mFrom: {x: 0, y: 0, z: 0}
+    mTo: {x: 0, y: 0, z: 0}
+    duration: 0.3
+    delay: 0.2
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  closeTween:
+  - tweenType: 6
+    target: {fileID: 6197989131800662392}
+    from: 1
+    to: 0.5
+    mFrom: {x: 0, y: 0, z: 0}
+    mTo: {x: 0, y: 0, z: 0}
+    duration: 0.2
+    delay: 0.1
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - tweenType: 1
+    target: {fileID: 7376521604992586665}
+    from: 0.45
+    to: 0.3
+    mFrom: {x: 0, y: 0, z: 0}
+    mTo: {x: 0, y: 0, z: 0}
+    duration: 0.3
+    delay: 0
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   btnClose: {fileID: 1114192392082909575}
   _buttons:
   - {fileID: 8455453405009131354}
@@ -811,8 +939,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2899191896094079525}
   m_HandleRect: {fileID: 1340242421613034836}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -953,7 +1081,7 @@ RectTransform:
   m_GameObject: {fileID: 8794319430678397216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 944873676355937531}

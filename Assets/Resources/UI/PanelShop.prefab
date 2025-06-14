@@ -32,7 +32,6 @@ RectTransform:
   m_Children:
   - {fileID: 8144956900382940323}
   - {fileID: 732052988406112067}
-  - {fileID: 6217717343500700935}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -53,8 +52,136 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keepCached: 0
-  openTween: []
-  closeTween: []
+  openTween:
+  - tweenType: 6
+    target: {fileID: 2096009240617743940}
+    from: 0.5
+    to: 1
+    mFrom: {x: 0, y: 0, z: 0}
+    mTo: {x: 0, y: 0, z: 0}
+    duration: 0.4
+    delay: 0
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - tweenType: 1
+    target: {fileID: 732052988406112067}
+    from: 0.7
+    to: 1
+    mFrom: {x: 0, y: 0, z: 0}
+    mTo: {x: 0, y: 0, z: 0}
+    duration: 0.3
+    delay: 0.2
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  closeTween:
+  - tweenType: 6
+    target: {fileID: 2096009240617743940}
+    from: 1
+    to: 0.5
+    mFrom: {x: 0, y: 0, z: 0}
+    mTo: {x: 0, y: 0, z: 0}
+    duration: 0.2
+    delay: 0.1
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - tweenType: 1
+    target: {fileID: 732052988406112067}
+    from: 1
+    to: 0.7
+    mFrom: {x: 0, y: 0, z: 0}
+    mTo: {x: 0, y: 0, z: 0}
+    duration: 0.3
+    delay: 0
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   btnClose: {fileID: 4979771275289650931}
   _buildingInShops:
   - {fileID: 4905741943063086191}
@@ -179,13 +306,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1505616063011298920}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5802656684430637983}
-  m_Father: {fileID: 2096009240617743940}
+  m_Father: {fileID: 732052988406112067}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -946,6 +1073,7 @@ RectTransform:
   m_Children:
   - {fileID: 3832039346481583734}
   - {fileID: 5786720427447351337}
+  - {fileID: 6217717343500700935}
   m_Father: {fileID: 2096009240617743940}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
