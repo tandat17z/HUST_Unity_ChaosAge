@@ -206,7 +206,9 @@
             }
 
             var panelMainUI = PanelManager.Instance.GetPanel<PanelMainUI>();
-            panelMainUI.ShowUI();
+            if(panelMainUI != null){
+                panelMainUI.ShowUI();
+            }
         }
 
         private void HandleTap()

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingType: 8
   level: 3
-  unlockedLevel: 3
+  unlockedLevel: 2
   timeToBuild: 0
   costs:
   - resourceType: 0

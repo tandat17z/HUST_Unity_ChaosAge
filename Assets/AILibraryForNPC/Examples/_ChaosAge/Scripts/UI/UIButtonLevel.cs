@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ChaosAge.AI.battle;
 using ChaosAge.manager;
 using TMPro;
 using UnityEngine;
@@ -32,10 +33,9 @@ public class UIButtonLevel : MonoBehaviour
         _levelText.text = level.ToString();
         _buttonSelectLevel.onClick.AddListener(OnSelectLevel);
 
-        var currentLevel = PlayerPrefs.GetInt("Battle_CurrentLevel", 1);
         var numStar = PlayerPrefs.GetInt($"Battle_Level_{level}", -1);
 
-        _isLock = level > currentLevel;
+        _isLock = level > AIBattleManager.Instance.CurrentLevel;
         _pLock.SetActive(_isLock);
         _pUnlock.SetActive(!_isLock);
         for (int i = 0; i < _stars.Length; i++)

@@ -1,4 +1,5 @@
 using System;
+using ChaosAge.AI.battle;
 using ChaosAge.manager;
 using DatSystem.UI;
 using UnityEngine;
@@ -35,6 +36,8 @@ public class PopupWin : Panel
     public override void Open(UIData uiData)
     {
         base.Open(uiData);
-        // InputHandler.Instance.ActiveInteract(false);
+
+        AIBattleManager.Instance.CurrentLevel += 1;
+
     }
 }

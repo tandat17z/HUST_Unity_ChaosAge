@@ -30,6 +30,8 @@ namespace ChaosAge.AI.battle
         public Action<BattleBuilding> OnRemoveBuilding;
         public Action<BattleUnit> OnRemoveUnit;
 
+        public int CurrentLevel { get { return PlayerPrefs.GetInt("Battle_CurrentLevel", 1); } set { PlayerPrefs.SetInt("Battle_CurrentLevel", value); } }
+
         protected override void OnAwake()
         {
             OnRemoveBuilding += RemoveTownHall;
@@ -289,6 +291,7 @@ namespace ChaosAge.AI.battle
         public void RemoveBuilding(BattleBuilding building)
         {
             buildings.Remove(building);
+            BuildingManager.Instance.Buildings.Remove(building.GetComponent<Building>());
             Destroy(building.gameObject);
 
             OnRemoveBuilding?.Invoke(building);

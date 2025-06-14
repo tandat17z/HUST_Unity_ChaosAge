@@ -22,7 +22,7 @@ public class PanelBuildingOption : Panel
     private Button btnOptionComplete;
     private Building _building;
     private Tween _tweenClose;
-
+    private bool _isCanUpgrade = false;
     public override void OnSetup()
     {
         base.OnSetup();
@@ -47,6 +47,11 @@ public class PanelBuildingOption : Panel
 
     private void OnClickOptionUpgrade()
     {
+        if(_isCanUpgrade == false) {
+            GameManager.Instance.Log($"{_building.Type} Level max");
+            return;
+        }
+
         if (
             _building.CheckUpgrading() == false
             && BuildingManager.Instance.CanUpgradeBuilding(_building.Type, _building.Level)
@@ -74,11 +79,11 @@ public class PanelBuildingOption : Panel
         {
             uiResourceCost.SetInfo(buildingConfigSO.costs.ToArray());
             uiResourceCost.gameObject.SetActive(true);
-            btnOptionUpgrade.interactable = true;
+            _isCanUpgrade = true;
         }
         else{
-            btnOptionUpgrade.interactable = false;
             uiResourceCost.gameObject.SetActive(false);
+            _isCanUpgrade = false;
         }
 
         if(_building.CheckUpgrading() == true){
