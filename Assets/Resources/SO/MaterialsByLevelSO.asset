@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MaterialsByLevelSO
   m_EditorClassIdentifier: 
   materials:
+  - {fileID: 2100000, guid: e7fa9f7cbf55137468a9f80731e987b8, type: 2}
   - {fileID: 2100000, guid: e44a2a092d75be4499f9e72aea716516, type: 2}
   - {fileID: 2100000, guid: dbbbff4ba24ef014ea191cfb6a2c1ddf, type: 2}
   - {fileID: 2100000, guid: 367ba1021f835a4439dd188e66c9b721, type: 2}

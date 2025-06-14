@@ -186,12 +186,12 @@ namespace ChaosAge.manager
         #endregion
 
         #region Create
-        public void CreateBuilding(EBuildingType buildingType, bool isBattle = false)
+        public void CreateBuilding(EBuildingType buildingType, bool isBattle = false, int x = 20, int y = 20)
         {
             var data = DataManager.Instance.CreateBuilding(
                 buildingType,
                 0,
-                new Vector2(20, 20),
+                new Vector2(x, y),
                 false
             );
 
@@ -202,7 +202,7 @@ namespace ChaosAge.manager
 
             _selectedBuilding = CreateBuilding(data, isBattle);
             _selectedBuilding.Select();
-            _selectedBuilding.MoveTo(new Vector2(20, 20));
+            _selectedBuilding.MoveTo(new Vector2(x, y));
 
             _selectedBuilding.BuildingVisual.ShowBuildUI();
         }

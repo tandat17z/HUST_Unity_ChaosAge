@@ -43,6 +43,7 @@ namespace ChaosAge.building
 
         public Action OnInitialized { get; set; }
         public Action OnStopRunning { get; set; }
+        public Action OnCompleteUpgrade { get; set; }
 
         private void Awake()
         {
@@ -129,6 +130,15 @@ namespace ChaosAge.building
         {
             originalGridPosition = gridPosition;
             offset = startCellPos - gridPosition;
+
+            if (BuildingManager.Instance.CanPlaceBuilding(this) == false)
+            {
+                OverlapBuilding();
+            }
+            else
+            {
+                Select();
+            }
         }
 
         public void MoveTo(Vector2 cellPos)
@@ -192,6 +202,7 @@ namespace ChaosAge.building
             _buildingVisual.HideUpgradeUI();
 
             BuildingManager.OnCompleteUpgrade?.Invoke();
+            OnCompleteUpgrade?.Invoke();
         }
 
         #endregion

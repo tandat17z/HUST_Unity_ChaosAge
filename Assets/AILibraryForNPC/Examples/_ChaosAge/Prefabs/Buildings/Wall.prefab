@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: -4001744771481008044}
   - component: {fileID: 4295942607505894424}
   - component: {fileID: 8883659546732997575}
+  - component: {fileID: 8000981559152292469}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -269,7 +270,6 @@ MonoBehaviour:
   buildUI: {fileID: 8630110518504091423}
   models:
   - {fileID: 4663225579578002124}
-  materialsByLevel: []
 --- !u!114 &8883659546732997575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,6 +284,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _duration: 0
   _remainingTime: 0
+--- !u!114 &8000981559152292469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4941198582526404387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 339b7360d5514104093196400d6752be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7630675899090325984
 GameObject:
   m_ObjectHideFlags: 0
