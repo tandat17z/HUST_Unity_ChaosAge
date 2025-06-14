@@ -70,28 +70,28 @@ public class PanelCheat : Panel
     }
 
     private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
         {
-            _playerData.AddResource(EResourceType.Gold, 5);
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            _playerData.AddResource(EResourceType.Elixir, 5);
-        }
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                _playerData.AddResource(EResourceType.Gold, 5);
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                _playerData.AddResource(EResourceType.Elixir, 5);
+            }
 
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            _playerData.AddUnit(EUnitType.Barbarian, 1);
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                _playerData.AddUnit(EUnitType.Barbarian, 1);
+            }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                _playerData.AddUnit(EUnitType.Archer, 1);
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                _playerData.ReduceUnit(EUnitType.Barbarian, 1000);
+                _playerData.ReduceUnit(EUnitType.Archer, 1000);
+            }
         }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            _playerData.AddUnit(EUnitType.Archer, 1);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            _playerData.ReduceUnit(EUnitType.Barbarian, 1000);
-            _playerData.ReduceUnit(EUnitType.Archer, 1000);
-        }
-    }
 }

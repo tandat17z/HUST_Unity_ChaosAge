@@ -2,6 +2,7 @@ using ChaosAge.data;
 using ChaosAge.manager;
 using DatSystem;
 using DatSystem.UI;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +22,14 @@ public class PanelMainUI : Panel
 
     [SerializeField]
     Button btnBattle;
+
+    [Header("UI")]
+    [SerializeField]
+    GameObject rootDr;
+    [SerializeField]
+    GameObject rootDl;
+    [SerializeField]
+    GameObject rootTr;
 
     private PlayerData _playerData;
 
@@ -75,5 +84,33 @@ public class PanelMainUI : Panel
     {
         UpdateUIResource();
         UpdateUIUnit();
+    }
+
+    public void ShowUI(){
+        var rectDr = rootDr.GetComponent<RectTransform>();
+        rectDr.DOKill();
+        rectDr.DOAnchorPos(Vector2.zero, 0.2f).SetEase(Ease.OutBack);
+
+        var rectTr = rootTr.GetComponent<RectTransform>();
+        rectTr.DOKill();
+        rectTr.DOAnchorPos(Vector2.zero, 0.2f).SetEase(Ease.OutBack);
+
+        var rectDl = rootDl.GetComponent<RectTransform>();
+        rectDl.DOKill();
+        rectDl.DOAnchorPos(Vector2.zero, 0.2f).SetEase(Ease.OutBack);
+    }
+
+    public void HideUI(){
+        var rectDr = rootDr.GetComponent<RectTransform>();
+        rectDr.DOKill();
+        rectDr.DOAnchorPos(new Vector2(450, 0), 0.2f).SetEase(Ease.InBack);
+
+        var rectTr = rootTr.GetComponent<RectTransform>();
+        rectTr.DOKill();
+        rectTr.DOAnchorPos(new Vector2(450, 0), 0.2f).SetEase(Ease.InBack);
+
+        var rectDl = rootDl.GetComponent<RectTransform>();
+        rectDl.DOKill();
+        rectDl.DOAnchorPos(new Vector2(-450, 0), 0.2f).SetEase(Ease.InBack);
     }
 }

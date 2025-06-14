@@ -7,6 +7,7 @@ namespace ChaosAge.manager
     using ChaosAge.map;
     using ChaosAge.spawner;
     using DatSystem;
+    using DatSystem.UI;
     using DatSystem.utils;
     using Unity.AI.Navigation;
     using UnityEngine;
@@ -144,14 +145,17 @@ namespace ChaosAge.manager
                 return false;
             }
 
-            // // Kiểm tra số lượng building
-            // if (
-            //     GetBuildingNumber(buildingType)
-            //     >= townhallConfig.GetLimitBuildingNumber(buildingType)
-            // )
-            // {
-            //     return false;
-            // }
+            // Kiểm tra số lượng building
+            if (
+                GetBuildingNumber(buildingType)
+                >= townhallConfig.GetLimitBuildingNumber(buildingType)
+            )
+            {
+                Debug.LogWarning(
+                    $"Cannot upgrade building {buildingType} level {level} because building number is not enough {GetBuildingNumber(buildingType)} >= {townhallConfig.GetLimitBuildingNumber(buildingType)}"
+                );
+                return false;
+            }
 
             return true;
         }
@@ -256,6 +260,7 @@ namespace ChaosAge.manager
 
         public void OnBuildCancel(Building building)
         {
+            _buildings.Remove(building);
             building.Deselect();
             Destroy(building.gameObject);
         }

@@ -66,6 +66,7 @@ namespace ChaosAge.building
             UpdateVisual();
 
             Debug.Log($"Building {id} initialized");
+            if(level==0) return;
             OnInitialized?.Invoke();
         }
 

@@ -5,6 +5,7 @@
     using ChaosAge.manager;
     using DatSystem.UI;
     using DatSystem.utils;
+    using DG.Tweening;
     using UnityEngine;
     using UnityEngine.EventSystems;
 
@@ -144,14 +145,19 @@
             {
                 _inputStatus = EInputStatus.BuildingMoving;
                 building.StartMoving(cellPos);
+
+                var panelMainUI = PanelManager.Instance.GetPanel<PanelMainUI>();
+                panelMainUI.HideUI();
+
+
+                if (PanelManager.Instance.GetPanel<PanelBuildingOption>() != null)
+                {
+                    PanelManager.Instance.ClosePanel<PanelBuildingOption>();
+                }
             }
             else
             {
                 _inputStatus = EInputStatus.CameraMoving;
-            }
-            if (PanelManager.Instance.GetPanel<PanelBuildingOption>() != null)
-            {
-                PanelManager.Instance.ClosePanel<PanelBuildingOption>();
             }
         }
 
@@ -186,7 +192,9 @@
                 {
                     if (GameManager.Instance.GameState == GameState.BattleAI)
                         return;
-                    PanelManager.Instance.OpenPanel<PanelBuildingOption>();
+
+                    if(selectedBuilding.Level == 0) return;
+
                 }
             }
             else
@@ -196,6 +204,9 @@
                     PanelManager.Instance.ClosePanel<PanelBuildingOption>();
                 }
             }
+
+            var panelMainUI = PanelManager.Instance.GetPanel<PanelMainUI>();
+            panelMainUI.ShowUI();
         }
 
         private void HandleTap()
@@ -215,7 +226,15 @@
             }
 
             var building = BuildingManager.Instance.SelectBuilding(cellPos);
-            if (building != null) { }
+            if (building != null) {
+                if(PanelManager.Instance.GetPanel<PanelBuildingOption>() != null){
+                    PanelManager.Instance.ClosePanel<PanelBuildingOption>();
+                }
+                DOVirtual.DelayedCall(0.25f, () =>
+                {
+                    PanelManager.Instance.OpenPanel<PanelBuildingOption>();
+                });
+            }
             else
             {
                 BuildingManager.Instance.DeselectBuilding();

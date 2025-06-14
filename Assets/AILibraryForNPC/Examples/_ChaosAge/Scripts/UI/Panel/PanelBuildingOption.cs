@@ -59,6 +59,12 @@ public class PanelBuildingOption : Panel
         if (buildingConfigSO != null)
         {
             uiResourceCost.SetInfo(buildingConfigSO.costs.ToArray());
+            uiResourceCost.gameObject.SetActive(true);
+            btnOptionUpgrade.interactable = true;
+        }
+        else{
+            btnOptionUpgrade.interactable = false;
+            uiResourceCost.gameObject.SetActive(false);
         }
 
         EffectOpen();
@@ -68,7 +74,7 @@ public class PanelBuildingOption : Panel
     {
         EffectClose();
         _tweenClose?.Kill();
-        _tweenClose = DOVirtual.DelayedCall(0.25f, () =>
+        _tweenClose = DOVirtual.DelayedCall(0.2f, () =>
         {
             base.Close();
         });
