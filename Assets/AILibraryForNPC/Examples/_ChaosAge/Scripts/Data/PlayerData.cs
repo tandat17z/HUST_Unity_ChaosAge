@@ -129,7 +129,7 @@ namespace ChaosAge.data
 
         public int GetUnitNum(EUnitType unitType)
         {
-            if (units.Count <= (int)unitType)
+            if (units == null || units.Count <= (int)unitType)
             {
                 return 0;
             }

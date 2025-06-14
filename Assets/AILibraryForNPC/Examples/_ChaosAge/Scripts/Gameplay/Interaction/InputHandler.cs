@@ -203,25 +203,15 @@
             var cellPos = GetCellPosition(Input.mousePosition);
             if (GameManager.Instance.GameState == GameState.BattleAI)
             {
-                if (PanelBattle.SelectedUnit == null)
-                {
-                    GameManager.Instance.Log("Please select a unit");
-                }
-                else
-                {
-                    var unitType = PanelBattle.SelectedUnit;
-                    if (AIBattleManager.Instance.CheckAddUnit(unitType, cellPos))
-                    {
-                        AIBattleManager.Instance.AddUnit(unitType, cellPos);
-                    }
-                }
-                return;
+                var unitType = PanelBattle.SelectedUnit;
+                AIBattleManager.Instance.TryAddUnit(unitType, cellPos);
             }
-
-            var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
-            if (selectedBuilding != null)
-            {
-                selectedBuilding.StopMoving();
+            else{
+                var selectedBuilding = BuildingManager.Instance.SelectedBuilding;
+                if (selectedBuilding != null)
+                {
+                    selectedBuilding.StopMoving();
+                }
             }
 
             var building = BuildingManager.Instance.SelectBuilding(cellPos);

@@ -3,6 +3,7 @@ using ChaosAge.Battle;
 using ChaosAge.building;
 using ChaosAge.data;
 using ChaosAge.spawner;
+using DG.Tweening;
 using UnityEngine;
 
 public class BattleBuilding : MonoBehaviour
@@ -17,10 +18,7 @@ public class BattleBuilding : MonoBehaviour
     // public double attackTimer = 0;
     public float percentage = 0;
 
-    // void Update()
-    // {
-    //     _buildingVisual.SetTime(health, _building.BuildingConfigSO.health);
-    // }
+    private Tween _tween;
 
     public void Init()
     {
@@ -29,13 +27,21 @@ public class BattleBuilding : MonoBehaviour
         if (_building.BuildingConfigSO == null)
             return;
         health = _building.BuildingConfigSO.health;
-        Debug.LogWarning($"show ui {_building.Type}");
-        _buildingVisual.ShowInfoUI();
-        _buildingVisual.ShowBattleUI();
+
+        // _buildingVisual.ShowInfoUI();
+        // _buildingVisual.ShowSliderUI();
     }
 
     public void TakeDamage(float damage)
     {
+        if (_tween != null) _tween.Kill();
+
+        _buildingVisual.ShowSliderUI();
+        _tween = DOVirtual.DelayedCall(5f, () =>
+        {
+            _buildingVisual.HideSliderUI();
+        });
+
         health -= damage;
         if (health <= 0)
         {

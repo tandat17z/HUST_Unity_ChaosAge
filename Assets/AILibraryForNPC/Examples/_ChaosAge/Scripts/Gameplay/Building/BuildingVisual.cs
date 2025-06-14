@@ -71,14 +71,14 @@ namespace ChaosAge.building
 
             HideBuildUI();
             HideInfoUI();
-            HideBattleUI();
+            HideSliderUI();
         }
 
         public void Init()
         {
             HideBuildUI();
             HideInfoUI();
-            HideBattleUI();
+            HideSliderUI();
 
             if (building.CheckUpgrading())
             {
@@ -150,13 +150,11 @@ namespace ChaosAge.building
         public void ShowBuildUI()
         {
             buildUI.SetActive(true);
-            levelText.gameObject.SetActive(false);
         }
 
         public void HideBuildUI()
         {
             buildUI.SetActive(false);
-            levelText.gameObject.SetActive(true);
         }
 
         public void ShowInfoUI()
@@ -170,12 +168,12 @@ namespace ChaosAge.building
             infoUI.SetActive(false);
         }
 
-        public void ShowBattleUI()
+        public void ShowSliderUI()
         {
             battleUI.SetActive(true);
         }
 
-        public void HideBattleUI()
+        public void HideSliderUI()
         {
             battleUI.SetActive(false);
         }

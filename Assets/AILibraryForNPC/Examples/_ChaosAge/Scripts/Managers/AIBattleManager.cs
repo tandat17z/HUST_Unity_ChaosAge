@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using AILibraryForNPC.Core;
 using ChaosAge.Battle;
+using ChaosAge.building;
 using ChaosAge.data;
 using ChaosAge.manager;
 using ChaosAge.spawner;
@@ -22,7 +23,7 @@ namespace ChaosAge.AI.battle
         private List<BattleUnit> _units;
         public List<BattleUnit> units => _units;
 
-        private bool[,] _canMoveCells;
+        private List<List<bool>> _canMoveCells;
 
         public GameObject home;
 
@@ -33,6 +34,16 @@ namespace ChaosAge.AI.battle
         {
             OnRemoveBuilding += RemoveTownHall;
             OnRemoveUnit += CheckLose;
+
+            _canMoveCells = new List<List<bool>>();
+            for (int i = 0; i < MaxCell; i++)
+            {
+                _canMoveCells.Add(new List<bool>());
+                for (int j = 0; j < MaxCell; j++)
+                {
+                    _canMoveCells[i].Add(true);
+                }
+            }
         }
 
         private void CheckLose(BattleUnit unit)
@@ -83,10 +94,11 @@ namespace ChaosAge.AI.battle
         {
             Reset();
 
-            LoadLevel(level);
-
             _units = new List<BattleUnit>();
             _buildings = new List<BattleBuilding>();
+
+            LoadLevel(level);
+
             foreach (var building in BuildingManager.Instance.Buildings)
             {
                 var battleBuilding = building.gameObject.AddComponent<BattleBuilding>();
@@ -94,10 +106,47 @@ namespace ChaosAge.AI.battle
                 _buildings.Add(battleBuilding);
             }
             ActiveBuildingAgent();
+            InitCanMoveCells();
 
             home = new GameObject("Home");
             home.transform.position = GetWorldPosition(new Vector2(5, 5));
             UpdateNavMesh();
+        }
+
+        private void InitCanMoveCells()
+        {
+            ResetCanMoveCells();
+
+            foreach (var battleBuilding in _buildings)
+            {
+                var building = battleBuilding.GetComponent<Building>();
+                var xCell = (int)building.gridPosition.x;
+                var yCell = (int)building.gridPosition.y;
+                var cellSize = building.size;
+                for (int i = -1; i <= cellSize.x; i++)
+                {
+                    for (int j = -1; j <= cellSize.y; j++)
+                    {
+                        var xIdx = xCell + i;
+                        var yIdx = yCell + j;
+                        if (xIdx >= 0 && xIdx < MaxCell && yIdx >= 0 && yIdx < MaxCell)
+                        {
+                            _canMoveCells[xIdx][yIdx] = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ResetCanMoveCells()
+        {
+            for (int i = 0; i < MaxCell; i++)
+            {
+                for (int j = 0; j < MaxCell; j++)
+                {
+                    _canMoveCells[i][j] = true;
+                }
+            }
         }
 
         // public void DropUnit()
@@ -206,7 +255,11 @@ namespace ChaosAge.AI.battle
 
         public bool CheckCanMoveOnCell(Vector2 cell)
         {
-            return _canMoveCells[(int)cell.x, (int)cell.y];
+            if (cell.x < 0 || cell.x >= MaxCell || cell.y < 0 || cell.y >= MaxCell)
+            {
+                return false;
+            }
+            return _canMoveCells[(int)cell.x][(int)cell.y];
         }
 
         public void UpdateNavMesh()
@@ -258,10 +311,29 @@ namespace ChaosAge.AI.battle
             _units.Clear();
         }
 
-        public bool CheckAddUnit(EUnitType unitType, Vector2 cellPos)
+        public bool CheckEnoughUnit(EUnitType unitType)
         {
             var playerData = DataManager.Instance.PlayerData;
             return playerData.GetUnitNum(unitType) > 0;
+        }
+
+        public void TryAddUnit(EUnitType unitType, Vector2 cellPos)
+        {
+            if (CheckEnoughUnit(unitType))
+            {
+                if (CheckCanMoveOnCell(cellPos))
+                {
+                    AddUnit(unitType, cellPos);
+                }
+                else
+                {
+                    GameManager.Instance.Log("Can not move to this cell");
+                }
+            }
+            else
+            {
+                GameManager.Instance.Log("Not enough units");
+            }
         }
     }
 

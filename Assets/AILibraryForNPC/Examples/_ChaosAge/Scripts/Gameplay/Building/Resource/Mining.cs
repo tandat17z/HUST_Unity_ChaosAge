@@ -61,8 +61,15 @@ namespace ChaosAge.building
 
         private void Init()
         {
-            var ticks = long.Parse(PlayerPrefs.GetString($"{_building.Id}_MiningStartClaimTime"));
-            _startClaimTime = new DateTime(ticks);
+            if (PlayerPrefs.HasKey($"{_building.Id}_MiningStartClaimTime"))
+            {
+                var ticks = long.Parse(PlayerPrefs.GetString($"{_building.Id}_MiningStartClaimTime"));
+                _startClaimTime = new DateTime(ticks);
+            }
+            else
+            {
+                _startClaimTime = DateTime.Now;
+            }
 
             var miningSO = SOManager.Instance.GetSO<MiningConfigSO>(
                 $"{_building.Type}_{_building.Level}"
