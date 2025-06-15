@@ -12,8 +12,8 @@
             "id": 1,
             "type": 5,
             "level": 1,
-            "x": 24,
-            "y": 6,
+            "x": 27,
+            "y": 3,
             "remainingTime": 0.0
         },
         {
@@ -28,24 +28,24 @@
             "id": 3,
             "type": 2,
             "level": 2,
-            "x": 10,
+            "x": 14,
             "y": 9,
             "remainingTime": 0.0
         },
         {
             "id": 4,
             "type": 6,
-            "level": 1,
-            "x": 15,
-            "y": 9,
+            "level": 2,
+            "x": 10,
+            "y": 10,
             "remainingTime": 0.0
         },
         {
             "id": 5,
             "type": 8,
             "level": 2,
-            "x": 13,
-            "y": 11,
+            "x": 11,
+            "y": 13,
             "remainingTime": 0.0
         },
         {
@@ -76,24 +76,24 @@
             "id": 9,
             "type": 8,
             "level": 2,
-            "x": 19,
-            "y": 26,
+            "x": 8,
+            "y": 23,
             "remainingTime": 0.0
         },
         {
             "id": 10,
             "type": 8,
             "level": 2,
-            "x": 19,
-            "y": 18,
+            "x": 18,
+            "y": 19,
             "remainingTime": 0.0
         },
         {
             "id": 11,
             "type": 8,
             "level": 2,
-            "x": 13,
-            "y": 12,
+            "x": 12,
+            "y": 13,
             "remainingTime": 0.0
         },
         {
@@ -204,32 +204,32 @@
             "id": 26,
             "type": 8,
             "level": 2,
-            "x": 20,
-            "y": 18,
+            "x": 18,
+            "y": 20,
             "remainingTime": 0.0
         },
         {
             "id": 28,
             "type": 6,
-            "level": 1,
-            "x": 20,
-            "y": 14,
+            "level": 3,
+            "x": 24,
+            "y": 5,
             "remainingTime": 0.0
         },
         {
             "id": 29,
             "type": 7,
-            "level": 1,
-            "x": 10,
-            "y": 19,
+            "level": 2,
+            "x": 20,
+            "y": 9,
             "remainingTime": 0.0
         },
         {
             "id": 32,
             "type": 4,
             "level": 1,
-            "x": 19,
-            "y": 19,
+            "x": 20,
+            "y": 15,
             "remainingTime": 0.0
         },
         {
@@ -412,8 +412,8 @@
             "id": 55,
             "type": 8,
             "level": 1,
-            "x": 13,
-            "y": 9,
+            "x": 11,
+            "y": 8,
             "remainingTime": 0.0
         },
         {
@@ -452,33 +452,73 @@
             "id": 60,
             "type": 8,
             "level": 1,
-            "x": 21,
-            "y": 18,
-            "remainingTime": -0.018615899607539178
+            "x": 23,
+            "y": 20,
+            "remainingTime": 0.0
         },
         {
             "id": 61,
             "type": 8,
             "level": 1,
-            "x": 22,
-            "y": 18,
-            "remainingTime": -0.016449499875307084
+            "x": 23,
+            "y": 19,
+            "remainingTime": 0.0
         },
         {
             "id": 62,
             "type": 8,
             "level": 1,
-            "x": 13,
-            "y": 10,
+            "x": 12,
+            "y": 8,
             "remainingTime": 0.0
         },
         {
             "id": 63,
             "type": 6,
+            "level": 2,
+            "x": 19,
+            "y": 19,
+            "remainingTime": 0.0
+        },
+        {
+            "id": 64,
+            "type": 4,
             "level": 1,
-            "x": 20,
-            "y": 9,
-            "remainingTime": -0.0004929006099700928
+            "x": 24,
+            "y": 12,
+            "remainingTime": 0.0
+        },
+        {
+            "id": 65,
+            "type": 2,
+            "level": 1,
+            "x": 17,
+            "y": 5,
+            "remainingTime": 0.0
+        },
+        {
+            "id": 66,
+            "type": 3,
+            "level": 1,
+            "x": 24,
+            "y": 21,
+            "remainingTime": -0.022906795144081117
+        },
+        {
+            "id": 68,
+            "type": 1,
+            "level": 1,
+            "x": 8,
+            "y": 5,
+            "remainingTime": 0.0
+        },
+        {
+            "id": 69,
+            "type": 7,
+            "level": 1,
+            "x": 10,
+            "y": 19,
+            "remainingTime": 0.0
         }
     ]
 }
