@@ -60,7 +60,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.02, z: 0}
-  m_LocalScale: {x: 25, y: 25, z: 25}
+  m_LocalScale: {x: 20, y: 20, z: 20}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8680643771773694592}
@@ -502,6 +502,7 @@ MonoBehaviour:
   buildUI: {fileID: 6072571580707233501}
   models:
   - {fileID: 7722611633513203432}
+  defenseRange: {fileID: 800422996354092048}
 --- !u!114 &5994091580989065158
 MonoBehaviour:
   m_ObjectHideFlags: 0

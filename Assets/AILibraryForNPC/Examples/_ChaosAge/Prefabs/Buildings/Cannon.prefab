@@ -608,6 +608,7 @@ MonoBehaviour:
   buildUI: {fileID: 1541381367394314375}
   models:
   - {fileID: 5629026371752257162}
+  defenseRange: {fileID: 88817192599753865}
 --- !u!114 &4815513227175286742
 MonoBehaviour:
   m_ObjectHideFlags: 0

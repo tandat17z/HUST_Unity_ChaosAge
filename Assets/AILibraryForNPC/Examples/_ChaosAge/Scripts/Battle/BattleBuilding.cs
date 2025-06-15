@@ -28,7 +28,8 @@ public class BattleBuilding : MonoBehaviour
             return;
         health = _building.BuildingConfigSO.health;
 
-        _buildingVisual.defenseRange.SetActive(true);
+        if (_buildingVisual.defenseRange != null)
+            _buildingVisual.defenseRange.SetActive(true);
         // _buildingVisual.ShowInfoUI();
         // _buildingVisual.ShowSliderUI();
     }
