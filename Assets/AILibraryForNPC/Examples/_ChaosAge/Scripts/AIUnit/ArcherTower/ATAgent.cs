@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(ATActionSystem))]
 public class ATAgent : BaseAgent
 {
+    
     public override void OnAwake() { }
 
     public override void RegisterActions()

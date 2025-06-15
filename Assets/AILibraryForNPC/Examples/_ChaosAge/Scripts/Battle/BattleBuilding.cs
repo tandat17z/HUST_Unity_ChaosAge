@@ -28,6 +28,7 @@ public class BattleBuilding : MonoBehaviour
             return;
         health = _building.BuildingConfigSO.health;
 
+        _buildingVisual.defenseRange.SetActive(true);
         // _buildingVisual.ShowInfoUI();
         // _buildingVisual.ShowSliderUI();
     }
@@ -49,9 +50,8 @@ public class BattleBuilding : MonoBehaviour
         }
     }
 
-    public void SpawnProjectile(BattleUnit unit)
+    public void SpawnProjectile(BattleUnit unit, float damage)
     {
-        Debug.Log("spawn projectile");
         var projectile = FactoryManager.Instance.SpawnProjectile(TargetType.unit);
         // BattleManager.Instance.Projectiles.Add(projectile);
 
@@ -60,7 +60,7 @@ public class BattleBuilding : MonoBehaviour
             unit.transform.position,
             () =>
             {
-                unit.TakeDamage(10);
+                unit.TakeDamage(damage);
             }
         );
     }

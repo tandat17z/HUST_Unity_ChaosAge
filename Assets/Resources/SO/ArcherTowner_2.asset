@@ -21,6 +21,6 @@ MonoBehaviour:
     quantity: 50
   health: 200
   damage: 30
-  attackRange: 15
+  attackRange: 12.5
   attackSpeed: 10
   attackInterval: 1

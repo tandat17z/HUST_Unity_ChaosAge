@@ -1,5 +1,6 @@
 using AILibraryForNPC.Core;
 using ChaosAge.Battle;
+using ChaosAge.building;
 using UnityEngine;
 
 public class ATAttack : BaseAction_v2
@@ -24,7 +25,13 @@ public class ATAttack : BaseAction_v2
         _interval = 1;
         _targetUnit = worldState.GetBuffer("TargetUnit") as BattleUnit;
 
-        // _targetUnit.TakeDamage(10);
-        agent.GetComponent<BattleBuilding>().SpawnProjectile(_targetUnit);
+        var damage = GetDamage();
+        agent.GetComponent<BattleBuilding>().SpawnProjectile(_targetUnit, damage);
+    }
+
+    private float GetDamage()
+    {
+        var defenseSO = agent.GetComponent<Building>().BuildingConfigSO as DefenseConfigSO;
+        return defenseSO.damage;
     }
 }

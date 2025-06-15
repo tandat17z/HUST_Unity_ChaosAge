@@ -54,6 +54,10 @@ namespace ChaosAge.building
         [SerializeField]
         private MeshRenderer[] models;
 
+        [Header("Defense")]
+        [SerializeField]
+        public GameObject defenseRange;
+
         private Building building;
 
         private void Awake()
@@ -73,6 +77,8 @@ namespace ChaosAge.building
             HideBuildUI();
             HideInfoUI();
             HideSliderUI();
+
+            defenseRange.SetActive(false);
         }
 
         public void Init()
