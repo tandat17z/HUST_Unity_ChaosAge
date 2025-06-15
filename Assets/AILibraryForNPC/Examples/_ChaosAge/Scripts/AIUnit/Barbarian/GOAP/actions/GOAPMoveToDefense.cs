@@ -63,6 +63,7 @@ namespace AILibraryForNPC.Examples
         public override void PrePerform(WorldState_v2 worldState)
         {
             _navMeshAgent = agent.GetComponent<NavMeshAgent>();
+            _navMeshAgent.enabled = true;
             _target = worldState.GetBuffer("Defense") as GameObject;
             if (_target != null)
             {

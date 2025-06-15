@@ -15,7 +15,7 @@ namespace AILibraryForNPC.Core
 
         private bool _isCompleteInitialize = false;
 
-        public virtual void Start()
+        private void Awake()
         {
             // Initialize perception system
             perceptionSystem = new PerceptionSystem_v2();

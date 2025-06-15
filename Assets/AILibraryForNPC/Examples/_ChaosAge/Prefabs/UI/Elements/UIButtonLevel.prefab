@@ -544,7 +544,7 @@ MonoBehaviour:
   hoverScale: 1.1
   clickScale: 0.9
   duration: 0.09
-  baseScale: {x: 0.8, y: 0.8, z: 0.8}
+  baseScale: {x: 0.9, y: 0.9, z: 0.9}
 --- !u!1 &8515989279126442037
 GameObject:
   m_ObjectHideFlags: 0

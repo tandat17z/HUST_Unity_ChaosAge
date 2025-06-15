@@ -19,6 +19,7 @@ namespace ChaosAge.data
         public PlayerData()
         {
             buildingIds = new List<int>();
+            units = new List<int>();
         }
 
         #region File

@@ -218,6 +218,7 @@
             {
                 var unitType = PanelBattle.SelectedUnit;
                 AIBattleManager.Instance.TryAddUnit(unitType, cellPos);
+                return;
             }
             else{
                 var selectedBuilding = BuildingManager.Instance.SelectedBuilding;

@@ -151,16 +151,6 @@ namespace ChaosAge.AI.battle
             }
         }
 
-        // public void DropUnit()
-        // {
-        //     var type = PanelManager.Instance.GetPanel<PanelBattle>().GetCurrentBuildingType();
-        //     // var pos = InputHandler.Instance.GetPointerPositionInMap();
-        //     var pos = Vector3.zero;
-        //     // var posCell = BuildingManager.Instance.Grid.ConvertGridPos(pos);
-        //     var posCell = new Vector2(0, 0);
-        //     AddUnit(type, (int)posCell.x, (int)posCell.y);
-        // }
-
         public void AddUnit(EUnitType unitType, Vector2 cell) // ok
         {
             var battleUnit = FactoryManager.Instance.SpawnUnit(unitType);
@@ -172,77 +162,6 @@ namespace ChaosAge.AI.battle
             var playerData = DataManager.Instance.PlayerData;
             playerData.ReduceUnit(unitType, 1);
         }
-
-        // public void CreateBattle()
-        // {
-        //     foreach (var building in buildings)
-        //     {
-        //         Destroy(building.gameObject);
-        //     }
-        //     buildings.Clear();
-
-        //     ResetCanMoveCells();
-        //     foreach (var building in buildings)
-        //     {
-        //         var xCell = building.battleBuidlingConfig.x;
-        //         var yCell = building.battleBuidlingConfig.y;
-        //         _canMoveCells[xCell, yCell] = false;
-        //     }
-        // }
-
-        // private void ResetCanMoveCells()
-        // {
-        //     _canMoveCells = new bool[MaxCell, MaxCell];
-        //     for (int i = 0; i < MaxCell; i++)
-        //     {
-        //         for (int j = 0; j < MaxCell; j++)
-        //         {
-        //             _canMoveCells[i, j] = true;
-        //         }
-        //     }
-        // }
-
-        // void Update()
-        // {
-        //     if (StartBattle)
-        //     {
-        //         if (buildings.Count == 0 || CheckTownHall() == false)
-        //         {
-        //             CreateBattle();
-        //             ActiveBuildingAgent();
-        //             return;
-        //         }
-
-        //         // if (units.Count == 0)
-        //         // {
-        //         //     var rand = Random.Range(1, 10);
-        //         //     for (int i = 0; i < rand; i++)
-        //         //     {
-        //         //         var x = Random.Range(1, 39);
-        //         //         var y = Random.Range(1, 39);
-        //         //         AddUnit(EUnitType.GOAPBarbarian, x, y);
-        //         //     }
-        //         // }
-        //     }
-        // }
-
-        // private bool CheckTownHall()
-        // {
-        //     foreach (var building in buildings)
-        //     {
-        //         if (building.type == EBuildingType.TownHall)
-        //         {
-        //             return true;
-        //         }
-        //     }
-        //     return false;
-        // }
-
-        // public bool CanMove(float nextX, float nextY)
-        // {
-        //     // ô này trong phạm vi cho phép và không đè vào công trình nào
-        //     return true;
-        // }
 
         public Vector2 GetCell(Vector3 position)
         {
@@ -257,11 +176,19 @@ namespace ChaosAge.AI.battle
 
         public bool CheckCanMoveOnCell(Vector2 cell)
         {
-            if (cell.x < 0 || cell.x >= MaxCell || cell.y < 0 || cell.y >= MaxCell)
+            int delta = 3;
+            if (cell.x < 0 - delta || cell.x >= MaxCell + delta || cell.y < 0 - delta || cell.y >= MaxCell + delta)
             {
                 return false;
             }
-            return _canMoveCells[(int)cell.x][(int)cell.y];
+            try
+            {
+                return _canMoveCells[(int)cell.x][(int)cell.y];
+            }
+            catch (Exception e)
+            {
+                return true;
+            }
         }
 
         public void UpdateNavMesh()

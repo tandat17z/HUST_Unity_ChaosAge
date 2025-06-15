@@ -9,6 +9,7 @@ namespace ChaosAge.manager
     using DatSystem;
     using DatSystem.UI;
     using DatSystem.utils;
+    using DG.Tweening;
     using Unity.AI.Navigation;
     using UnityEngine;
 
@@ -273,10 +274,12 @@ namespace ChaosAge.manager
         #endregion
 
         public void UpdateNavMesh(){
+            DOVirtual.DelayedCall(0.25f, () => {
             // Xóa NavMesh cũ và tạo NavMesh mới
-            navMeshSurface.RemoveData(); // Xóa NavMesh cũ
-            navMeshSurface.BuildNavMesh(); // Tạo NavMesh mới
-            Debug.Log("NavMesh đã được cập nhật!");
+                navMeshSurface.RemoveData(); // Xóa NavMesh cũ
+                navMeshSurface.BuildNavMesh(); // Tạo NavMesh mới
+                Debug.Log("NavMesh đã được cập nhật!");
+            });
         }
     }
 }

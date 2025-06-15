@@ -38,10 +38,5 @@ namespace AILibraryForNPC.Modules.GOAP
             }
             base.UpdateActionSystem();
         }
-
-        public WorldState_v2 InitWorldState()
-        {
-            return perceptionSystem.InitWorldState();
-        }
     }
 }
